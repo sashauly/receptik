@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/recipe-management-pwa/sw.js', { scope: '/recipe-management-pwa/' })})}
