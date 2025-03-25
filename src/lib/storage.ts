@@ -2,10 +2,14 @@ import { Recipe } from "@/types/recipe";
 import { openDB, DBSchema, IDBPDatabase } from "idb";
 
 interface RecipeDB extends DBSchema {
+  // @ts-expect-error - The recipeStore is not defined in the DBSchema
   recipes: {
     key: string;
     value: Recipe;
-    indexes: { "user-id": string; "is-public": boolean };
+    indexes: {
+      "user-id": string;
+      "is-public": boolean;
+    };
   };
 }
 
@@ -18,11 +22,14 @@ const initializeDB = async () => {
   if (!db) {
     db = await openDB<RecipeDB>(DB_NAME, 1, {
       upgrade(db) {
-        const recipeStore = db.createObjectStore(OBJECT_STORE_NAME, {
-          keyPath: "id",
-        });
-        recipeStore.createIndex("user-id", "userId");
-        recipeStore.createIndex("is-public", "isPublic");
+        // Check if the object store already exists
+        if (!db.objectStoreNames.contains(OBJECT_STORE_NAME)) {
+          const recipeStore = db.createObjectStore(OBJECT_STORE_NAME, {
+            keyPath: "id",
+          });
+          recipeStore.createIndex("user-id", "userId");
+          recipeStore.createIndex("is-public", "isPublic");
+        }
       },
     });
   }
