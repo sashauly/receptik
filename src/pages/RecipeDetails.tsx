@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import { useAuth0 } from "@auth0/auth0-react";
 import { Clock, Users, Trash2, Edit, Share2 } from "lucide-react";
 import { Recipe } from "@/types/recipe";
-import { storage } from "@/lib/storage";
+import { idbStorage } from "@/lib/storage";
 import { Modal, Button, Text, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { toast } from "sonner";
@@ -11,20 +10,28 @@ import { toast } from "sonner";
 export default function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  // const { user } = useAuth0();
   const user = {
     sub: "userId",
   };
   const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
-    if (id) {
-      const allRecipes = storage.getRecipes();
-      const foundRecipe = allRecipes.find((r) => r.id === id);
-      setRecipe(foundRecipe || null);
-    }
+    const loadRecipeById = async () => {
+      setLoading(true);
+      if (id) {
+        const foundRecipe = await idbStorage.getRecipeById(id);
+        setRecipe(foundRecipe || null);
+      }
+      setLoading(false);
+    };
+    loadRecipeById();
   }, [id]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   if (!recipe) {
     return <div>Recipe not found</div>;
@@ -32,9 +39,9 @@ export default function RecipeDetails() {
 
   const isOwner = user?.sub === recipe.userId;
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (id) {
-      storage.deleteRecipe(id);
+      await idbStorage.deleteRecipe(id);
       toast.success("Recipe deleted successfully");
       navigate("/my-recipes");
     }
@@ -60,15 +67,15 @@ export default function RecipeDetails() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex items-start justify-between mb-6">
         <div>
           <h1 className="text-4xl font-bold">{recipe.title}</h1>
-          <p className="text-muted-foreground mt-2">{recipe.description}</p>
+          <p className="mt-2 text-muted-foreground">{recipe.description}</p>
         </div>
 
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleShare}>
-            <Share2 className="h-4 w-4 mr-2" />
+            <Share2 className="w-4 h-4 mr-2" />
             Share
           </Button>
 
@@ -78,7 +85,7 @@ export default function RecipeDetails() {
                 variant="outline"
                 onClick={() => navigate(`/edit-recipe/${recipe.id}`)}
               >
-                <Edit className="h-4 w-4 mr-2" />
+                <Edit className="w-4 h-4 mr-2" />
                 Edit
               </Button>
 
@@ -95,13 +102,17 @@ export default function RecipeDetails() {
                   your recipe.
                 </Text>
                 <Group align="right">
-                  <Button onClick={close}>Cancel</Button>
-                  <Button onClick={handleDelete}>Delete</Button>
+                  <Button variant="default" onClick={close}>
+                    Cancel
+                  </Button>
+                  <Button variant="filled" color="red" onClick={handleDelete}>
+                    Delete
+                  </Button>
                 </Group>
               </Modal>
 
-              <Button onClick={open}>
-                <Trash2 className="h-4 w-4 mr-2" />
+              <Button variant="outline" color="red" onClick={open}>
+                <Trash2 className="w-4 h-4 mr-2" />
                 Delete
               </Button>
             </>
@@ -109,10 +120,10 @@ export default function RecipeDetails() {
         </div>
       </div>
 
-      <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-8">
+      <div className="flex items-center mb-8 space-x-4 text-sm text-muted-foreground">
         {(recipe.prepTime || recipe.cookTime) && (
           <div className="flex items-center">
-            <Clock className="h-4 w-4 mr-1" />
+            <Clock className="w-4 h-4 mr-1" />
             <span>
               {recipe.prepTime && `${recipe.prepTime} min prep`}
               {recipe.prepTime && recipe.cookTime && " + "}
@@ -122,20 +133,19 @@ export default function RecipeDetails() {
         )}
         {recipe.servings && (
           <div className="flex items-center">
-            <Users className="h-4 w-4 mr-1" />
+            <Users className="w-4 h-4 mr-1" />
             <span>{recipe.servings} servings</span>
           </div>
         )}
       </div>
 
-      {/* TODO: add ingredients and instructions */}
-      {/* <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid gap-8 md:grid-cols-2">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Ingredients</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Ingredients</h2>
           <ul className="space-y-2">
             {recipe.ingredients.map((ingredient, index) => (
               <li key={index} className="flex items-center">
-                <span className="w-2 h-2 bg-primary rounded-full mr-2" />
+                <span className="w-2 h-2 mr-2 rounded-full bg-primary" />
                 {ingredient}
               </li>
             ))}
@@ -143,17 +153,17 @@ export default function RecipeDetails() {
         </div>
 
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Instructions</h2>
+          <h2 className="mb-4 text-2xl font-semibold">Instructions</h2>
           <ol className="space-y-4">
             {recipe.instructions.map((instruction, index) => (
               <li key={index} className="flex">
-                <span className="font-bold mr-4">{index + 1}.</span>
+                <span className="mr-4 font-bold">{index + 1}.</span>
                 {instruction}
               </li>
             ))}
           </ol>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

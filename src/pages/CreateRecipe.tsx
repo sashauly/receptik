@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import RecipeForm from "@/components/RecipeForm";
-import { storage } from "@/lib/storage";
+import { idbStorage } from "@/lib/storage";
 import { Recipe, RecipeFormData } from "@/types/recipe";
 import { toast } from "sonner";
 
@@ -11,20 +11,20 @@ export default function CreateRecipe() {
     sub: "userId",
   };
 
-  const handleSubmit = (data: RecipeFormData) => {
+  const handleSubmit = async (data: RecipeFormData) => {
     if (!user?.sub) {
       toast.error("You must be logged in to create a recipe");
       return;
     }
 
-    const recipe: Recipe = {
+    const newRecipe: Recipe = {
       ...data,
       id: uuidv4(),
       userId: user.sub,
       createdAt: Date.now(),
     };
 
-    storage.saveRecipe(recipe);
+    await idbStorage.saveRecipe(newRecipe);
     toast.success("Recipe created successfully");
     navigate("/my-recipes");
   };

@@ -9,7 +9,6 @@ export interface Recipe {
   createdAt?: number;
   updatedAt?: number;
   userId: string;
-  isPublic: boolean;
   prepTime?: number;
   cookTime?: number;
   servings?: number;

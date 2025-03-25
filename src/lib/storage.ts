@@ -1,44 +1,67 @@
 import { Recipe } from "@/types/recipe";
+import { openDB, DBSchema, IDBPDatabase } from "idb";
 
-const RECIPES_KEY = "recipes";
+interface RecipeDB extends DBSchema {
+  recipes: {
+    key: string;
+    value: Recipe;
+    indexes: { "user-id": string; "is-public": boolean };
+  };
+}
 
-export const storage = {
-  getRecipes: (): Recipe[] => {
-    const recipes = localStorage.getItem(RECIPES_KEY);
-    return recipes ? JSON.parse(recipes) : [];
+const DB_NAME = "recipe-db";
+const OBJECT_STORE_NAME = "recipes";
+
+let db: IDBPDatabase<RecipeDB> | null = null;
+
+const initializeDB = async () => {
+  if (!db) {
+    db = await openDB<RecipeDB>(DB_NAME, 1, {
+      upgrade(db) {
+        const recipeStore = db.createObjectStore(OBJECT_STORE_NAME, {
+          keyPath: "id",
+        });
+        recipeStore.createIndex("user-id", "userId");
+        recipeStore.createIndex("is-public", "isPublic");
+      },
+    });
+  }
+};
+
+export const idbStorage = {
+  getRecipes: async (): Promise<Recipe[]> => {
+    await initializeDB();
+    if (!db) return [];
+    return db.getAll(OBJECT_STORE_NAME);
   },
 
-  getRecipeById: (id: string): Recipe | undefined => {
-    const recipes = storage.getRecipes();
-    return recipes.find((recipe) => recipe.id === id);
+  getRecipeById: async (id: string): Promise<Recipe | undefined> => {
+    await initializeDB();
+    if (!db) return undefined;
+    return db.get(OBJECT_STORE_NAME, id);
   },
 
-  saveRecipe: (recipe: Recipe): void => {
-    const recipes = storage.getRecipes();
-    recipes.push(recipe);
-    localStorage.setItem(RECIPES_KEY, JSON.stringify(recipes));
+  saveRecipe: async (recipe: Recipe): Promise<void> => {
+    await initializeDB();
+    if (!db) return;
+    await db.put(OBJECT_STORE_NAME, recipe);
   },
 
-  updateRecipe: (recipe: Recipe): void => {
-    const recipes = storage.getRecipes();
-    const index = recipes.findIndex((r) => r.id === recipe.id);
-    if (index !== -1) {
-      recipes[index] = recipe;
-      localStorage.setItem(RECIPES_KEY, JSON.stringify(recipes));
-    }
+  updateRecipe: async (recipe: Recipe): Promise<void> => {
+    await idbStorage.saveRecipe(recipe);
   },
 
-  deleteRecipe: (id: string): void => {
-    const recipes = storage.getRecipes();
-    const filtered = recipes.filter((recipe) => recipe.id !== id);
-    localStorage.setItem(RECIPES_KEY, JSON.stringify(filtered));
+  deleteRecipe: async (id: string): Promise<void> => {
+    await initializeDB();
+    if (!db) return;
+    await db.delete(OBJECT_STORE_NAME, id);
   },
 
-  getUserRecipes: (userId: string): Recipe[] => {
-    return storage.getRecipes().filter((recipe) => recipe.userId === userId);
-  },
-
-  getPublicRecipes: (): Recipe[] => {
-    return storage.getRecipes().filter((recipe) => recipe.isPublic);
+  getUserRecipes: async (userId: string): Promise<Recipe[]> => {
+    await initializeDB();
+    if (!db) return [];
+    const tx = db.transaction(OBJECT_STORE_NAME, "readonly");
+    const index = tx.store.index("user-id");
+    return index.getAll(userId);
   },
 };
