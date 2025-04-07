@@ -13,7 +13,7 @@ import EditRecipe from "./pages/EditRecipe";
 function App() {
   return (
     <MantineProvider>
-      <Router>
+      <Router basename="/recipe-management-pwa">
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
