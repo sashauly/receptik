@@ -1,5 +1,5 @@
 {
-  "name": "recipe-management-pwa",
+  "name": "recipe-notebook-pwa",
   "homepage": "https://sashauly.github.io/recipe-management-pwa/",
   "private": true,
   "version": "0.0.0",
@@ -22,6 +22,7 @@
     "@tailwindcss/vite": "^4.1.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "html2canvas-pro": "^1.5.8",
     "idb": "^8.0.2",
     "lucide-react": "^0.446.0",
     "react": "^18.3.1",

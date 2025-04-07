@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import {
   Dialog,
@@ -22,7 +24,7 @@ import {
   Twitter,
 } from "lucide-react";
 import type { Recipe } from "@/types/recipe";
-import html2canvas from "@/lib/html2canvas";
+import html2canvas from "html2canvas-pro";
 
 interface ShareRecipeDialogProps {
   recipe: Recipe;
@@ -37,6 +39,7 @@ export default function ShareRecipeDialog({
 }: ShareRecipeDialogProps) {
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState("link");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error display
 
   // Generate a shareable link using the recipe slug
   const shareableLink =
@@ -44,10 +47,15 @@ export default function ShareRecipeDialog({
       ? `${window.location.origin}/recipes/${recipe.slug}`
       : `/recipes/${recipe.slug}`;
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(shareableLink);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareableLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error: any) {
+      console.error("Failed to copy link:", error);
+      setErrorMessage("Failed to copy link.  Please try again.");
+    }
   };
 
   const handleShareViaEmail = () => {
@@ -65,55 +73,94 @@ export default function ShareRecipeDialog({
       `Check out this delicious recipe for ${recipe.title}!`
     );
     window.open(
-      `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(shareableLink)}`
+      `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(
+        shareableLink
+      )}`
     );
   };
 
   const handleShareViaFacebook = () => {
     window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareableLink)}`
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        shareableLink
+      )}`
     );
   };
 
-  const exportAsJson = () => {
-    // Create a JSON blob
-    const data = JSON.stringify(recipe, null, 2);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+  const exportAsJson = async () => {
+    try {
+      // Create a JSON blob
+      const data = JSON.stringify(recipe, null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
 
-    // Create a download link and trigger it
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${recipe.slug}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      // Create a download link and trigger it
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${recipe.slug}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error("Failed to export as JSON:", error);
+      setErrorMessage("Failed to export as JSON. Please try again.");
+    }
   };
 
   const exportAllRecipesAsJson = () => {
-    // Get all recipes from localStorage
-    const savedRecipes = localStorage.getItem("recipes");
-    if (!savedRecipes) return;
+    try {
+      const savedRecipesString = localStorage.getItem("recipes");
+      if (!savedRecipesString) {
+        setErrorMessage("No saved recipes found.");
+        return;
+      }
 
-    // Create a JSON blob
-    const data = savedRecipes;
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
+      let savedRecipes;
+      try {
+        savedRecipes = JSON.parse(savedRecipesString);
+      } catch (parseError: any) {
+        console.error("Error parsing recipes from localStorage:", parseError);
+        setErrorMessage(
+          "Error reading saved recipes.  The data may be corrupted."
+        );
+        return;
+      }
 
-    // Create a download link and trigger it
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "recipe-notebook.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      //Sanitize each recipe (example sanitization, more robust solution is preferable)
+      const sanitizedRecipes = savedRecipes.map((recipe: any) => ({
+        title: recipe.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+        ingredients: recipe.ingredients.map((i: string) =>
+          i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        ),
+        instructions: recipe.instructions.map((i: string) =>
+          i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        ),
+        // Add other properties you want to sanitize
+      }));
+
+      const data = JSON.stringify(sanitizedRecipes, null, 2);
+      const blob = new Blob([data], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+
+      // Create a download link and trigger it
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "recipe-notebook.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error("Failed to export all recipes:", error);
+      setErrorMessage("Failed to export all recipes. Please try again.");
+    }
   };
 
-  const exportAsTxt = () => {
-    // Format recipe as text
-    const text = `
+  const exportAsTxt = async () => {
+    try {
+      // Format recipe as text
+      const text = `
 ${recipe.title}
 
 Prep Time: ${recipe.prepTime}
@@ -128,18 +175,22 @@ INSTRUCTIONS:
 ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
 `.trim();
 
-    // Create a text blob
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
+      // Create a text blob
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
 
-    // Create a download link and trigger it
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${recipe.slug}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      // Create a download link and trigger it
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${recipe.slug}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error("Failed to export as TXT:", error);
+      setErrorMessage("Failed to export as TXT. Please try again.");
+    }
   };
 
   const exportAsImage = async () => {
@@ -154,8 +205,12 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
       <div style="font-family: Arial, sans-serif;">
         <h1 style="color: #ea580c; margin-bottom: 10px;">${recipe.title}</h1>
         <div style="display: flex; margin-bottom: 10px;">
-          <div style="margin-right: 20px;"><strong>Prep:</strong> ${recipe.prepTime}</div>
-          <div style="margin-right: 20px;"><strong>Cook:</strong> ${recipe.cookTime}</div>
+          <div style="margin-right: 20px;"><strong>Prep:</strong> ${
+            recipe.prepTime
+          }</div>
+          <div style="margin-right: 20px;"><strong>Cook:</strong> ${
+            recipe.cookTime
+          }</div>
           <div><strong>Servings:</strong> ${recipe.servings}</div>
         </div>
         <div style="margin-bottom: 10px;">
@@ -196,8 +251,9 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error generating image:", error);
+      setErrorMessage("Failed to generate image. Please try again.");
     } finally {
       // Clean up
       document.body.removeChild(tempDiv);
@@ -213,18 +269,21 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
             Share &quot;{recipe.title}&quot; with friends and family
           </DialogDescription>
         </DialogHeader>
+        {errorMessage && (
+          <div className="text-red-500">{errorMessage}</div> // Display error
+        )}
         <Tabs
-          defaultValue="link"
+          defaultValue="export"
           value={activeTab}
           onValueChange={setActiveTab}
         >
           <TabsList className="grid grid-cols-5">
-            <TabsTrigger value="link">Link</TabsTrigger>
-            <TabsTrigger value="social">Social</TabsTrigger>
+            {/* <TabsTrigger value="link">Link</TabsTrigger> */}
+            {/* <TabsTrigger value="social">Social</TabsTrigger> */}
             <TabsTrigger value="export">Export</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="link" className="p-4">
+          {/* <TabsContent value="link" className="p-4">
             <div className="flex items-center space-x-2">
               <div className="grid flex-1 gap-2">
                 <Input value={shareableLink} readOnly />
@@ -266,7 +325,7 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
                 Facebook
               </Button>
             </div>
-          </TabsContent>
+          </TabsContent> */}
 
           <TabsContent value="export" className="p-4 space-y-4">
             <div className="space-y-2">
