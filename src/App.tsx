@@ -4,11 +4,10 @@ import Layout from "@/components/Layout";
 import RecipeNotebook from "@/pages/RecipeNotebook";
 import RecipeDetailsPage from "@/pages/RecipeDetailsPage";
 import NotFound from "./pages/NotFound";
-import { ErrorBoundary } from "react-error-boundary";
 
 function App() {
   return (
-    <ErrorBoundary fallback={<div>Something went wrong.</div>}>
+    // <ErrorBoundary fallback={<div>Something went wrong.</div>}>
       <Router basename="/recipe-management-pwa/">
         <Layout>
           <Routes>
@@ -19,7 +18,7 @@ function App() {
         </Layout>
         <Toaster />
       </Router>
-    </ErrorBoundary>
+    // </ErrorBoundary>
   );
 }
 
