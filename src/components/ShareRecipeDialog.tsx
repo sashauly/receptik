@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import {
@@ -10,18 +9,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Check,
-  Copy,
+//   Check,
+  // Copy,
   Download,
-  Facebook,
+  // Facebook,
   FileJson,
   FileText,
   Image,
-  Mail,
-  Twitter,
+  // Mail,
+  // Twitter,
 } from "lucide-react";
 import type { Recipe } from "@/types/recipe";
 import html2canvas from "html2canvas-pro";
@@ -37,55 +36,55 @@ export default function ShareRecipeDialog({
   isOpen,
   onClose,
 }: ShareRecipeDialogProps) {
-  const [copied, setCopied] = useState(false);
+  // const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState("link");
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error display
 
   // Generate a shareable link using the recipe slug
-  const shareableLink =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/recipes/${recipe.slug}`
-      : `/recipes/${recipe.slug}`;
+  // const shareableLink =
+  //   typeof window !== "undefined"
+  //     ? `${window.location.origin}/recipes/${recipe.slug}`
+  //     : `/recipes/${recipe.slug}`;
 
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(shareableLink);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (error: any) {
-      console.error("Failed to copy link:", error);
-      setErrorMessage("Failed to copy link.  Please try again.");
-    }
-  };
+  // const handleCopyLink = async () => {
+  //   try {
+  //     await navigator.clipboard.writeText(shareableLink);
+  //     setCopied(true);
+  //     setTimeout(() => setCopied(false), 2000);
+  //   } catch (error: any) {
+  //     console.error("Failed to copy link:", error);
+  //     setErrorMessage("Failed to copy link.  Please try again.");
+  //   }
+  // };
 
-  const handleShareViaEmail = () => {
-    const subject = encodeURIComponent(
-      `Check out this recipe: ${recipe.title}`
-    );
-    const body = encodeURIComponent(
-      `I thought you might enjoy this recipe for ${recipe.title}. Check it out here: ${shareableLink}`
-    );
-    window.open(`mailto:?subject=${subject}&body=${body}`);
-  };
+  // const handleShareViaEmail = () => {
+  //   const subject = encodeURIComponent(
+  //     `Check out this recipe: ${recipe.title}`
+  //   );
+  //   const body = encodeURIComponent(
+  //     `I thought you might enjoy this recipe for ${recipe.title}. Check it out here: ${shareableLink}`
+  //   );
+  //   window.open(`mailto:?subject=${subject}&body=${body}`);
+  // };
 
-  const handleShareViaTwitter = () => {
-    const text = encodeURIComponent(
-      `Check out this delicious recipe for ${recipe.title}!`
-    );
-    window.open(
-      `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(
-        shareableLink
-      )}`
-    );
-  };
+  // const handleShareViaTwitter = () => {
+  //   const text = encodeURIComponent(
+  //     `Check out this delicious recipe for ${recipe.title}!`
+  //   );
+  //   window.open(
+  //     `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(
+  //       shareableLink
+  //     )}`
+  //   );
+  // };
 
-  const handleShareViaFacebook = () => {
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        shareableLink
-      )}`
-    );
-  };
+  // const handleShareViaFacebook = () => {
+  //   window.open(
+  //     `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+  //       shareableLink
+  //     )}`
+  //   );
+  // };
 
   const exportAsJson = async () => {
     try {
