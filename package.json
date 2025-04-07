@@ -1,5 +1,6 @@
 {
-  "name": "recipe-notebook",
+  "name": "recipe-management-pwa",
+  "homepage": "https://sashauly.github.io/recipe-management-pwa/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
