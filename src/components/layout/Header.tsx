@@ -1,7 +1,6 @@
 import { Book, PlusCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import PWAStatus from "../PwaStatus";
 
 export default function Header() {
   const location = useLocation();
@@ -19,16 +18,12 @@ export default function Header() {
           </Link>
 
           {isHomePage ? (
-            <>
-              <Button asChild className="bg-orange-600 hover:bg-orange-700">
-                <Link to="/?create=true">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Add Recipe
-                </Link>
-              </Button>
-
-              <PWAStatus />
-            </>
+            <Button asChild className="bg-orange-600 hover:bg-orange-700">
+              <Link to="/?create=true">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Add Recipe
+              </Link>
+            </Button>
           ) : (
             <Button asChild variant="outline">
               <Link to="/">Back to Recipes</Link>
