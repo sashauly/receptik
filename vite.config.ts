@@ -5,7 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  base: "/recipe-management-pwa",
+  base: "/recipe-management-pwa/",
   plugins: [
     react(),
     tsconfigPaths(),
@@ -21,8 +21,6 @@ export default defineConfig({
         name: "Recipe Management",
         short_name: "Recipe Management",
         description: "A recipe management app",
-        scope: "/recipe-management-pwa/",
-        start_url: "/recipe-management-pwa/",
         icons: [
           {
             src: "pwa-64x64.png",
