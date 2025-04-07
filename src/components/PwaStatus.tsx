@@ -4,14 +4,24 @@ import { Button } from "@/components/ui/button";
 import { WifiOff, Download } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
 export default function PWAStatus() {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-  const [isInstallable, setIsInstallable] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+  const [isInstallable, setIsInstallable] = useState<boolean>(false);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
+    const handleOnline = (): void => setIsOnline(true);
+    const handleOffline = (): void => setIsOnline(false);
 
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
@@ -23,39 +33,49 @@ export default function PWAStatus() {
   }, []);
 
   useEffect(() => {
-    // @ts-expect-error - The beforeinstallprompt event is not supported in all browsers
-    const handleBeforeInstallPrompt = (e) => {
+    const handleBeforeInstallPrompt = (e: Event): void => {
       e.preventDefault();
-      setDeferredPrompt(e);
-      setIsInstallable(true);
+      console.log("beforeinstallprompt event fired");
+
+      try {
+        setDeferredPrompt(e as BeforeInstallPromptEvent);
+        setIsInstallable(true);
+      } catch (error) {
+        console.error("Error handling beforeinstallprompt:", error);
+      }
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
 
-    return () =>
+    return () => {
       window.removeEventListener(
         "beforeinstallprompt",
         handleBeforeInstallPrompt
       );
+    };
   }, []);
 
-  const handleInstallClick = async () => {
-    if (!deferredPrompt) return;
-
-    // @ts-expect-error - The beforeinstallprompt event is not supported in all browsers
-    deferredPrompt.prompt();
-
-    // @ts-expect-error - The beforeinstallprompt event is not supported in all browsers
-    const { outcome } = await deferredPrompt.userChoice;
-
-    if (outcome === "accepted") {
-      console.log("User accepted the install prompt");
-    } else {
-      console.log("User dismissed the install prompt");
+  const handleInstallClick = async (): Promise<void> => {
+    if (!deferredPrompt) {
+      console.warn("No deferredPrompt available");
+      return;
     }
 
-    setDeferredPrompt(null);
-    setIsInstallable(false);
+    try {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+
+      if (outcome === "accepted") {
+        console.log("User accepted the install prompt");
+      } else {
+        console.log("User dismissed the install prompt");
+      }
+    } catch (error) {
+      console.error("Error during install prompt:", error);
+    } finally {
+      setDeferredPrompt(null);
+      setIsInstallable(false);
+    }
   };
 
   return (
