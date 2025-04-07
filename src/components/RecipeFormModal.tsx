@@ -436,15 +436,15 @@ export default function RecipeFormModal({
               </div>
             </div>
 
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
+            <DialogFooter className="gap-2">
               <Button
                 type="submit"
                 className="bg-orange-600 hover:bg-orange-700"
               >
                 Save Recipe
+              </Button>
+              <Button type="button" variant="outline" onClick={onClose}>
+                Cancel
               </Button>
             </DialogFooter>
           </form>

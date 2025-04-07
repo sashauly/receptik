@@ -8,7 +8,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Clock, Edit, Share2, Trash2, Users } from "lucide-react";
 import type { Recipe } from "@/types/recipe";
-import { useIsMobile } from "@/hooks/useMobile";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -23,8 +22,6 @@ export default function RecipeDetail({
   onDelete,
   onShare,
 }: RecipeDetailProps) {
-  const isMobile = useIsMobile();
-
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold tracking-tight">{recipe.title}</h2>
@@ -74,7 +71,7 @@ export default function RecipeDetail({
                 onClick={onEdit}
               >
                 <Edit className="h-4 w-4" />
-                {!isMobile && "Edit"}
+                {"Edit"}
               </Button>
               <Button
                 className="flex gap-2"
@@ -83,7 +80,7 @@ export default function RecipeDetail({
                 onClick={onShare}
               >
                 <Share2 className="h-4 w-4" />
-                {!isMobile && "Share"}
+                {"Share"}
               </Button>
               <Button
                 className="flex gap-2"
@@ -92,7 +89,7 @@ export default function RecipeDetail({
                 onClick={onDelete}
               >
                 <Trash2 className="h-4 w-4" />
-                {!isMobile && "Delete"}
+                {"Delete"}
               </Button>
             </CardFooter>
           </Card>
