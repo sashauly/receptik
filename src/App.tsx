@@ -1,32 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "@/components/ui/sonner";
 import Layout from "@/components/Layout";
-import Home from "@/pages/Home";
-import MyRecipes from "@/pages/MyRecipes";
-import CreateRecipe from "@/pages/CreateRecipe";
-import RecipeDetails from "@/pages/RecipeDetails";
-import Profile from "@/pages/Profile";
-import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
-import EditRecipe from "./pages/EditRecipe";
+import RecipeNotebook from "@/pages/RecipeNotebook";
+import RecipeDetailsPage from "@/pages/RecipeDetailsPage";
+import NotFound from "./pages/NotFound";
+import { ErrorBoundary } from "react-error-boundary";
 
 function App() {
   return (
-    <MantineProvider>
-      <Router basename="/recipe-management-pwa">
+    <ErrorBoundary fallback={<div>Something went wrong.</div>}>
+      <Router basename="/recipe-management-pwa/">
         <Layout>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/my-recipes" element={<MyRecipes />} />
-            <Route path="/create-recipe" element={<CreateRecipe />} />
-            <Route path="/recipe/:id" element={<RecipeDetails />} />
-            <Route path="edit-recipe/:id" element={<EditRecipe />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/" element={<RecipeNotebook />} />
+            <Route path="/recipes/:slug" element={<RecipeDetailsPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
         <Toaster />
       </Router>
-    </MantineProvider>
+    </ErrorBoundary>
   );
 }
 

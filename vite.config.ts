@@ -1,14 +1,14 @@
 import path from "path";
 import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   base: "/recipe-management-pwa/",
   plugins: [
     react(),
-    tsconfigPaths(),
+    tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
       includeAssets: [
