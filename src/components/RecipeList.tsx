@@ -41,7 +41,7 @@ export default function RecipeList({
           key={recipe.id}
           className="overflow-hidden hover:shadow-md transition-shadow"
         >
-          <Link to={`/recipes/${recipe.slug}`}>
+          <Link to={`/recipes/${recipe.slug}`} title={recipe.title}>
             <div
               className="h-48 bg-cover bg-center cursor-pointer"
               style={{ backgroundImage: `url(${recipe.image})` }}
@@ -49,7 +49,11 @@ export default function RecipeList({
           </Link>
           <CardContent className="p-4">
             <div className="space-y-2">
-              <Link to={`/recipes/${recipe.slug}`} className="block">
+              <Link
+                to={`/recipes/${recipe.slug}`}
+                className="block"
+                title={recipe.title}
+              >
                 <h3 className="font-semibold text-xl cursor-pointer hover:text-orange-600 transition-colors">
                   {recipe.title}
                 </h3>

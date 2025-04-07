@@ -11,16 +11,14 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: [
-        "favicon.ico",
-      ],
+      includeAssets: ["favicon.ico"],
       devOptions: {
         enabled: true,
       },
       manifest: {
-        name: "Recipe Management",
-        short_name: "Recipe Management",
-        description: "A recipe management app",
+        name: "Recipe Notebook",
+        short_name: "Recipe Notebook",
+        description: "A PWA for managing recipes",
         icons: [
           {
             src: "pwa-64x64.png",
@@ -47,6 +45,9 @@ export default defineConfig({
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
+        lang: "en",
+        display_override: ["window-controls-overlay", "standalone", "browser"],
+        categories: ["food", "lifestyle"],
       },
     }),
   ],

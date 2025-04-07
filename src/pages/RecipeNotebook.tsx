@@ -127,7 +127,7 @@ export default function RecipeNotebook() {
     <div className="container mx-auto py-6 px-4 md:px-6">
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">My Recipes</h1>
+          <h2 className="text-3xl font-bold tracking-tight">My Recipes</h2>
           <p className="text-muted-foreground">
             Browse and manage your favorite recipes
           </p>

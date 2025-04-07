@@ -27,7 +27,7 @@ export default function RecipeDetail({
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">{recipe.title}</h1>
+      <h2 className="text-3xl font-bold tracking-tight">{recipe.title}</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
