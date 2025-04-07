@@ -10,7 +10,6 @@ interface RecipeListProps {
   recipes: Recipe[];
   searchQuery: string;
   onClearSearch: () => void;
-  onViewRecipe: (recipe: Recipe) => void;
   onEditRecipe: (recipe: Recipe) => void;
   onDeleteRecipe: (id: string) => void;
 }
@@ -19,7 +18,6 @@ export default function RecipeList({
   recipes,
   searchQuery,
   onClearSearch,
-  onViewRecipe,
   onEditRecipe,
   onDeleteRecipe,
 }: RecipeListProps) {

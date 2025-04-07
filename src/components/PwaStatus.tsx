@@ -23,6 +23,7 @@ export default function PWAStatus() {
   }, []);
 
   useEffect(() => {
+    // @ts-expect-error - The beforeinstallprompt event is not supported in all browsers
     const handleBeforeInstallPrompt = (e) => {
       e.preventDefault();
       setDeferredPrompt(e);
@@ -41,8 +42,10 @@ export default function PWAStatus() {
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
 
+    // @ts-expect-error - The beforeinstallprompt event is not supported in all browsers
     deferredPrompt.prompt();
 
+    // @ts-expect-error - The beforeinstallprompt event is not supported in all browsers
     const { outcome } = await deferredPrompt.userChoice;
 
     if (outcome === "accepted") {

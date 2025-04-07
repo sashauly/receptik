@@ -147,7 +147,6 @@ export default function RecipeNotebook() {
             recipes={filteredRecipes}
             searchQuery={searchQuery}
             onClearSearch={handleClearSearch}
-            onViewRecipe={() => {}}
             onEditRecipe={handleEditRecipe}
             onDeleteRecipe={handleDeleteRecipe}
           />
