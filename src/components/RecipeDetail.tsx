@@ -35,11 +35,12 @@ export default function RecipeDetail({
             />
             <CardContent className="p-6">
               <div className="flex flex-wrap gap-2 mb-4">
-                {recipe.tags.map((tag) => (
-                  <Badge key={tag} variant="outline" className="bg-orange-50">
-                    {tag}
-                  </Badge>
-                ))}
+                {recipe.tags &&
+                  recipe.tags.map((tag) => (
+                    <Badge key={tag} variant="outline" className="bg-orange-50">
+                      {tag}
+                    </Badge>
+                  ))}
               </div>
 
               <div className="space-y-2 text-sm">
@@ -104,20 +105,22 @@ export default function RecipeDetail({
               <div>
                 <h3 className="text-lg font-semibold mb-3">Ingredients</h3>
                 <ul className="list-disc pl-5 space-y-2">
-                  {recipe.ingredients.map((ingredient, index) => (
-                    <li key={index}>{ingredient}</li>
-                  ))}
+                  {recipe.ingredients &&
+                    recipe.ingredients.map((ingredient, index) => (
+                      <li key={index}>{ingredient}</li>
+                    ))}
                 </ul>
               </div>
 
               <div>
                 <h3 className="text-lg font-semibold mb-3">Instructions</h3>
                 <ol className="list-decimal pl-5 space-y-4">
-                  {recipe.instructions.map((step, index) => (
-                    <li key={index} className="pl-2">
-                      {step}
-                    </li>
-                  ))}
+                  {recipe.instructions &&
+                    recipe.instructions.map((step, index) => (
+                      <li key={index} className="pl-2">
+                        {step}
+                      </li>
+                    ))}
                 </ol>
               </div>
             </CardContent>

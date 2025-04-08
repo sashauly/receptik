@@ -33,11 +33,12 @@ export default function RecipeFilters({
         <Tabs value={activeTag} onValueChange={onTagChange} className="w-full">
           <TabsList className="min-w-full sm:min-w-0">
             <TabsTrigger value="all">All</TabsTrigger>
-            {tags.map((tag) => (
-              <TabsTrigger key={tag} value={tag}>
-                {tag}
-              </TabsTrigger>
-            ))}
+            {tags &&
+              tags.map((tag) => (
+                <TabsTrigger key={tag} value={tag}>
+                  {tag}
+                </TabsTrigger>
+              ))}
           </TabsList>
         </Tabs>
       </div>
