@@ -7,6 +7,7 @@
 ## TODO
 
 - [ ] - Add settings page
+  - [x] Add route and component (08.04.2025)
   - [ ] Add theming(system, dark mode, light mode)
   - [ ] Add ability to import all recipes from a file
   - [ ] Add ability to export all recipes to a file
