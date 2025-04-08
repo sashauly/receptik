@@ -30,7 +30,7 @@ import {
 } from "@/lib/validations/recipe";
 
 interface RecipeFormModalProps {
-  recipe: Recipe;
+  recipe: Recipe | null;
   isOpen: boolean;
   onClose: () => void;
   onSave: (recipe: Recipe) => void;

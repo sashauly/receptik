@@ -1,4 +1,4 @@
-import { Book, PlusCircle } from "lucide-react";
+import { Book, PlusCircle, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 
@@ -19,12 +19,19 @@ export default function Header() {
         </Link>
 
         {isHomePage ? (
-          <Button asChild className="bg-orange-600 hover:bg-orange-700">
-            <Link to="/?create=true" title="Add a new recipe">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Add Recipe
-            </Link>
-          </Button>
+          <div className="flex items-center space-x-2">
+            <Button asChild className="bg-orange-600 hover:bg-orange-700">
+              <Link to="/?create=true" title="Add a new recipe">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Add Recipe
+              </Link>
+            </Button>
+            <Button asChild>
+              <Link to="/settings" title="Settings">
+                <Settings />
+              </Link>
+            </Button>
+          </div>
         ) : (
           <Button asChild variant="outline">
             <Link to="/" title="Back to recipes">

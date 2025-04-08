@@ -4,21 +4,21 @@ import Layout from "@/components/Layout";
 import RecipeNotebook from "@/pages/RecipeNotebook";
 import RecipeDetailsPage from "@/pages/RecipeDetailsPage";
 import NotFound from "./pages/NotFound";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
-    // <ErrorBoundary fallback={<div>Something went wrong.</div>}>
-      <Router basename="/recipe-management-pwa/">
-        <Layout>
-          <Routes>
-            <Route path="/" element={<RecipeNotebook />} />
-            <Route path="/recipes/:slug" element={<RecipeDetailsPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-        <Toaster />
-      </Router>
-    // </ErrorBoundary>
+    <Router basename="/recipe-management-pwa/">
+      <Layout>
+        <Routes>
+          <Route path="/" element={<RecipeNotebook />} />
+          <Route path="/recipes/:slug" element={<RecipeDetailsPage />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+      <Toaster />
+    </Router>
   );
 }
 
