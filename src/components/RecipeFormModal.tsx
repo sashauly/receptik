@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,6 +16,7 @@ import {
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -29,7 +30,7 @@ import {
 } from "@/lib/validations/recipe";
 
 interface RecipeFormModalProps {
-  recipe: Recipe | null;
+  recipe: Recipe;
   isOpen: boolean;
   onClose: () => void;
   onSave: (recipe: Recipe) => void;
@@ -49,7 +50,6 @@ export default function RecipeFormModal({
 
   // Initialize form with default values or existing recipe
   const form = useForm<RecipeFormValues>({
-    // @ts-expect-error - The recipeFormSchema is not exported
     resolver: zodResolver(recipeFormSchema),
     defaultValues: {
       title: recipe?.title || "",
@@ -144,7 +144,7 @@ export default function RecipeFormModal({
   };
 
   const onSubmit = (data: RecipeFormValues) => {
-    // Filter out empty ingredients and instructions
+    // The Zod schema now filters empty strings, but keep this for extra safety
     const filteredIngredients = data.ingredients.filter((i) => i.trim() !== "");
     const filteredInstructions = data.instructions.filter(
       (i) => i.trim() !== ""
@@ -195,20 +195,26 @@ export default function RecipeFormModal({
           <DialogTitle>
             {recipe ? "Edit Recipe" : "Create New Recipe"}
           </DialogTitle>
+          <DialogDescription>
+            {recipe ? "Edit an existing recipe" : "Create a new recipe"}
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
-          {/* @ts-expect-error - The recipeFormSchema is not exported */}
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
-              // @ts-expect-error - The recipeFormSchema is not exported
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Recipe Title</FormLabel>
+                  <FormLabel htmlFor="title">Recipe Title</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter recipe title" {...field} />
+                    <Input
+                      id="title"
+                      type="text"
+                      placeholder="Enter recipe title"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -217,14 +223,17 @@ export default function RecipeFormModal({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <FormField
-                // @ts-expect-error - The recipeFormSchema is not exported
                 control={form.control}
                 name="prepTime"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Prep Time</FormLabel>
+                    <FormLabel htmlFor="prepTime">Prep Time</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. 15 minutes" {...field} />
+                      <Input
+                        id="prepTime"
+                        placeholder="e.g. 15 minutes"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -232,14 +241,17 @@ export default function RecipeFormModal({
               />
 
               <FormField
-                // @ts-expect-error - The recipeFormSchema is not exported
                 control={form.control}
                 name="cookTime"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Cook Time</FormLabel>
+                    <FormLabel htmlFor="cookTime">Cook Time</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. 30 minutes" {...field} />
+                      <Input
+                        id="cookTime"
+                        placeholder="e.g. 30 minutes"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -247,20 +259,20 @@ export default function RecipeFormModal({
               />
 
               <FormField
-                // @ts-expect-error - The recipeFormSchema is not exported
                 control={form.control}
                 name="servings"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Servings</FormLabel>
+                    <FormLabel htmlFor="servings">Servings</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
+                        id="servings"
                         min="1"
                         placeholder="e.g. 4"
                         {...field}
                         onChange={(e) =>
-                          field.onChange(Number.parseInt(e.target.value) || 1)
+                          field.onChange(Number.parseInt(e.target.value))
                         }
                       />
                     </FormControl>
@@ -271,14 +283,18 @@ export default function RecipeFormModal({
             </div>
 
             <FormField
-              // @ts-expect-error - The recipeFormSchema is not exported
               control={form.control}
               name="image"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Image URL</FormLabel>
+                  <FormLabel htmlFor="image">Image URL</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter image URL" {...field} />
+                    <Input
+                      id="image"
+                      type="text"
+                      placeholder="Enter image URL"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -286,12 +302,11 @@ export default function RecipeFormModal({
             />
 
             <FormField
-              // @ts-expect-error - The recipeFormSchema is not exported
               control={form.control}
               name="tags"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tags</FormLabel>
+                  <FormLabel htmlFor="tags">Tags</FormLabel>
                   <div className="flex flex-wrap gap-2 mb-2">
                     {field.value.map((tag) => (
                       <div
@@ -313,6 +328,7 @@ export default function RecipeFormModal({
                   </div>
                   <div className="flex gap-2">
                     <Input
+                      id="tags"
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
                       placeholder="Add a tag (e.g. Vegetarian, Dessert)"
@@ -336,11 +352,12 @@ export default function RecipeFormModal({
             />
 
             <div>
-              <FormLabel>Ingredients</FormLabel>
+              <FormLabel htmlFor="ingredient-0">Ingredients</FormLabel>
               <div className="space-y-2 mt-2">
                 {form.watch("ingredients").map((ingredient, index) => (
                   <div key={index} className="flex gap-2">
                     <Input
+                      id={`ingredient-${index}`}
                       value={ingredient}
                       onChange={(e) => {
                         const newIngredients = [
@@ -386,11 +403,12 @@ export default function RecipeFormModal({
             </div>
 
             <div>
-              <FormLabel>Instructions</FormLabel>
+              <FormLabel htmlFor="instruction-0">Instructions</FormLabel>
               <div className="space-y-2 mt-2">
                 {form.watch("instructions").map((instruction, index) => (
                   <div key={index} className="flex gap-2">
                     <Textarea
+                      id={`instruction-${index}`}
                       value={instruction}
                       onChange={(e) => {
                         const newInstructions = [

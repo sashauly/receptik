@@ -1,17 +1,37 @@
-import * as z from "zod"
+import * as z from "zod";
 
 export const recipeFormSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  ingredients: z.array(z.string().min(1, "Ingredient cannot be empty")).min(1, "At least one ingredient is required"),
+  title: z.string().refine((value) => value.trim().length >= 1, {
+    message: "Title is required and cannot contain only whitespace",
+  }),
+  ingredients: z
+    .array(z.string())
+    .transform((ingredients) => ingredients.filter((i) => i.trim() !== ""))
+    .refine((ingredients) => ingredients.length > 0, {
+      message: "At least one ingredient is required",
+    }),
   instructions: z
-    .array(z.string().min(1, "Instruction cannot be empty"))
-    .min(1, "At least one instruction is required"),
-  prepTime: z.string().min(1, "Prep time is required"),
-  cookTime: z.string().min(1, "Cook time is required"),
+    .array(z.string())
+    .transform((instructions) => instructions.filter((i) => i.trim() !== ""))
+    .refine((instructions) => instructions.length > 0, {
+      message: "At least one instruction is required",
+    }),
+  prepTime: z.string().refine((value) => value.trim().length >= 1, {
+    message: "prepTime is required and cannot contain only whitespace",
+  }),
+  cookTime: z.string().refine((value) => value.trim().length >= 1, {
+    message: "cookTime is required and cannot contain only whitespace",
+  }),
   servings: z.coerce.number().min(1, "Servings must be at least 1"),
-  image: z.string().url("Please enter a valid URL").or(z.string().startsWith("/", "Please enter a valid URL")),
-  tags: z.array(z.string()).default([]),
-})
+  image: z
+    .string()
+    .url("Please enter a valid URL")
+    .or(z.string().startsWith("/", "Please enter a valid URL")),
+  tags: z.array(
+    z.string().refine((value) => value.trim().length >= 1, {
+      message: "tags is required and cannot contain only whitespace",
+    })
+  ),
+});
 
-export type RecipeFormValues = z.infer<typeof recipeFormSchema>
-
+export type RecipeFormValues = z.infer<typeof recipeFormSchema>;
