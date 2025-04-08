@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+    />
     <meta name="description" content="A PWA for managing recipes" />
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/man-cook.svg" sizes="any" type="image/svg+xml" />
@@ -31,10 +34,12 @@
       media="screen and (prefers-color-scheme: dark) and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
       href="/apple-splash-landscape-dark-2048x1536.png"
     />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#ffffff" />
     <title>Recipe Notebook</title>
   </head>
 
-  <body>
+  <body ontouchstart="">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
