@@ -11,10 +11,17 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.ico"],
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+      },
       devOptions: {
         enabled: true,
       },
+      includeAssets: [
+        "favicon.ico",
+        "apple-touch-icon-180x180.png",
+        "man-cook.svg",
+      ],
       manifest: {
         name: "Recipe Notebook",
         short_name: "Recipe Notebook",
