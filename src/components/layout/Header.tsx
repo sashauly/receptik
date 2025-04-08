@@ -1,13 +1,14 @@
 import { Book, PlusCircle, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
+import { ThemeSelector } from "../ThemeSelector";
 
 export default function Header() {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
   return (
-    <header className="border-b sticky top-0 bg-white z-10">
+    <header className="border-b sticky top-0 bg-background transition-colors z-10">
       <div className="container mx-auto py-4 px-4 md:px-6 flex justify-between items-center">
         <Link
           to="/"
@@ -20,13 +21,17 @@ export default function Header() {
 
         {isHomePage ? (
           <div className="flex items-center space-x-2">
-            <Button asChild className="bg-orange-600 hover:bg-orange-700">
+            <Button
+              asChild
+              className="bg-orange-600 hover:bg-orange-700 dark:text-white"
+            >
               <Link to="/?create=true" title="Add a new recipe">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Add Recipe
               </Link>
             </Button>
-            <Button asChild>
+            <ThemeSelector />
+            <Button asChild variant="outline" size="icon">
               <Link to="/settings" title="Settings">
                 <Settings />
               </Link>

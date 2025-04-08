@@ -61,7 +61,11 @@ export default function RecipeList({
               <div className="flex flex-wrap gap-2">
                 {recipe.tags &&
                   recipe.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="bg-orange-50">
+                    <Badge
+                      key={tag}
+                      variant="outline"
+                      className="bg-orange-50 dark:bg-orange-900"
+                    >
                       {tag}
                     </Badge>
                   ))}

@@ -7,7 +7,7 @@ export default function Footer() {
   });
 
   return (
-    <footer className="border-t mt-auto">
+    <footer className="bg-background transition-colors border-t mt-auto">
       <div className="container mx-auto py-6 px-4 md:px-6">
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>© {currentYear} Recipe Notebook. All rights reserved.</p>
