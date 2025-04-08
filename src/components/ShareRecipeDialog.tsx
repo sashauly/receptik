@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-//   Check,
+  //   Check,
   // Copy,
   Download,
   // Facebook,
@@ -37,7 +37,7 @@ export default function ShareRecipeDialog({
   onClose,
 }: ShareRecipeDialogProps) {
   // const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState("link");
+  const [activeTab, setActiveTab] = useState("export");
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error display
 
   // Generate a shareable link using the recipe slug

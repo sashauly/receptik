@@ -124,48 +124,37 @@ export default function RecipeNotebook() {
   }
 
   return (
-    <div className="container mx-auto py-6 px-4 md:px-6">
-      <div className="space-y-6">
-        <div>
-          <h2 className="text-3xl font-bold tracking-tight">My Recipes</h2>
-          <p className="text-muted-foreground">
-            Browse and manage your favorite recipes
-          </p>
-        </div>
+    <div className="container mx-auto py-6 px-4 md:px-6 space-y-4">
+      <RecipeFilters
+        searchQuery={searchQuery}
+        activeTag={activeTag}
+        tags={allTags}
+        onSearchChange={handleSearchChange}
+        onClearSearch={handleClearSearch}
+        onTagChange={handleTagChange}
+      />
 
-        <div className="space-y-4">
-          <RecipeFilters
-            searchQuery={searchQuery}
-            activeTag={activeTag}
-            tags={allTags}
-            onSearchChange={handleSearchChange}
-            onClearSearch={handleClearSearch}
-            onTagChange={handleTagChange}
-          />
+      <RecipeList
+        recipes={filteredRecipes}
+        searchQuery={searchQuery}
+        onClearSearch={handleClearSearch}
+        onEditRecipe={handleEditRecipe}
+        onDeleteRecipe={handleDeleteRecipe}
+      />
 
-          <RecipeList
-            recipes={filteredRecipes}
-            searchQuery={searchQuery}
-            onClearSearch={handleClearSearch}
-            onEditRecipe={handleEditRecipe}
-            onDeleteRecipe={handleDeleteRecipe}
-          />
-        </div>
+      <RecipeFormModal
+        recipe={editingRecipe}
+        isOpen={showCreateModal || !!editRecipeId}
+        onClose={handleCloseModals}
+        onSave={handleSaveRecipe}
+      />
 
-        <RecipeFormModal
-          recipe={editingRecipe}
-          isOpen={showCreateModal || !!editRecipeId}
-          onClose={handleCloseModals}
-          onSave={handleSaveRecipe}
-        />
-
-        <DeleteRecipeDialog
-          recipe={recipeToDelete}
-          isOpen={!!recipeToDelete}
-          onClose={handleCloseModals}
-          onConfirm={confirmDeleteRecipe}
-        />
-      </div>
+      <DeleteRecipeDialog
+        recipe={recipeToDelete}
+        isOpen={!!recipeToDelete}
+        onClose={handleCloseModals}
+        onConfirm={confirmDeleteRecipe}
+      />
     </div>
   );
 }
