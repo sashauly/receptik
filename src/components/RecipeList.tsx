@@ -21,7 +21,7 @@ export default function RecipeList({
   onEditRecipe,
   onDeleteRecipe,
 }: RecipeListProps) {
-  if (recipes.length === 0) {
+  if (!recipes || recipes.length === 0) {
     return searchQuery ? (
       <NoResults searchQuery={searchQuery} onClear={onClearSearch} />
     ) : (
@@ -59,11 +59,12 @@ export default function RecipeList({
                 </h3>
               </Link>
               <div className="flex flex-wrap gap-2">
-                {recipe.tags.map((tag) => (
-                  <Badge key={tag} variant="outline" className="bg-orange-50">
-                    {tag}
-                  </Badge>
-                ))}
+                {recipe.tags &&
+                  recipe.tags.map((tag) => (
+                    <Badge key={tag} variant="outline" className="bg-orange-50">
+                      {tag}
+                    </Badge>
+                  ))}
               </div>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <div className="flex items-center">
