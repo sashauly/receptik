@@ -1,7 +1,6 @@
 import { Book, PlusCircle, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
-import { ThemeSelector } from "../ThemeSelector";
 
 export default function Header() {
   const location = useLocation();
@@ -30,7 +29,6 @@ export default function Header() {
                 Add Recipe
               </Link>
             </Button>
-            <ThemeSelector />
             <Button asChild variant="outline" size="icon">
               <Link to="/settings" title="Settings">
                 <Settings />

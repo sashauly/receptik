@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Theme, useTheme } from "@/context/ThemeContext";
 
 export default function ThemeSelect() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme, activeTheme } = useTheme();
 
   return (
     <div className="flex items-center space-x-2">
@@ -22,11 +22,9 @@ export default function ThemeSelect() {
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
         <SelectContent id="theme-options">
+          <SelectItem value="system">{`System (${activeTheme})`}</SelectItem>{" "}
           <SelectItem value="light">Light</SelectItem>
           <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">
-            System {theme === "system" && `(${resolvedTheme})`}
-          </SelectItem>
         </SelectContent>
       </Select>
     </div>
