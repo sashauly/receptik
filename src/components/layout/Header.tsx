@@ -1,8 +1,10 @@
 import { Book, PlusCircle, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Header() {
+  const { t } = useTranslation("translation", { keyPrefix: "common" });
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -15,7 +17,7 @@ export default function Header() {
           title="Go to homepage"
         >
           <Book className="h-6 w-6 text-orange-600" />
-          <h1 className="font-bold text-xl tracking-tight">Recipe Notebook</h1>
+          <h1 className="font-bold text-xl tracking-tight">{t("appName")}</h1>
         </Link>
 
         {isHomePage ? (
@@ -26,7 +28,7 @@ export default function Header() {
             >
               <Link to="/?create=true" title="Add a new recipe">
                 <PlusCircle className="mr-2 h-4 w-4" />
-                Add Recipe
+                {t("addRecipe")}
               </Link>
             </Button>
             <Button asChild variant="outline" size="icon">
@@ -38,7 +40,7 @@ export default function Header() {
         ) : (
           <Button asChild variant="outline">
             <Link to="/" title="Back to recipes">
-              Back to Recipes
+              {t("backToRecipes")}
             </Link>
           </Button>
         )}
