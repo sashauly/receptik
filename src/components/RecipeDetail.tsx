@@ -8,6 +8,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Clock, Edit, Share2, Trash2, Users } from "lucide-react";
 import type { Recipe } from "@/types/recipe";
+import { useTranslation } from "react-i18next";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -22,6 +23,8 @@ export default function RecipeDetail({
   onDelete,
   onShare,
 }: RecipeDetailProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-6">
       <h2 className="text-3xl font-bold tracking-tight">{recipe.title}</h2>
@@ -37,7 +40,11 @@ export default function RecipeDetail({
               <div className="flex flex-wrap gap-2 mb-4">
                 {recipe.tags &&
                   recipe.tags.map((tag) => (
-                    <Badge key={tag} variant="outline" className="bg-orange-50 dark:bg-orange-900">
+                    <Badge
+                      key={tag}
+                      variant="outline"
+                      className="bg-orange-50 dark:bg-orange-900"
+                    >
                       {tag}
                     </Badge>
                   ))}
@@ -47,50 +54,56 @@ export default function RecipeDetail({
                 <div className="flex items-center">
                   <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
                   <span>
-                    <strong>Prep:</strong> {recipe.prepTime}
+                    <strong>{t("recipe.prepTime")}</strong> {recipe.prepTime}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
                   <span>
-                    <strong>Cook:</strong> {recipe.cookTime}
+                    <strong>{t("recipe.cookTime")}</strong> {recipe.cookTime}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <Users className="mr-2 h-4 w-4 text-muted-foreground" />
                   <span>
-                    <strong>Servings:</strong> {recipe.servings}
+                    <strong>
+                      {recipe.servings}{" "}
+                      {t("recipe.servings_interval", {
+                        postProcess: "interval",
+                        count: Number(recipe.servings),
+                      })}
+                    </strong>
                   </span>
                 </div>
               </div>
             </CardContent>
-            <CardFooter className="flex-row justify-between p-6 pt-0">
+            <CardFooter className="flex flex-col sm:flex-row gap-2 justify-between p-6 pt-0">
               <Button
-                className="flex gap-2"
+                className="flex gap-2 w-full"
                 variant="outline"
                 size="sm"
                 onClick={onEdit}
               >
                 <Edit className="h-4 w-4" />
-                {"Edit"}
+                {t("common.edit")}
               </Button>
               <Button
-                className="flex gap-2"
+                className="flex gap-2 w-full"
                 variant="outline"
                 size="sm"
                 onClick={onShare}
               >
                 <Share2 className="h-4 w-4" />
-                {"Share"}
+                {t("common.share")}
               </Button>
               <Button
-                className="flex gap-2"
+                className="flex gap-2 w-full"
                 variant="outline"
                 size="sm"
                 onClick={onDelete}
               >
                 <Trash2 className="h-4 w-4" />
-                {"Delete"}
+                {t("common.delete")}
               </Button>
             </CardFooter>
           </Card>
@@ -99,11 +112,13 @@ export default function RecipeDetail({
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <h2 className="text-xl font-semibold">Recipe Details</h2>
+              <h2 className="text-xl font-semibold">{t("recipe.title")}</h2>
             </CardHeader>
             <CardContent className="p-6 pt-0 space-y-6">
               <div>
-                <h3 className="text-lg font-semibold mb-3">Ingredients</h3>
+                <h3 className="text-lg font-semibold mb-3">
+                  {t("recipe.ingredients")}
+                </h3>
                 <ul className="list-disc pl-5 space-y-2">
                   {recipe.ingredients &&
                     recipe.ingredients.map((ingredient, index) => (
@@ -113,7 +128,9 @@ export default function RecipeDetail({
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold mb-3">Instructions</h3>
+                <h3 className="text-lg font-semibold mb-3">
+                  {t("recipe.instructions")}
+                </h3>
                 <ol className="list-decimal pl-5 space-y-4">
                   {recipe.instructions &&
                     recipe.instructions.map((step, index) => (

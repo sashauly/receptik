@@ -29,6 +29,7 @@ import {
   type RecipeFormValues,
 } from "@/lib/validations/recipe";
 import { useRecipes } from "@/hooks/useRecipes";
+import { useTranslation } from "react-i18next";
 
 interface RecipeFormModalProps {
   recipe: Recipe | null;
@@ -43,6 +44,7 @@ export default function RecipeFormModal({
   onClose,
   onSave,
 }: RecipeFormModalProps) {
+  const { t } = useTranslation();
   const { recipes } = useRecipes();
   const [tagInput, setTagInput] = useState("");
 
@@ -186,10 +188,12 @@ export default function RecipeFormModal({
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {recipe ? "Edit Recipe" : "Create New Recipe"}
+            {recipe ? t("forms.editRecipe") : t("forms.createRecipe")}
           </DialogTitle>
           <DialogDescription>
-            {recipe ? "Edit an existing recipe" : "Create a new recipe"}
+            {recipe
+              ? t("forms.editRecipeDescription")
+              : t("forms.createRecipeDescription")}
           </DialogDescription>
         </DialogHeader>
 
@@ -200,12 +204,14 @@ export default function RecipeFormModal({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="title">Recipe Title</FormLabel>
+                  <FormLabel htmlFor="title">
+                    {t("forms.recipeTitle")}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       id="title"
                       type="text"
-                      placeholder="Enter recipe title"
+                      placeholder={t("forms.titlePlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -220,11 +226,13 @@ export default function RecipeFormModal({
                 name="prepTime"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="prepTime">Prep Time</FormLabel>
+                    <FormLabel htmlFor="prepTime">
+                      {t("forms.prepTime")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         id="prepTime"
-                        placeholder="e.g. 15 minutes"
+                        placeholder={t("forms.prepTimePlaceholder")}
                         {...field}
                       />
                     </FormControl>
@@ -238,11 +246,13 @@ export default function RecipeFormModal({
                 name="cookTime"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="cookTime">Cook Time</FormLabel>
+                    <FormLabel htmlFor="cookTime">
+                      {t("forms.cookTime")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         id="cookTime"
-                        placeholder="e.g. 30 minutes"
+                        placeholder={t("forms.cookTimePlaceholder")}
                         {...field}
                       />
                     </FormControl>
@@ -256,13 +266,15 @@ export default function RecipeFormModal({
                 name="servings"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="servings">Servings</FormLabel>
+                    <FormLabel htmlFor="servings">
+                      {t("forms.servings")}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type="number"
                         id="servings"
                         min="1"
-                        placeholder="e.g. 4"
+                        placeholder={t("forms.servingsPlaceholder")}
                         {...field}
                         onChange={(e) =>
                           field.onChange(Number.parseInt(e.target.value))
@@ -280,12 +292,12 @@ export default function RecipeFormModal({
               name="image"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="image">Image URL</FormLabel>
+                  <FormLabel htmlFor="image">{t("forms.imageUrl")}</FormLabel>
                   <FormControl>
                     <Input
                       id="image"
                       type="text"
-                      placeholder="Enter image URL"
+                      placeholder={t("forms.imageUrlPlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -299,7 +311,7 @@ export default function RecipeFormModal({
               name="tags"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="tags">Tags</FormLabel>
+                  <FormLabel htmlFor="tags">{t("forms.tags")}</FormLabel>
                   <div className="flex flex-wrap gap-2 mb-2">
                     {field.value.map((tag) => (
                       <div
@@ -324,7 +336,7 @@ export default function RecipeFormModal({
                       id="tags"
                       value={tagInput}
                       onChange={(e) => setTagInput(e.target.value)}
-                      placeholder="Add a tag (e.g. Vegetarian, Dessert)"
+                      placeholder={t("forms.tagsPlaceholder")}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           e.preventDefault();
@@ -334,10 +346,11 @@ export default function RecipeFormModal({
                     />
                     <Button
                       type="button"
+                      size="icon"
                       onClick={handleAddTag}
                       variant="outline"
                     >
-                      Add
+                      <Plus />
                     </Button>
                   </div>
                 </FormItem>
@@ -345,7 +358,9 @@ export default function RecipeFormModal({
             />
 
             <div>
-              <FormLabel htmlFor="ingredient-0">Ingredients</FormLabel>
+              <FormLabel htmlFor="ingredient-0">
+                {t("forms.ingredients")}
+              </FormLabel>
               <div className="space-y-2 mt-2">
                 {form.watch("ingredients").map((ingredient, index) => (
                   <div key={index} className="flex gap-2">
@@ -359,7 +374,9 @@ export default function RecipeFormModal({
                         newIngredients[index] = e.target.value;
                         form.setValue("ingredients", newIngredients);
                       }}
-                      placeholder={`Ingredient ${index + 1}`}
+                      placeholder={t("forms.ingredientPlaceholder", {
+                        index: index + 1,
+                      })}
                       ref={
                         index === form.watch("ingredients").length - 1
                           ? newIngredientRef
@@ -390,13 +407,15 @@ export default function RecipeFormModal({
                   className="mt-2"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Ingredient
+                  {t("forms.addIngredient")}
                 </Button>
               </div>
             </div>
 
             <div>
-              <FormLabel htmlFor="instruction-0">Instructions</FormLabel>
+              <FormLabel htmlFor="instruction-0">
+                {t("forms.instructions")}
+              </FormLabel>
               <div className="space-y-2 mt-2">
                 {form.watch("instructions").map((instruction, index) => (
                   <div key={index} className="flex gap-2">
@@ -410,7 +429,9 @@ export default function RecipeFormModal({
                         newInstructions[index] = e.target.value;
                         form.setValue("instructions", newInstructions);
                       }}
-                      placeholder={`Step ${index + 1}`}
+                      placeholder={t("forms.stepPlaceholder", {
+                        index: index + 1,
+                      })}
                       className="min-h-[80px]"
                       ref={
                         index === form.watch("instructions").length - 1
@@ -442,7 +463,7 @@ export default function RecipeFormModal({
                   className="mt-2"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Step
+                  {t("forms.addStep")}
                 </Button>
               </div>
             </div>
@@ -452,10 +473,10 @@ export default function RecipeFormModal({
                 type="submit"
                 className="bg-orange-600 hover:bg-orange-700"
               >
-                Save Recipe
+                {t("forms.saveRecipe")}
               </Button>
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                {t("common.cancel")}
               </Button>
             </DialogFooter>
           </form>

@@ -9,9 +9,9 @@
 - [ ] - Add settings page
   - [x] Add route and component (08.04.2025)
   - [x] Add theming(system, dark mode, light mode) (09.04.2025)
-  - [ ] Add multiple translations
+  - [x] Add multiple translations
   - [ ] Add ability to import all recipes from a file
-  - [ ] Add ability to export all recipes to a file
+  - [x] Add ability to export all recipes to a file
   - [ ] Add ability to reset all data
   - [ ] Add immediate refresh
   - [ ] Add ability to turn off confirmation dialogs

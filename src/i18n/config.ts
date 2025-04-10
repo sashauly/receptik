@@ -1,11 +1,11 @@
 import i18n from "i18next";
 import HttpApi from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
+import intervalPlural from "i18next-intervalplural-postprocessor";
 import { initReactI18next } from "react-i18next";
 import translationEN from "../../public/locales/en/translation.json";
 import translationRU from "../../public/locales/ru/translation.json";
 // import resources from 'virtual:i18next-loader'
-
 
 const resources = {
   en: {
@@ -26,6 +26,7 @@ const localStorageKey = "receptik-i18nextLng";
 i18n
   .use(HttpApi)
   .use(LanguageDetector)
+  .use(intervalPlural)
   .use(initReactI18next)
   .init({
     resources,

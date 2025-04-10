@@ -60,7 +60,7 @@ export default function ShareRecipeDialog({
 
           <DrawerFooter className="pt-2">
             <DrawerClose asChild>
-              <Button variant="default">Close</Button>
+              <Button variant="default">{t("common.close")}</Button>
             </DrawerClose>
           </DrawerFooter>
         </DrawerContent>

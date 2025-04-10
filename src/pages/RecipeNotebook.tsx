@@ -9,9 +9,9 @@ import { useRecipes } from "@/hooks/useRecipes";
 import { useUrlParams } from "@/hooks/useUrlParams";
 import type { Recipe } from "@/types/recipe";
 import { getUniqueSlug } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export default function RecipeNotebook() {
-  // Custom hooks for recipes and URL parameters
   const {
     recipes,
     isLoading,
@@ -24,6 +24,7 @@ export default function RecipeNotebook() {
   } = useRecipes();
 
   const { getParam, updateParams } = useUrlParams();
+  const { t } = useTranslation();
 
   // Get values from URL query parameters
   const querySearch = getParam("q") || "";
@@ -32,17 +33,14 @@ export default function RecipeNotebook() {
   const editRecipeId = getParam("edit");
   const deleteRecipeId = getParam("delete");
 
-  // Local state
   const [searchQuery, setSearchQuery] = useState(querySearch);
   const [activeTag, setActiveTag] = useState(queryTag);
 
-  // Update search and filter when URL parameters change
   useEffect(() => {
     setSearchQuery(querySearch);
     setActiveTag(queryTag);
   }, [querySearch, queryTag]);
 
-  // Event handlers
   const handleCloseModals = () => {
     updateParams({
       create: null,
@@ -63,6 +61,7 @@ export default function RecipeNotebook() {
   const confirmDeleteRecipe = async () => {
     if (deleteRecipeId) {
       await deleteRecipe(deleteRecipeId);
+      // TODO add toast
       handleCloseModals();
     }
   };
@@ -118,7 +117,7 @@ export default function RecipeNotebook() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64">
-        Loading recipes...
+        {t("home.loadingRecipes")}
       </div>
     );
   }

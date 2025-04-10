@@ -14,7 +14,7 @@ export default function ThemeSelect() {
   const { t } = useTranslation("translation", { keyPrefix: "theme" });
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center justify-between space-x-2">
       <Label htmlFor="theme-options">{t("label")}</Label>
       <Select
         defaultValue={theme}
@@ -24,6 +24,7 @@ export default function ThemeSelect() {
           <SelectValue placeholder={t("label")} />
         </SelectTrigger>
         <SelectContent id="theme-options">
+          {/* TODO activeTheme correlate with currentTheme, this is not correct */}
           <SelectItem value="system">{`${t("system")} (${t(`${activeTheme}`)})`}</SelectItem>{" "}
           <SelectItem value="light">{t("light")}</SelectItem>
           <SelectItem value="dark">{t("dark")}</SelectItem>

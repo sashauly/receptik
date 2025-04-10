@@ -2,6 +2,7 @@ import type React from "react";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SearchBar from "@/components/SearchBar";
+import { useTranslation } from "react-i18next";
 
 interface RecipeFiltersProps {
   searchQuery: string;
@@ -20,19 +21,21 @@ export default function RecipeFilters({
   onClearSearch,
   onTagChange,
 }: RecipeFiltersProps) {
+  const { t } = useTranslation();
+  
   return (
     <div className="space-y-4">
       <SearchBar
         value={searchQuery}
         onChange={onSearchChange}
         onClear={onClearSearch}
-        placeholder="Search recipes by name or tag..."
+        placeholder={t("home.searchPlaceholder")}
       />
 
       <div className="overflow-x-auto pb-2">
         <Tabs value={activeTag} onValueChange={onTagChange} className="w-full">
           <TabsList className="min-w-full sm:min-w-0">
-            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="all">{t("home.allRecipes")}</TabsTrigger>
             {tags &&
               tags.map((tag) => (
                 <TabsTrigger key={tag} value={tag}>

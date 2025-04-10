@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export default function Header() {
-  const { t } = useTranslation("translation", { keyPrefix: "common" });
+  const { t } = useTranslation();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
@@ -14,33 +14,35 @@ export default function Header() {
         <Link
           to="/"
           className="flex items-center space-x-2"
-          title="Go to homepage"
+          title={t("common.toHomePage")}
         >
           <Book className="h-6 w-6 text-orange-600" />
-          <h1 className="font-bold text-xl tracking-tight">{t("appName")}</h1>
+          <h1 className="font-bold text-xl tracking-tight">
+            {t("common.appName")}
+          </h1>
         </Link>
 
         {isHomePage ? (
           <div className="flex items-center space-x-2">
             <Button
               asChild
-              className="bg-orange-600 hover:bg-orange-700 dark:text-white"
+              className="flex items-center bg-orange-600 hover:bg-orange-700 dark:text-white"
             >
-              <Link to="/?create=true" title="Add a new recipe">
-                <PlusCircle className="mr-2 h-4 w-4" />
-                {t("addRecipe")}
+              <Link to="/?create=true" title={t("common.addRecipe")}>
+                <PlusCircle className="h-4 w-4" />
+                {t("common.addRecipe")}
               </Link>
             </Button>
             <Button asChild variant="outline" size="icon">
-              <Link to="/settings" title="Settings">
+              <Link to="/settings" title={t("settings.title")}>
                 <Settings />
               </Link>
             </Button>
           </div>
         ) : (
           <Button asChild variant="outline">
-            <Link to="/" title="Back to recipes">
-              {t("backToRecipes")}
+            <Link to="/" title={t("common.backToRecipes")}>
+              {t("common.backToRecipes")}
             </Link>
           </Button>
         )}

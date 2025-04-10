@@ -7,8 +7,10 @@ import type { Recipe } from "@/types/recipe";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUrlParams } from "@/hooks/useUrlParams";
 import { useRecipes } from "@/hooks/useRecipes";
+import { useTranslation } from "react-i18next";
 
 export default function RecipeDetailPage() {
+  const { t } = useTranslation();
   const { slug } = useParams();
 
   const { isLoading, updateRecipe, deleteRecipe, getRecipeBySlug } =
@@ -65,7 +67,9 @@ export default function RecipeDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-6 px-4 md:px-6">Loading...</div>
+      <div className="container mx-auto py-6 px-4 md:px-6">
+        {t("common.loading")}
+      </div>
     );
   }
 
@@ -73,10 +77,9 @@ export default function RecipeDetailPage() {
     return (
       <div className="container mx-auto py-6 px-4 md:px-6">
         <div className="text-center py-10">
-          <h3 className="text-lg font-medium">Recipe not found</h3>
+          <h3 className="text-lg font-medium">{t("recipe.recipeNotFound")}</h3>
           <p className="text-muted-foreground">
-            The recipe you&apos;re looking for doesn&apos;t exist or has been
-            removed.
+            {t("recipe.recipeNotFoundDesc")}
           </p>
         </div>
       </div>

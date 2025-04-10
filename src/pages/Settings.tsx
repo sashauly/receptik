@@ -45,7 +45,7 @@ export default function Settings() {
             variant="outline"
             className="w-full"
           >
-            <Download className="h-4 w-4 mr-2" />
+            <Download className="h-4 w-4" />
             {t("share.exportAllAsJson")}
           </Button>
         </div>

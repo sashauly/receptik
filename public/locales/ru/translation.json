@@ -15,14 +15,20 @@
         "today": "Сегодня",
         "allRightsReserved": "Все права защищены",
         "backToRecipes": "Назад к рецептам",
-        "addRecipe": "Добавить рецепт"
+        "addRecipe": "Добавить рецепт",
+        "toHomePage": "На главную",
+        "noRecipesFound": "Рецептов не найдено",
+        "noRecipesFoundDesc": "Нет рецептов, соответствующих {{searchQuery}}. Попробуйте настроить поиск или фильтры.",
+        "pageNotFound": "Страница не найдена",
+        "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена."
     },
     "home": {
         "title": "Мои рецепты",
+        "loadingRecipes": "Загружаем рецепты...",
         "subtitle": "Просматривайте и управляйте своими любимыми рецептами",
         "noRecipes": "Пока нет рецептов",
         "addYourFirst": "Добавьте свой первый рецепт, чтобы начать",
-        "searchPlaceholder": "Поиск рецептов по названию или тегу...",
+        "searchPlaceholder": "Поиск по названию или тегу...",
         "allRecipes": "Все"
     },
     "recipe": {
@@ -32,6 +38,7 @@
         "prepTime": "Подготовка",
         "cookTime": "Приготовление",
         "servings": "Порции",
+        "servings_interval": "(1)[порция];(2-4)[порции];(5-inf)[порций];",
         "tags": "Теги",
         "recipeNotFound": "Рецепт не найден",
         "recipeNotFoundDesc": "Рецепт, который вы ищете, не существует или был удален."
@@ -43,6 +50,8 @@
     "forms": {
         "createRecipe": "Создать новый рецепт",
         "editRecipe": "Редактировать рецепт",
+        "createRecipeDescription": "Создать новый рецепт",
+        "editRecipeDescription": "Редактировать существующий рецепт",
         "recipeTitle": "Название рецепта",
         "titlePlaceholder": "Введите название рецепта",
         "prepTime": "Время подготовки",
@@ -56,11 +65,12 @@
         "tags": "Теги",
         "tagsPlaceholder": "Добавьте тег (например, Вегетарианский, Десерт)",
         "ingredients": "Ингредиенты",
-        "ingredientPlaceholder": "Ингредиент",
+        "ingredientPlaceholder": "Ингредиент {{index}}",
         "addIngredient": "Добавить ингредиент",
         "instructions": "Инструкции",
-        "stepPlaceholder": "Шаг",
-        "addStep": "Добавить шаг"
+        "stepPlaceholder": "Шаг {{index}}",
+        "addStep": "Добавить шаг",
+        "saveRecipe": "Сохранить рецепт"
     },
     "modals": {
         "deleteRecipe": "Удалить рецепт",

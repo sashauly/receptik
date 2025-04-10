@@ -13,7 +13,7 @@ export default function LocaleSwitcher() {
   const { i18n, t } = useTranslation();
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center justify-between space-x-2">
       <Label htmlFor="locale-options">{t("language.label")}</Label>
 
       <Select

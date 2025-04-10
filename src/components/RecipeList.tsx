@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import type { Recipe } from "@/types/recipe";
 import NoResults from "@/components/NoResults";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface RecipeListProps {
   recipes: Recipe[];
@@ -21,15 +22,15 @@ export default function RecipeList({
   onEditRecipe,
   onDeleteRecipe,
 }: RecipeListProps) {
+  const { t } = useTranslation();
+
   if (!recipes || recipes.length === 0) {
     return searchQuery ? (
       <NoResults searchQuery={searchQuery} onClear={onClearSearch} />
     ) : (
       <div className="text-center py-10">
-        <h3 className="text-lg font-medium">No recipes yet</h3>
-        <p className="text-muted-foreground">
-          Add your first recipe to get started.
-        </p>
+        <h3 className="text-lg font-medium">{t("home.noRecipes")}</h3>
+        <p className="text-muted-foreground">{t("home.addYourFirst")}</p>
       </div>
     );
   }
@@ -79,27 +80,32 @@ export default function RecipeList({
                 </div>
                 <div className="flex items-center">
                   <Users className="mr-1 h-4 w-4" />
-                  <span>Serves {recipe.servings}</span>
+                  <span>
+                    {recipe.servings}{" "}
+                    {t("recipe.servings_interval", {
+                      postProcess: "interval",
+                      count: Number(recipe.servings),
+                    })}
+                  </span>
                 </div>
               </div>
             </div>
           </CardContent>
-          <CardFooter className="p-4 pt-0 flex justify-between">
+          {/* TODO make small dropdown for both icons */}
+          <CardFooter className="flex gap-2 justify-end">
             <Button
-              variant="ghost"
-              size="sm"
+              variant="outline"
+              size="icon"
               onClick={() => onEditRecipe(recipe)}
             >
-              <Edit className="h-4 w-4 mr-2" />
-              Edit
+              <Edit className="h-4 w-4" />
             </Button>
             <Button
-              variant="ghost"
-              size="sm"
+              variant="outline"
+              size="icon"
               onClick={() => onDeleteRecipe(recipe.id)}
             >
-              <Trash2 className="h-4 w-4 mr-2" />
-              Delete
+              <Trash2 className="h-4 w-4" />
             </Button>
           </CardFooter>
         </Card>
