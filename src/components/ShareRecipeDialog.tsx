@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import type { Recipe } from "@/types/recipe";
 import html2canvas from "html2canvas-pro";
+import DOMPurify from "dompurify";
 
 interface ShareRecipeDialogProps {
   recipe: Recipe;
@@ -200,7 +201,7 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
     tempDiv.style.backgroundColor = "white";
     tempDiv.style.position = "absolute";
     tempDiv.style.left = "-9999px";
-    tempDiv.innerHTML = `
+    const htmlContent = `
       <div style="font-family: Arial, sans-serif;">
         <h1 style="color: #ea580c; margin-bottom: 10px;">${recipe.title}</h1>
         <div style="display: flex; margin-bottom: 10px;">
@@ -229,6 +230,7 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
         </div>
       </div>
     `;
+    tempDiv.innerHTML = DOMPurify.sanitize(htmlContent);
 
     document.body.appendChild(tempDiv);
 
