@@ -1,6 +1,6 @@
 {
     "common": {
-        "appName": "Recipe Notebook",
+        "appName": "Receptik",
         "loading": "Loading...",
         "save": "Save",
         "cancel": "Cancel",
