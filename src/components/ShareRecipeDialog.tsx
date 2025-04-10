@@ -25,6 +25,7 @@ import {
 import type { Recipe } from "@/types/recipe";
 import html2canvas from "html2canvas-pro";
 import DOMPurify from "dompurify";
+import { useRecipes } from "@/hooks/useRecipes";
 
 interface ShareRecipeDialogProps {
   recipe: Recipe;
@@ -37,6 +38,7 @@ export default function ShareRecipeDialog({
   isOpen,
   onClose,
 }: ShareRecipeDialogProps) {
+  const { recipes } = useRecipes();
   // const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState("export");
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // Error display
@@ -110,25 +112,13 @@ export default function ShareRecipeDialog({
 
   const exportAllRecipesAsJson = () => {
     try {
-      const savedRecipesString = localStorage.getItem("recipes");
-      if (!savedRecipesString) {
+      if (!recipes || recipes.length === 0) {
         setErrorMessage("No saved recipes found.");
         return;
       }
 
-      let savedRecipes;
-      try {
-        savedRecipes = JSON.parse(savedRecipesString);
-      } catch (parseError: any) {
-        console.error("Error parsing recipes from localStorage:", parseError);
-        setErrorMessage(
-          "Error reading saved recipes.  The data may be corrupted."
-        );
-        return;
-      }
-
       //Sanitize each recipe (example sanitization, more robust solution is preferable)
-      const sanitizedRecipes = savedRecipes.map((recipe: any) => ({
+      const sanitizedRecipes = recipes.map((recipe: any) => ({
         title: recipe.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
         ingredients: recipe.ingredients.map((i: string) =>
           i.replace(/</g, "&lt;").replace(/>/g, "&gt;")

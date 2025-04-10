@@ -15,11 +15,9 @@ export default function Footer() {
       <div className="container mx-auto py-6 px-4 md:px-6">
         <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p>
-            `© ${currentYear} ${t("appName")}. ${t("allRightsReserved")}`
+            {`© ${currentYear} ${t("appName")}. ${t("allRightsReserved")}`}
           </p>
-          <p>
-            `${t("today")} {currentDate}`
-          </p>
+          <p>{`${t("today")} ${currentDate}`}</p>
         </div>
       </div>
     </footer>

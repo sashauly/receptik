@@ -21,6 +21,8 @@ export const supportedLngs = {
   ru: "Russian",
 };
 
+const localStorageKey = "receptik-i18nextLng";
+
 i18n
   .use(HttpApi)
   .use(LanguageDetector)
@@ -28,11 +30,18 @@ i18n
   .init({
     resources,
     fallbackLng: "en",
-    // TODO add env
     debug: import.meta.env.DEV ?? true,
     interpolation: {
       escapeValue: false,
     },
+    detection: {
+      order: ["localStorage", "navigator"],
+      lookupLocalStorage: localStorageKey,
+    },
   });
+
+i18n.on("languageChanged", (lng) => {
+  localStorage.setItem(localStorageKey, lng);
+});
 
 export default i18n;

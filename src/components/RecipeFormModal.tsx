@@ -28,6 +28,7 @@ import {
   recipeFormSchema,
   type RecipeFormValues,
 } from "@/lib/validations/recipe";
+import { useRecipes } from "@/hooks/useRecipes";
 
 interface RecipeFormModalProps {
   recipe: Recipe | null;
@@ -42,6 +43,7 @@ export default function RecipeFormModal({
   onClose,
   onSave,
 }: RecipeFormModalProps) {
+  const { recipes } = useRecipes();
   const [tagInput, setTagInput] = useState("");
 
   // Refs for auto-focusing
@@ -58,9 +60,7 @@ export default function RecipeFormModal({
       prepTime: recipe?.prepTime || "",
       cookTime: recipe?.cookTime || "",
       servings: recipe?.servings || 1,
-      image:
-        recipe?.image ||
-        "/receptik/placeholder.svg?height=300&width=400",
+      image: recipe?.image || "/receptik/placeholder.svg?height=300&width=400",
       tags: recipe?.tags || [],
     },
   });
@@ -76,8 +76,7 @@ export default function RecipeFormModal({
         cookTime: recipe?.cookTime || "",
         servings: recipe?.servings || 1,
         image:
-          recipe?.image ||
-          "/receptik/placeholder.svg?height=300&width=400",
+          recipe?.image || "/receptik/placeholder.svg?height=300&width=400",
         tags: recipe?.tags || [],
       });
     }
@@ -150,16 +149,10 @@ export default function RecipeFormModal({
       (i) => i.trim() !== ""
     );
 
-    // Get all existing recipes to check for slug uniqueness
-    const savedRecipes = localStorage.getItem("recipes");
-    const existingRecipes: Recipe[] = savedRecipes
-      ? JSON.parse(savedRecipes)
-      : [];
-
     // If we're editing, filter out the current recipe from the list
     const otherRecipes = recipe
-      ? existingRecipes.filter((r) => r.id !== recipe.id)
-      : existingRecipes;
+      ? recipes.filter((r) => r.id !== recipe.id)
+      : recipes;
 
     // Get existing slugs
     const existingSlugs = otherRecipes.map((r) => r.slug);
