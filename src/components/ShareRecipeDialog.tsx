@@ -146,7 +146,7 @@ export default function ShareRecipeDialog({
       // Create a download link and trigger it
       const a = document.createElement("a");
       a.href = url;
-      a.download = "recipe-notebook.json";
+      a.download = "receptik.json";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

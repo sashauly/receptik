@@ -1,3 +1,4 @@
+// TODO move logging only on DEV level
 import { Recipe } from "@/types/recipe";
 import { openDB, DBSchema, IDBPDatabase } from "idb";
 
@@ -8,7 +9,7 @@ interface RecipeDB extends DBSchema {
   };
 }
 
-const DB_NAME = "recipe-db";
+const DB_NAME = "receptik-db";
 const OBJECT_STORE_NAME = "recipes";
 
 let db: IDBPDatabase<RecipeDB> | null = null;

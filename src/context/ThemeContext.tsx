@@ -42,7 +42,7 @@ const applyTheme = (theme: "dark" | "light") => {
 export function ThemeProvider({
   children,
   defaultTheme = "system",
-  storageKey = "recipe-notebook-theme",
+  storageKey = "receptik-theme",
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
