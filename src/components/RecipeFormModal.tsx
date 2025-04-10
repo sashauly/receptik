@@ -60,7 +60,7 @@ export default function RecipeFormModal({
       servings: recipe?.servings || 1,
       image:
         recipe?.image ||
-        "/recipe-management-pwa/placeholder.svg?height=300&width=400",
+        "/receptik/placeholder.svg?height=300&width=400",
       tags: recipe?.tags || [],
     },
   });
@@ -77,7 +77,7 @@ export default function RecipeFormModal({
         servings: recipe?.servings || 1,
         image:
           recipe?.image ||
-          "/recipe-management-pwa/placeholder.svg?height=300&width=400",
+          "/receptik/placeholder.svg?height=300&width=400",
         tags: recipe?.tags || [],
       });
     }

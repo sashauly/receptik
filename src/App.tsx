@@ -8,7 +8,7 @@ import Settings from "./pages/Settings";
 
 function App() {
   return (
-    <Router basename="/recipe-management-pwa/">
+    <Router basename="/receptik/">
       <Layout>
         <Routes>
           <Route path="/" element={<RecipeNotebook />} />

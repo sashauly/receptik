@@ -6,7 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import i18nextLoader from "vite-plugin-i18next-loader";
 
 export default defineConfig({
-  base: "/recipe-management-pwa/",
+  base: "/receptik/",
   plugins: [
     react(),
     tailwindcss(),

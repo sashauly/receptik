@@ -1,4 +1,4 @@
-# recipe-management-pwa
+# receptik
 
 ## Useful links
 
