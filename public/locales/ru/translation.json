@@ -66,18 +66,20 @@
         "deleteRecipe": "Удалить рецепт",
         "deleteRecipeConfirm": "Вы уверены, что хотите удалить этот рецепт? Это действие нельзя отменить.",
         "shareRecipe": "Поделиться рецептом",
-        "shareRecipeDesc": "Поделитесь с друзьями и семьей"
+        "shareRecipeDesc": "Поделитесь {{recipeTitle}} с друзьями и семьей"
     },
     "share": {
         "link": "Ссылка",
         "social": "Соцсети",
         "export": "Экспорт",
+        "text": "Текст",
+        "image": "Изображение",
         "email": "Email",
         "twitter": "Twitter",
         "facebook": "Facebook",
         "exportThisRecipe": "Экспортировать этот рецепт",
         "exportAllRecipes": "Экспортировать все рецепты",
-        "exportAllAsJson": "Экспортировать все как JSON"
+        "exportAllAsJson": "Экспортировать всё как JSON"
     },
     "theme": {
         "label": "Тема",

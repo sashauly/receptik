@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 
 export default function Footer() {
-  const { t } = useTranslation("translation", { keyPrefix: "common" });
+  const { i18n, t } = useTranslation("translation", { keyPrefix: "common" });
 
   const currentYear = new Date().getFullYear();
-  const currentDate = new Date().toLocaleDateString("en-US", {
+  const currentDate = new Date().toLocaleDateString(i18n.resolvedLanguage, {
     year: "numeric",
     month: "long",
     day: "numeric",

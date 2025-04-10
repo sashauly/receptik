@@ -66,12 +66,14 @@
         "deleteRecipe": "Delete Recipe",
         "deleteRecipeConfirm": "Are you sure you want to delete this recipe? This action cannot be undone.",
         "shareRecipe": "Share Recipe",
-        "shareRecipeDesc": "Share with friends and family"
+        "shareRecipeDesc": "Share {{recipeTitle}} with friends and family"
     },
     "share": {
         "link": "Link",
         "social": "Social",
         "export": "Export",
+        "text": "Text",
+        "image": "Image",
         "email": "Email",
         "twitter": "Twitter",
         "facebook": "Facebook",
