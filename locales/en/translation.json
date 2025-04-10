@@ -15,14 +15,20 @@
         "today": "Today is",
         "allRightsReserved": "All rights reserved",
         "backToRecipes": "Back to Recipes",
-        "addRecipe": "Add Recipe"
+        "addRecipe": "Add Recipe",
+        "toHomePage": "Go to homepage",
+        "noRecipesFound": "No recipes found",
+        "noRecipesFoundDesc": "No recipes match {{searchQuery}}. Try adjusting your search or filters.",
+        "pageNotFound": "Page not found",
+        "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed."
     },
     "home": {
         "title": "My Recipes",
+        "loadingRecipes": "Loading Recipes...",
         "subtitle": "Browse and manage your favorite recipes",
         "noRecipes": "No recipes yet",
         "addYourFirst": "Add your first recipe to get started",
-        "searchPlaceholder": "Search recipes by name or tag...",
+        "searchPlaceholder": "Search by name or tag...",
         "allRecipes": "All"
     },
     "recipe": {
@@ -32,6 +38,7 @@
         "prepTime": "Prep",
         "cookTime": "Cook",
         "servings": "Servings",
+        "servings_interval": "(1)[serving];(2-inf)[servings];",
         "tags": "Tags",
         "recipeNotFound": "Recipe not found",
         "recipeNotFoundDesc": "The recipe you're looking for doesn't exist or has been removed."
@@ -43,6 +50,8 @@
     "forms": {
         "createRecipe": "Create New Recipe",
         "editRecipe": "Edit Recipe",
+        "createRecipeDescription": "Create a new recipe",
+        "editRecipeDescription": "Edit an existing recipe",
         "recipeTitle": "Recipe Title",
         "titlePlaceholder": "Enter recipe title",
         "prepTime": "Prep Time",
@@ -56,22 +65,25 @@
         "tags": "Tags",
         "tagsPlaceholder": "Add a tag (e.g. Vegetarian, Dessert)",
         "ingredients": "Ingredients",
-        "ingredientPlaceholder": "Ingredient",
+        "ingredientPlaceholder": "Ingredient {{index}}",
         "addIngredient": "Add Ingredient",
         "instructions": "Instructions",
-        "stepPlaceholder": "Step",
-        "addStep": "Add Step"
+        "stepPlaceholder": "Step {{index}}",
+        "addStep": "Add Step",
+        "saveRecipe": "Save Recipe"
     },
     "modals": {
         "deleteRecipe": "Delete Recipe",
-        "deleteRecipeConfirm": "Are you sure you want to delete this recipe? This action cannot be undone.",
+        "deleteRecipeConfirm": "Are you sure you want to delete {{recipeTitle}}? This action cannot be undone.",
         "shareRecipe": "Share Recipe",
-        "shareRecipeDesc": "Share with friends and family"
+        "shareRecipeDesc": "Share {{recipeTitle}} with friends and family"
     },
     "share": {
         "link": "Link",
         "social": "Social",
         "export": "Export",
+        "text": "Text",
+        "image": "Image",
         "email": "Email",
         "twitter": "Twitter",
         "facebook": "Facebook",
