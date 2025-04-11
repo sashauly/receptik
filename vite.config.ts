@@ -3,14 +3,12 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
-import i18nextLoader from "vite-plugin-i18next-loader";
 
 export default defineConfig({
   base: "/receptik/",
   plugins: [
     react(),
     tailwindcss(),
-    i18nextLoader({ paths: ["public/locales"] }),
     VitePWA({
       registerType: "autoUpdate",
       workbox: {
@@ -25,8 +23,8 @@ export default defineConfig({
         "man-cook.svg",
       ],
       manifest: {
-        name: "Recipe Notebook",
-        short_name: "Recipe Notebook",
+        name: "Receptik",
+        short_name: "Receptik",
         description: "A PWA for managing recipes",
         icons: [
           {
@@ -64,8 +62,5 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-  },
-  optimizeDeps: {
-    exclude: ["lucide-react"],
   },
 });

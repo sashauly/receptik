@@ -1,0 +1,112 @@
+interface Resources {
+  "translation": {
+    "common": {
+      "appName": "Receptik",
+      "loading": "Loading...",
+      "save": "Save",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "edit": "Edit",
+      "share": "Share",
+      "back": "Back",
+      "add": "Add",
+      "search": "Search",
+      "clear": "Clear",
+      "close": "Close",
+      "notFound": "Not found",
+      "today": "Today is",
+      "allRightsReserved": "All rights reserved",
+      "backToRecipes": "Back to Recipes",
+      "addRecipe": "Add Recipe",
+      "toHomePage": "Go to homepage",
+      "noRecipesFound": "No recipes found",
+      "noRecipesFoundDesc": "No recipes match {{searchQuery}}. Try adjusting your search or filters.",
+      "pageNotFound": "Page not found",
+      "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed."
+    },
+    "home": {
+      "title": "My Recipes",
+      "loadingRecipes": "Loading Recipes...",
+      "subtitle": "Browse and manage your favorite recipes",
+      "noRecipes": "No recipes yet",
+      "addYourFirst": "Add your first recipe to get started",
+      "searchPlaceholder": "Search by name or tag...",
+      "allRecipes": "All"
+    },
+    "recipe": {
+      "title": "Recipe Details",
+      "ingredients": "Ingredients",
+      "instructions": "Instructions",
+      "prepTime": "Prep",
+      "cookTime": "Cook",
+      "servings": "Servings",
+      "servings_interval": "(1)[serving];(2-inf)[servings];",
+      "tags": "Tags",
+      "recipeNotFound": "Recipe not found",
+      "recipeNotFoundDesc": "The recipe you're looking for doesn't exist or has been removed."
+    },
+    "settings": {
+      "title": "Settings",
+      "stayTuned": "Coming soon! Stay tuned for updates."
+    },
+    "forms": {
+      "createRecipe": "Create New Recipe",
+      "editRecipe": "Edit Recipe",
+      "createRecipeDescription": "Create a new recipe",
+      "editRecipeDescription": "Edit an existing recipe",
+      "recipeTitle": "Recipe Title",
+      "titlePlaceholder": "Enter recipe title",
+      "prepTime": "Prep Time",
+      "prepTimePlaceholder": "e.g. 15 minutes",
+      "cookTime": "Cook Time",
+      "cookTimePlaceholder": "e.g. 30 minutes",
+      "servings": "Servings",
+      "servingsPlaceholder": "e.g. 4",
+      "imageUrl": "Image URL",
+      "imageUrlPlaceholder": "Enter image URL",
+      "tags": "Tags",
+      "tagsPlaceholder": "Add a tag (e.g. Vegetarian, Dessert)",
+      "ingredients": "Ingredients",
+      "ingredientPlaceholder": "Ingredient {{index}}",
+      "addIngredient": "Add Ingredient",
+      "instructions": "Instructions",
+      "stepPlaceholder": "Step {{index}}",
+      "addStep": "Add Step",
+      "saveRecipe": "Save Recipe"
+    },
+    "modals": {
+      "deleteRecipe": "Delete Recipe",
+      "deleteRecipeConfirm": "Are you sure you want to delete {{recipeTitle}}? This action cannot be undone.",
+      "shareRecipe": "Share Recipe",
+      "shareRecipeDesc": "Share {{recipeTitle}} with friends and family"
+    },
+    "share": {
+      "link": "Link",
+      "social": "Social",
+      "export": "Export",
+      "text": "Text",
+      "image": "Image",
+      "email": "Email",
+      "twitter": "Twitter",
+      "facebook": "Facebook",
+      "exportThisRecipe": "Export this recipe",
+      "exportAllRecipes": "Export all recipes",
+      "exportAllAsJson": "Export All as JSON"
+    },
+    "theme": {
+      "label": "Theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "label": "Language",
+      "supported": {
+        "en": "English",
+        "ru": "Russian"
+      }
+    }
+  }
+}
+
+export default Resources;

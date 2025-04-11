@@ -4,7 +4,6 @@ import {
   useContext,
   useEffect,
   useState,
-  useCallback,
 } from "react";
 
 export type Theme = "dark" | "light" | "system";
@@ -45,57 +44,40 @@ export function ThemeProvider({
   storageKey = "receptik-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
-  const [activeTheme, setActiveTheme] = useState<"dark" | "light">(
-    getSystemTheme()
-  );
-
-  useEffect(() => {
+  const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem(storageKey);
-    let initialTheme: Theme = defaultTheme;
     if (savedTheme && ["dark", "light", "system"].includes(savedTheme)) {
-      initialTheme = savedTheme as Theme;
+      return savedTheme as Theme;
     }
+    return defaultTheme;
+  });
 
-    setTheme(initialTheme);
-    localStorage.setItem(storageKey, initialTheme);
-  }, [storageKey, defaultTheme]);
-
-  const handleThemeChange = useCallback(() => {
-    let newActiveTheme: "dark" | "light";
-    if (theme === "system") {
-      newActiveTheme = getSystemTheme();
-    } else {
-      newActiveTheme = theme;
-    }
-    applyTheme(newActiveTheme);
-    setActiveTheme(newActiveTheme);
-  }, [theme]);
+  const activeTheme = theme === "system" ? getSystemTheme() : theme;
 
   useEffect(() => {
-    handleThemeChange();
-  }, [handleThemeChange]);
+    localStorage.setItem(storageKey, theme);
+  }, [theme, storageKey]);
+
+  useEffect(() => {
+    applyTheme(activeTheme);
+  }, [activeTheme]);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
     const handleChange = () => {
       if (theme === "system") {
-        handleThemeChange();
+        applyTheme(getSystemTheme());
       }
     };
 
     mediaQuery.addEventListener("change", handleChange);
 
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme, handleThemeChange]);
+  }, [theme]);
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme);
-      setTheme(theme);
-    },
+    setTheme: (theme: Theme) => setTheme(theme),
     activeTheme,
   };
 

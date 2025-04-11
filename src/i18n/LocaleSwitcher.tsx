@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { supportedLngs } from "./config";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -8,9 +7,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect } from "react";
 
 export default function LocaleSwitcher() {
   const { i18n, t } = useTranslation();
+
+  const supportedLngs = t("language.supported", { returnObjects: true });
+
+  useEffect(() => {
+    document.documentElement.setAttribute("lang", i18n.language);
+    document.title = t("common.appName");
+  }, [t, i18n.language]);
 
   return (
     <div className="flex items-center justify-between space-x-2">
