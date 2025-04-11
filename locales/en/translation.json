@@ -11,6 +11,7 @@
         "add": "Add",
         "search": "Search",
         "clear": "Clear",
+        "close": "Close",
         "notFound": "Not found",
         "today": "Today is",
         "allRightsReserved": "All rights reserved",
@@ -99,7 +100,9 @@
     },
     "language": {
         "label": "Language",
-        "en": "English",
-        "ru": "Russian"
+        "supported": {
+            "en": "English",
+            "ru": "Russian"
+        }
     }
 }
