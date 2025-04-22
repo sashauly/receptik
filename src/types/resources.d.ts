@@ -13,6 +13,7 @@ interface Resources {
       "search": "Search",
       "clear": "Clear",
       "close": "Close",
+      "reset": "Reset",
       "notFound": "Not found",
       "today": "Today is",
       "allRightsReserved": "All rights reserved",
@@ -47,7 +48,9 @@ interface Resources {
     },
     "settings": {
       "title": "Settings",
-      "stayTuned": "Coming soon! Stay tuned for updates."
+      "stayTuned": "Coming soon! Stay tuned for updates.",
+      "resetAllData": "Reset All Data",
+      "importRecipes": "Import Recipes"
     },
     "forms": {
       "createRecipe": "Create New Recipe",

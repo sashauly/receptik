@@ -5,7 +5,7 @@ import DOMPurify from "dompurify";
 
 export const exportAsJson = async (recipe: Recipe) => {
   try {
-    const data = JSON.stringify(recipe, null, 2);
+    const data = JSON.stringify(recipe);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
@@ -27,17 +27,17 @@ export const exportAllRecipesAsJson = (recipes: Recipe[]) => {
       throw new Error("No saved recipes found.");
     }
 
-    const sanitizedRecipes = recipes.map((recipe: any) => ({
-      title: recipe.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-      ingredients: recipe.ingredients.map((i: string) =>
-        i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      ),
-      instructions: recipe.instructions.map((i: string) =>
-        i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      ),
-    }));
+    // const sanitizedRecipes = recipes.map((recipe: any) => ({
+    //   title: recipe.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+    //   ingredients: recipe.ingredients.map((i: string) =>
+    //     i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    //   ),
+    //   instructions: recipe.instructions.map((i: string) =>
+    //     i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    //   ),
+    // }));
 
-    const data = JSON.stringify(sanitizedRecipes, null, 2);
+    const data = JSON.stringify(recipes);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 

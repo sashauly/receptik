@@ -9,49 +9,41 @@ export function useRecipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadRecipes = async () => {
-      try {
-        const loadedRecipes = await idbStorage.getRecipes();
+  const loadRecipes = useCallback(async () => {
+    try {
+      const loadedRecipes = await idbStorage.getRecipes();
 
-        // TODO remove in prod
-        // if (loadedRecipes.length === 0) {
-        //   loadedRecipes = sampleRecipes;
-        //   await Promise.all(
-        //     sampleRecipes.map((recipe) => idbStorage.saveRecipe(recipe))
-        //   );
-        // }
+      const needsSlugs = loadedRecipes.some((recipe) => !recipe.slug);
 
-        const needsSlugs = loadedRecipes.some((recipe) => !recipe.slug);
+      if (needsSlugs) {
+        const updatedRecipes = loadedRecipes.map((recipe) => {
+          if (!recipe.slug) {
+            return {
+              ...recipe,
+              slug: generateSlug(recipe.title),
+            };
+          }
+          return recipe;
+        });
 
-        if (needsSlugs) {
-          const updatedRecipes = loadedRecipes.map((recipe) => {
-            if (!recipe.slug) {
-              return {
-                ...recipe,
-                slug: generateSlug(recipe.title),
-              };
-            }
-            return recipe;
-          });
+        setRecipes(updatedRecipes);
 
-          setRecipes(updatedRecipes);
-
-          await Promise.all(
-            updatedRecipes.map((recipe) => idbStorage.updateRecipe(recipe))
-          );
-        } else {
-          setRecipes(loadedRecipes);
-        }
-      } catch (error) {
-        console.error("Error loading recipes from IndexedDB:", error);
-      } finally {
-        setIsLoading(false);
+        await Promise.all(
+          updatedRecipes.map((recipe) => idbStorage.updateRecipe(recipe))
+        );
+      } else {
+        setRecipes(loadedRecipes);
       }
-    };
-
-    loadRecipes();
+    } catch (error) {
+      console.error("Error loading recipes from IndexedDB:", error);
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadRecipes();
+  }, [loadRecipes]);
 
   const addRecipe = useCallback(
     async (recipe: Omit<Recipe, "id" | "createdAt" | "updatedAt" | "slug">) => {
@@ -112,6 +104,15 @@ export function useRecipes() {
     }
   }, []);
 
+  const deleteAllRecipes = useCallback(async () => {
+    try {
+      await idbStorage.deleteAllRecipes();
+      setRecipes([]);
+    } catch (error) {
+      console.error("Error deleting all recipes from IndexedDB:", error);
+    }
+  }, []);
+
   const getRecipeById = useCallback(
     (id: string) => {
       return recipes.find((recipe) => recipe.id === id) || null;
@@ -146,15 +147,34 @@ export function useRecipes() {
     [recipes]
   );
 
+  const importRecipes = useCallback(
+    async (
+      recipesToImport: Recipe[]
+    ) => {
+      try {
+        setIsLoading(true);
+        await idbStorage.importRecipes(recipesToImport);
+        await loadRecipes();
+      } catch (error) {
+        console.error("Error importing recipes:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [loadRecipes]
+  );
+
   return {
     recipes,
     isLoading,
     addRecipe,
     updateRecipe,
     deleteRecipe,
+    deleteAllRecipes,
     getRecipeById,
     getRecipeBySlug,
     getAllTags,
     filterRecipes,
+    importRecipes,
   };
 }

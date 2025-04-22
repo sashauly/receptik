@@ -96,4 +96,43 @@ export const idbStorage = {
       throw error;
     }
   },
+
+  deleteAllRecipes: async (): Promise<void> => {
+    try {
+      await initializeDB();
+      if (!db) {
+        console.warn("Database is null, not deleting recipes.");
+        return;
+      }
+      await db.clear(OBJECT_STORE_NAME);
+    } catch (error) {
+      console.error("Error deleting all recipes:", error);
+      throw error;
+    }
+  },
+
+  importRecipes: async (
+    recipes: Recipe[]
+  ): Promise<void> => {
+    try {
+      await initializeDB();
+      if (!db) {
+        console.warn("Database is null, not importing recipes.");
+        return;
+      }
+
+      const tx = db.transaction(OBJECT_STORE_NAME, "readwrite");
+      const store = tx.objectStore(OBJECT_STORE_NAME);
+
+      for (const recipeData of recipes) {
+        await store.add(recipeData);
+      }
+
+      await tx.done;
+      console.log("Recipes imported successfully.");
+    } catch (error) {
+      console.error("Error importing recipes:", error);
+      throw error;
+    }
+  },
 };
