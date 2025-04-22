@@ -27,7 +27,6 @@ export default function RecipeDetailPage() {
 
   const navigate = useNavigate();
 
-  // Get URL parameters
   const showEdit = getParam("edit") === "true";
   const showDelete = getParam("delete") === "true";
   const showShare = getParam("share") === "true";

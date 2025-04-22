@@ -19,7 +19,6 @@ const initializeDB = async () => {
     if (!db) {
       db = await openDB<RecipeDB>(DB_NAME, 1, {
         upgrade(db) {
-          // Check if the object store already exists
           if (!db.objectStoreNames.contains(OBJECT_STORE_NAME)) {
             db.createObjectStore(OBJECT_STORE_NAME, {
               keyPath: "id",
@@ -27,13 +26,13 @@ const initializeDB = async () => {
           }
         },
       });
-      console.log("Database initialized successfully."); // Added log
+      console.log("Database initialized successfully.");
     } else {
-      console.log("Database already initialized."); // Added log
+      console.log("Database already initialized.");
     }
   } catch (error) {
-    console.error("Error initializing database:", error); // Improved error logging
-    throw error; // Re-throw the error to prevent further operations
+    console.error("Error initializing database:", error);
+    throw error;
   }
 };
 
@@ -42,13 +41,13 @@ export const idbStorage = {
     try {
       await initializeDB();
       if (!db) {
-        console.warn("Database is null, returning empty array."); // Added warning
+        console.warn("Database is null, returning empty array.");
         return [];
       }
-      return await db.getAll(OBJECT_STORE_NAME); // Added await
+      return await db.getAll(OBJECT_STORE_NAME);
     } catch (error) {
       console.error("Error getting recipes:", error);
-      return []; // Or re-throw, depending on your error handling strategy
+      return [];
     }
   },
 
@@ -56,13 +55,13 @@ export const idbStorage = {
     try {
       await initializeDB();
       if (!db) {
-        console.warn("Database is null, returning undefined."); // Added warning
+        console.warn("Database is null, returning undefined.");
         return undefined;
       }
-      return await db.get(OBJECT_STORE_NAME, id); // Added await
+      return await db.get(OBJECT_STORE_NAME, id);
     } catch (error) {
       console.error("Error getting recipe by ID:", error);
-      return undefined; // Or re-throw
+      return undefined;
     }
   },
 
@@ -70,13 +69,13 @@ export const idbStorage = {
     try {
       await initializeDB();
       if (!db) {
-        console.warn("Database is null, not saving recipe."); // Added warning
+        console.warn("Database is null, not saving recipe.");
         return;
       }
-      await db.put(OBJECT_STORE_NAME, recipe); // Added await
+      await db.put(OBJECT_STORE_NAME, recipe);
     } catch (error) {
       console.error("Error saving recipe:", error);
-      throw error; // Or handle differently
+      throw error;
     }
   },
 
@@ -88,13 +87,13 @@ export const idbStorage = {
     try {
       await initializeDB();
       if (!db) {
-        console.warn("Database is null, not deleting recipe."); // Added warning
+        console.warn("Database is null, not deleting recipe.");
         return;
       }
-      await db.delete(OBJECT_STORE_NAME, id); // Added await
+      await db.delete(OBJECT_STORE_NAME, id);
     } catch (error) {
       console.error("Error deleting recipe:", error);
-      throw error; // Or handle
+      throw error;
     }
   },
 };

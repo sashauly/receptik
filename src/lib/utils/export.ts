@@ -5,12 +5,10 @@ import DOMPurify from "dompurify";
 
 export const exportAsJson = async (recipe: Recipe) => {
   try {
-    // Create a JSON blob
     const data = JSON.stringify(recipe, null, 2);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
-    // Create a download link and trigger it
     const a = document.createElement("a");
     a.href = url;
     a.download = `${recipe.slug}.json`;
@@ -29,7 +27,6 @@ export const exportAllRecipesAsJson = (recipes: Recipe[]) => {
       throw new Error("No saved recipes found.");
     }
 
-    //Sanitize each recipe (example sanitization, more robust solution is preferable)
     const sanitizedRecipes = recipes.map((recipe: any) => ({
       title: recipe.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
       ingredients: recipe.ingredients.map((i: string) =>
@@ -44,7 +41,6 @@ export const exportAllRecipesAsJson = (recipes: Recipe[]) => {
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
-    // Create a download link and trigger it
     const a = document.createElement("a");
     a.href = url;
     a.download = "receptik.json";
@@ -59,7 +55,6 @@ export const exportAllRecipesAsJson = (recipes: Recipe[]) => {
 
 export const exportAsTxt = async (recipe: Recipe) => {
   try {
-    // Format recipe as text
     const text = `
 ${recipe.title}
 
@@ -75,11 +70,9 @@ INSTRUCTIONS:
 ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
 `.trim();
 
-    // Create a text blob
     const blob = new Blob([text], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
 
-    // Create a download link and trigger it
     const a = document.createElement("a");
     a.href = url;
     a.download = `${recipe.slug}.txt`;
@@ -93,7 +86,6 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
 };
 
 export const exportAsImage = async (recipe: Recipe) => {
-  // Create a temporary div to render the recipe
   const tempDiv = document.createElement("div");
   tempDiv.style.width = "800px";
   tempDiv.style.padding = "20px";
@@ -134,14 +126,11 @@ export const exportAsImage = async (recipe: Recipe) => {
   document.body.appendChild(tempDiv);
 
   try {
-    // Use html2canvas to convert the div to an image
     const canvas = await html2canvas(tempDiv);
 
-    // Convert canvas to blob
     canvas.toBlob((blob) => {
       if (!blob) return;
 
-      // Create download link
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -154,7 +143,6 @@ export const exportAsImage = async (recipe: Recipe) => {
   } catch (error: any) {
     throw new Error(`Failed to generate image. ${error} Please try again.`);
   } finally {
-    // Clean up
     document.body.removeChild(tempDiv);
   }
 };

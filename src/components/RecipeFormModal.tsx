@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -48,34 +48,28 @@ export default function RecipeFormModal({
   const { recipes } = useRecipes();
   const [tagInput, setTagInput] = useState("");
 
-  // Refs for auto-focusing
-  const newIngredientRef = useRef<HTMLInputElement | null>(null);
-  const newInstructionRef = useRef<HTMLTextAreaElement | null>(null);
-
-  // Initialize form with default values or existing recipe
   const form = useForm<RecipeFormValues>({
     resolver: zodResolver(recipeFormSchema),
     defaultValues: {
       title: recipe?.title || "",
       ingredients: recipe?.ingredients || [""],
       instructions: recipe?.instructions || [""],
-      prepTime: recipe?.prepTime || "",
-      cookTime: recipe?.cookTime || "",
+      prepTime: recipe?.prepTime || 1,
+      cookTime: recipe?.cookTime || 1,
       servings: recipe?.servings || 1,
       image: recipe?.image || "/receptik/placeholder.svg?height=300&width=400",
       tags: recipe?.tags || [],
     },
   });
 
-  // Reset form when opening/closing or changing recipe
   useEffect(() => {
     if (isOpen) {
       form.reset({
         title: recipe?.title || "",
         ingredients: recipe?.ingredients?.length ? recipe.ingredients : [""],
         instructions: recipe?.instructions?.length ? recipe.instructions : [""],
-        prepTime: recipe?.prepTime || "",
-        cookTime: recipe?.cookTime || "",
+        prepTime: recipe?.prepTime || 1,
+        cookTime: recipe?.cookTime || 1,
         servings: recipe?.servings || 1,
         image:
           recipe?.image || "/receptik/placeholder.svg?height=300&width=400",
@@ -87,13 +81,6 @@ export default function RecipeFormModal({
   const handleAddIngredient = () => {
     const currentIngredients = form.getValues("ingredients");
     form.setValue("ingredients", [...currentIngredients, ""]);
-
-    // Set a flag to focus the new ingredient input after render
-    setTimeout(() => {
-      if (newIngredientRef.current) {
-        newIngredientRef.current.focus();
-      }
-    }, 0);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -108,13 +95,6 @@ export default function RecipeFormModal({
   const handleAddInstruction = () => {
     const currentInstructions = form.getValues("instructions");
     form.setValue("instructions", [...currentInstructions, ""]);
-
-    // Set a flag to focus the new instruction textarea after render
-    setTimeout(() => {
-      if (newInstructionRef.current) {
-        newInstructionRef.current.focus();
-      }
-    }, 0);
   };
 
   const handleRemoveInstruction = (index: number) => {
@@ -144,22 +124,19 @@ export default function RecipeFormModal({
     );
   };
 
+  // TODO check to make sure we're not duplicate code for slugs
   const onSubmit = (data: RecipeFormValues) => {
-    // The Zod schema now filters empty strings, but keep this for extra safety
     const filteredIngredients = data.ingredients.filter((i) => i.trim() !== "");
     const filteredInstructions = data.instructions.filter(
       (i) => i.trim() !== ""
     );
 
-    // If we're editing, filter out the current recipe from the list
     const otherRecipes = recipe
       ? recipes.filter((r) => r.id !== recipe.id)
       : recipes;
 
-    // Get existing slugs
     const existingSlugs = otherRecipes.map((r) => r.slug);
 
-    // Generate a unique slug or keep the existing one if title hasn't changed
     const slug =
       recipe && recipe.title === data.title
         ? recipe.slug
@@ -377,11 +354,6 @@ export default function RecipeFormModal({
                       placeholder={t("forms.ingredientPlaceholder", {
                         index: index + 1,
                       })}
-                      ref={
-                        index === form.watch("ingredients").length - 1
-                          ? newIngredientRef
-                          : null
-                      }
                     />
                     <Button
                       type="button"
@@ -433,11 +405,6 @@ export default function RecipeFormModal({
                         index: index + 1,
                       })}
                       className="min-h-[80px]"
-                      ref={
-                        index === form.watch("instructions").length - 1
-                          ? newInstructionRef
-                          : null
-                      }
                     />
                     <Button
                       type="button"

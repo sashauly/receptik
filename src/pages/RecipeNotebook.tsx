@@ -26,7 +26,6 @@ export default function RecipeNotebook() {
   const { getParam, updateParams } = useUrlParams();
   const { t } = useTranslation();
 
-  // Get values from URL query parameters
   const querySearch = getParam("q") || "";
   const queryTag = getParam("tag") || "all";
   const showCreateModal = getParam("create") === "true";
@@ -66,17 +65,15 @@ export default function RecipeNotebook() {
     }
   };
 
+  // TODO check to make sure we're not duplicate code for slugs
   const handleSaveRecipe = async (recipe: Recipe) => {
     if (editRecipeId) {
-      // Get all existing recipes to check for slug uniqueness
       const otherRecipes = editRecipeId
         ? recipes.filter((r) => r.id !== editRecipeId)
         : recipes;
 
-      // Get existing slugs
       const existingSlugs = otherRecipes.map((r) => r.slug);
 
-      // Generate a unique slug if needed
       const existingRecipe = editRecipeId ? getRecipeById(editRecipeId) : null;
       const needsNewSlug =
         !existingRecipe || existingRecipe.title !== recipe.title;
@@ -108,7 +105,6 @@ export default function RecipeNotebook() {
     updateParams({ tag: value === "all" ? null : value });
   };
 
-  // Derived state
   const allTags = getAllTags();
   const filteredRecipes = filterRecipes(searchQuery, activeTag);
   const recipeToDelete = deleteRecipeId ? getRecipeById(deleteRecipeId) : null;

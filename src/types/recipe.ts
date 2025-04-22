@@ -4,8 +4,8 @@ export interface Recipe {
   slug: string;
   ingredients: string[];
   instructions: string[];
-  prepTime: string;
-  cookTime: string;
+  prepTime: number;
+  cookTime: number;
   servings: number;
   image: string;
   tags: string[];

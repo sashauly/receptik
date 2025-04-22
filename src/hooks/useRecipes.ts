@@ -2,32 +2,29 @@ import { useState, useEffect, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { Recipe } from "@/types/recipe";
 import { generateSlug } from "@/lib/utils";
-import { sampleRecipes } from "@/lib/sample-data";
+// import { sampleRecipes } from "@/lib/sample-data";
 import { idbStorage } from "@/lib/storage";
 
 export function useRecipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load recipes from IndexedDB on component mount
   useEffect(() => {
     const loadRecipes = async () => {
       try {
-        let loadedRecipes = await idbStorage.getRecipes();
+        const loadedRecipes = await idbStorage.getRecipes();
 
-        if (loadedRecipes.length === 0) {
-          // If IndexedDB is empty, load sample recipes and save to IndexedDB
-          loadedRecipes = sampleRecipes;
-          await Promise.all(
-            sampleRecipes.map((recipe) => idbStorage.saveRecipe(recipe))
-          ); // Save samples
-        }
+        // TODO remove in prod
+        // if (loadedRecipes.length === 0) {
+        //   loadedRecipes = sampleRecipes;
+        //   await Promise.all(
+        //     sampleRecipes.map((recipe) => idbStorage.saveRecipe(recipe))
+        //   );
+        // }
 
-        // Check if we need to add slugs to existing recipes
         const needsSlugs = loadedRecipes.some((recipe) => !recipe.slug);
 
         if (needsSlugs) {
-          // Add slugs to recipes that don't have them
           const updatedRecipes = loadedRecipes.map((recipe) => {
             if (!recipe.slug) {
               return {
@@ -40,7 +37,6 @@ export function useRecipes() {
 
           setRecipes(updatedRecipes);
 
-          //update the recipes on indexDB as well
           await Promise.all(
             updatedRecipes.map((recipe) => idbStorage.updateRecipe(recipe))
           );
@@ -49,7 +45,6 @@ export function useRecipes() {
         }
       } catch (error) {
         console.error("Error loading recipes from IndexedDB:", error);
-        // Handle the error appropriately, maybe set an error state
       } finally {
         setIsLoading(false);
       }
@@ -74,8 +69,7 @@ export function useRecipes() {
         return newRecipe;
       } catch (error) {
         console.error("Error adding recipe to IndexedDB:", error);
-        // Handle the error appropriately
-        throw error; // Re-throw to allow the component to handle it
+        throw error;
       }
     },
     []
@@ -115,7 +109,6 @@ export function useRecipes() {
       setRecipes((prev) => prev.filter((recipe) => recipe.id !== id));
     } catch (error) {
       console.error("Error deleting recipe from IndexedDB:", error);
-      // Handle error appropriately
     }
   }, []);
 

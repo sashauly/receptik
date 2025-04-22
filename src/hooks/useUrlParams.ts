@@ -10,7 +10,6 @@ export function useUrlParams() {
     (params: Record<string, string | null>) => {
       const newSearchParams = new URLSearchParams(searchParams.toString());
 
-      // Update or remove each parameter
       Object.entries(params).forEach(([key, value]) => {
         if (value === null) {
           newSearchParams.delete(key);
@@ -19,14 +18,12 @@ export function useUrlParams() {
         }
       });
 
-      // Use replace to avoid creating new history entries
       setSearchParams(newSearchParams, { replace: true });
     },
     [searchParams, setSearchParams]
   );
 
   const clearParams = useCallback(() => {
-    // Remove all search parameters
     setSearchParams({}, { replace: true });
   }, [setSearchParams]);
 
