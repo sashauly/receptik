@@ -2,7 +2,7 @@ import type React from "react";
 
 import { useState, useEffect } from "react";
 import RecipeList from "@/components/RecipeList";
-import RecipeForm from "@/components/RecipeFormModal";
+import RecipeForm from "@/components/RecipeForm";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import RecipeFilters from "@/components/RecipeFilters";
 import { useRecipes } from "@/hooks/useRecipes";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import RecipeDetail from "@/components/RecipeDetail";
-import RecipeForm from "@/components/RecipeFormModal";
+import RecipeForm from "@/components/RecipeForm";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import ShareRecipeDialog from "@/components/ShareRecipeDialog";
 import type { Recipe } from "@/types/recipe";
