@@ -7,7 +7,6 @@ export interface Recipe {
   prepTime: number;
   cookTime: number;
   servings: number;
-  image: string;
   keywords: string[];
   dateCreated: string;
   dateModified: string;

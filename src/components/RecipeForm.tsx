@@ -57,9 +57,6 @@ export default function RecipeForm({
       prepTime: initialRecipe?.prepTime || 1,
       cookTime: initialRecipe?.cookTime || 1,
       servings: initialRecipe?.servings || 1,
-      image:
-        initialRecipe?.image ||
-        "/receptik/placeholder.svg?height=300&width=400",
       keywords: initialRecipe?.keywords || [],
     },
   });
@@ -77,9 +74,6 @@ export default function RecipeForm({
         prepTime: initialRecipe?.prepTime || 1,
         cookTime: initialRecipe?.cookTime || 1,
         servings: initialRecipe?.servings || 1,
-        image:
-          initialRecipe?.image ||
-          "/receptik/placeholder.svg?height=300&width=400",
         keywords: initialRecipe?.keywords || [],
       });
     }
@@ -160,7 +154,6 @@ export default function RecipeForm({
       prepTime: values.prepTime,
       cookTime: values.cookTime,
       servings: values.servings,
-      image: values.image,
       keywords: values.keywords,
       dateCreated: initialRecipe?.dateCreated || new Date().toISOString(),
       dateModified: new Date().toISOString(),
@@ -270,25 +263,6 @@ export default function RecipeForm({
                 )}
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="image"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="image">{t("forms.imageUrl")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      id="image"
-                      type="text"
-                      placeholder={t("forms.imageUrlPlaceholder")}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <FormField
               control={form.control}

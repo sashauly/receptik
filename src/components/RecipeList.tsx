@@ -38,77 +38,71 @@ export default function RecipeList({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {recipes.map((recipe) => (
-        <Card
-          key={recipe.id}
-          className="overflow-hidden hover:shadow-md transition-shadow"
+        <Link
+          to={`/recipes/${recipe.slug}`}
+          className="block"
+          title={recipe.name}
         >
-          <Link to={`/recipes/${recipe.slug}`} title={recipe.name}>
-            <div
-              className="h-48 bg-cover bg-center cursor-pointer"
-              style={{ backgroundImage: `url(${recipe.image})` }}
-            />
-          </Link>
-          <CardContent className="p-4">
-            <div className="space-y-2">
-              <Link
-                to={`/recipes/${recipe.slug}`}
-                className="block"
-                title={recipe.name}
-              >
+          <Card
+            key={recipe.id}
+            className="overflow-hidden hover:shadow-md transition-shadow"
+          >
+            <CardContent className="p-4">
+              <div className="space-y-2">
                 <h3 className="font-semibold text-xl cursor-pointer hover:text-orange-600 transition-colors">
                   {recipe.name}
                 </h3>
-              </Link>
-              <div className="flex flex-wrap gap-2">
-                {recipe.keywords &&
-                  recipe.keywords.map((keyword) => (
-                    <Badge
-                      key={keyword}
-                      variant="outline"
-                      className="bg-orange-50 dark:bg-orange-900"
-                    >
-                      {keyword}
-                    </Badge>
-                  ))}
-              </div>
-              <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                <div className="flex items-center">
-                  <Clock className="mr-1 h-4 w-4" />
-                  <span>
-                    {recipe.prepTime} + {recipe.cookTime}
-                  </span>
+                <div className="flex flex-wrap gap-2">
+                  {recipe.keywords &&
+                    recipe.keywords.map((keyword) => (
+                      <Badge
+                        key={keyword}
+                        variant="outline"
+                        className="bg-orange-50 dark:bg-orange-900"
+                      >
+                        {keyword}
+                      </Badge>
+                    ))}
                 </div>
-                <div className="flex items-center">
-                  <Users className="mr-1 h-4 w-4" />
-                  <span>
-                    {recipe.servings}{" "}
-                    {t("recipe.servings_interval", {
-                      postProcess: "interval",
-                      count: Number(recipe.servings),
-                    })}
-                  </span>
+                <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center">
+                    <Clock className="mr-1 h-4 w-4" />
+                    <span>
+                      {recipe.prepTime} + {recipe.cookTime}
+                    </span>
+                  </div>
+                  <div className="flex items-center">
+                    <Users className="mr-1 h-4 w-4" />
+                    <span>
+                      {recipe.servings}{" "}
+                      {t("recipe.servings_interval", {
+                        postProcess: "interval",
+                        count: Number(recipe.servings),
+                      })}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </CardContent>
-          {/* TODO make small dropdown for both icons */}
-          <CardFooter className="flex gap-2 justify-end">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => onEditRecipe(recipe)}
-            >
-              <Edit className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => onDeleteRecipe(recipe.id)}
-            >
-              <Trash2 className="h-4 w-4" />
-            </Button>
-          </CardFooter>
-        </Card>
+            </CardContent>
+            {/* TODO make small dropdown for both icons */}
+            <CardFooter className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => onEditRecipe(recipe)}
+              >
+                <Edit className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => onDeleteRecipe(recipe.id)}
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </CardFooter>
+          </Card>
+        </Link>
       ))}
     </div>
   );
