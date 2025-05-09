@@ -2,8 +2,8 @@ import * as z from "zod";
 
 // TODO add russian translations
 export const recipeFormSchema = z.object({
-  title: z.string().refine((value) => value.trim().length >= 1, {
-    message: "Title is required and cannot contain only whitespace",
+  name: z.string().refine((value) => value.trim().length >= 1, {
+    message: "Name is required and cannot contain only whitespace",
   }),
   ingredients: z
     .array(z.string())
@@ -24,9 +24,9 @@ export const recipeFormSchema = z.object({
     .string()
     .url("Please enter a valid URL")
     .or(z.string().startsWith("/", "Please enter a valid URL")),
-  tags: z.array(
+  keywords: z.array(
     z.string().refine((value) => value.trim().length >= 1, {
-      message: "tags is required and cannot contain only whitespace",
+      message: "keywords is required and cannot contain only whitespace",
     })
   ),
 });

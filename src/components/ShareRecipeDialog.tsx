@@ -49,7 +49,7 @@ export default function ShareRecipeDialog({
             <DrawerTitle>{t("modals.shareRecipe")}</DrawerTitle>
             <DrawerDescription>
               {t("modals.shareRecipeDesc", {
-                recipeTitle: `"${recipe.title}"`,
+                recipeTitle: `"${recipe.name}"`,
               })}
             </DrawerDescription>
           </DrawerHeader>
@@ -74,7 +74,7 @@ export default function ShareRecipeDialog({
           <DialogTitle>{t("modals.shareRecipe")}</DialogTitle>
           <DialogDescription>
             {t("modals.shareRecipeDesc", {
-              recipeTitle: `"${recipe.title}"`,
+              recipeTitle: `"${recipe.name}"`,
             })}
           </DialogDescription>
         </DialogHeader>

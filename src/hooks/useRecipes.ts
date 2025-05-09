@@ -20,7 +20,7 @@ export function useRecipes() {
           if (!recipe.slug) {
             return {
               ...recipe,
-              slug: generateSlug(recipe.title),
+              slug: generateSlug(recipe.name),
             };
           }
           return recipe;
@@ -46,12 +46,12 @@ export function useRecipes() {
   }, [loadRecipes]);
 
   const addRecipe = useCallback(
-    async (recipe: Omit<Recipe, "id" | "createdAt" | "updatedAt" | "slug">) => {
+    async (recipe: Omit<Recipe, "id" | "dateCreated" | "dateModified" | "slug">) => {
       const newRecipe: Recipe = {
         id: uuidv4(),
-        slug: generateSlug(recipe.title),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        slug: generateSlug(recipe.name),
+        dateCreated: new Date().toISOString(),
+        dateModified: new Date().toISOString(),
         ...recipe,
       };
 
@@ -80,7 +80,7 @@ export function useRecipes() {
         const updatedRecipe: Recipe = {
           ...existingRecipe,
           ...recipe,
-          updatedAt: new Date().toISOString(),
+          dateModified: new Date().toISOString(),
         };
 
         await idbStorage.updateRecipe(updatedRecipe);
@@ -127,30 +127,30 @@ export function useRecipes() {
     [recipes]
   );
 
-  const getAllTags = useCallback(() => {
-    return Array.from(new Set(recipes.flatMap((recipe) => recipe.tags)));
+  const getAllKeywords = useCallback(() => {
+    return Array.from(
+      new Set(recipes.flatMap((recipe) => recipe.keywords || []))
+    );
   }, [recipes]);
 
   const filterRecipes = useCallback(
-    (searchQuery: string, activeTag: string) => {
+    (searchQuery: string, activeKeyword: string) => {
       return recipes.filter((recipe) => {
         const matchesSearch =
-          recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          recipe.tags.some((tag) =>
-            tag.toLowerCase().includes(searchQuery.toLowerCase())
+          recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          recipe.keywords?.some((keyword) =>
+            keyword.toLowerCase().includes(searchQuery.toLowerCase())
           );
 
-        if (activeTag === "all") return matchesSearch;
-        return matchesSearch && recipe.tags.includes(activeTag);
+        if (activeKeyword === "all") return matchesSearch;
+        return matchesSearch && recipe.keywords?.includes(activeKeyword);
       });
     },
     [recipes]
   );
 
   const importRecipes = useCallback(
-    async (
-      recipesToImport: Recipe[]
-    ) => {
+    async (recipesToImport: Recipe[]) => {
       try {
         setIsLoading(true);
         await idbStorage.importRecipes(recipesToImport);
@@ -173,7 +173,7 @@ export function useRecipes() {
     deleteAllRecipes,
     getRecipeById,
     getRecipeBySlug,
-    getAllTags,
+    getAllKeywords,
     filterRecipes,
     importRecipes,
   };

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import RecipeDetail from "@/components/RecipeDetail";
-import RecipeFormModal from "@/components/RecipeFormModal";
+import RecipeForm from "@/components/RecipeFormModal";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import ShareRecipeDialog from "@/components/ShareRecipeDialog";
 import type { Recipe } from "@/types/recipe";
@@ -94,8 +94,8 @@ export default function RecipeDetailPage() {
         onShare={handleShareRecipe}
       />
 
-      <RecipeFormModal
-        recipe={recipe}
+      <RecipeForm
+        initialRecipe={recipe}
         isOpen={showEdit}
         onClose={handleCloseModals}
         onSave={handleSaveRecipe}

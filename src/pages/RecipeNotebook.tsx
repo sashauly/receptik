@@ -2,7 +2,7 @@ import type React from "react";
 
 import { useState, useEffect } from "react";
 import RecipeList from "@/components/RecipeList";
-import RecipeFormModal from "@/components/RecipeFormModal";
+import RecipeForm from "@/components/RecipeFormModal";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import RecipeFilters from "@/components/RecipeFilters";
 import { useRecipes } from "@/hooks/useRecipes";
@@ -19,7 +19,7 @@ export default function RecipeNotebook() {
     updateRecipe,
     deleteRecipe,
     getRecipeById,
-    getAllTags,
+    getAllKeywords,
     filterRecipes,
   } = useRecipes();
 
@@ -68,18 +68,19 @@ export default function RecipeNotebook() {
   // TODO check to make sure we're not duplicate code for slugs
   const handleSaveRecipe = async (recipe: Recipe) => {
     if (editRecipeId) {
-      const otherRecipes = editRecipeId
-        ? recipes.filter((r) => r.id !== editRecipeId)
-        : recipes;
+      const otherRecipes = recipes.filter((r) => r.id !== editRecipeId);
 
-      const existingSlugs = otherRecipes.map((r) => r.slug);
+      const existingSlugs = otherRecipes
+        .map((r) => r.slug)
+        .filter((slug): slug is string => slug !== undefined);
 
-      const existingRecipe = editRecipeId ? getRecipeById(editRecipeId) : null;
+      const existingRecipe = getRecipeById(editRecipeId);
       const needsNewSlug =
-        !existingRecipe || existingRecipe.title !== recipe.title;
+        !existingRecipe || existingRecipe.name !== recipe.name;
+
       const slug = needsNewSlug
-        ? getUniqueSlug(recipe.title, existingSlugs)
-        : existingRecipe?.slug || getUniqueSlug(recipe.title, existingSlugs);
+        ? getUniqueSlug(recipe.name, existingSlugs)
+        : (existingRecipe?.slug ?? getUniqueSlug(recipe.name, existingSlugs));
 
       await updateRecipe(editRecipeId, { ...recipe, slug });
     } else {
@@ -105,7 +106,7 @@ export default function RecipeNotebook() {
     updateParams({ tag: value === "all" ? null : value });
   };
 
-  const allTags = getAllTags();
+  const allTags = getAllKeywords();
   const filteredRecipes = filterRecipes(searchQuery, activeTag);
   const recipeToDelete = deleteRecipeId ? getRecipeById(deleteRecipeId) : null;
   const editingRecipe = editRecipeId ? getRecipeById(editRecipeId) : null;
@@ -122,11 +123,11 @@ export default function RecipeNotebook() {
     <div className="container mx-auto py-6 px-4 md:px-6 space-y-4">
       <RecipeFilters
         searchQuery={searchQuery}
-        activeTag={activeTag}
-        tags={allTags}
+        activeKeyword={activeTag}
+        keywords={allTags}
         onSearchChange={handleSearchChange}
         onClearSearch={handleClearSearch}
-        onTagChange={handleTagChange}
+        onKeywordChange={handleTagChange}
       />
 
       <RecipeList
@@ -137,8 +138,8 @@ export default function RecipeNotebook() {
         onDeleteRecipe={handleDeleteRecipe}
       />
 
-      <RecipeFormModal
-        recipe={editingRecipe}
+      <RecipeForm
+        initialRecipe={editingRecipe}
         isOpen={showCreateModal || !!editRecipeId}
         onClose={handleCloseModals}
         onSave={handleSaveRecipe}

@@ -27,7 +27,7 @@ export default function RecipeDetail({
 
   return (
     <div className="space-y-6">
-      <h2 className="text-3xl font-bold tracking-tight">{recipe.title}</h2>
+      <h2 className="text-3xl font-bold tracking-tight">{recipe.name}</h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-1">
@@ -38,14 +38,14 @@ export default function RecipeDetail({
             />
             <CardContent className="p-6">
               <div className="flex flex-wrap gap-2 mb-4">
-                {recipe.tags &&
-                  recipe.tags.map((tag) => (
+                {recipe.keywords &&
+                  recipe.keywords.map((keyword) => (
                     <Badge
-                      key={tag}
+                      key={keyword}
                       variant="outline"
                       className="bg-orange-50 dark:bg-orange-900"
                     >
-                      {tag}
+                      {keyword}
                     </Badge>
                   ))}
               </div>

@@ -32,51 +32,58 @@ import { useRecipes } from "@/hooks/useRecipes";
 import { useTranslation } from "react-i18next";
 
 interface RecipeFormModalProps {
-  recipe: Recipe | null;
+  initialRecipe: Recipe | null;
   isOpen: boolean;
   onClose: () => void;
   onSave: (recipe: Recipe) => void;
 }
 
-export default function RecipeFormModal({
-  recipe,
+export default function RecipeForm({
+  initialRecipe,
   isOpen,
   onClose,
   onSave,
 }: RecipeFormModalProps) {
   const { t } = useTranslation();
   const { recipes } = useRecipes();
-  const [tagInput, setTagInput] = useState("");
+  const [keywordInput, setKeywordInput] = useState("");
 
   const form = useForm<RecipeFormValues>({
     resolver: zodResolver(recipeFormSchema),
     defaultValues: {
-      title: recipe?.title || "",
-      ingredients: recipe?.ingredients || [""],
-      instructions: recipe?.instructions || [""],
-      prepTime: recipe?.prepTime || 1,
-      cookTime: recipe?.cookTime || 1,
-      servings: recipe?.servings || 1,
-      image: recipe?.image || "/receptik/placeholder.svg?height=300&width=400",
-      tags: recipe?.tags || [],
+      name: initialRecipe?.name || "",
+      ingredients: initialRecipe?.ingredients || [""],
+      instructions: initialRecipe?.instructions || [""],
+      prepTime: initialRecipe?.prepTime || 1,
+      cookTime: initialRecipe?.cookTime || 1,
+      servings: initialRecipe?.servings || 1,
+      image:
+        initialRecipe?.image ||
+        "/receptik/placeholder.svg?height=300&width=400",
+      keywords: initialRecipe?.keywords || [],
     },
   });
 
   useEffect(() => {
     if (isOpen) {
       form.reset({
-        title: recipe?.title || "",
-        ingredients: recipe?.ingredients?.length ? recipe.ingredients : [""],
-        instructions: recipe?.instructions?.length ? recipe.instructions : [""],
-        prepTime: recipe?.prepTime || 1,
-        cookTime: recipe?.cookTime || 1,
-        servings: recipe?.servings || 1,
+        name: initialRecipe?.name || "",
+        ingredients: initialRecipe?.ingredients?.length
+          ? initialRecipe.ingredients
+          : [""],
+        instructions: initialRecipe?.instructions?.length
+          ? initialRecipe.instructions
+          : [""],
+        prepTime: initialRecipe?.prepTime || 1,
+        cookTime: initialRecipe?.cookTime || 1,
+        servings: initialRecipe?.servings || 1,
         image:
-          recipe?.image || "/receptik/placeholder.svg?height=300&width=400",
-        tags: recipe?.tags || [],
+          initialRecipe?.image ||
+          "/receptik/placeholder.svg?height=300&width=400",
+        keywords: initialRecipe?.keywords || [],
       });
     }
-  }, [isOpen, recipe, form]);
+  }, [isOpen, initialRecipe, form]);
 
   const handleAddIngredient = () => {
     const currentIngredients = form.getValues("ingredients");
@@ -106,55 +113,57 @@ export default function RecipeFormModal({
     }
   };
 
-  const handleAddTag = () => {
-    if (tagInput.trim()) {
-      const currentTags = form.getValues("tags");
-      if (!currentTags.includes(tagInput.trim())) {
-        form.setValue("tags", [...currentTags, tagInput.trim()]);
+  const handleAddKeyword = () => {
+    if (keywordInput.trim()) {
+      const currentKeywords = form.getValues("keywords");
+      if (!currentKeywords.includes(keywordInput.trim())) {
+        form.setValue("keywords", [...currentKeywords, keywordInput.trim()]);
       }
-      setTagInput("");
+      setKeywordInput("");
     }
   };
 
-  const handleRemoveTag = (tag: string) => {
-    const currentTags = form.getValues("tags");
+  const handleRemoveKeyword = (keyword: string) => {
+    const currentKeywords = form.getValues("keywords");
     form.setValue(
-      "tags",
-      currentTags.filter((t) => t !== tag)
+      "keywords",
+      currentKeywords.filter((k) => k !== keyword)
     );
   };
 
   // TODO check to make sure we're not duplicate code for slugs
-  const onSubmit = (data: RecipeFormValues) => {
-    const filteredIngredients = data.ingredients.filter((i) => i.trim() !== "");
-    const filteredInstructions = data.instructions.filter(
+  const onSubmit = (values: RecipeFormValues) => {
+    const filteredIngredients = values.ingredients.filter(
+      (i) => i.trim() !== ""
+    );
+    const filteredInstructions = values.instructions.filter(
       (i) => i.trim() !== ""
     );
 
-    const otherRecipes = recipe
-      ? recipes.filter((r) => r.id !== recipe.id)
+    const otherRecipes = initialRecipe
+      ? recipes.filter((r) => r.id !== initialRecipe.id)
       : recipes;
 
     const existingSlugs = otherRecipes.map((r) => r.slug);
 
     const slug =
-      recipe && recipe.title === data.title
-        ? recipe.slug
-        : getUniqueSlug(data.title, existingSlugs);
+      initialRecipe && initialRecipe.name === values.name
+        ? initialRecipe.slug
+        : getUniqueSlug(values.name, existingSlugs);
 
     const newRecipe: Recipe = {
-      id: recipe?.id || uuidv4(),
-      title: data.title,
+      id: initialRecipe?.id || uuidv4(),
+      name: values.name,
       slug,
       ingredients: filteredIngredients,
       instructions: filteredInstructions,
-      prepTime: data.prepTime,
-      cookTime: data.cookTime,
-      servings: data.servings,
-      image: data.image,
-      tags: data.tags,
-      createdAt: recipe?.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      prepTime: values.prepTime,
+      cookTime: values.cookTime,
+      servings: values.servings,
+      image: values.image,
+      keywords: values.keywords,
+      dateCreated: initialRecipe?.dateCreated || new Date().toISOString(),
+      dateModified: new Date().toISOString(),
     };
 
     onSave(newRecipe);
@@ -165,10 +174,10 @@ export default function RecipeFormModal({
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {recipe ? t("forms.editRecipe") : t("forms.createRecipe")}
+            {initialRecipe ? t("forms.editRecipe") : t("forms.createRecipe")}
           </DialogTitle>
           <DialogDescription>
-            {recipe
+            {initialRecipe
               ? t("forms.editRecipeDescription")
               : t("forms.createRecipeDescription")}
           </DialogDescription>
@@ -178,17 +187,15 @@ export default function RecipeFormModal({
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="title"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="title">
-                    {t("forms.recipeTitle")}
-                  </FormLabel>
+                  <FormLabel htmlFor="name">{t("forms.recipeName")}</FormLabel>
                   <FormControl>
                     <Input
-                      id="title"
+                      id="name"
                       type="text"
-                      placeholder={t("forms.titlePlaceholder")}
+                      placeholder={t("forms.namePlaceholder")}
                       {...field}
                     />
                   </FormControl>
@@ -285,23 +292,25 @@ export default function RecipeFormModal({
 
             <FormField
               control={form.control}
-              name="tags"
+              name="keywords"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="tags">{t("forms.tags")}</FormLabel>
+                  <FormLabel htmlFor="keywords">
+                    {t("forms.keywords")}
+                  </FormLabel>
                   <div className="flex flex-wrap gap-2 mb-2">
-                    {field.value.map((tag) => (
+                    {field.value.map((keyword) => (
                       <div
-                        key={tag}
+                        key={keyword}
                         className="flex items-center bg-orange-100 text-orange-800 rounded-full px-3 py-1 text-sm"
                       >
-                        {tag}
+                        {keyword}
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
                           className="h-4 w-4 p-0 ml-1"
-                          onClick={() => handleRemoveTag(tag)}
+                          onClick={() => handleRemoveKeyword(keyword)}
                         >
                           <X className="h-3 w-3" />
                         </Button>
@@ -311,20 +320,21 @@ export default function RecipeFormModal({
                   <div className="flex gap-2">
                     <Input
                       id="tags"
-                      value={tagInput}
-                      onChange={(e) => setTagInput(e.target.value)}
-                      placeholder={t("forms.tagsPlaceholder")}
+                      value={keywordInput}
+                      onChange={(e) => setKeywordInput(e.target.value)}
+                      placeholder={t("forms.keywordsPlaceholder")}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
                           e.preventDefault();
-                          handleAddTag();
+
+                          handleAddKeyword();
                         }
                       }}
                     />
                     <Button
                       type="button"
                       size="icon"
-                      onClick={handleAddTag}
+                      onClick={handleAddKeyword}
                       variant="outline"
                     >
                       <Plus />

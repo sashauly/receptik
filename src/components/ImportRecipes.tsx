@@ -29,7 +29,9 @@ const ImportRecipes = () => {
       reader.onload = async (event: ProgressEvent<FileReader>) => {
         try {
           const jsonData = JSON.parse(event.target?.result as string);
-          await importRecipes(jsonData as Recipe[]);
+
+          // TODO handle array or object
+          await importRecipes([jsonData] as Recipe[]);
           toast("Recipes imported successfully!");
         } catch (parseError) {
           console.error("Error parsing JSON:", parseError);

@@ -56,12 +56,12 @@ export const exportAllRecipesAsJson = (recipes: Recipe[]) => {
 export const exportAsTxt = async (recipe: Recipe) => {
   try {
     const text = `
-${recipe.title}
+${recipe.name}
 
 Prep Time: ${recipe.prepTime}
 Cook Time: ${recipe.cookTime}
 Servings: ${recipe.servings}
-Tags: ${recipe.tags.join(", ")}
+Tags: ${recipe.keywords?.join(", ")}
 
 INGREDIENTS:
 ${recipe.ingredients.map((i) => `- ${i}`).join("\n")}
@@ -94,7 +94,7 @@ export const exportAsImage = async (recipe: Recipe) => {
   tempDiv.style.left = "-9999px";
   const htmlContent = `
       <div style="font-family: Arial, sans-serif;">
-        <h1 style="color: #ea580c; margin-bottom: 10px;">${recipe.title}</h1>
+        <h1 style="color: #ea580c; margin-bottom: 10px;">${recipe.name}</h1>
         <div style="display: flex; margin-bottom: 10px;">
           <div style="margin-right: 20px;"><strong>Prep:</strong> ${
             recipe.prepTime
@@ -105,7 +105,7 @@ export const exportAsImage = async (recipe: Recipe) => {
           <div><strong>Servings:</strong> ${recipe.servings}</div>
         </div>
         <div style="margin-bottom: 10px;">
-          <strong>Tags:</strong> ${recipe.tags.join(", ")}
+          <strong>Tags:</strong> ${recipe.keywords?.join(", ")}
         </div>
         <div style="margin-bottom: 20px;">
           <h2 style="color: #ea580c; margin-bottom: 10px;">Ingredients</h2>

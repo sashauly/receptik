@@ -42,7 +42,7 @@ export default function RecipeList({
           key={recipe.id}
           className="overflow-hidden hover:shadow-md transition-shadow"
         >
-          <Link to={`/recipes/${recipe.slug}`} title={recipe.title}>
+          <Link to={`/recipes/${recipe.slug}`} title={recipe.name}>
             <div
               className="h-48 bg-cover bg-center cursor-pointer"
               style={{ backgroundImage: `url(${recipe.image})` }}
@@ -53,21 +53,21 @@ export default function RecipeList({
               <Link
                 to={`/recipes/${recipe.slug}`}
                 className="block"
-                title={recipe.title}
+                title={recipe.name}
               >
                 <h3 className="font-semibold text-xl cursor-pointer hover:text-orange-600 transition-colors">
-                  {recipe.title}
+                  {recipe.name}
                 </h3>
               </Link>
               <div className="flex flex-wrap gap-2">
-                {recipe.tags &&
-                  recipe.tags.map((tag) => (
+                {recipe.keywords &&
+                  recipe.keywords.map((keyword) => (
                     <Badge
-                      key={tag}
+                      key={keyword}
                       variant="outline"
                       className="bg-orange-50 dark:bg-orange-900"
                     >
-                      {tag}
+                      {keyword}
                     </Badge>
                   ))}
               </div>

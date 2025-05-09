@@ -46,7 +46,7 @@ export default function DeleteRecipeDialog({
             <DrawerTitle>{t("modals.deleteRecipe")}</DrawerTitle>
             <DrawerDescription>
               {t("modals.deleteRecipeConfirm", {
-                recipeTitle: `"${recipe?.title}"`,
+                recipeTitle: `"${recipe?.name}"`,
               })}
             </DrawerDescription>
           </DrawerHeader>
@@ -70,7 +70,7 @@ export default function DeleteRecipeDialog({
           <AlertDialogTitle>{t("modals.deleteRecipe")}</AlertDialogTitle>
           <AlertDialogDescription>
             {t("modals.deleteRecipeConfirm", {
-              recipeTitle: `"${recipe?.title}"`,
+              recipeTitle: `"${recipe?.name}"`,
             })}
           </AlertDialogDescription>
         </AlertDialogHeader>
