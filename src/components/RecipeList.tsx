@@ -39,14 +39,12 @@ export default function RecipeList({
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {recipes.map((recipe) => (
         <Link
+          key={recipe.id}
           to={`/recipes/${recipe.slug}`}
           className="block"
           title={recipe.name}
         >
-          <Card
-            key={recipe.id}
-            className="overflow-hidden hover:shadow-md transition-shadow"
-          >
+          <Card className="overflow-hidden hover:shadow-md transition-shadow">
             <CardContent className="p-4">
               <div className="space-y-2">
                 <h3 className="font-semibold text-xl cursor-pointer hover:text-orange-600 transition-colors">
