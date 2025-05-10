@@ -7,7 +7,7 @@ export interface Recipe {
   prepTime: number;
   cookTime: number;
   servings: number;
-  keywords: string[];
+  keywords?: string[];
   dateCreated: string;
   dateModified: string;
 }
