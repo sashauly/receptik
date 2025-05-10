@@ -95,6 +95,7 @@ interface Resources {
       "export": "Export",
       "text": "Text",
       "email": "Email",
+      "image": "Image",
       "twitter": "Twitter",
       "facebook": "Facebook",
       "exportThisRecipe": "Export this recipe",
