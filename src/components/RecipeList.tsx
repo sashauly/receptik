@@ -82,7 +82,6 @@ export default function RecipeList({
                 </div>
               </div>
             </CardContent>
-            {/* TODO make small dropdown for both icons */}
             <CardFooter className="flex gap-2 justify-end">
               <Button
                 variant="outline"

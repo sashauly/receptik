@@ -16,6 +16,8 @@
   - [ ] Add immediate refresh
   - [ ] Add ability to turn off confirmation dialogs
 - [ ] Add ability to add recipes from a file
+  - [ ] import for one or multiple recipes
+  - [ ] Maybe add ability to upload one recipe directly from JSON string
 - [ ] Add ability to add recipes from a URL( requires parsing?)
 - [ ] Add ability to share recipes
   - [ ] Email
@@ -23,8 +25,18 @@
   - [ ] Whatsapp
 - [ ] Add ability to upload images
   - [ ] Implement upload functionality from desktop and mobile
-  - [ ] Implement storage in IndexedDB
+  - [ ] Implement storage in IndexedDB (as base64 encoded string)
+  - [ ] Add ability to add photo using camera
   - [ ] Add ability to delete images
-- [ ] Add ability to add photo using camera
 - [ ] Add custom button to install PWA(i think it's now works only in chrome?)
-- [ ] Consider changing some UI elements to drawers
+- [x] Consider changing some UI elements to drawers
+- [ ] Adjust Recipe schema according to schema.org(https://schema.org/Recipe)
+  - [ ] Consider using units and amount for ingredients
+    - [ ] Add US and EU measurement units
+  - [ ] Consider adding photos or/and videos for each instructions step
+  - [ ] Add ability to specify cuisine
+  - [ ] Add ability to specify category
+  - [ ] Add ability to specify author
+- [ ] Move all logging to DEV level
+- [ ] Add toasts on success, warn and error
+- [ ] Adjust UI/UX for mobile (!)
