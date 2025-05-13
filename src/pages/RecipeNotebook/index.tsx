@@ -1,23 +1,18 @@
 import type React from "react";
 
-import { useState, useEffect } from "react";
-import RecipeForm from "@/components/RecipeForm";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
+import RecipeList from "@/components/RecipeList";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useUrlParams } from "@/hooks/useUrlParams";
-import type { Recipe } from "@/types/recipe";
-import { getUniqueSlug } from "@/lib/utils";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import MobileSearchDrawer from "./MobileSearchDrawer";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import DesktopRecipeNotebook from "./DesktopRecipeNotebook";
-import RecipeList from "@/components/RecipeList";
+import MobileSearchDrawer from "./MobileSearchDrawer";
 
 export default function RecipeNotebook() {
   const {
-    recipes,
     isLoading,
-    addRecipe,
-    updateRecipe,
     deleteRecipe,
     getRecipeById,
     getAllKeywords,
@@ -25,13 +20,12 @@ export default function RecipeNotebook() {
   } = useRecipes();
 
   const { getParam, updateParams } = useUrlParams();
+  const navigate = useNavigate();
 
   const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
 
   const querySearch = getParam("q") || "";
   const queryTag = getParam("tag") || "all";
-  const showCreateModal = getParam("create") === "true";
-  const editRecipeId = getParam("edit");
   const deleteRecipeId = getParam("delete");
 
   const [searchQuery, setSearchQuery] = useState(querySearch);
@@ -44,15 +38,13 @@ export default function RecipeNotebook() {
 
   const handleCloseModals = () => {
     updateParams({
-      create: null,
-      edit: null,
       delete: null,
       share: null,
     });
   };
 
   const handleEditRecipe = (recipeId: string) => {
-    updateParams({ edit: recipeId });
+    navigate(`/recipes/${recipeId}/edit`);
   };
 
   const handleDeleteRecipe = (recipeId: string) => {
@@ -65,30 +57,6 @@ export default function RecipeNotebook() {
 
       handleCloseModals();
     }
-  };
-
-  const handleSaveRecipe = async (recipe: Recipe) => {
-    if (editRecipeId) {
-      const otherRecipes = recipes.filter((r) => r.id !== editRecipeId);
-
-      const existingSlugs = otherRecipes
-        .map((r) => r.slug)
-        .filter((slug): slug is string => slug !== undefined);
-
-      const existingRecipe = getRecipeById(editRecipeId);
-      const needsNewSlug =
-        !existingRecipe || existingRecipe.name !== recipe.name;
-
-      const slug = needsNewSlug
-        ? getUniqueSlug(recipe.name, existingSlugs)
-        : (existingRecipe?.slug ?? getUniqueSlug(recipe.name, existingSlugs));
-
-      await updateRecipe(editRecipeId, { ...recipe, slug });
-    } else {
-      await addRecipe({ ...recipe });
-    }
-
-    handleCloseModals();
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,28 +78,6 @@ export default function RecipeNotebook() {
   const allTags = getAllKeywords();
   const filteredRecipes = filterRecipes(searchQuery, activeTag);
   const recipeToDelete = deleteRecipeId ? getRecipeById(deleteRecipeId) : null;
-  const editingRecipe = editRecipeId ? getRecipeById(editRecipeId) : null;
-
-  const commonProps = {
-    searchQuery,
-    activeTag,
-    allTags,
-    filteredRecipes,
-    isLoading,
-    onSearchChange: handleSearchChange,
-    onClearSearch: handleClearSearch,
-    onTagChange: handleTagChange,
-    onEditRecipe: handleEditRecipe,
-    onDeleteRecipe: handleDeleteRecipe,
-    showCreateModal,
-    editRecipeId,
-    deleteRecipeId,
-    onCloseModals: handleCloseModals,
-    onSaveRecipe: handleSaveRecipe,
-    confirmDeleteRecipe: confirmDeleteRecipe,
-    editingRecipe,
-    recipeToDelete,
-  };
 
   return (
     <div className="container mx-auto py-6 px-4 md:px-6 space-y-2">
@@ -140,26 +86,34 @@ export default function RecipeNotebook() {
           <RecipeList
             recipes={filteredRecipes}
             searchQuery={searchQuery}
-            onClearSearch={commonProps.onClearSearch}
-            onEditRecipe={(recipeId) => {
-              commonProps.onEditRecipe(recipeId);
-            }}
-            onDeleteRecipe={(id) => {
-              commonProps.onDeleteRecipe(id);
-            }}
+            onClearSearch={handleClearSearch}
+            onEditRecipe={handleEditRecipe}
+            onDeleteRecipe={handleDeleteRecipe}
           />
-          <MobileSearchDrawer {...commonProps} />
+          <MobileSearchDrawer
+            searchQuery={searchQuery}
+            activeTag={activeTag}
+            allTags={allTags}
+            isLoading={isLoading}
+            onSearchChange={handleSearchChange}
+            onClearSearch={handleClearSearch}
+            onTagChange={handleTagChange}
+          />
         </>
       ) : (
-        <DesktopRecipeNotebook {...commonProps} />
+        <DesktopRecipeNotebook
+          searchQuery={searchQuery}
+          activeTag={activeTag}
+          allTags={allTags}
+          filteredRecipes={filteredRecipes}
+          isLoading={isLoading}
+          onSearchChange={handleSearchChange}
+          onClearSearch={handleClearSearch}
+          onTagChange={handleTagChange}
+          onEditRecipe={handleEditRecipe}
+          onDeleteRecipe={handleDeleteRecipe}
+        />
       )}
-
-      <RecipeForm
-        initialRecipe={editingRecipe}
-        isOpen={showCreateModal || !!editRecipeId}
-        onClose={handleCloseModals}
-        onSave={handleSaveRecipe}
-      />
 
       <DeleteRecipeDialog
         recipe={recipeToDelete}

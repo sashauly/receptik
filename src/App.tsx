@@ -5,6 +5,8 @@ import RecipePage from "@/pages/RecipePage";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
 import RecipeNotebook from "./pages/RecipeNotebook/index";
+import CreateRecipePage from "./pages/CreateRecipePage";
+import EditRecipePage from "./pages/EditRecipePage";
 
 function App() {
   return (
@@ -12,7 +14,9 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<RecipeNotebook />} />
+          <Route path="/recipes/create" element={<CreateRecipePage />} />
           <Route path="/recipes/:slug" element={<RecipePage />} />
+          <Route path="/recipes/:slug/edit" element={<EditRecipePage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

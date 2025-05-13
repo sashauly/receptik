@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { generateSlug, getUniqueSlug } from "@/lib/utils";
 import type { Recipe } from "@/types/recipe";
-import { generateSlug } from "@/lib/utils";
+import { useCallback, useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 // import { sampleRecipes } from "@/lib/sample-data";
 import { idbStorage } from "@/lib/storage";
 
@@ -46,7 +46,9 @@ export function useRecipes() {
   }, [loadRecipes]);
 
   const addRecipe = useCallback(
-    async (recipe: Omit<Recipe, "id" | "dateCreated" | "dateModified" | "slug">) => {
+    async (
+      recipe: Omit<Recipe, "id" | "dateCreated" | "dateModified" | "slug">
+    ) => {
       const newRecipe: Recipe = {
         id: uuidv4(),
         slug: generateSlug(recipe.name),
@@ -77,6 +79,24 @@ export function useRecipes() {
           return;
         }
 
+        const needsNewSlug =
+          !existingRecipe || existingRecipe.name !== recipe.name;
+
+        if (needsNewSlug) {
+          const otherRecipes = recipes.filter((r) => r.id !== recipe.id);
+
+          const existingSlugs = otherRecipes
+            .map((r) => r.slug)
+            .filter((slug): slug is string => slug !== undefined);
+
+          const slug = needsNewSlug
+            ? getUniqueSlug(recipe.name as string, existingSlugs)
+            : (existingRecipe?.slug ??
+              getUniqueSlug(recipe.name as string, existingSlugs));
+
+          recipe.slug = slug;
+        }
+
         const updatedRecipe: Recipe = {
           ...existingRecipe,
           ...recipe,
@@ -92,7 +112,7 @@ export function useRecipes() {
         console.error("Error updating recipe in IndexedDB:", error);
       }
     },
-    []
+    [recipes]
   );
 
   const deleteRecipe = useCallback(async (id: string) => {

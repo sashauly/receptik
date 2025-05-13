@@ -1,38 +1,36 @@
-import { useEffect, useState } from "react";
-import RecipeDetail from "@/components/RecipeDetail";
-import RecipeForm from "@/components/RecipeForm";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
+import RecipeDetail from "@/components/RecipeDetail";
 import ShareRecipeDialog from "@/components/ShareRecipeDialog";
-import type { Recipe } from "@/types/recipe";
-import { useNavigate, useParams } from "react-router";
-import { useUrlParams } from "@/hooks/useUrlParams";
 import { useRecipes } from "@/hooks/useRecipes";
+import { useUrlParams } from "@/hooks/useUrlParams";
+import type { Recipe } from "@/types/recipe";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router";
 
 export default function RecipePage() {
   const { t } = useTranslation();
   const { slug } = useParams();
-
-  const { isLoading, updateRecipe, deleteRecipe, getRecipeBySlug } =
-    useRecipes();
-
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
-
-  useEffect(() => {
-    if (!slug) return;
-    setRecipe(getRecipeBySlug(slug));
-  }, [slug, getRecipeBySlug]);
-
+  const recipeSlug = slug === "create" ? undefined : slug;
   const { getParam, updateParams } = useUrlParams();
 
   const navigate = useNavigate();
 
-  const showEdit = getParam("edit") === "true";
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+
+  const { isLoading, deleteRecipe, getRecipeBySlug } =
+    useRecipes();
+
+  useEffect(() => {
+    if (!recipeSlug) return;
+    setRecipe(getRecipeBySlug(recipeSlug));
+  }, [recipeSlug, getRecipeBySlug]);
+
   const showDelete = getParam("delete") === "true";
   const showShare = getParam("share") === "true";
 
   const handleEditRecipe = () => {
-    updateParams({ edit: "true" });
+    navigate(`/recipes/${recipeSlug}/edit`);
   };
 
   const handleDeleteRecipe = () => {
@@ -45,7 +43,6 @@ export default function RecipePage() {
 
   const handleCloseModals = () => {
     updateParams({
-      edit: null,
       delete: null,
       share: null,
     });
@@ -56,12 +53,6 @@ export default function RecipePage() {
       await deleteRecipe(recipe.id);
       navigate("/");
     }
-  };
-
-  const handleSaveRecipe = async (updatedRecipe: Recipe) => {
-    await updateRecipe(updatedRecipe.id, updatedRecipe);
-    setRecipe(updatedRecipe);
-    handleCloseModals();
   };
 
   if (isLoading) {
@@ -87,19 +78,14 @@ export default function RecipePage() {
 
   return (
     <div className="container max-w-3xl mx-auto px-4 py-6">
-      <RecipeDetail
-        recipe={recipe}
-        onEdit={handleEditRecipe}
-        onDelete={handleDeleteRecipe}
-        onShare={handleShareRecipe}
-      />
-
-      <RecipeForm
-        initialRecipe={recipe}
-        isOpen={showEdit}
-        onClose={handleCloseModals}
-        onSave={handleSaveRecipe}
-      />
+      {recipe && (
+        <RecipeDetail
+          recipe={recipe}
+          onEdit={handleEditRecipe}
+          onDelete={handleDeleteRecipe}
+          onShare={handleShareRecipe}
+        />
+      )}
 
       <DeleteRecipeDialog
         recipe={recipe}

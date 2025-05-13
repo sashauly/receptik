@@ -1,6 +1,6 @@
-import { ChevronLeft, Edit, Heart, Share2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { ChevronLeft, Edit, Heart, Share2, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
@@ -20,7 +20,7 @@ const RecipeHeader: React.FC<RecipeHeaderProps> = ({
   const navigate = useNavigate();
 
   const handleClickBackButton = () => {
-    navigate(-1);
+    navigate('/');
   };
 
   const onAddToFavorites = () => {

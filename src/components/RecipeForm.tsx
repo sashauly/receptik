@@ -2,20 +2,9 @@ import { v4 as uuidv4 } from "uuid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import type { Recipe } from "@/types/recipe";
 import { getUniqueSlug } from "@/lib/utils";
-import {
-  recipeFormSchema,
-  type RecipeFormValues,
-} from "@/lib/schema";
+import { recipeFormSchema, type RecipeFormValues } from "@/lib/schema";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useTranslation } from "react-i18next";
 import BasicInfoFields from "./recipe-form/BasicInfoFields";
@@ -38,17 +27,15 @@ const emptyRecipe = (): RecipeFormValues => ({
 
 interface RecipeFormModalProps {
   initialRecipe: Recipe | null;
-  isOpen: boolean;
-  onClose: () => void;
   onSave: (recipe: Recipe) => void;
+  onCancel: () => void;
 }
 
-export default function RecipeForm({
+const RecipeForm: React.FC<RecipeFormModalProps> = ({
   initialRecipe,
-  isOpen,
-  onClose,
   onSave,
-}: RecipeFormModalProps) {
+  onCancel,
+}) => {
   const { t } = useTranslation();
   const { recipes } = useRecipes();
 
@@ -109,43 +96,28 @@ export default function RecipeForm({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>
-            {initialRecipe ? t("forms.editRecipe") : t("forms.createRecipe")}
-          </DialogTitle>
-          <DialogDescription>
-            {initialRecipe
-              ? t("forms.editRecipeDescription")
-              : t("forms.createRecipeDescription")}
-          </DialogDescription>
-        </DialogHeader>
-        <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <BasicInfoFields />
+    <FormProvider {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <BasicInfoFields />
 
-            <KeywordsField />
+        <KeywordsField />
 
-            <IngredientFields />
+        <IngredientFields />
 
-            <InstructionFields />
+        <InstructionFields />
 
-            <DialogFooter className="flex gap-2">
-              <Button
-                type="submit"
-                className="bg-orange-600 hover:bg-orange-700"
-              >
-                {t("forms.saveRecipe")}
-              </Button>
-              <Button type="button" variant="outline" onClick={onClose}>
-                {t("common.cancel")}
-              </Button>
-              {/* <DevTool control={form.control} /> */}
-            </DialogFooter>
-          </form>
-        </FormProvider>
-      </DialogContent>
-    </Dialog>
+        <div className="flex gap-2">
+          <Button type="submit" className="bg-orange-600 hover:bg-orange-700">
+            {t("forms.saveRecipe")}
+          </Button>
+          <Button type="button" variant="outline" onClick={onCancel}>
+            {t("common.cancel")}
+          </Button>
+          {/* <DevTool control={form.control} /> */}
+        </div>
+      </form>
+    </FormProvider>
   );
-}
+};
+
+export default RecipeForm;

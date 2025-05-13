@@ -25,7 +25,7 @@ export default function DesktopHeader() {
             asChild
             className="flex items-center bg-orange-600 hover:bg-orange-700 dark:text-white"
           >
-            <Link to="/?create=true" title={t("common.addRecipe")}>
+            <Link to="/recipes/create" title={t("common.addRecipe")}>
               <PlusCircle className="h-4 w-4" />
               {t("common.addRecipe")}
             </Link>
