@@ -1,6 +1,6 @@
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import Footer from "./layout/Footer";
 import DesktopHeader from "./layout/DesktopHeader";
+import Footer from "./layout/Footer";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ export default function Layout({ children }: LayoutProps) {
 
       <main className="flex-grow">{children}</main>
 
-      <Footer />
+      {!isSmallDevice && <Footer />}
     </div>
   );
 }

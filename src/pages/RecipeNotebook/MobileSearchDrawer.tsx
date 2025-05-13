@@ -1,11 +1,11 @@
 import type React from "react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { Drawer } from "vaul";
 import RecipeFilters from "@/components/RecipeFilters";
 import SearchBar from "@/components/SearchBar";
-import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+import { Drawer } from "vaul";
 
 const INITIAL_SNAP_POINT_FALLBACK = "92px";
 const INITIAL_SNAP_POINT_THRESHOLD = "143px";
@@ -41,6 +41,7 @@ export default function MobileSearchDrawer({
   const [currentSnap, setCurrentSnap] = useState<number | string | null>(
     snapPoints[0]
   );
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const calculateSnapPoints = useCallback(() => {
     const drawerContent = drawerContentRef.current;
@@ -107,6 +108,39 @@ export default function MobileSearchDrawer({
   }, [snapPoints]);
 
   useEffect(() => {
+    const handleViewportChange = () => {
+      const visualViewportHeight = window.visualViewport?.height;
+      const initialViewportHeight = window.innerHeight;
+
+      if (
+        visualViewportHeight &&
+        visualViewportHeight < initialViewportHeight
+      ) {
+        setIsKeyboardOpen(true);
+        const keyboardHeight = initialViewportHeight - visualViewportHeight;
+
+        document.documentElement.style.setProperty(
+          "--keyboard-height",
+          `${keyboardHeight}px`
+        );
+      } else {
+        setIsKeyboardOpen(false);
+
+        document.documentElement.style.removeProperty("--keyboard-height");
+      }
+    };
+
+    window.visualViewport?.addEventListener("resize", handleViewportChange);
+
+    return () => {
+      window.visualViewport?.removeEventListener(
+        "resize",
+        handleViewportChange
+      );
+    };
+  }, []);
+
+  useEffect(() => {
     const drawerContent = drawerContentRef.current;
     if (!drawerContent) {
       return;
@@ -157,12 +191,16 @@ export default function MobileSearchDrawer({
       snapToSequentialPoint
     >
       <Drawer.Portal data-slot="drawer-portal">
-        <Drawer.Overlay
-          data-slot="drawer-overlay"
-          className={cn(
-            "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-          )}
-        />
+        {/* Overlay only if not in the smallest snap point?*/}
+        {/* {!isKeyboardOpen && currentSnap !== snapPoints[0] && (
+            <Drawer.Overlay
+                data-slot="drawer-overlay"
+                className={cn(
+                  "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+                )}
+              />
+        )} */}
+
         <Drawer.Content
           ref={drawerContentRef}
           data-testid="content"
@@ -170,8 +208,9 @@ export default function MobileSearchDrawer({
           className={cn(
             "group/drawer-content z-50 bg-background rounded-t-lg",
             "flex flex-col h-full",
-            "fixed bottom-0 left-0 right-0",
-            "data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24  data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t"
+
+            "fixed left-0 right-0 data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
+            isKeyboardOpen ? "bottom-[var(--keyboard-height,0px)]" : "bottom-0"
           )}
         >
           <div
@@ -198,8 +237,10 @@ export default function MobileSearchDrawer({
           <div
             data-part="scrollable-content"
             className={cn("flex flex-col mx-auto w-full px-4", {
-              "overflow-y-auto": currentSnap === snapPoints[1],
-              "overflow-hidden": currentSnap !== snapPoints[1],
+              "overflow-y-auto":
+                currentSnap === snapPoints[1] && !isKeyboardOpen,
+              "overflow-hidden":
+                currentSnap !== snapPoints[1] || isKeyboardOpen,
             })}
           >
             <RecipeFilters

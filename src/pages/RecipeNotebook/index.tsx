@@ -104,7 +104,7 @@ export default function RecipeNotebook() {
     <div className="container mx-auto py-6 px-4 pt-18 md:px-6 space-y-2">
       {isSmallDevice ? (
         <>
-          <div className="fixed top-6 right-8 z-50">
+          <div className="fixed top-6 right-4 md:right-8 z-50">
             {showSettingsButton && (
               <Button
                 asChild
@@ -119,7 +119,7 @@ export default function RecipeNotebook() {
             )}
           </div>
 
-          <div className="fixed right-8 z-50 flex flex-col items-end gap-4 bottom-[calc(92px+1rem)]">
+          <div className="fixed right-4 md:right-6 z-50 flex flex-col items-end gap-4 bottom-[calc(92px+1rem)]">
             <Button
               asChild
               size="icon"
