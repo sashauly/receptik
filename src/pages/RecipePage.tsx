@@ -9,7 +9,7 @@ import { useUrlParams } from "@/hooks/useUrlParams";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useTranslation } from "react-i18next";
 
-export default function RecipeDetailPage() {
+export default function RecipePage() {
   const { t } = useTranslation();
   const { slug } = useParams();
 
