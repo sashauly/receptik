@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 
 const INITIAL_SNAP_POINT_FALLBACK = "92px";
 const INITIAL_SNAP_POINT_THRESHOLD = "143px";
@@ -42,7 +41,7 @@ export default function MobileSearchDrawer({
     snapPoints[0]
   );
   console.log(setCurrentSnap);
-  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  // const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const calculateSnapPoints = useCallback(() => {
     const drawerContent = drawerContentRef.current;
@@ -108,59 +107,44 @@ export default function MobileSearchDrawer({
     }
   }, [snapPoints]);
 
-  useEffect(() => {
-    const handleViewportChange = () => {
-      const visualViewportHeight = window.visualViewport?.height;
-      console.log(
-        "🚀 ~ handleViewportChange ~ visualViewportHeight:",
-        visualViewportHeight
-      );
-      const initialViewportHeight = window.innerHeight;
-      console.log(
-        "🚀 ~ handleViewportChange ~ initialViewportHeight:",
-        initialViewportHeight
-      );
+  // useEffect(() => {
+  //   const handleViewportChange = () => {
+  //     const visualViewportHeight = window.visualViewport?.height;
+  //     const initialViewportHeight = window.innerHeight;
 
-      if (
-        visualViewportHeight &&
-        visualViewportHeight < initialViewportHeight
-      ) {
-        setIsKeyboardOpen(true);
-        const keyboardHeight = initialViewportHeight - visualViewportHeight;
-        console.log(
-          "🚀 ~ handleViewportChange ~ keyboardHeight:",
-          keyboardHeight
-        );
-        toast.info(
-          `Keyboard height: ${keyboardHeight}px\n viewport height: ${initialViewportHeight}px`
-        );
-        document.documentElement.style.setProperty(
-          "--keyboard-height",
-          `${keyboardHeight}px`
-        );
+  //     if (
+  //       visualViewportHeight &&
+  //       visualViewportHeight < initialViewportHeight
+  //     ) {
+  //       setIsKeyboardOpen(true);
+  //       const keyboardHeight = initialViewportHeight - visualViewportHeight;
+  //       document.documentElement.style.setProperty(
+  //         "--keyboard-height",
+  //         `${keyboardHeight}px`
+  //       );
 
-        // // Optional: Scroll the input into view if it's not visible
-        // requestAnimationFrame(() => {
-        //   searchInputRef.current?.scrollIntoView({
-        //     behavior: "smooth",
-        //     block: "nearest",
-        //   });
-        // });
-      } else {
-        setIsKeyboardOpen(false);
-        document.documentElement.style.removeProperty("--keyboard-height");
-      }
-    };
+  //       // // Optional: Scroll the input into view if it's not visible
+  //       // requestAnimationFrame(() => {
+  //       //   searchInputRef.current?.scrollIntoView({
+  //       //     behavior: "smooth",
+  //       //     block: "nearest",
+  //       //   });
+  //       // });
+  //     } else {
+  //       setIsKeyboardOpen(false);
+  //       document.documentElement.style.removeProperty("--keyboard-height");
+  //     }
+  //   };
 
-    window.visualViewport?.addEventListener("resize", handleViewportChange);
+  //   window.visualViewport?.addEventListener("resize", handleViewportChange);
 
-    return () => {
-      window.visualViewport?.removeEventListener(
-        "resize",
-        handleViewportChange
-      );
-    };
-  }, []);
+  //   return () => {
+  //     window.visualViewport?.removeEventListener(
+  //       "resize",
+  //       handleViewportChange
+  //     );
+  //   };
+  // }, []);
 
   useEffect(() => {
     const drawerContent = drawerContentRef.current;
@@ -278,9 +262,9 @@ export default function MobileSearchDrawer({
       className={cn(
         "fixed bottom-0 left-0 right-0 z-40 bg-background p-4", // Adjust padding and background as needed
         "transition-transform duration-300 ease-out", // Add a transition for smooth movement
-        isKeyboardOpen
-          ? "translate-y-[calc(-1*var(--keyboard-height))]"
-          : "translate-y-0" // Apply transform based on keyboard height
+        // isKeyboardOpen
+        //   ? "translate-y-[calc(-1*var(--keyboard-height))]"
+        //   : "translate-y-0" // Apply transform based on keyboard height
       )}
     >
       <SearchBar
