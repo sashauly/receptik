@@ -1,11 +1,9 @@
 import type React from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import RecipeFilters from "@/components/RecipeFilters";
 import SearchBar from "@/components/SearchBar";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import { Drawer } from "vaul";
 
 const INITIAL_SNAP_POINT_FALLBACK = "92px";
 const INITIAL_SNAP_POINT_THRESHOLD = "143px";
@@ -29,6 +27,7 @@ export default function MobileSearchDrawer({
   onClearSearch,
   onTagChange,
 }: MobileRecipeNotebookProps) {
+  console.log(activeTag, allTags, onTagChange);
   const { t } = useTranslation();
 
   const drawerContentRef = useRef<HTMLDivElement>(null);
@@ -41,6 +40,7 @@ export default function MobileSearchDrawer({
   const [currentSnap, setCurrentSnap] = useState<number | string | null>(
     snapPoints[0]
   );
+  console.log(setCurrentSnap);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
 
   const calculateSnapPoints = useCallback(() => {
@@ -118,14 +118,20 @@ export default function MobileSearchDrawer({
       ) {
         setIsKeyboardOpen(true);
         const keyboardHeight = initialViewportHeight - visualViewportHeight;
-
         document.documentElement.style.setProperty(
           "--keyboard-height",
           `${keyboardHeight}px`
         );
+
+        // Optional: Scroll the input into view if it's not visible
+        requestAnimationFrame(() => {
+          searchInputRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest",
+          });
+        });
       } else {
         setIsKeyboardOpen(false);
-
         document.documentElement.style.removeProperty("--keyboard-height");
       }
     };
@@ -179,78 +185,95 @@ export default function MobileSearchDrawer({
   }
 
   return (
-    <Drawer.Root
-      data-slot="drawer"
-      open={true}
-      onOpenChange={() => {}}
-      snapPoints={snapPoints}
-      activeSnapPoint={currentSnap}
-      setActiveSnapPoint={setCurrentSnap}
-      modal={false}
-      dismissible={false}
-      snapToSequentialPoint
+    // <Drawer.Root
+    //   data-slot="drawer"
+    //   open={true}
+    //   onOpenChange={() => {}}
+    //   snapPoints={snapPoints}
+    //   activeSnapPoint={currentSnap}
+    //   setActiveSnapPoint={setCurrentSnap}
+    //   modal={false}
+    //   dismissible={false}
+    //   snapToSequentialPoint
+    // >
+    //   <Drawer.Portal data-slot="drawer-portal">
+    //     {/* Overlay only if not in the smallest snap point?*/}
+    //     {/* {!isKeyboardOpen && currentSnap !== snapPoints[0] && (
+    //         <Drawer.Overlay
+    //             data-slot="drawer-overlay"
+    //             className={cn(
+    //               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
+    //             )}
+    //           />
+    //     )} */}
+
+    //     <Drawer.Content
+    //       ref={drawerContentRef}
+    //       data-testid="content"
+    //       data-slot="drawer-content"
+    //       className={cn(
+    //         "group/drawer-content z-50 bg-background rounded-t-lg",
+    //         "flex flex-col h-full",
+
+    //         "fixed left-0 right-0 data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
+    //         isKeyboardOpen ? "bottom-[var(--keyboard-height,0px)]" : "bottom-0"
+    //       )}
+    //     >
+    //       <div
+    //         data-part="drag-handle"
+    //         className="bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block"
+    //       />
+    //       <div
+    //         data-part="always-visible"
+    //         className="flex flex-col mx-auto w-full p-4"
+    //       >
+    //         <Drawer.Title className="sr-only">Search and Filter</Drawer.Title>
+    //         <Drawer.Description className="sr-only">
+    //           Type to filter recipes
+    //         </Drawer.Description>
+    //         <SearchBar
+    //           ref={searchInputRef}
+    //           value={searchQuery}
+    //           onChange={onSearchChange}
+    //           onClear={onClearSearch}
+    //           placeholder={t("home.searchPlaceholder")}
+    //         />
+    //       </div>
+
+    //       <div
+    //         data-part="scrollable-content"
+    //         className={cn("flex flex-col mx-auto w-full px-4", {
+    //           "overflow-y-auto":
+    //             currentSnap === snapPoints[1] && !isKeyboardOpen,
+    //           "overflow-hidden":
+    //             currentSnap !== snapPoints[1] || isKeyboardOpen,
+    //         })}
+    //       >
+    //         <RecipeFilters
+    //           activeKeyword={activeTag}
+    //           keywords={allTags}
+    //           onKeywordChange={onTagChange}
+    //         />
+    //       </div>
+    //     </Drawer.Content>
+    //   </Drawer.Portal>
+    // </Drawer.Root>
+    <div
+      className={cn(
+        "fixed bottom-0 left-0 right-0 z-40 bg-background p-4", // Adjust padding and background as needed
+        "transition-transform duration-300 ease-out", // Add a transition for smooth movement
+        isKeyboardOpen
+          ? "translate-y-[calc(-1*var(--keyboard-height))]"
+          : "translate-y-0" // Apply transform based on keyboard height
+      )}
     >
-      <Drawer.Portal data-slot="drawer-portal">
-        {/* Overlay only if not in the smallest snap point?*/}
-        {/* {!isKeyboardOpen && currentSnap !== snapPoints[0] && (
-            <Drawer.Overlay
-                data-slot="drawer-overlay"
-                className={cn(
-                  "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50"
-                )}
-              />
-        )} */}
-
-        <Drawer.Content
-          ref={drawerContentRef}
-          data-testid="content"
-          data-slot="drawer-content"
-          className={cn(
-            "group/drawer-content z-50 bg-background rounded-t-lg",
-            "flex flex-col h-full",
-
-            "fixed left-0 right-0 data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t",
-            isKeyboardOpen ? "bottom-[var(--keyboard-height,0px)]" : "bottom-0"
-          )}
-        >
-          <div
-            data-part="drag-handle"
-            className="bg-muted mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full group-data-[vaul-drawer-direction=bottom]/drawer-content:block"
-          />
-          <div
-            data-part="always-visible"
-            className="flex flex-col mx-auto w-full p-4"
-          >
-            <Drawer.Title className="sr-only">Search and Filter</Drawer.Title>
-            <Drawer.Description className="sr-only">
-              Type to filter recipes
-            </Drawer.Description>
-            <SearchBar
-              ref={searchInputRef}
-              value={searchQuery}
-              onChange={onSearchChange}
-              onClear={onClearSearch}
-              placeholder={t("home.searchPlaceholder")}
-            />
-          </div>
-
-          <div
-            data-part="scrollable-content"
-            className={cn("flex flex-col mx-auto w-full px-4", {
-              "overflow-y-auto":
-                currentSnap === snapPoints[1] && !isKeyboardOpen,
-              "overflow-hidden":
-                currentSnap !== snapPoints[1] || isKeyboardOpen,
-            })}
-          >
-            <RecipeFilters
-              activeKeyword={activeTag}
-              keywords={allTags}
-              onKeywordChange={onTagChange}
-            />
-          </div>
-        </Drawer.Content>
-      </Drawer.Portal>
-    </Drawer.Root>
+      <SearchBar
+        ref={searchInputRef} // Ref for the input field
+        value={searchQuery}
+        onChange={onSearchChange}
+        onClear={onClearSearch}
+        placeholder={t("home.searchPlaceholder")}
+      />
+    </div>
   );
 }
