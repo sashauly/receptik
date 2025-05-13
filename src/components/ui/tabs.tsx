@@ -1,7 +1,7 @@
-import * as React from "react"
-import * as TabsPrimitive from "@radix-ui/react-tabs"
+import * as React from "react";
+import * as TabsPrimitive from "@radix-ui/react-tabs";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 function Tabs({
   className,
@@ -13,13 +13,13 @@ function Tabs({
       className={cn("flex flex-col gap-2", className)}
       {...props}
     />
-  )
+  );
 }
 
-function TabsList({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsPrimitive.List>) {
+const TabsList = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<typeof TabsPrimitive.List>
+>(({ className, ...props }, ref) => {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
@@ -27,10 +27,11 @@ function TabsList({
         "bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]",
         className
       )}
+      ref={ref}
       {...props}
     />
-  )
-}
+  );
+});
 
 function TabsTrigger({
   className,
@@ -45,7 +46,7 @@ function TabsTrigger({
       )}
       {...props}
     />
-  )
+  );
 }
 
 function TabsContent({
@@ -58,7 +59,7 @@ function TabsContent({
       className={cn("flex-1 outline-none", className)}
       {...props}
     />
-  )
+  );
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent }
+export { Tabs, TabsList, TabsTrigger, TabsContent };
