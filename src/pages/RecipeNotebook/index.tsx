@@ -1,15 +1,16 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import RecipeList from "@/components/RecipeList";
 import RecipeForm from "@/components/RecipeForm";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
-import RecipeFilters from "@/components/RecipeFilters";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useUrlParams } from "@/hooks/useUrlParams";
 import type { Recipe } from "@/types/recipe";
 import { getUniqueSlug } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import MobileSearchDrawer from "./MobileSearchDrawer";
+import DesktopRecipeNotebook from "./DesktopRecipeNotebook";
+import RecipeList from "@/components/RecipeList";
 
 export default function RecipeNotebook() {
   const {
@@ -24,7 +25,8 @@ export default function RecipeNotebook() {
   } = useRecipes();
 
   const { getParam, updateParams } = useUrlParams();
-  const { t } = useTranslation();
+
+  const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
 
   const querySearch = getParam("q") || "";
   const queryTag = getParam("tag") || "all";
@@ -49,23 +51,22 @@ export default function RecipeNotebook() {
     });
   };
 
-  const handleEditRecipe = (recipe: Recipe) => {
-    updateParams({ edit: recipe.id });
+  const handleEditRecipe = (recipeId: string) => {
+    updateParams({ edit: recipeId });
   };
 
-  const handleDeleteRecipe = (id: string) => {
-    updateParams({ delete: id });
+  const handleDeleteRecipe = (recipeId: string) => {
+    updateParams({ delete: recipeId });
   };
 
   const confirmDeleteRecipe = async () => {
     if (deleteRecipeId) {
       await deleteRecipe(deleteRecipeId);
-      // TODO add toast
+
       handleCloseModals();
     }
   };
 
-  // TODO check to make sure we're not duplicate code for slugs
   const handleSaveRecipe = async (recipe: Recipe) => {
     if (editRecipeId) {
       const otherRecipes = recipes.filter((r) => r.id !== editRecipeId);
@@ -111,32 +112,47 @@ export default function RecipeNotebook() {
   const recipeToDelete = deleteRecipeId ? getRecipeById(deleteRecipeId) : null;
   const editingRecipe = editRecipeId ? getRecipeById(editRecipeId) : null;
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        {t("home.loadingRecipes")}
-      </div>
-    );
-  }
+  const commonProps = {
+    searchQuery,
+    activeTag,
+    allTags,
+    filteredRecipes,
+    isLoading,
+    onSearchChange: handleSearchChange,
+    onClearSearch: handleClearSearch,
+    onTagChange: handleTagChange,
+    onEditRecipe: handleEditRecipe,
+    onDeleteRecipe: handleDeleteRecipe,
+    showCreateModal,
+    editRecipeId,
+    deleteRecipeId,
+    onCloseModals: handleCloseModals,
+    onSaveRecipe: handleSaveRecipe,
+    confirmDeleteRecipe: confirmDeleteRecipe,
+    editingRecipe,
+    recipeToDelete,
+  };
 
   return (
-    <div className="container mx-auto py-6 px-4 md:px-6 space-y-4">
-      <RecipeFilters
-        searchQuery={searchQuery}
-        activeKeyword={activeTag}
-        keywords={allTags}
-        onSearchChange={handleSearchChange}
-        onClearSearch={handleClearSearch}
-        onKeywordChange={handleTagChange}
-      />
-
-      <RecipeList
-        recipes={filteredRecipes}
-        searchQuery={searchQuery}
-        onClearSearch={handleClearSearch}
-        onEditRecipe={handleEditRecipe}
-        onDeleteRecipe={handleDeleteRecipe}
-      />
+    <div className="container mx-auto py-6 px-4 md:px-6 space-y-2">
+      {isSmallDevice ? (
+        <>
+          <RecipeList
+            recipes={filteredRecipes}
+            searchQuery={searchQuery}
+            onClearSearch={commonProps.onClearSearch}
+            onEditRecipe={(recipeId) => {
+              commonProps.onEditRecipe(recipeId);
+            }}
+            onDeleteRecipe={(id) => {
+              commonProps.onDeleteRecipe(id);
+            }}
+          />
+          <MobileSearchDrawer {...commonProps} />
+        </>
+      ) : (
+        <DesktopRecipeNotebook {...commonProps} />
+      )}
 
       <RecipeForm
         initialRecipe={editingRecipe}

@@ -1,10 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { Toaster } from "@/components/ui/sonner";
 import Layout from "@/components/Layout";
-import RecipeNotebook from "@/pages/RecipeNotebook";
 import RecipeDetailsPage from "@/pages/RecipeDetailsPage";
 import NotFound from "./pages/NotFound";
 import Settings from "./pages/Settings";
+import RecipeNotebook from "./pages/RecipeNotebook/index";
 
 function App() {
   return (
