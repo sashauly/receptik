@@ -123,13 +123,13 @@ export default function MobileSearchDrawer({
           `${keyboardHeight}px`
         );
 
-        // Optional: Scroll the input into view if it's not visible
-        requestAnimationFrame(() => {
-          searchInputRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-          });
-        });
+        // // Optional: Scroll the input into view if it's not visible
+        // requestAnimationFrame(() => {
+        //   searchInputRef.current?.scrollIntoView({
+        //     behavior: "smooth",
+        //     block: "nearest",
+        //   });
+        // });
       } else {
         setIsKeyboardOpen(false);
         document.documentElement.style.removeProperty("--keyboard-height");
