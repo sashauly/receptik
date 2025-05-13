@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import SearchBar from "@/components/SearchBar";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 const INITIAL_SNAP_POINT_FALLBACK = "92px";
 const INITIAL_SNAP_POINT_THRESHOLD = "143px";
@@ -110,7 +111,15 @@ export default function MobileSearchDrawer({
   useEffect(() => {
     const handleViewportChange = () => {
       const visualViewportHeight = window.visualViewport?.height;
+      console.log(
+        "🚀 ~ handleViewportChange ~ visualViewportHeight:",
+        visualViewportHeight
+      );
       const initialViewportHeight = window.innerHeight;
+      console.log(
+        "🚀 ~ handleViewportChange ~ initialViewportHeight:",
+        initialViewportHeight
+      );
 
       if (
         visualViewportHeight &&
@@ -118,6 +127,13 @@ export default function MobileSearchDrawer({
       ) {
         setIsKeyboardOpen(true);
         const keyboardHeight = initialViewportHeight - visualViewportHeight;
+        console.log(
+          "🚀 ~ handleViewportChange ~ keyboardHeight:",
+          keyboardHeight
+        );
+        toast.info(
+          `Keyboard height: ${keyboardHeight}px\n viewport height: ${initialViewportHeight}px`
+        );
         document.documentElement.style.setProperty(
           "--keyboard-height",
           `${keyboardHeight}px`
