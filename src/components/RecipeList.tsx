@@ -4,14 +4,14 @@ import { Clock, Edit, Trash2, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Recipe } from "@/types/recipe";
 import NoResults from "@/components/NoResults";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
 interface RecipeListProps {
   recipes: Recipe[];
   searchQuery: string;
   onClearSearch: () => void;
-  onEditRecipe: (recipe: Recipe) => void;
+  onEditRecipe: (recipeId: string) => void;
   onDeleteRecipe: (id: string) => void;
 }
 
@@ -36,7 +36,7 @@ export default function RecipeList({
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {recipes.map((recipe) => (
         <Link
           key={recipe.id}
@@ -86,7 +86,7 @@ export default function RecipeList({
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => onEditRecipe(recipe)}
+                onClick={() => onEditRecipe(recipe.id)}
               >
                 <Edit className="h-4 w-4" />
               </Button>

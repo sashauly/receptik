@@ -4,7 +4,7 @@ import RecipeForm from "@/components/RecipeForm";
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import ShareRecipeDialog from "@/components/ShareRecipeDialog";
 import type { Recipe } from "@/types/recipe";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 import { useUrlParams } from "@/hooks/useUrlParams";
 import { useRecipes } from "@/hooks/useRecipes";
 import { useTranslation } from "react-i18next";

@@ -2,7 +2,7 @@ import { ChevronLeft, Edit, Heart, Share2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface RecipeHeaderProps {
   onEdit: () => void;
