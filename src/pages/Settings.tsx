@@ -5,14 +5,16 @@ import { Separator } from "@/components/ui/separator";
 import { useRecipes } from "@/hooks/useRecipes";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher";
 import { exportAllRecipesAsJson } from "@/lib/utils/export";
-import { Download, Trash2 } from "lucide-react";
+import { ChevronLeft, Download, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 export default function Settings() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const { recipes, deleteAllRecipes } = useRecipes();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const onExportAllAsJson = () => {
     try {
@@ -34,11 +36,25 @@ export default function Settings() {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="container mx-auto py-6 px-4 md:px-6 space-y-4">
       <h2 className="text-3xl font-bold tracking-tight">
         {t("settings.title")}
       </h2>
+      <div className="flex items-center mb-4 gap-2">
+        <Button
+          variant="ghost"
+          onClick={handleBack}
+          className="flex items-center"
+        >
+          <ChevronLeft />
+          Back
+        </Button>
+      </div>
 
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
@@ -53,7 +69,7 @@ export default function Settings() {
             <Download className="h-4 w-4" />
             {t("share.exportAllAsJson")}
           </Button>
-          
+
           <h3 className="text-sm font-medium">{t("settings.resetAllData")}</h3>
           <Button onClick={onResetAllData}>
             <Trash2 className="h-4 w-4" />

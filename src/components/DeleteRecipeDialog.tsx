@@ -14,12 +14,12 @@ import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
   DrawerDescription,
   DrawerFooter,
-  DrawerClose,
+  DrawerHeader,
+  DrawerTitle,
 } from "./ui/drawer";
 
 interface DeleteRecipeDialogProps {
@@ -54,7 +54,7 @@ export default function DeleteRecipeDialog({
             <DrawerClose asChild>
               <Button variant="outline">{t("common.cancel")}</Button>
             </DrawerClose>
-            <Button onClick={onConfirm} className="bg-red-600 hover:bg-red-700">
+            <Button variant="destructive" onClick={onConfirm}>
               {t("common.delete")}
             </Button>
           </DrawerFooter>
@@ -76,10 +76,7 @@ export default function DeleteRecipeDialog({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
-          <AlertDialogAction
-            onClick={onConfirm}
-            className="bg-red-600 hover:bg-red-700"
-          >
+          <AlertDialogAction onClick={onConfirm}>
             {t("common.delete")}
           </AlertDialogAction>
         </AlertDialogFooter>

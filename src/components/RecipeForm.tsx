@@ -1,18 +1,18 @@
-import { v4 as uuidv4 } from "uuid";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import type { Recipe } from "@/types/recipe";
-import { getUniqueSlug } from "@/lib/utils";
-import { recipeFormSchema, type RecipeFormValues } from "@/lib/schema";
 import { useRecipes } from "@/hooks/useRecipes";
-import { useTranslation } from "react-i18next";
-import BasicInfoFields from "./recipe-form/BasicInfoFields";
-import { toast } from "sonner";
-import KeywordsField from "./recipe-form/KeywordFields";
-import IngredientFields from "./recipe-form/IngredientFields";
+import { recipeFormSchema, type RecipeFormValues } from "@/lib/schema";
+import { getUniqueSlug } from "@/lib/utils";
+import type { Recipe } from "@/types/recipe";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
+import BasicInfoFields from "./recipe-form/BasicInfoFields";
+import IngredientFields from "./recipe-form/IngredientFields";
 import InstructionFields from "./recipe-form/InstructionFields";
+import KeywordsField from "./recipe-form/KeywordFields";
 // import { DevTool } from "@hookform/devtools";
 
 const emptyRecipe = (): RecipeFormValues => ({
@@ -107,9 +107,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         <InstructionFields />
 
         <div className="flex gap-2">
-          <Button type="submit" className="bg-orange-600 hover:bg-orange-700">
-            {t("forms.saveRecipe")}
-          </Button>
+          <Button type="submit">{t("forms.saveRecipe")}</Button>
           <Button type="button" variant="outline" onClick={onCancel}>
             {t("common.cancel")}
           </Button>
