@@ -21,9 +21,26 @@ export function convertMinutesToObject(minutes: number): {
   return { hours, minutes: remainingMinutes };
 }
 
-export function formatTime(minutes: number, t: TFunction) {
+export function formatTime(
+  minutes: number,
+  t: TFunction
+): { timeString: string; isoString: string } {
+  let timeString = "";
+  let isoString = "";
   const timeObj = convertMinutesToObject(minutes);
-  const timeString = `${timeObj.hours}${t("common.hourShort")} ${timeObj.minutes}${t("common.minuteShort")}`;
-  const isoString = convertObjToIso(timeObj);
+  if (timeObj.hours === 0 && timeObj.minutes === 0) {
+    timeString = t("common.lessThanMinute");
+    isoString = "PT0S";
+    return { timeString, isoString };
+  } else if (timeObj.hours === 0 && timeObj.minutes > 0) {
+    timeString = `${timeObj.minutes}${t("common.minuteShort")}`;
+  } else if (timeObj.hours > 0 && timeObj.minutes === 0) {
+    timeString = `${timeObj.hours}${t("common.hourShort")}`;
+  } else {
+    timeString = `${timeObj.hours}${t("common.hourShort")} ${timeObj.minutes}${t(
+      "common.minuteShort"
+    )}`;
+  }
+  isoString = convertObjToIso(timeObj);
   return { timeString, isoString };
 }

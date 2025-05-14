@@ -79,15 +79,13 @@ export default function RecipeDetail({
                 </p>
               </div>
             )}
-            {recipe.totalTime !== 0 && (
-              <div className="bg-muted rounded-lg p-2">
-                <h4 className="font-medium">{t("recipe.totalTime")}</h4>
-                <p className="text-muted-foreground">
-                  <meta itemProp="totalTime" content={totalTimeIsoString} />
-                  {totalTimeString}
-                </p>
-              </div>
-            )}
+            <div className="bg-muted rounded-lg p-2">
+              <h4 className="font-medium">{t("recipe.totalTime")}</h4>
+              <p className="text-muted-foreground">
+                <meta itemProp="totalTime" content={totalTimeIsoString} />
+                {totalTimeString}
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center">

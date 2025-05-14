@@ -26,7 +26,8 @@
         "hourShort": "ч",
         "minuteShort": "мин",
         "hour_interval": "(1)[час];(2-4)[часа];(5-inf)[часов];",
-        "minute_interval": "(1)[минута];(2-4)[минуты];(5-inf)[минут];"
+        "minute_interval": "(1)[минута];(2-4)[минуты];(5-inf)[минут];",
+        "lessThanMinute": "меньше минуты"
     },
     "home": {
         "title": "Мои рецепты",

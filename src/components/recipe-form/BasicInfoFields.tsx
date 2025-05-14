@@ -36,6 +36,26 @@ const BasicInfoFields: React.FC = () => {
         )}
       />
 
+      <FormField
+        control={control}
+        name="servings"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t("forms.servings")}</FormLabel>
+            <FormControl>
+              <Input
+                type="number"
+                min="1"
+                {...field}
+                onChange={(e) => field.onChange(Number(e.target.value))}
+                itemProp="recipeYield"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
       <TimeFields />
     </>
   );

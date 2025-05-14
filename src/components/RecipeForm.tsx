@@ -18,9 +18,9 @@ import KeywordsField from "./recipe-form/KeywordFields";
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",
+  servings: 1,
   prepTime: 0,
   cookTime: 0,
-  servings: 1,
   keywords: [],
   ingredients: [""],
   instructions: [""],
@@ -86,6 +86,8 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         ...values,
         id: initialRecipe?.id || uuidv4(),
         slug,
+        prepTime: values.prepTime || 0,
+        cookTime: values.cookTime || 0,
         totalTime: calculatedTotalTime,
         ingredients: filteredIngredients,
         instructions: filteredInstructions,

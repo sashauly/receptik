@@ -27,7 +27,8 @@ interface Resources {
       "hourShort": "h",
       "minuteShort": "m",
       "hour_interval": "(1)[hour];(2-inf)[hours];",
-      "minute_interval": "(1)[minute];(2-inf)[minutes];"
+      "minute_interval": "(1)[minute];(2-inf)[minutes];",
+      "lessThanMinute": "less than a minute"
     },
     "home": {
       "title": "My Recipes",
