@@ -11,6 +11,8 @@ import { formatTime } from "@/lib/utils/time";
 import type { Recipe } from "@/types/recipe";
 import { Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import TimerDrawer from "./TimerDrawer";
+import { Button } from "./ui/button";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -87,6 +89,10 @@ export default function RecipeDetail({
               </p>
             </div>
           </div>
+
+          <TimerDrawer>
+            <Button>Open Timer</Button>
+          </TimerDrawer>
 
           <div className="flex items-center">
             <Users className="mr-2 h-4 w-4 text-muted-foreground" />

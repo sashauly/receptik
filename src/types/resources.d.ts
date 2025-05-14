@@ -76,6 +76,7 @@ interface Resources {
       "totalTimePlaceholder": "e.g. 45 minutes",
       "hours": "Hours",
       "minutes": "Minutes",
+      "seconds": "Seconds",
       "servings": "Servings",
       "servingsPlaceholder": "e.g. 4",
       "keywords": "Keywords",
@@ -122,6 +123,22 @@ interface Resources {
       "supported": {
         "en": "English",
         "ru": "Russian"
+      }
+    },
+    "timer": {
+      "setTimerTitle": "Set Timer",
+      "setTimerDescription": "Enter the duration for your timer.",
+      "setTimer": "Set Timer",
+      "clearTimer": "Clear Timer",
+      "start": "Start",
+      "pause": "Pause",
+      "resume": "Resume",
+      "reset": "Reset",
+      "notification": {
+        "startTitle": "Timer Running",
+        "startBody": "Your timer is now active.",
+        "endTitle": "Timer Complete!",
+        "endBody": "Your timer has finished."
       }
     }
   }
