@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useRecipes } from "@/hooks/useRecipes";
 import { recipeFormSchema, type RecipeFormValues } from "@/lib/schema";
 import { getUniqueSlug } from "@/lib/utils";
+import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -90,7 +91,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
 
       onSave(newRecipe);
     } catch (error) {
-      console.error("Form submission error", error);
+      logError("Form submission error", error);
       toast.error("Failed to submit the form. Please try again.");
     }
   };

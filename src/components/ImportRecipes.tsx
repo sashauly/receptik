@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from "react";
-import type { Recipe } from "@/types/recipe";
-import { useRecipes } from "@/hooks/useRecipes";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useRecipes } from "@/hooks/useRecipes";
+import { logError } from "@/lib/utils/logger";
+import type { Recipe } from "@/types/recipe";
+import React, { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 const ImportRecipes = () => {
@@ -34,7 +35,7 @@ const ImportRecipes = () => {
           await importRecipes([jsonData] as Recipe[]);
           toast("Recipes imported successfully!");
         } catch (parseError) {
-          console.error("Error parsing JSON:", parseError);
+          logError("Error parsing JSON:", parseError);
           toast("Error parsing JSON file.");
         }
       };
@@ -45,7 +46,7 @@ const ImportRecipes = () => {
 
       reader.readAsText(selectedFile);
     } catch (error) {
-      console.error("Error importing recipes:", error);
+      logError("Error importing recipes:", error);
       toast("Import failed.  See console for details.");
     }
   }, [importRecipes, selectedFile]);

@@ -1,6 +1,7 @@
 import RecipeForm from "@/components/RecipeForm";
 import { Button } from "@/components/ui/button";
 import { useRecipes } from "@/hooks/useRecipes";
+import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -33,7 +34,7 @@ const EditRecipePage: React.FC = () => {
 
       toast.success("Recipe Updated");
     } catch (e) {
-      console.log(e);
+      logError("Failed to edit recipe", e);
       toast.error("Failed to edit recipe");
     }
   };

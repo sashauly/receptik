@@ -1,6 +1,7 @@
 import RecipeForm from "@/components/RecipeForm";
 import { Button } from "@/components/ui/button";
 import { useRecipes } from "@/hooks/useRecipes";
+import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
@@ -18,7 +19,7 @@ const CreateRecipePage: React.FC = () => {
 
       toast.success("Recipe Created");
     } catch (e) {
-      console.log(e);
+      logError("Failed to create recipe", e);
       toast.error("Failed to create recipe");
     }
   };

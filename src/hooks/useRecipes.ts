@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 // import { sampleRecipes } from "@/lib/sample-data";
 import { idbStorage } from "@/lib/storage";
+import { logError, logWarn } from "@/lib/utils/logger";
 
 export function useRecipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -35,7 +36,7 @@ export function useRecipes() {
         setRecipes(loadedRecipes);
       }
     } catch (error) {
-      console.error("Error loading recipes from IndexedDB:", error);
+      logError("Error loading recipes from IndexedDB:", error);
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +63,7 @@ export function useRecipes() {
         setRecipes((prev) => [...prev, newRecipe]);
         return newRecipe;
       } catch (error) {
-        console.error("Error adding recipe to IndexedDB:", error);
+        logError("Error adding recipe to IndexedDB:", error);
         throw error;
       }
     },
@@ -75,7 +76,7 @@ export function useRecipes() {
         const existingRecipe = await idbStorage.getRecipeById(id);
 
         if (!existingRecipe) {
-          console.warn(`Recipe with id ${id} not found for update.`);
+          logWarn(`Recipe with id ${id} not found for update.`);
           return;
         }
 
@@ -109,7 +110,7 @@ export function useRecipes() {
           prev.map((r) => (r.id === id ? updatedRecipe : r))
         );
       } catch (error) {
-        console.error("Error updating recipe in IndexedDB:", error);
+        logError("Error updating recipe in IndexedDB:", error);
       }
     },
     [recipes]
@@ -120,7 +121,7 @@ export function useRecipes() {
       await idbStorage.deleteRecipe(id);
       setRecipes((prev) => prev.filter((recipe) => recipe.id !== id));
     } catch (error) {
-      console.error("Error deleting recipe from IndexedDB:", error);
+      logError("Error deleting recipe from IndexedDB:", error);
     }
   }, []);
 
@@ -129,7 +130,7 @@ export function useRecipes() {
       await idbStorage.deleteAllRecipes();
       setRecipes([]);
     } catch (error) {
-      console.error("Error deleting all recipes from IndexedDB:", error);
+      logError("Error deleting all recipes from IndexedDB:", error);
     }
   }, []);
 
@@ -176,7 +177,7 @@ export function useRecipes() {
         await idbStorage.importRecipes(recipesToImport);
         await loadRecipes();
       } catch (error) {
-        console.error("Error importing recipes:", error);
+        logError("Error importing recipes:", error);
       } finally {
         setIsLoading(false);
       }

@@ -24,6 +24,8 @@ export default function RecipeList({
 }: RecipeListProps) {
   const { t } = useTranslation();
 
+  throw new Error("Function not implemented.");
+
   if (!recipes || recipes.length === 0) {
     return searchQuery ? (
       <NoResults searchQuery={searchQuery} onClear={onClearSearch} />

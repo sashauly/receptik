@@ -1,6 +1,6 @@
-// TODO move logging only on DEV level
+import { logDebug, logError, logInfo, logWarn } from "@/lib/utils/logger"; // Import the helper functions
 import { Recipe } from "@/types/recipe";
-import { openDB, DBSchema, IDBPDatabase } from "idb";
+import { DBSchema, IDBPDatabase, openDB } from "idb";
 
 interface RecipeDB extends DBSchema {
   recipes: {
@@ -14,7 +14,7 @@ const OBJECT_STORE_NAME = "recipes";
 
 let db: IDBPDatabase<RecipeDB> | null = null;
 
-const initializeDB = async () => {
+const initializeDB = async (): Promise<IDBPDatabase<RecipeDB>> => {
   try {
     if (!db) {
       db = await openDB<RecipeDB>(DB_NAME, 1, {
@@ -25,13 +25,26 @@ const initializeDB = async () => {
             });
           }
         },
+        blocked() {
+          logError("Database upgrade blocked by the user or another tab.");
+        },
+        blocking() {
+          logWarn(
+            "Another tab is blocking the database upgrade. Please close other tabs."
+          );
+        },
+        terminated() {
+          logError("Database connection terminated unexpectedly.");
+          db = null;
+        },
       });
-      console.log("Database initialized successfully.");
+      logInfo("Database initialized successfully.");
     } else {
-      console.log("Database already initialized.");
+      logDebug("Database already initialized.");
     }
+    return db;
   } catch (error) {
-    console.error("Error initializing database:", error);
+    logError("Error initializing database:", error);
     throw error;
   }
 };
@@ -39,42 +52,30 @@ const initializeDB = async () => {
 export const idbStorage = {
   getRecipes: async (): Promise<Recipe[]> => {
     try {
-      await initializeDB();
-      if (!db) {
-        console.warn("Database is null, returning empty array.");
-        return [];
-      }
+      const db = await initializeDB();
       return await db.getAll(OBJECT_STORE_NAME);
     } catch (error) {
-      console.error("Error getting recipes:", error);
+      logError("Error getting recipes:", error);
       return [];
     }
   },
 
   getRecipeById: async (id: string): Promise<Recipe | undefined> => {
     try {
-      await initializeDB();
-      if (!db) {
-        console.warn("Database is null, returning undefined.");
-        return undefined;
-      }
+      const db = await initializeDB();
       return await db.get(OBJECT_STORE_NAME, id);
     } catch (error) {
-      console.error("Error getting recipe by ID:", error);
+      logError("Error getting recipe by ID:", error);
       return undefined;
     }
   },
 
   saveRecipe: async (recipe: Recipe): Promise<void> => {
     try {
-      await initializeDB();
-      if (!db) {
-        console.warn("Database is null, not saving recipe.");
-        return;
-      }
+      const db = await initializeDB();
       await db.put(OBJECT_STORE_NAME, recipe);
     } catch (error) {
-      console.error("Error saving recipe:", error);
+      logError("Error saving recipe:", error);
       throw error;
     }
   },
@@ -85,42 +86,27 @@ export const idbStorage = {
 
   deleteRecipe: async (id: string): Promise<void> => {
     try {
-      await initializeDB();
-      if (!db) {
-        console.warn("Database is null, not deleting recipe.");
-        return;
-      }
+      const db = await initializeDB();
       await db.delete(OBJECT_STORE_NAME, id);
     } catch (error) {
-      console.error("Error deleting recipe:", error);
+      logError("Error deleting recipe:", error);
       throw error;
     }
   },
 
   deleteAllRecipes: async (): Promise<void> => {
     try {
-      await initializeDB();
-      if (!db) {
-        console.warn("Database is null, not deleting recipes.");
-        return;
-      }
+      const db = await initializeDB();
       await db.clear(OBJECT_STORE_NAME);
     } catch (error) {
-      console.error("Error deleting all recipes:", error);
+      logError("Error deleting all recipes:", error);
       throw error;
     }
   },
 
-  importRecipes: async (
-    recipes: Recipe[]
-  ): Promise<void> => {
+  importRecipes: async (recipes: Recipe[]): Promise<void> => {
     try {
-      await initializeDB();
-      if (!db) {
-        console.warn("Database is null, not importing recipes.");
-        return;
-      }
-
+      const db = await initializeDB();
       const tx = db.transaction(OBJECT_STORE_NAME, "readwrite");
       const store = tx.objectStore(OBJECT_STORE_NAME);
 
@@ -129,9 +115,50 @@ export const idbStorage = {
       }
 
       await tx.done;
-      console.log("Recipes imported successfully.");
+      logInfo("Recipes imported successfully.");
     } catch (error) {
-      console.error("Error importing recipes:", error);
+      logError("Error importing recipes:", error);
+      throw error;
+    }
+  },
+
+  deleteDatabase: async (): Promise<void> => {
+    try {
+      if (db) {
+        db.close();
+        db = null;
+      }
+      const request = indexedDB.deleteDatabase(DB_NAME);
+
+      return new Promise((resolve, reject) => {
+        request.onsuccess = () => {
+          logInfo(`Database "${DB_NAME}" deleted successfully.`);
+          resolve();
+        };
+
+        request.onerror = (event) => {
+          logError(
+            `Error deleting database "${DB_NAME}":`,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (event.target as any).error
+          );
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          reject((event.target as any).error);
+        };
+
+        request.onblocked = () => {
+          logWarn(
+            `Database "${DB_NAME}" deletion blocked. Close all connections.`
+          );
+          reject(
+            new Error(
+              "Database deletion blocked. Close all connections to the database."
+            )
+          );
+        };
+      });
+    } catch (error) {
+      logError("Error initiating database deletion:", error);
       throw error;
     }
   },
