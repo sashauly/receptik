@@ -6,7 +6,7 @@ import { useRecipes } from "@/hooks/useRecipes";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher";
 import { exportAllRecipesAsJson } from "@/lib/utils/export";
 import { ChevronLeft, Download, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
@@ -15,6 +15,19 @@ export default function Settings() {
   const { recipes, deleteAllRecipes } = useRecipes();
   const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateViewport = () => {
+      setViewport({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    updateViewport();
+    window.addEventListener("resize", updateViewport);
+
+    return () => window.removeEventListener("resize", updateViewport);
+  }, []);
 
   const onExportAllAsJson = () => {
     try {
@@ -80,6 +93,61 @@ export default function Settings() {
           <ImportRecipes />
         </div>
         <Separator />
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium">Debug Info</h3>
+          <div className="text-muted-foreground space-y-1 text-sm">
+            <div className="flex flex-col gap-2">
+              <h4 className="text-sm font-mono">Basic Info: </h4>
+              <p>User Agent: {navigator.userAgent}</p>
+              <p>
+                Platform/OS:{" "}
+                {/*@ts-expect-error Property 'userAgentData' does not exist on type 'Navigator'. Did you mean 'userAgent'?ts(2551)*/}
+                {navigator.userAgentData
+                  ? // @ts-expect-error Property 'userAgentData' does not exist on type 'Navigator'. Did you mean 'userAgent'?ts(2551)
+                    navigator.userAgentData.platform
+                  : navigator.platform}
+              </p>
+              <p>Browser Language: {navigator.language}</p>
+              <p>Online Status: {navigator.onLine ? "Online" : "Offline"}</p>
+              <p>
+                Screen Resolution: {window.screen.width}x{window.screen.height}
+              </p>
+              <p>
+                Viewport Size: {viewport.width}x{viewport.height}
+              </p>
+            </div>
+            <Separator className="my-2" />
+            <div className="flex flex-col gap-2">
+              <h4 className="text-sm font-mono">Feature Checks: </h4>
+              <p>
+                VirtualKeyboardAPI:{" "}
+                {"virtualKeyboard" in navigator ? "✅" : "❌"}
+              </p>
+              <p>
+                LocalStorage Support:{" "}
+                {"localStorage" in window && window.localStorage !== null
+                  ? "✅"
+                  : "❌"}
+              </p>
+              <p>IndexedDB Support: {"indexedDB" in window ? "✅" : "❌"}</p>
+              <p>
+                Service Worker Support:{" "}
+                {"serviceWorker" in navigator ? "✅" : "❌"}
+              </p>
+              <p>
+                Notifications Support: {"Notification" in window ? "✅" : "❌"}
+              </p>
+              <p>
+                Clipboard API Support: {"clipboard" in navigator ? "✅" : "❌"}
+              </p>
+            </div>
+            <Separator className="my-2" />
+            <div className="flex flex-col gap-2">
+              <h4 className="text-sm font-mono">App Info: </h4>
+              <p>Number of Recipes: {recipes.length}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
