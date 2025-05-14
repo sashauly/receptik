@@ -10,8 +10,8 @@ import { PlusCircle, Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
+import BottomSearch from "./BottomSearch";
 import DesktopRecipeNotebook from "./DesktopRecipeNotebook";
-import MobileSearchDrawer from "./MobileSearchDrawer";
 
 export default function RecipeNotebook() {
   const { t } = useTranslation();
@@ -138,7 +138,7 @@ export default function RecipeNotebook() {
             onEditRecipe={handleEditRecipe}
             onDeleteRecipe={handleDeleteRecipe}
           />
-          <MobileSearchDrawer
+          {/* <MobileSearchDrawer
             searchQuery={searchQuery}
             activeTag={activeTag}
             allTags={allTags}
@@ -146,6 +146,11 @@ export default function RecipeNotebook() {
             onSearchChange={handleSearchChange}
             onClearSearch={handleClearSearch}
             onTagChange={handleTagChange}
+          /> */}
+          <BottomSearch
+            searchQuery={searchQuery}
+            onSearchChange={handleSearchChange}
+            onClearSearch={handleClearSearch}
           />
         </>
       ) : (

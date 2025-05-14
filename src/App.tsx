@@ -1,12 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router";
-import { Toaster } from "@/components/ui/sonner";
 import Layout from "@/components/Layout";
+import { Toaster } from "@/components/ui/sonner";
 import RecipePage from "@/pages/RecipePage";
-import NotFound from "./pages/NotFound";
-import Settings from "./pages/Settings";
-import RecipeNotebook from "./pages/RecipeNotebook/index";
+import { Route, BrowserRouter as Router, Routes } from "react-router";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
+import NotFound from "./pages/NotFound";
+import RecipeNotebook from "./pages/RecipeNotebook/index";
+import Settings from "./pages/Settings";
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Layout>
-      <Toaster />
+      <Toaster position="top-center" />
     </Router>
   );
 }

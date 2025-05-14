@@ -40,3 +40,7 @@
 - [ ] Move all logging to DEV level
 - [ ] Add toasts on success, warn and error
 - [ ] Adjust UI/UX for mobile (!)
+
+## Notes
+
+- operation with localstorage is insecure in safari 16.6.1 macos big sur

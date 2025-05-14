@@ -1,8 +1,8 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, X } from "lucide-react";
 import type React from "react";
 import { forwardRef } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface SearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
