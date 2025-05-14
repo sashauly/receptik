@@ -75,6 +75,7 @@
         "totalTimePlaceholder": "например, 45 минут",
         "hours": "Часы",
         "minutes": "Минуты",
+        "seconds": "Секунды",
         "servings": "Порции",
         "servingsPlaceholder": "например, 4",
         "keywords": "Ключевые слова",
@@ -121,6 +122,22 @@
         "supported": {
             "en": "Английский",
             "ru": "Русский"
+        }
+    },
+    "timer": {
+        "setTimerTitle": "Установить таймер",
+        "setTimerDescription": "Введите продолжительность таймера.",
+        "setTimer": "Установить таймер",
+        "clearTimer": "Очистить таймер",
+        "start": "Начать",
+        "pause": "Пауза",
+        "resume": "Возобновить",
+        "reset": "Сбросить",
+        "notification": {
+            "startTitle": "Таймер запущен",
+            "startBody": "Таймер теперь активен.",
+            "endTitle": "Таймер завершен!",
+            "endBody": "Ваш таймер завершился."
         }
     }
 }
