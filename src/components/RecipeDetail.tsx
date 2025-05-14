@@ -1,15 +1,16 @@
+import RecipeHeader from "@/components/recipe-detail/RecipeHeader";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Clock, Users } from "lucide-react";
-import type { Recipe } from "@/types/recipe";
-import { useTranslation } from "react-i18next";
 import { Separator } from "@/components/ui/separator";
-import RecipeHeader from "@/components/recipe-detail/RecipeHeader";
+import { formatTime } from "@/lib/utils/time";
+import type { Recipe } from "@/types/recipe";
+import { Users } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -26,6 +27,13 @@ export default function RecipeDetail({
 }: RecipeDetailProps) {
   const { t } = useTranslation();
 
+  const { timeString: prepTimeString, isoString: prepTimeIsoString } =
+    formatTime(recipe.prepTime || 0, t);
+  const { timeString: cookTimeString, isoString: cookTimeIsoString } =
+    formatTime(recipe.cookTime || 0, t);
+  const { timeString: totalTimeString, isoString: totalTimeIsoString } =
+    formatTime(recipe.totalTime || 0, t);
+
   return (
     <>
       <RecipeHeader onEdit={onEdit} onDelete={onDelete} onShare={onShare} />
@@ -35,10 +43,10 @@ export default function RecipeDetail({
           <h2 className="text-3xl font-bold tracking-tight">{recipe.name}</h2>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-2">
-            {recipe.keywords && recipe.keywords.length > 0 && (
-              <>
-                <Separator />
+          {recipe.keywords && recipe.keywords.length > 0 && (
+            <>
+              <Separator />
+              <div className="flex flex-wrap gap-2">
                 {recipe.keywords.map((keyword) => (
                   <Badge
                     key={keyword}
@@ -48,38 +56,49 @@ export default function RecipeDetail({
                     {keyword}
                   </Badge>
                 ))}
-              </>
+              </div>
+            </>
+          )}
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+            {recipe.prepTime !== 0 && (
+              <div className="bg-muted rounded-lg p-2">
+                <h4 className="font-medium">{t("recipe.prepTime")}</h4>
+                <p className="text-muted-foreground">
+                  <meta itemProp="prepTime" content={prepTimeIsoString} />
+                  {prepTimeString}
+                </p>
+              </div>
+            )}
+            {recipe.cookTime !== 0 && (
+              <div className="bg-muted rounded-lg p-2">
+                <h4 className="font-medium">{t("recipe.cookTime")}</h4>
+                <p className="text-muted-foreground">
+                  <meta itemProp="cookTime" content={cookTimeIsoString} />
+                  {cookTimeString}
+                </p>
+              </div>
+            )}
+            {recipe.totalTime !== 0 && (
+              <div className="bg-muted rounded-lg p-2">
+                <h4 className="font-medium">{t("recipe.totalTime")}</h4>
+                <p className="text-muted-foreground">
+                  <meta itemProp="totalTime" content={totalTimeIsoString} />
+                  {totalTimeString}
+                </p>
+              </div>
             )}
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
-            <>
-              <div className="flex items-center">
-                <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
-                <span>
-                  <strong>{t("recipe.prepTime")}</strong> {recipe.prepTime}
-                </span>
-              </div>
-              <div className="flex items-center">
-                <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
-                <span>
-                  <strong>{t("recipe.cookTime")}</strong> {recipe.cookTime}
-                </span>
-              </div>
-            </>
-
-            <div className="flex items-center">
-              <Users className="mr-2 h-4 w-4 text-muted-foreground" />
-              <span>
-                <strong>
-                  {recipe.servings}{" "}
-                  {t("recipe.servings_interval", {
-                    postProcess: "interval",
-                    count: Number(recipe.servings),
-                  })}
-                </strong>
-              </span>
-            </div>
+          <div className="flex items-center">
+            <Users className="mr-2 h-4 w-4 text-muted-foreground" />
+            <p className="text-muted-foreground">
+              {recipe.servings}{" "}
+              {t("recipe.servings_interval", {
+                postProcess: "interval",
+                count: Number(recipe.servings),
+              })}
+            </p>
           </div>
 
           <div>

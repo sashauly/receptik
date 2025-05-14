@@ -1,3 +1,5 @@
+import { RecipeFormValues } from "@/lib/schema";
+import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   FormControl,
@@ -7,8 +9,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { useFormContext } from "react-hook-form";
-import { RecipeFormValues } from "@/lib/schema";
+import TimeFields from "./TimeFields";
 
 const BasicInfoFields: React.FC = () => {
   const { t } = useTranslation();
@@ -35,66 +36,7 @@ const BasicInfoFields: React.FC = () => {
         )}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <FormField
-          control={control}
-          name="prepTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="prepTime">{t("forms.prepTime")}</FormLabel>
-              <FormControl>
-                <Input
-                  id="prepTime"
-                  placeholder={t("forms.prepTimePlaceholder")}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="cookTime"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="cookTime">{t("forms.cookTime")}</FormLabel>
-              <FormControl>
-                <Input
-                  id="cookTime"
-                  placeholder={t("forms.cookTimePlaceholder")}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="servings"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel htmlFor="servings">{t("forms.servings")}</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  id="servings"
-                  min="1"
-                  placeholder={t("forms.servingsPlaceholder")}
-                  {...field}
-                  onChange={(e) =>
-                    field.onChange(Number.parseInt(e.target.value))
-                  }
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
+      <TimeFields />
     </>
   );
 };

@@ -4,6 +4,7 @@ import { recipeFormSchema, type RecipeFormValues } from "@/lib/schema";
 import { getUniqueSlug } from "@/lib/utils";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
+// import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -14,12 +15,11 @@ import BasicInfoFields from "./recipe-form/BasicInfoFields";
 import IngredientFields from "./recipe-form/IngredientFields";
 import InstructionFields from "./recipe-form/InstructionFields";
 import KeywordsField from "./recipe-form/KeywordFields";
-// import { DevTool } from "@hookform/devtools";
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",
-  prepTime: 1,
-  cookTime: 1,
+  prepTime: 0,
+  cookTime: 0,
   servings: 1,
   keywords: [],
   ingredients: [""],
@@ -79,10 +79,14 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
           ? initialRecipe.slug
           : getUniqueSlug(values.name, existingSlugs);
 
+      const calculatedTotalTime =
+        (values.prepTime || 0) + (values.cookTime || 0);
+
       const newRecipe: Recipe = {
         ...values,
         id: initialRecipe?.id || uuidv4(),
         slug,
+        totalTime: calculatedTotalTime,
         ingredients: filteredIngredients,
         instructions: filteredInstructions,
         dateCreated: initialRecipe?.dateCreated || new Date().toISOString(),
@@ -98,7 +102,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <BasicInfoFields />
 
         <KeywordsField />

@@ -23,7 +23,11 @@ interface Resources {
       "noRecipesFound": "No recipes found",
       "noRecipesFoundDesc": "No recipes match {{searchQuery}}. Try adjusting your search or filters.",
       "pageNotFound": "Page not found",
-      "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed."
+      "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed.",
+      "hourShort": "h",
+      "minuteShort": "m",
+      "hour_interval": "(1)[hour];(2-inf)[hours];",
+      "minute_interval": "(1)[minute];(2-inf)[minutes];"
     },
     "home": {
       "title": "My Recipes",
@@ -32,7 +36,8 @@ interface Resources {
       "noRecipes": "No recipes yet",
       "addYourFirst": "Add your first recipe to get started",
       "searchPlaceholder": "Search by name or keyword...",
-      "allRecipes": "All"
+      "allRecipes": "All",
+      "createFirstRecipe": "Create First Recipe"
     },
     "recipe": {
       "title": "Recipe Details",
@@ -40,6 +45,7 @@ interface Resources {
       "instructions": "Instructions",
       "prepTime": "Prep",
       "cookTime": "Cook",
+      "totalTime": "Total",
       "servings": "Servings",
       "servings_interval": "(1)[serving];(2-inf)[servings];",
       "keywords": "Keywords",
@@ -67,6 +73,8 @@ interface Resources {
       "cookTimePlaceholder": "e.g. 30 minutes",
       "totalTime": "Total Time",
       "totalTimePlaceholder": "e.g. 45 minutes",
+      "hours": "Hours",
+      "minutes": "Minutes",
       "servings": "Servings",
       "servingsPlaceholder": "e.g. 4",
       "keywords": "Keywords",

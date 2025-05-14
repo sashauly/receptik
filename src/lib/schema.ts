@@ -5,8 +5,8 @@ export const recipeFormSchema = z.object({
   name: z.string().refine((value) => value.trim().length >= 1, {
     message: "Name is required and cannot contain only whitespace",
   }),
-  prepTime: z.coerce.number().min(1, "Preparation time must be at least 1"),
-  cookTime: z.coerce.number().min(1, "Cooking time must be at least 1"),
+  prepTime: z.number().min(0, "Prep time cannot be negative").optional(),
+  cookTime: z.number().min(0, "Cook time cannot be negative"),
   servings: z.coerce.number().min(1, "Servings must be at least 1"),
   keywords: z.array(z.string()).default([]).optional(),
   ingredients: z

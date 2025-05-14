@@ -20,7 +20,6 @@ export default function RecipePage() {
 
   const { isLoading, deleteRecipe, getRecipeBySlug } = useRecipes();
 
-
   useEffect(() => {
     if (!recipeSlug) return;
     setRecipe(getRecipeBySlug(recipeSlug));

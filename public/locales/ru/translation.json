@@ -22,7 +22,11 @@
         "noRecipesFound": "Рецептов не найдено",
         "noRecipesFoundDesc": "Нет рецептов, соответствующих {{searchQuery}}. Попробуйте настроить поиск или фильтры.",
         "pageNotFound": "Страница не найдена",
-        "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена."
+        "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена.",
+        "hourShort": "ч",
+        "minuteShort": "мин",
+        "hour_interval": "(1)[час];(2-4)[часа];(5-inf)[часов];",
+        "minute_interval": "(1)[минута];(2-4)[минуты];(5-inf)[минут];"
     },
     "home": {
         "title": "Мои рецепты",
@@ -31,14 +35,16 @@
         "noRecipes": "Пока нет рецептов",
         "addYourFirst": "Добавьте свой первый рецепт, чтобы начать",
         "searchPlaceholder": "Поиск по названию или ключевому слову...",
-        "allRecipes": "Все"
+        "allRecipes": "Все",
+        "createFirstRecipe": "Создать первый рецепт"
     },
     "recipe": {
         "title": "Детали рецепта",
         "ingredients": "Ингредиенты",
         "instructions": "Инструкции",
         "prepTime": "Подготовка",
-        "cookTime": "Приготовление",
+        "cookTime": "Время готовки",
+        "totalTime": "Общее время",
         "servings": "Порции",
         "servings_interval": "(1)[порция];(2-4)[порции];(5-inf)[порций];",
         "keywords": "Ключевые слова",
@@ -66,6 +72,8 @@
         "cookTimePlaceholder": "например, 30 минут",
         "totalTime": "Общее время",
         "totalTimePlaceholder": "например, 45 минут",
+        "hours": "Часы",
+        "minutes": "Минуты",
         "servings": "Порции",
         "servingsPlaceholder": "например, 4",
         "keywords": "Ключевые слова",

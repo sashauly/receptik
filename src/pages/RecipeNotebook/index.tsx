@@ -64,8 +64,8 @@ export default function RecipeNotebook() {
     });
   };
 
-  const handleEditRecipe = (recipeId: string) => {
-    navigate(`/recipes/${recipeId}/edit`);
+  const handleEditRecipe = (recipeSlug: string) => {
+    navigate(`/recipes/${recipeSlug}/edit`);
   };
 
   const handleDeleteRecipe = (recipeId: string) => {
