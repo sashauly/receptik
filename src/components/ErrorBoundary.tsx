@@ -52,8 +52,8 @@ class ErrorBoundary extends Component<Props, State> {
               <details className="text-muted-foreground whitespace-pre-wrap">
                 {this.state.error?.toString()}
               </details>
-              <div className="flex justify-end gap-2">
-                <Button onClick={() => window.location.assign("/")}>
+              <div className="flex flex-col justify-end gap-2 sm:flex-row">
+                <Button onClick={() => window.location.assign("/receptik")}>
                   Go to Home
                 </Button>
                 <Button onClick={() => window.location.reload()}>
