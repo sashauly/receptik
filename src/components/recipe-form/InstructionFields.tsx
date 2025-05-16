@@ -58,12 +58,14 @@ const InstructionFields = () => {
                           htmlFor={`instruction-${index}`}
                           className="sr-only"
                         >
-                          Step {index + 1}
+                          {t("forms.stepPlaceholder", { index: index + 1 })}
                         </Label>
                         <FormControl>
                           <Textarea
                             id={`instruction-${index}`}
-                            placeholder={`Step ${index + 1}`}
+                            placeholder={`${t("forms.stepPlaceholder", {
+                              index: index + 1,
+                            })}`}
                             rows={2}
                             {...field}
                           />
