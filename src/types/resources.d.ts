@@ -10,6 +10,7 @@ interface Resources {
       "share": "Share",
       "back": "Back",
       "add": "Add",
+      "addToFavorites": "Add to favorites",
       "search": "Search",
       "clear": "Clear",
       "close": "Close",
@@ -23,12 +24,7 @@ interface Resources {
       "noRecipesFound": "No recipes found",
       "noRecipesFoundDesc": "No recipes match {{searchQuery}}. Try adjusting your search or filters.",
       "pageNotFound": "Page not found",
-      "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed.",
-      "hourShort": "h",
-      "minuteShort": "m",
-      "hour_interval": "(1)[hour];(2-inf)[hours];",
-      "minute_interval": "(1)[minute];(2-inf)[minutes];",
-      "lessThanMinute": "less than a minute"
+      "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed."
     },
     "home": {
       "title": "My Recipes",
@@ -45,9 +41,9 @@ interface Resources {
       "title": "Recipe Details",
       "ingredients": "Ingredients",
       "instructions": "Instructions",
-      "prepTime": "Prep",
-      "cookTime": "Cook",
-      "totalTime": "Total",
+      "prepTime": "Preparation Time",
+      "cookTime": "Cooking Time",
+      "totalTime": "Total Time",
       "servings": "Servings",
       "servings_interval": "(1)[serving];(2-inf)[servings];",
       "keywords": "Keywords",
@@ -71,14 +67,18 @@ interface Resources {
       "description": "Description",
       "descriptionPlaceholder": "Enter a description",
       "prepTime": "Prep Time",
-      "prepTimePlaceholder": "e.g. 15 minutes",
       "cookTime": "Cook Time",
-      "cookTimePlaceholder": "e.g. 30 minutes",
       "totalTime": "Total Time",
-      "totalTimePlaceholder": "e.g. 45 minutes",
-      "hours": "Hours",
-      "minutes": "Minutes",
-      "seconds": "Seconds",
+      "presetDuration": "Cooking Duration",
+      "presetDurationPlaceholder": "Choose a preset duration",
+      "durationPresets": {
+        "quick": "Quick (5m)",
+        "short": "Short (15m)",
+        "medium": "Medium (30m)",
+        "long": "Long (1h)",
+        "veryLong": "Very Long (2h)"
+      },
+      "noDuration": "No duration set",
       "servings": "Servings",
       "servingsPlaceholder": "e.g. 4",
       "keywords": "Keywords",
@@ -93,7 +93,16 @@ interface Resources {
       "instructions": "Instructions",
       "stepPlaceholder": "Step {{index}}",
       "addStep": "Add Step",
-      "saveRecipe": "Save Recipe"
+      "saveRecipe": "Save Recipe",
+      "failedToSubmit": "Failed to submit the form. Please try again."
+    },
+    "validation": {
+      "nameTooShort": "Recipe name must be at least 2 characters.",
+      "nameTooLong": "Recipe name must not exceed 50 characters.",
+      "prepTimeInvalid": "Please enter a valid preparation time.",
+      "cookTimeInvalid": "Please enter a valid cooking time.",
+      "servingsTooFew": "Servings must be at least 1.",
+      "servingsTooMany": "Servings must be at most 100."
     },
     "modals": {
       "deleteRecipe": "Delete Recipe",
@@ -126,6 +135,17 @@ interface Resources {
         "en": "English",
         "ru": "Russian"
       }
+    },
+    "time": {
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "hourShort": "h",
+      "minuteShort": "m",
+      "secondShort": "s",
+      "hour_interval": "(1)[hour];(2-inf)[hours];",
+      "minute_interval": "(1)[minute];(2-inf)[minutes];",
+      "lessThanMinute": "less than a minute"
     },
     "timer": {
       "setTimerTitle": "Set Timer",

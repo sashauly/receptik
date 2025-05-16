@@ -9,6 +9,7 @@
         "share": "Поделиться",
         "back": "Назад",
         "add": "Добавить",
+        "addToFavorites": "Добавить в избранное",
         "search": "Поиск",
         "clear": "Очистить",
         "close": "Закрыть",
@@ -22,12 +23,7 @@
         "noRecipesFound": "Рецептов не найдено",
         "noRecipesFoundDesc": "Нет рецептов, соответствующих {{searchQuery}}. Попробуйте настроить поиск или фильтры.",
         "pageNotFound": "Страница не найдена",
-        "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена.",
-        "hourShort": "ч",
-        "minuteShort": "мин",
-        "hour_interval": "(1)[час];(2-4)[часа];(5-inf)[часов];",
-        "minute_interval": "(1)[минута];(2-4)[минуты];(5-inf)[минут];",
-        "lessThanMinute": "меньше минуты"
+        "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена."
     },
     "home": {
         "title": "Мои рецепты",
@@ -70,14 +66,18 @@
         "description": "Описание",
         "descriptionPlaceholder": "Введите описание",
         "prepTime": "Время подготовки",
-        "prepTimePlaceholder": "например, 15 минут",
-        "cookTime": "Время приготовления",
-        "cookTimePlaceholder": "например, 30 минут",
+        "cookTime": "Время готовки",
         "totalTime": "Общее время",
-        "totalTimePlaceholder": "например, 45 минут",
-        "hours": "Часы",
-        "minutes": "Минуты",
-        "seconds": "Секунды",
+        "presetDuration": "Время готовки",
+        "presetDurationPlaceholder": "Выберите предустановленное время",
+        "durationPresets": {
+            "quick": "Быстро (5м)",
+            "short": "Коротко (15м)",
+            "medium": "Средне (30м)",
+            "long": "Долго (1ч)",
+            "veryLong": "Очень долго (2ч)"
+        },
+        "noDuration": "Время не установлено",
         "servings": "Порции",
         "servingsPlaceholder": "например, 4",
         "keywords": "Ключевые слова",
@@ -92,7 +92,16 @@
         "instructions": "Инструкции",
         "stepPlaceholder": "Шаг {{index}}",
         "addStep": "Добавить шаг",
-        "saveRecipe": "Сохранить рецепт"
+        "saveRecipe": "Сохранить рецепт",
+        "failedToSubmit": "Ошибка при отправке формы. Пожалуйста, попробуйте еще раз."
+    },
+    "validation": {
+        "nameTooShort": "Имя рецепта должно быть не менее 2 символов.",
+        "nameTooLong": "Имя рецепта не должно превышать 50 символов.",
+        "prepTimeInvalid": "Введите корректное время приготовления.",
+        "cookTimeInvalid": "Введите корректное время готовки.",
+        "servingsTooFew": "Порций должно быть не менее 1.",
+        "servingsTooMany": "Порций должно быть не более 100."
     },
     "modals": {
         "deleteRecipe": "Удалить рецепт",
@@ -125,6 +134,17 @@
             "en": "Английский",
             "ru": "Русский"
         }
+    },
+    "time": {
+        "hours": "Часы",
+        "minutes": "Минуты",
+        "seconds": "Секунды",
+        "hourShort": "ч",
+        "minuteShort": "мин",
+        "secondShort": "с",
+        "hour_interval": "(1)[час];(2-4)[часа];(5-inf)[часов];",
+        "minute_interval": "(1)[минута];(2-4)[минуты];(5-inf)[минут];",
+        "lessThanMinute": "меньше минуты"
     },
     "timer": {
         "setTimerTitle": "Установить таймер",

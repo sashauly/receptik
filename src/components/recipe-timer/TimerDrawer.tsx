@@ -107,7 +107,7 @@ const TimerDrawer: React.FC<TimerDrawerProps> = ({ children }) => {
             ) : (
               <div className="grid grid-cols-3 gap-4 items-end">
                 <div>
-                  <Label htmlFor="hours">{t("forms.hours")}</Label>
+                  <Label htmlFor="hours">{t("time.hours")}</Label>
                   <Input
                     id="hours"
                     type="number"
@@ -118,7 +118,7 @@ const TimerDrawer: React.FC<TimerDrawerProps> = ({ children }) => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="minutes">{t("forms.minutes")}</Label>
+                  <Label htmlFor="minutes">{t("time.minutes")}</Label>
                   <Input
                     id="minutes"
                     type="number"
@@ -130,7 +130,7 @@ const TimerDrawer: React.FC<TimerDrawerProps> = ({ children }) => {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="seconds">{t("forms.seconds")}</Label>
+                  <Label htmlFor="seconds">{t("time.seconds")}</Label>
                   <Input
                     id="seconds"
                     type="number"

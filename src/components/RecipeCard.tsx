@@ -1,4 +1,4 @@
-import { formatTime } from "@/lib/utils/time";
+import { formatDuration } from "@/lib/utils/time";
 import { Recipe } from "@/types/recipe";
 import { Clock, Edit, Trash2, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -20,8 +20,7 @@ const RecipeCard = ({
 }: RecipeCardProps) => {
   const { t } = useTranslation();
 
-  const { timeString: totalTimeString, isoString: totalTimeIsoString } =
-    formatTime(recipe.totalTime || 0, t);
+  const totalTimeString = formatDuration(recipe.totalTime, t);
 
   const onEditClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -56,7 +55,7 @@ const RecipeCard = ({
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center">
                 <Clock className="mr-1 h-4 w-4" />
-                <meta itemProp="totalTime" content={totalTimeIsoString} />
+                <meta itemProp="totalTime" content={recipe.totalTime} />
                 <span>{totalTimeString}</span>
               </div>
               <div className="flex items-center">

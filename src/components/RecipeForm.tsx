@@ -1,11 +1,9 @@
 import { Button } from "@/components/ui/button";
-import {
-  recipeFormSchema,
-  type RecipeFormValues
-} from "@/data/schema";
+import { recipeFormSchema, type RecipeFormValues } from "@/data/schema";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
 // import { DevTool } from "@hookform/devtools";
+import { calculateTotalTime } from "@/lib/utils/time";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -15,12 +13,14 @@ import BasicInfoFields from "./recipe-form/BasicInfoFields";
 import IngredientFields from "./recipe-form/IngredientFields";
 import InstructionFields from "./recipe-form/InstructionFields";
 import KeywordsField from "./recipe-form/KeywordFields";
+import ServingsField from "./recipe-form/ServingsField";
+import TimeFields from "./recipe-form/TimeFields";
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",
-  servings: 1,
-  prepTime: 0,
-  cookTime: 0,
+  servings: 4,
+  prepTime: "PT0S",
+  cookTime: "PT0S",
   keywords: [],
   ingredients: [""],
   instructions: [""],
@@ -66,15 +66,17 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         (i) => i.trim() !== ""
       );
 
-      const calculatedTotalTime =
-        (values.prepTime || 0) + (values.cookTime || 0);
+      const calculatedTotalTime = calculateTotalTime(
+        values.prepTime || "PT0S",
+        values.cookTime
+      );
 
       const newRecipe: Recipe = {
         ...values,
         id: initialRecipe?.id || "",
         slug: initialRecipe?.slug || "",
-        prepTime: values.prepTime || 0,
-        cookTime: values.cookTime || 0,
+        prepTime: values.prepTime || undefined,
+        cookTime: values.cookTime || "PT0S",
         totalTime: calculatedTotalTime,
         ingredients: filteredIngredients,
         instructions: filteredInstructions,
@@ -85,7 +87,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
       onSave(newRecipe);
     } catch (error) {
       logError("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+      toast.error(t("forms.failedToSubmit"));
     }
   };
 
@@ -94,7 +96,11 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
         <BasicInfoFields />
 
+        <TimeFields />
+
         <KeywordsField />
+
+        <ServingsField />
 
         <IngredientFields />
 
@@ -102,6 +108,9 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
 
         <div className="flex gap-2">
           <Button type="submit">{t("forms.saveRecipe")}</Button>
+          <Button type="button" variant="outline" onClick={() => form.reset()}>
+            {t("common.reset")}
+          </Button>
           <Button type="button" variant="outline" onClick={onCancel}>
             {t("common.cancel")}
           </Button>
