@@ -8,6 +8,8 @@ import { Link } from "react-router";
 
 interface RecipeListProps {
   recipes: Recipe[];
+  isLoading: boolean;
+  error: Error | null;
   searchQuery: string;
   onClearSearch: () => void;
   onEditRecipe: (recipeId: string) => void;
@@ -16,12 +18,30 @@ interface RecipeListProps {
 
 export default function RecipeList({
   recipes,
+  isLoading,
+  error,
   searchQuery,
   onClearSearch,
   onEditRecipe,
   onDeleteRecipe,
 }: RecipeListProps) {
   const { t } = useTranslation();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        {t("home.loadingRecipes")}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        {t("home.errorLoadingRecipes")}
+      </div>
+    );
+  }
 
   const showNoRecipesState = !recipes || recipes.length === 0;
 
@@ -47,14 +67,15 @@ export default function RecipeList({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {recipes.map((recipe) => (
-        <RecipeCard
-          key={recipe.id}
-          recipe={recipe}
-          onEditRecipe={onEditRecipe}
-          onDeleteRecipe={onDeleteRecipe}
-        />
-      ))}
+      {recipes &&
+        recipes.map((recipe) => (
+          <RecipeCard
+            key={recipe.id}
+            recipe={recipe}
+            onEditRecipe={onEditRecipe}
+            onDeleteRecipe={onDeleteRecipe}
+          />
+        ))}
     </div>
   );
 }

@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useRecipes } from "@/hooks/useRecipes";
+import { useImportRecipes } from "@/hooks/recipes/useImportRecipe";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
 import React, { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 const ImportRecipes = () => {
-  const { importRecipes, isLoading } = useRecipes();
+  const { importRecipes, loading: isLoading } = useImportRecipes();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

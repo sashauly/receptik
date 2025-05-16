@@ -1,12 +1,14 @@
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import RecipeDetail from "@/components/RecipeDetail";
 import ShareRecipeDialog from "@/components/ShareRecipeDialog";
-import { useRecipes } from "@/hooks/useRecipes";
+import { Button } from "@/components/ui/button";
+import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
+import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useUrlParams } from "@/hooks/useUrlParams";
-import type { Recipe } from "@/types/recipe";
-import { useEffect, useState } from "react";
+import { ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
 
 export default function RecipePage() {
   const { t } = useTranslation();
@@ -16,14 +18,19 @@ export default function RecipePage() {
 
   const navigate = useNavigate();
 
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const {
+    recipe,
+    loading: recipeLoading,
+    error: recipeError,
+  } = useRecipe({
+    slug: recipeSlug,
+  });
 
-  const { isLoading, deleteRecipe, getRecipeBySlug } = useRecipes();
-
-  useEffect(() => {
-    if (!recipeSlug) return;
-    setRecipe(getRecipeBySlug(recipeSlug));
-  }, [recipeSlug, getRecipeBySlug]);
+  const {
+    deleteRecipe,
+    loading: deleteLoading,
+    error: deleteError,
+  } = useDeleteRecipe();
 
   const showDelete = getParam("delete") === "true";
   const showShare = getParam("share") === "true";
@@ -51,10 +58,15 @@ export default function RecipePage() {
     if (recipe) {
       await deleteRecipe(recipe.id);
       navigate("/");
+      toast.success("Recipe Deleted");
     }
   };
 
-  if (isLoading) {
+  const handleClickBackButton = () => {
+    navigate("/");
+  };
+
+  if (recipeLoading) {
     return (
       <div className="container mx-auto py-6 px-4 md:px-6">
         {t("common.loading")}
@@ -65,6 +77,14 @@ export default function RecipePage() {
   if (!recipe) {
     return (
       <div className="container mx-auto py-6 px-4 md:px-6">
+        <Button
+          variant="ghost"
+          onClick={handleClickBackButton}
+          className="flex items-center"
+        >
+          <ChevronLeft />
+          Back
+        </Button>
         <div className="text-center py-10">
           <h3 className="text-lg font-medium">{t("recipe.recipeNotFound")}</h3>
           <p className="text-muted-foreground">
@@ -87,7 +107,9 @@ export default function RecipePage() {
       )}
 
       <DeleteRecipeDialog
-        recipe={recipe}
+        recipeToDelete={recipe}
+        isLoading={deleteLoading || recipeLoading}
+        error={recipeError || deleteError}
         isOpen={showDelete}
         onClose={handleCloseModals}
         onConfirm={confirmDeleteRecipe}

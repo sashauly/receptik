@@ -2,21 +2,28 @@ import ImportRecipes from "@/components/ImportRecipes";
 import ThemeSelect from "@/components/ThemeSelect";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useRecipes } from "@/hooks/useRecipes";
+import { deleteAllRecipes } from "@/data/recipeService";
+import { useRecipes } from "@/hooks/recipes/useRecipes";
 import LocaleSwitcher from "@/i18n/LocaleSwitcher";
 import { exportAllRecipesAsJson } from "@/lib/utils/export";
 import { ChevronLeft, Download, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export default function Settings() {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { recipes, deleteAllRecipes } = useRecipes();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const {
+    recipes,
+    loading: recipesLoading,
+    error: recipesError,
+  } = useRecipes();
+
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const updateViewport = () => {
@@ -32,7 +39,7 @@ export default function Settings() {
   const onExportAllAsJson = () => {
     try {
       exportAllRecipesAsJson(recipes);
-      // TODO add toast
+      toast.success("All recipes exported as JSON");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMessage(err);
@@ -42,10 +49,11 @@ export default function Settings() {
   const onResetAllData = async () => {
     try {
       await deleteAllRecipes();
-      // TODO add toast
+      toast.success("All data has been deleted");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setErrorMessage(err);
+      toast.error("Error deleting all data");
     }
   };
 
@@ -84,10 +92,17 @@ export default function Settings() {
           </Button>
 
           <h3 className="text-sm font-medium">{t("settings.resetAllData")}</h3>
-          <Button onClick={onResetAllData}>
-            <Trash2 className="h-4 w-4" />
-            {t("common.reset")}
-          </Button>
+          {recipesError && (
+            <p className="text-destructive">{recipesError.message}</p>
+          )}
+          {recipesLoading ? (
+            <p>Loading recipes...</p>
+          ) : (
+            <Button onClick={onResetAllData}>
+              <Trash2 className="h-4 w-4" />
+              {t("common.reset")}
+            </Button>
+          )}
 
           <h3 className="text-sm font-medium">{t("settings.importRecipes")}</h3>
           <ImportRecipes />

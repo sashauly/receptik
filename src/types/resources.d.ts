@@ -33,6 +33,7 @@ interface Resources {
     "home": {
       "title": "My Recipes",
       "loadingRecipes": "Loading Recipes...",
+      "errorLoadingRecipes": "Error loading recipes",
       "subtitle": "Browse and manage your favorite recipes",
       "noRecipes": "No recipes yet",
       "addYourFirst": "Add your first recipe to get started",

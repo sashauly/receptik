@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { useRecipes } from "@/hooks/useRecipes";
-import { recipeFormSchema, type RecipeFormValues } from "@/lib/schema";
-import { getUniqueSlug } from "@/lib/utils";
+import {
+  recipeFormSchema,
+  type RecipeFormValues
+} from "@/lib/schema";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
 // import { DevTool } from "@hookform/devtools";
@@ -10,7 +11,6 @@ import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { v4 as uuidv4 } from "uuid";
 import BasicInfoFields from "./recipe-form/BasicInfoFields";
 import IngredientFields from "./recipe-form/IngredientFields";
 import InstructionFields from "./recipe-form/InstructionFields";
@@ -28,7 +28,7 @@ const emptyRecipe = (): RecipeFormValues => ({
 
 interface RecipeFormModalProps {
   initialRecipe: Recipe | null;
-  onSave: (recipe: Recipe) => void;
+  onSave: (recipeData: RecipeFormValues & Recipe) => void;
   onCancel: () => void;
 }
 
@@ -38,7 +38,6 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
   onCancel,
 }) => {
   const { t } = useTranslation();
-  const { recipes } = useRecipes();
 
   const recipe = initialRecipe || emptyRecipe();
 
@@ -58,7 +57,6 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
     }
   }, [initialRecipe, form]);
 
-  // TODO check to make sure we're not duplicate code for slugs
   const onSubmit = (values: RecipeFormValues) => {
     try {
       const filteredIngredients = values.ingredients.filter(
@@ -68,30 +66,19 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         (i) => i.trim() !== ""
       );
 
-      const otherRecipes = initialRecipe
-        ? recipes.filter((r) => r.id !== initialRecipe.id)
-        : recipes;
-
-      const existingSlugs = otherRecipes.map((r) => r.slug);
-
-      const slug =
-        initialRecipe && initialRecipe.name === values.name
-          ? initialRecipe.slug
-          : getUniqueSlug(values.name, existingSlugs);
-
       const calculatedTotalTime =
         (values.prepTime || 0) + (values.cookTime || 0);
 
       const newRecipe: Recipe = {
         ...values,
-        id: initialRecipe?.id || uuidv4(),
-        slug,
+        id: initialRecipe?.id || "",
+        slug: initialRecipe?.slug || "",
         prepTime: values.prepTime || 0,
         cookTime: values.cookTime || 0,
         totalTime: calculatedTotalTime,
         ingredients: filteredIngredients,
         instructions: filteredInstructions,
-        dateCreated: initialRecipe?.dateCreated || new Date().toISOString(),
+        dateCreated: initialRecipe?.dateCreated || "",
         dateModified: new Date().toISOString(),
       };
 

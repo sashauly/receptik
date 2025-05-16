@@ -1,6 +1,6 @@
 import RecipeForm from "@/components/RecipeForm";
 import { Button } from "@/components/ui/button";
-import { useRecipes } from "@/hooks/useRecipes";
+import { useAddRecipe } from "@/hooks/recipes/useAddRecipe";
 import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
@@ -10,12 +10,15 @@ import { toast } from "sonner";
 
 const CreateRecipePage: React.FC = () => {
   const navigate = useNavigate();
-  const { addRecipe } = useRecipes();
+  const { addRecipe, loading: addLoading, error: addError } = useAddRecipe();
 
-  const handleSave = async (recipe: Recipe) => {
+  const handleAddRecipe = async (
+    newRecipeData: Omit<Recipe, "id" | "slug" | "dateCreated" | "dateModified">
+  ) => {
     try {
-      await addRecipe(recipe);
-      navigate(`/recipes/${recipe.slug}`);
+      const addedRecipe = await addRecipe(newRecipeData);
+
+      navigate(`/recipes/${addedRecipe.slug}`);
 
       toast.success("Recipe Created");
     } catch (e) {
@@ -46,9 +49,15 @@ const CreateRecipePage: React.FC = () => {
       </div>
       <RecipeForm
         initialRecipe={null}
-        onSave={handleSave}
+        onSave={handleAddRecipe}
         onCancel={handleCancel}
       />
+      {addLoading && <p>Adding recipe...</p>}
+      {addError && (
+        <p className="text-destructive">
+          Error adding recipe: {addError.message}
+        </p>
+      )}
     </div>
   );
 };

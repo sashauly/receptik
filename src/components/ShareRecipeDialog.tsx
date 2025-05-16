@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Dispatch, SetStateAction } from "react";
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -17,14 +15,17 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import type { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileJson, FileText, Image } from "lucide-react";
-import type { Recipe } from "@/types/recipe";
-import { exportAsJson, exportAsTxt, exportAsImage } from "@/lib/utils/export";
 import { useIsMobile } from "@/hooks/useMobile";
+import { exportAsImage, exportAsJson, exportAsTxt } from "@/lib/utils/export";
+import type { Recipe } from "@/types/recipe";
+import { FileJson, FileText, Image } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 
 interface ShareRecipeDialogProps {
   recipe: Recipe;
@@ -99,7 +100,8 @@ function ShareTabs({ recipe, setErrorMessage }: ShareTabsProps) {
   const onExportAsJson = () => {
     try {
       exportAsJson(recipe);
-      // TODO add toast
+      // TODO add russian translations
+      toast.success("Recipe exported as JSON");
     } catch (err: any) {
       setErrorMessage(err);
     }
@@ -108,7 +110,8 @@ function ShareTabs({ recipe, setErrorMessage }: ShareTabsProps) {
   const onExportAsTxt = () => {
     try {
       exportAsTxt(recipe);
-      // TODO add toast
+      // TODO add russian translations
+      toast.success("Recipe exported as text");
     } catch (err: any) {
       setErrorMessage(err);
     }
@@ -117,7 +120,8 @@ function ShareTabs({ recipe, setErrorMessage }: ShareTabsProps) {
   const onExportAsImage = () => {
     try {
       exportAsImage(recipe);
-      // TODO add toast
+      // TODO add russian translations
+      toast.success("Recipe exported as image");
     } catch (err: any) {
       setErrorMessage(err);
     }

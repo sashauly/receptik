@@ -23,14 +23,18 @@ import {
 } from "./ui/drawer";
 
 interface DeleteRecipeDialogProps {
-  recipe: Recipe | null;
+  recipeToDelete: Recipe | null | undefined;
+  isLoading: boolean;
+  error: Error | null;
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }
 
 export default function DeleteRecipeDialog({
-  recipe,
+  recipeToDelete,
+  isLoading,
+  error,
   isOpen,
   onClose,
   onConfirm,
@@ -42,11 +46,15 @@ export default function DeleteRecipeDialog({
     return (
       <Drawer open={isOpen} onOpenChange={onClose}>
         <DrawerContent>
+          {isLoading && <p>Deleting recipe...</p>}
+
+          {error && <p className="text-destructive">{error.message}</p>}
+
           <DrawerHeader className="text-left">
             <DrawerTitle>{t("modals.deleteRecipe")}</DrawerTitle>
             <DrawerDescription>
               {t("modals.deleteRecipeConfirm", {
-                recipeTitle: `"${recipe?.name}"`,
+                recipeTitle: `"${recipeToDelete?.name}"`,
               })}
             </DrawerDescription>
           </DrawerHeader>
@@ -66,11 +74,12 @@ export default function DeleteRecipeDialog({
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent>
+        {isLoading && <p>Deleting recipe...</p>}
         <AlertDialogHeader>
           <AlertDialogTitle>{t("modals.deleteRecipe")}</AlertDialogTitle>
           <AlertDialogDescription>
             {t("modals.deleteRecipeConfirm", {
-              recipeTitle: `"${recipe?.name}"`,
+              recipeTitle: `"${recipeToDelete?.name}"`,
             })}
           </AlertDialogDescription>
         </AlertDialogHeader>

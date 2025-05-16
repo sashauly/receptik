@@ -1,9 +1,9 @@
 import type React from "react";
 
-import RecipeList from "@/components/RecipeList";
 import RecipeFilters from "@/components/RecipeFilters";
-import { Recipe } from "@/types/recipe";
+import RecipeList from "@/components/RecipeList";
 import SearchBar from "@/components/SearchBar";
+import { Recipe } from "@/types/recipe";
 import { useTranslation } from "react-i18next";
 
 interface DesktopRecipeNotebookProps {
@@ -12,6 +12,7 @@ interface DesktopRecipeNotebookProps {
   allTags: string[];
   filteredRecipes: Recipe[];
   isLoading: boolean;
+  error: Error | null;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClearSearch: () => void;
   onTagChange: (value: string) => void;
@@ -25,6 +26,7 @@ export default function DesktopRecipeNotebook({
   allTags,
   filteredRecipes,
   isLoading,
+  error,
   onSearchChange,
   onClearSearch,
   onTagChange,
@@ -43,6 +45,7 @@ export default function DesktopRecipeNotebook({
 
   return (
     <div className="space-y-4">
+      {error && <p className="text-destructive">{error.message}</p>}
       <SearchBar
         value={searchQuery}
         onChange={onSearchChange}
@@ -58,6 +61,8 @@ export default function DesktopRecipeNotebook({
 
       <RecipeList
         recipes={filteredRecipes}
+        isLoading={isLoading}
+        error={error}
         searchQuery={searchQuery}
         onClearSearch={onClearSearch}
         onEditRecipe={onEditRecipe}

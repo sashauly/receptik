@@ -1,4 +1,4 @@
-import { idbStorage } from "@/lib/storage";
+import { deleteDatabase } from "@/data/recipeService";
 import { logError } from "@/lib/utils/logger";
 import { Component, ErrorInfo, ReactNode } from "react";
 import { Button } from "./ui/button";
@@ -33,7 +33,7 @@ class ErrorBoundary extends Component<Props, State> {
   public render(): ReactNode {
     const onResetAllData = async () => {
       try {
-        await idbStorage.deleteDatabase();
+        await deleteDatabase();
         window.location.reload();
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
@@ -53,7 +53,7 @@ class ErrorBoundary extends Component<Props, State> {
                 {this.state.error?.toString()}
               </details>
               <div className="flex flex-col justify-end gap-2 sm:flex-row">
-                <Button onClick={() => window.location.assign("/receptik")}>
+                <Button onClick={() => window.location.assign("/receptik/")}>
                   Go to Home
                 </Button>
                 <Button onClick={() => window.location.reload()}>

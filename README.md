@@ -37,8 +37,8 @@
   - [ ] Add ability to specify cuisine
   - [ ] Add ability to specify category
   - [ ] Add ability to specify author
-- [ ] Move all logging to DEV level
-- [ ] Add toasts on success, warn and error
+- [x] Move all logging to DEV level
+- [x] Add toasts on success, warn and error
 - [ ] Adjust UI/UX for mobile (!)
 
 ## Notes

@@ -1,10 +1,11 @@
 import RecipeForm from "@/components/RecipeForm";
 import { Button } from "@/components/ui/button";
-import { useRecipes } from "@/hooks/useRecipes";
+import { useRecipe } from "@/hooks/recipes/useRecipe";
+import { useUpdateRecipe } from "@/hooks/recipes/useUpdateRecipe";
 import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 
@@ -13,29 +14,37 @@ const EditRecipePage: React.FC = () => {
   const { slug } = useParams();
   const recipeSlug = slug === "create" ? undefined : slug;
 
-  const { updateRecipe, getRecipeBySlug } = useRecipes();
+  const {
+    recipe,
+    loading: recipeLoading,
+    error: recipeError,
+  } = useRecipe({ slug: recipeSlug });
 
-  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const {
+    updateRecipe,
+    loading: updateLoading,
+    error: updateError,
+  } = useUpdateRecipe();
 
-  useEffect(() => {
-    if (!recipeSlug) return;
-    setRecipe(getRecipeBySlug(recipeSlug));
-  }, [recipeSlug, getRecipeBySlug]);
-
-  const handleEdit = async (updatedRecipe: Recipe) => {
+  const handleUpdateRecipe = async (
+    updatedRecipeData: Omit<Recipe, "dateCreated" | "dateModified">
+  ) => {
     try {
       if (!recipe) {
         toast.error("Failed to edit recipe");
         return;
       }
-
-      await updateRecipe(recipe.id, updatedRecipe);
+      const updatedRecipe = await updateRecipe(recipe?.id, updatedRecipeData);
+      if (!updatedRecipe) {
+        toast.error("Failed to update recipe");
+        return;
+      }
       navigate(`/recipes/${updatedRecipe.slug}`);
 
       toast.success("Recipe Updated");
-    } catch (e) {
-      logError("Failed to edit recipe", e);
-      toast.error("Failed to edit recipe");
+    } catch (err) {
+      logError("Failed to update recipe", err);
+      toast.error("Failed to update recipe");
     }
   };
 
@@ -59,12 +68,22 @@ const EditRecipePage: React.FC = () => {
           Back
         </Button>
       </div>
+      {recipeError && <p className="text-destructive">{recipeError.message}</p>}
+
+      {recipeLoading && <p>Loading recipe...</p>}
+
       {recipe && (
         <RecipeForm
           initialRecipe={recipe}
-          onSave={handleEdit}
+          onSave={handleUpdateRecipe}
           onCancel={handleCancel}
         />
+      )}
+      {updateLoading && <p>Updating recipe...</p>}
+      {updateError && (
+        <p className="text-destructive">
+          Error updating recipe: {updateError.message}
+        </p>
       )}
     </div>
   );
