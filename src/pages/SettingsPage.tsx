@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
-export default function Settings() {
+export default function SettingsPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 

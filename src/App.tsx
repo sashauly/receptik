@@ -10,7 +10,7 @@ import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
 import NotFound from "./pages/NotFound";
 import RecipeNotebook from "./pages/RecipeNotebook/index";
-import Settings from "./pages/Settings";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   // const isDevelopment = import.meta.env.DEV;
@@ -35,7 +35,7 @@ function App() {
             <Route path="/recipes/create" element={<CreateRecipePage />} />
             <Route path="/recipes/:slug" element={<RecipePage />} />
             <Route path="/recipes/:slug/edit" element={<EditRecipePage />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Layout>
