@@ -40,6 +40,12 @@ export default function RecipeDetail({
           <h2 className="text-3xl font-bold tracking-tight">{recipe.name}</h2>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="flex items-center space-x-2">
+            {recipe.description && (
+              <p className="text-muted-foreground">{recipe.description}</p>
+            )}
+          </div>
+
           {recipe.keywords && recipe.keywords.length > 0 && (
             <>
               <Separator />
@@ -57,7 +63,7 @@ export default function RecipeDetail({
             </>
           )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {recipe.prepTime && (
               <div className="bg-muted rounded-lg p-2">
                 <h4 className="font-medium">{t("recipe.prepTime")}</h4>

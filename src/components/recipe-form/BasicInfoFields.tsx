@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { RecipeFormValues } from "@/data/schema";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Textarea } from "@/components/ui/textarea";
 
 const BasicInfoFields: React.FC = () => {
   const { t } = useTranslation();
@@ -27,6 +28,24 @@ const BasicInfoFields: React.FC = () => {
                 id="name"
                 type="text"
                 placeholder={t("forms.namePlaceholder")}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t("forms.description")}</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder={t("forms.descriptionPlaceholder")}
+                className="resize-none"
                 {...field}
               />
             </FormControl>

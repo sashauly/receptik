@@ -64,7 +64,7 @@
         "recipeName": "Название рецепта",
         "namePlaceholder": "Введите название рецепта",
         "description": "Описание",
-        "descriptionPlaceholder": "Введите описание",
+        "descriptionPlaceholder": "Кратко опишите свой рецепт...",
         "prepTime": "Время подготовки",
         "cookTime": "Время готовки",
         "totalTime": "Общее время",

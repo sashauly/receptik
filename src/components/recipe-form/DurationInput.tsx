@@ -11,7 +11,7 @@ import { Label } from "@/components/ui/label";
 import { formatHumanReadable, parseDuration } from "@/lib/utils/time";
 import { Clock, Minus, Plus } from "lucide-react";
 import type * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 
@@ -23,8 +23,6 @@ interface DurationInputProps {
 export function DurationInput({ name, label }: DurationInputProps) {
   const { t } = useTranslation();
   const { control } = useFormContext();
-  const { fieldState } = useController({ name });
-  console.log(fieldState);
 
   const effectiveLabel = label || t("forms.presetDuration");
 

@@ -64,7 +64,7 @@
         "recipeName": "Recipe Name",
         "namePlaceholder": "Enter recipe name",
         "description": "Description",
-        "descriptionPlaceholder": "Enter a description",
+        "descriptionPlaceholder": "A brief description of your recipe...",
         "prepTime": "Prep Time",
         "cookTime": "Cook Time",
         "totalTime": "Total Time",

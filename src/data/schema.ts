@@ -28,6 +28,10 @@ export const recipeFormSchema = z.object({
     .string()
     .min(2, { message: t("validation.nameTooShort") })
     .max(50, { message: t("validation.nameTooLong") }),
+  description: z
+    .string()
+    .max(500, { message: "Description must not exceed 500 characters." })
+    .optional(),
   prepTime: z
     .string()
     .refine(isValidISO8601Duration, {
