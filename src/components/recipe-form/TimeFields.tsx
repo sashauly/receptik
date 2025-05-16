@@ -1,60 +1,41 @@
-import TimeInput from "@/components/recipe-form/TimeInput";
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { calculateTotalTime, formatDuration } from "@/lib/utils/time";
+import { Clock } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { DurationInput } from "./DurationInput";
 
 const TimeFields = () => {
   const { t } = useTranslation();
-  const { control } = useFormContext();
+  const { watch } = useFormContext();
+
+  const [totalTime, setTotalTime] = useState<string>("PT0S");
+
+  const prepTime = watch("prepTime");
+  const cookTime = watch("cookTime");
+
+  useEffect(() => {
+    setTotalTime(calculateTotalTime(prepTime, cookTime));
+  }, [prepTime, cookTime]);
+
+  const totalTimeString = formatDuration(totalTime, t);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <FormField
-        control={control}
-        name="prepTime"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel htmlFor="prepTime-hours">
-              {t("forms.prepTime")}
-            </FormLabel>
-            <FormControl>
-              <TimeInput
-                name="prepTime"
-                value={field.value}
-                onChange={field.onChange}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+    <>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <DurationInput name="prepTime" label={t("forms.prepTime")} />
 
-      <FormField
-        control={control}
-        name="cookTime"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel htmlFor="cookTime-hours">
-              {t("forms.cookTime")}
-            </FormLabel>
-            <FormControl>
-              <TimeInput
-                name="cookTime"
-                value={field.value}
-                onChange={field.onChange}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </div>
+        <DurationInput name="cookTime" label={t("forms.cookTime")} />
+      </div>
+
+      <div className="flex items-center p-4 bg-muted rounded-md">
+        <Clock className="h-5 w-5 mr-2 text-muted-foreground" />
+        <div>
+          <p className="text-sm font-medium">{t("forms.totalTime")}</p>
+          <p className="text-sm text-muted-foreground">{totalTimeString}</p>
+        </div>
+      </div>
+    </>
   );
 };
 
