@@ -83,7 +83,7 @@ export default function RecipePage() {
           className="flex items-center"
         >
           <ChevronLeft />
-          Back
+          {t("common.back")}
         </Button>
         <div className="text-center py-10">
           <h3 className="text-lg font-medium">{t("recipe.recipeNotFound")}</h3>

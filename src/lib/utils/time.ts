@@ -34,41 +34,38 @@ export function formatDuration(isoString: string, t: TFunction): string {
       parts.push(`${duration.hours}${t("time.hourShort")}`);
     }
 
-    if (duration.minutes > 0 || (duration.hours > 0 && duration.seconds > 0)) {
+    if (duration.minutes > 0 || duration.hours > 0) {
       parts.push(`${duration.minutes}${t("time.minuteShort")}`);
     }
 
-    if (
-      duration.seconds > 0 ||
-      (duration.hours === 0 && duration.minutes === 0)
-    ) {
-      parts.push(`${duration.seconds}${t("time.secondShort")}`);
+    if (duration.hours === 0 && duration.minutes === 0) {
+      parts.push(t("time.lessThanMinute"));
     }
 
     return parts.join(" ") || `0${t("time.minuteShort")}`;
   } catch (error) {
     logError("Error formatting duration:", error);
-    return "Invalid duration";
+    return t("time.invalid");
   }
 }
 
-export function formatHumanReadable(duration: Temporal.Duration): string {
+export function formatHumanReadable(
+  duration: Temporal.Duration,
+  t: TFunction
+): string {
   const parts: string[] = [];
 
   if (duration.hours > 0) {
-    parts.push(`${duration.hours}h`);
+    parts.push(`${duration.hours}${t("time.hourShort")}`);
   }
 
-  if (duration.minutes > 0 || (duration.hours > 0 && duration.seconds > 0)) {
-    parts.push(`${duration.minutes}m`);
+  if (duration.minutes > 0 || duration.hours > 0) {
+    parts.push(`${duration.minutes}${t("time.minuteShort")}`);
   }
 
-  if (
-    duration.seconds > 0 ||
-    (duration.hours === 0 && duration.minutes === 0)
-  ) {
-    parts.push(`${duration.seconds}s`);
+  if (duration.hours === 0 && duration.minutes === 0) {
+    parts.push(t("time.lessThanMinute"));
   }
 
-  return parts.join(" ") || "0m";
+  return parts.join(" ") || `0${t("time.minuteShort")}`;
 }

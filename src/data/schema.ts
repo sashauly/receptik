@@ -3,11 +3,6 @@ import { t } from "i18next";
 import { Temporal } from "temporal-polyfill";
 import { z } from "zod";
 
-export const timeSchema = z.object({
-  hours: z.coerce.number().min(0, "Hours cannot be negative"),
-  minutes: z.coerce.number().min(0, "Minutes cannot be negative").max(59),
-});
-
 const isValidISO8601Duration = (value: string) => {
   try {
     Temporal.Duration.from(value);
@@ -18,6 +13,15 @@ const isValidISO8601Duration = (value: string) => {
   }
 };
 
+const isTimeEmpty = (val: string) => {
+  try {
+    const duration = Temporal.Duration.from(val || "PT0S");
+    return duration.hours !== 0 || duration.minutes !== 0;
+  } catch (error) {
+    logError("Time is zero:", error);
+    return false;
+  }
+};
 // TODO add russian translations
 export const recipeFormSchema = z.object({
   name: z
@@ -30,12 +34,16 @@ export const recipeFormSchema = z.object({
       message: t("validation.prepTimeInvalid"),
     })
     .optional(),
-  cookTime: z.string().refine(isValidISO8601Duration, {
-    message: t("validation.cookTimeInvalid"),
-  }),
-  servings: z
+  cookTime: z
+    .string()
+    .refine((val) => isTimeEmpty(val), {
+      message: t("validation.cookTimeEmpty"),
+    })
+    .refine(isValidISO8601Duration, {
+      message: t("validation.cookTimeInvalid"),
+    }),
+  servings: z.coerce
     .number()
-    .int()
     .min(1, { message: t("validation.servingsTooFew") })
     .max(100, { message: t("validation.servingsTooMany") }),
   keywords: z.array(z.string()).default([]).optional(),

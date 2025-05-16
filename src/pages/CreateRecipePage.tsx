@@ -5,10 +5,12 @@ import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 const CreateRecipePage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { addRecipe, loading: addLoading, error: addError } = useAddRecipe();
 
@@ -44,7 +46,7 @@ const CreateRecipePage: React.FC = () => {
           className="flex items-center"
         >
           <ChevronLeft />
-          Back
+          {t("common.back")}
         </Button>
       </div>
       <RecipeForm

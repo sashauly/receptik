@@ -23,7 +23,7 @@ export default function ServingsField() {
           <FormControl>
             <Input
               type="number"
-              min="1"
+              min={1}
               {...field}
               placeholder={t("forms.servingsPlaceholder")}
               itemProp="recipeYield"

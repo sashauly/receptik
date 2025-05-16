@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { recipeFormSchema, type RecipeFormValues } from "@/data/schema";
 import { logError } from "@/lib/utils/logger";
-import type { Recipe } from "@/types/recipe";
-// import { DevTool } from "@hookform/devtools";
 import { calculateTotalTime } from "@/lib/utils/time";
+import type { Recipe } from "@/types/recipe";
+import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -75,8 +75,8 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         ...values,
         id: initialRecipe?.id || "",
         slug: initialRecipe?.slug || "",
-        prepTime: values.prepTime || undefined,
-        cookTime: values.cookTime || "PT0S",
+        prepTime: values.prepTime,
+        cookTime: values.cookTime,
         totalTime: calculatedTotalTime,
         ingredients: filteredIngredients,
         instructions: filteredInstructions,
@@ -114,7 +114,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
           <Button type="button" variant="outline" onClick={onCancel}>
             {t("common.cancel")}
           </Button>
-          {/* <DevTool control={form.control} /> */}
+          <DevTool control={form.control} />
         </div>
       </form>
     </FormProvider>

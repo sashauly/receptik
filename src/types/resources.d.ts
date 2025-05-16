@@ -100,6 +100,7 @@ interface Resources {
       "nameTooShort": "Recipe name must be at least 2 characters.",
       "nameTooLong": "Recipe name must not exceed 50 characters.",
       "prepTimeInvalid": "Please enter a valid preparation time.",
+      "cookTimeEmpty": "Cooking time cannot be empty.",
       "cookTimeInvalid": "Please enter a valid cooking time.",
       "servingsTooFew": "Servings must be at least 1.",
       "servingsTooMany": "Servings must be at most 100."
@@ -145,7 +146,8 @@ interface Resources {
       "secondShort": "s",
       "hour_interval": "(1)[hour];(2-inf)[hours];",
       "minute_interval": "(1)[minute];(2-inf)[minutes];",
-      "lessThanMinute": "less than a minute"
+      "lessThanMinute": "less than a minute",
+      "invalid": "Invalid duration"
     },
     "timer": {
       "setTimerTitle": "Set Timer",

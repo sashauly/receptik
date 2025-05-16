@@ -6,10 +6,12 @@ import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 
 const EditRecipePage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { slug } = useParams();
   const recipeSlug = slug === "create" ? undefined : slug;
@@ -65,12 +67,12 @@ const EditRecipePage: React.FC = () => {
           className="flex items-center"
         >
           <ChevronLeft />
-          Back
+          {t("common.back")}
         </Button>
       </div>
       {recipeError && <p className="text-destructive">{recipeError.message}</p>}
 
-      {recipeLoading && <p>Loading recipe...</p>}
+      {recipeLoading && <p>{t("common.loading")}</p>}
 
       {recipe && (
         <RecipeForm
@@ -79,7 +81,7 @@ const EditRecipePage: React.FC = () => {
           onCancel={handleCancel}
         />
       )}
-      {updateLoading && <p>Updating recipe...</p>}
+      {updateLoading && <p>{t("common.loading")}</p>}
       {updateError && (
         <p className="text-destructive">
           Error updating recipe: {updateError.message}
