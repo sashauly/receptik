@@ -62,7 +62,7 @@ export default function SettingsPage() {
           className="flex items-center"
         >
           <ChevronLeft />
-          Back
+          {t("common.back")}
         </Button>
       </div>
 
