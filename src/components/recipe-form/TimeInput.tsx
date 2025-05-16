@@ -76,7 +76,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
               htmlFor={`${name}-hours`}
               className="text-sm text-muted-foreground"
             >
-              {t("forms.hours")}
+              {t("time.hours")}
             </Label>
             <Input
               id={`${name}-hours`}
@@ -84,7 +84,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
               value={hourInput}
               min="0"
               onChange={handleHourInputChange}
-              placeholder={t("forms.hours")}
+              placeholder={t("time.hours")}
               disabled={disabled}
             />
           </div>
@@ -93,7 +93,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
               htmlFor={`${name}-minutes`}
               className="text-sm text-muted-foreground"
             >
-              {t("forms.minutes")}
+              {t("time.minutes")}
             </Label>
             <Input
               id={`${name}-minutes`}
@@ -102,7 +102,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
               min="0"
               max="59"
               onChange={handleMinuteInputChange}
-              placeholder={t("forms.minutes")}
+              placeholder={t("time.minutes")}
               disabled={disabled}
             />
           </div>
