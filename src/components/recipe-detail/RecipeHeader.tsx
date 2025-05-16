@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { ChevronLeft, Edit, Heart, Share2, Trash2 } from "lucide-react";
+import { ChevronLeft, Edit, Share2, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
@@ -20,12 +20,12 @@ const RecipeHeader: React.FC<RecipeHeaderProps> = ({
   const navigate = useNavigate();
 
   const handleClickBackButton = () => {
-    navigate('/');
+    navigate("/");
   };
 
-  const onAddToFavorites = () => {
-    // TODO add to favorites
-  };
+  // const onAddToFavorites = () => {
+  //   // TODO add to favorites
+  // };
 
   return (
     <div className="flex items-center justify-between mb-4 gap-2">
@@ -35,14 +35,14 @@ const RecipeHeader: React.FC<RecipeHeaderProps> = ({
         className="flex items-center"
       >
         <ChevronLeft />
-        Back
+        {t("common.back")}
       </Button>
 
       <div className="flex flex-wrap gap-2">
-        <Button variant="outline" disabled onClick={onAddToFavorites}>
+        {/* <Button variant="outline" disabled onClick={onAddToFavorites}>
           <Heart />
-          {!isSmallDevice && "Add to favorites"}
-        </Button>
+          {!isSmallDevice && t("common.addToFavorites")}
+        </Button> */}
         <Button variant="outline" onClick={onEdit}>
           <Edit />
           {!isSmallDevice && t("common.edit")}
