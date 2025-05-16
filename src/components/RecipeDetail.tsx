@@ -1,5 +1,6 @@
 import RecipeHeader from "@/components/recipe-detail/RecipeHeader";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,8 +12,7 @@ import { formatTime } from "@/lib/utils/time";
 import type { Recipe } from "@/types/recipe";
 import { Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import TimerDrawer from "./TimerDrawer";
-import { Button } from "./ui/button";
+import TimerDrawer from "./recipe-timer/TimerDrawer";
 
 interface RecipeDetailProps {
   recipe: Recipe;

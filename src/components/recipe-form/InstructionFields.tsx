@@ -1,12 +1,12 @@
+import { RecipeFormValues } from "@/data/schema";
 import { Plus, X } from "lucide-react";
-import { Button } from "../ui/button";
-import { useTranslation } from "react-i18next";
 import { useFormContext } from "react-hook-form";
-import { Label } from "../ui/label";
+import { useTranslation } from "react-i18next";
+import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import { FormField, FormControl, FormMessage } from "../ui/form";
+import { FormControl, FormField, FormMessage } from "../ui/form";
+import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
-import { RecipeFormValues } from "@/lib/schema";
 
 const InstructionFields = () => {
   const { t } = useTranslation();

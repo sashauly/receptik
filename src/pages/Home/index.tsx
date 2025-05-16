@@ -15,9 +15,9 @@ import { PlusCircle, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
-import DesktopRecipeNotebook from "./DesktopRecipeNotebook";
+import DesktopHome from "./DesktopHome";
 
-export default function RecipeNotebook() {
+export default function Home() {
   const { t } = useTranslation();
 
   const {
@@ -163,7 +163,7 @@ export default function RecipeNotebook() {
           />
         </>
       ) : (
-        <DesktopRecipeNotebook
+        <DesktopHome
           searchQuery={searchQuery}
           activeTag={activeTag}
           allTags={allKeywords}

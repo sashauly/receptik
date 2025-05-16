@@ -58,7 +58,8 @@ interface Resources {
       "title": "Settings",
       "stayTuned": "Coming soon! Stay tuned for updates.",
       "resetAllData": "Reset All Data",
-      "importRecipes": "Import Recipes"
+      "importRecipes": "Import Recipes",
+      "importing": "Importing..."
     },
     "forms": {
       "createRecipe": "Create New Recipe",

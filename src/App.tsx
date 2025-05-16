@@ -8,8 +8,8 @@ import { ensureLatestDbSchema } from "./data/db";
 import { logDebug, logError } from "./lib/utils/logger";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
+import Home from "./pages/Home/index";
 import NotFound from "./pages/NotFound";
-import RecipeNotebook from "./pages/RecipeNotebook/index";
 import SettingsPage from "./pages/SettingsPage";
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
       <Router basename="/receptik/">
         <Layout>
           <Routes>
-            <Route path="/" element={<RecipeNotebook />} />
+            <Route path="/" element={<Home />} />
             <Route path="/recipes/create" element={<CreateRecipePage />} />
             <Route path="/recipes/:slug" element={<RecipePage />} />
             <Route path="/recipes/:slug/edit" element={<EditRecipePage />} />

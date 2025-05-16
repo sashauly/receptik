@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   FormControl,
   FormField,
@@ -7,11 +7,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useFormContext } from "react-hook-form";
-import { RecipeFormValues } from "@/lib/schema";
-import { useTranslation } from "react-i18next";
+import { RecipeFormValues } from "@/data/schema";
 import { Plus, X } from "lucide-react";
+import React, { useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const KeywordFields: React.FC = () => {
   const { t } = useTranslation();

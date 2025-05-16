@@ -1,12 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useImportRecipes } from "@/hooks/recipes/useImportRecipe";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
 import React, { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 const ImportRecipes = () => {
+  const { t } = useTranslation();
   const { importRecipes, loading: isLoading } = useImportRecipes();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -52,16 +55,24 @@ const ImportRecipes = () => {
   }, [importRecipes, selectedFile]);
 
   return (
-    <div className="flex w-full max-w-sm items-center space-x-2">
-      <Input type="file" accept=".json" onChange={handleFileChange} />
-      <Button
-        type="submit"
-        variant="outline"
-        onClick={handleImport}
-        disabled={isLoading || !selectedFile}
-      >
-        {isLoading ? "Importing..." : "Import Recipes"}
-      </Button>
+    <div className="flex flex-col w-full max-w-sm space-y-2">
+      <Label htmlFor="import-recipes">{t("settings.importRecipes")}</Label>
+      <div className="flex items-center gap-2 w-full max-w-sm">
+        <Input
+          id="import-recipes"
+          type="file"
+          accept=".json"
+          onChange={handleFileChange}
+        />
+        <Button
+          type="submit"
+          variant="outline"
+          onClick={handleImport}
+          disabled={isLoading || !selectedFile}
+        >
+          {isLoading ? t("settings.importing") : t("settings.importRecipes")}
+        </Button>
+      </div>
     </div>
   );
 };

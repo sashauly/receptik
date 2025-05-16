@@ -6,7 +6,7 @@ import SearchBar from "@/components/SearchBar";
 import { Recipe } from "@/types/recipe";
 import { useTranslation } from "react-i18next";
 
-interface DesktopRecipeNotebookProps {
+interface DesktopHomeProps {
   searchQuery: string;
   activeTag: string;
   allTags: string[];
@@ -20,7 +20,7 @@ interface DesktopRecipeNotebookProps {
   onDeleteRecipe: (recipeId: string) => void;
 }
 
-export default function DesktopRecipeNotebook({
+export default function DesktopHome({
   searchQuery,
   activeTag,
   allTags,
@@ -32,7 +32,7 @@ export default function DesktopRecipeNotebook({
   onTagChange,
   onEditRecipe,
   onDeleteRecipe,
-}: DesktopRecipeNotebookProps) {
+}: DesktopHomeProps) {
   const { t } = useTranslation();
 
   if (isLoading) {

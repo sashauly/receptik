@@ -1,10 +1,10 @@
-import { RecipeFormValues } from "@/lib/schema";
+import { RecipeFormValues } from "@/data/schema";
+import { Plus, X } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
-import { Plus, X } from "lucide-react";
+import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
-import { FormField, FormItem, FormControl, FormMessage } from "../ui/form";
 import { Label } from "../ui/label";
 
 const IngredientFields = () => {

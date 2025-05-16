@@ -1,3 +1,4 @@
+import TimerDisplay from "@/components/recipe-timer/TimerDisplay";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -17,7 +18,6 @@ import {
 } from "@/lib/notificationService";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TimerDisplay from "./TimerDisplay";
 
 interface TimerDrawerProps {
   children: React.ReactNode;

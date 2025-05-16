@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   recipeFormSchema,
   type RecipeFormValues
-} from "@/lib/schema";
+} from "@/data/schema";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
 // import { DevTool } from "@hookform/devtools";

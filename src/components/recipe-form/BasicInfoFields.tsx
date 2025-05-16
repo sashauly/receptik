@@ -1,4 +1,4 @@
-import { RecipeFormValues } from "@/lib/schema";
+import { RecipeFormValues } from "@/data/schema";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
