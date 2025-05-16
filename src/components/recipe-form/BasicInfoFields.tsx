@@ -1,15 +1,14 @@
-import { RecipeFormValues } from "@/data/schema";
-import { useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import {
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import TimeFields from "./TimeFields";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { RecipeFormValues } from "@/data/schema";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 const BasicInfoFields: React.FC = () => {
   const { t } = useTranslation();
@@ -35,28 +34,6 @@ const BasicInfoFields: React.FC = () => {
           </FormItem>
         )}
       />
-
-      <FormField
-        control={control}
-        name="servings"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>{t("forms.servings")}</FormLabel>
-            <FormControl>
-              <Input
-                type="number"
-                min="1"
-                {...field}
-                onChange={(e) => field.onChange(Number(e.target.value))}
-                itemProp="recipeYield"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-
-      <TimeFields />
     </>
   );
 };
