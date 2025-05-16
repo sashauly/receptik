@@ -2,6 +2,7 @@ import type React from "react";
 
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import RecipeList from "@/components/RecipeList";
+import SearchBar from "@/components/SearchBar";
 import { Button } from "@/components/ui/button";
 import { useAllKeywords } from "@/hooks/recipes/useAllKeywords";
 import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
@@ -14,7 +15,6 @@ import { PlusCircle, Settings } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
-import BottomSearch from "./BottomSearch";
 import DesktopRecipeNotebook from "./DesktopRecipeNotebook";
 
 export default function RecipeNotebook() {
@@ -37,7 +37,6 @@ export default function RecipeNotebook() {
 
   const [searchQuery, setSearchQuery] = useState(querySearch);
   const [activeTag, setActiveTag] = useState(queryTag);
-  const [showSettingsButton, setShowSettingsButton] = useState(true);
 
   const {
     searchResults,
@@ -80,22 +79,6 @@ export default function RecipeNotebook() {
     setActiveTag(queryTag);
   }, [querySearch, queryTag]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 100) {
-        setShowSettingsButton(false);
-      } else {
-        setShowSettingsButton(true);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   const handleCloseModals = () => {
     updateParams({
       delete: null,
@@ -136,25 +119,17 @@ export default function RecipeNotebook() {
   };
 
   return (
-    <div className="container mx-auto py-6 px-4 pt-18 md:px-6 space-y-2">
+    <div className="container mx-auto py-6 px-4 md:px-6 space-y-2">
       {isSmallDevice ? (
         <>
-          <div className="fixed top-6 right-4 md:right-8 z-50">
-            {showSettingsButton && (
-              <Button
-                asChild
-                variant="outline"
-                size="icon"
-                className="settings-button"
-              >
-                <Link to="/settings" title={t("settings.title")}>
-                  <Settings />
-                </Link>
-              </Button>
-            )}
-          </div>
+          <div className="flex items-center justify-between gap-2 mb-4">
+            <SearchBar
+              value={searchQuery}
+              onChange={handleSearchChange}
+              onClear={handleClearSearch}
+              placeholder={t("home.searchPlaceholder")}
+            />
 
-          <div className="fixed right-4 md:right-6 z-50 flex flex-col items-end gap-4 bottom-[calc(92px+1rem)]">
             <Button
               asChild
               size="icon"
@@ -162,6 +137,17 @@ export default function RecipeNotebook() {
             >
               <Link to="/recipes/create" title={t("common.addRecipe")}>
                 <PlusCircle className="h-4 w-4" />
+              </Link>
+            </Button>
+
+            <Button
+              asChild
+              variant="outline"
+              size="icon"
+              className="settings-button"
+            >
+              <Link to="/settings" title={t("settings.title")}>
+                <Settings />
               </Link>
             </Button>
           </div>
@@ -174,12 +160,6 @@ export default function RecipeNotebook() {
             onClearSearch={handleClearSearch}
             onEditRecipe={handleEditRecipe}
             onDeleteRecipe={handleDeleteRecipe}
-          />
-
-          <BottomSearch
-            searchQuery={searchQuery}
-            onSearchChange={handleSearchChange}
-            onClearSearch={handleClearSearch}
           />
         </>
       ) : (
