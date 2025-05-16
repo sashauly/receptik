@@ -15,6 +15,7 @@ import InstructionFields from "./recipe-form/InstructionFields";
 import KeywordsField from "./recipe-form/KeywordFields";
 import ServingsField from "./recipe-form/ServingsField";
 import TimeFields from "./recipe-form/TimeFields";
+import { FormSchemaProvider } from "@/components/ui/form";
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",
@@ -92,32 +93,38 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
   };
 
   return (
-    <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-        <BasicInfoFields />
+    <FormSchemaProvider schema={recipeFormSchema}>
+      <FormProvider {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <BasicInfoFields />
 
-        <TimeFields />
+          <TimeFields />
 
-        <KeywordsField />
+          <KeywordsField />
 
-        <ServingsField />
+          <ServingsField />
 
-        <IngredientFields />
+          <IngredientFields />
 
-        <InstructionFields />
+          <InstructionFields />
 
-        <div className="flex gap-2">
-          <Button type="submit">{t("forms.saveRecipe")}</Button>
-          <Button type="button" variant="outline" onClick={() => form.reset()}>
-            {t("common.reset")}
-          </Button>
-          <Button type="button" variant="outline" onClick={onCancel}>
-            {t("common.cancel")}
-          </Button>
-          <DevTool control={form.control} />
-        </div>
-      </form>
-    </FormProvider>
+          <div className="flex gap-2">
+            <Button type="submit">{t("forms.saveRecipe")}</Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => form.reset()}
+            >
+              {t("common.reset")}
+            </Button>
+            <Button type="button" variant="outline" onClick={onCancel}>
+              {t("common.cancel")}
+            </Button>
+            <DevTool control={form.control} />
+          </div>
+        </form>
+      </FormProvider>
+    </FormSchemaProvider>
   );
 };
 
