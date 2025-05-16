@@ -4,9 +4,9 @@ export interface Recipe {
   slug: string;
   ingredients: string[];
   instructions: string[];
-  prepTime?: number;
-  cookTime: number;
-  totalTime: number;
+  prepTime?: string; // ISO 8601 string duration format
+  cookTime: string; // ISO 8601 string duration format
+  totalTime: string; // ISO 8601 string duration format
   servings: number;
   keywords?: string[];
   dateCreated: string;
