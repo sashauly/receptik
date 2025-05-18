@@ -1,192 +1,190 @@
 interface Resources {
-  "translation": {
-    "translation": {
-      "common": {
-        "appName": "Receptik",
-        "loading": "Loading...",
-        "save": "Save",
-        "cancel": "Cancel",
-        "delete": "Delete",
-        "edit": "Edit",
-        "share": "Share",
-        "back": "Back",
-        "add": "Add",
-        "addToFavorites": "Add to favorites",
-        "search": "Search",
-        "clear": "Clear",
-        "close": "Close",
-        "reset": "Reset",
-        "reload": "Reload",
-        "notFound": "Not found",
-        "today": "Today is",
-        "allRightsReserved": "All rights reserved",
-        "backToRecipes": "Back to Recipes",
-        "addRecipe": "Add Recipe",
-        "toHomePage": "Go to homepage",
-        "noRecipesFound": "No recipes found",
-        "noRecipesFoundDesc": "No recipes match {{searchQuery}}. Try adjusting your search or filters.",
-        "pageNotFound": "Page not found",
-        "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed."
-      },
-      "home": {
-        "title": "My Recipes",
-        "loadingRecipes": "Loading Recipes...",
-        "errorLoadingRecipes": "Error loading recipes",
-        "subtitle": "Browse and manage your favorite recipes",
-        "noRecipes": "No recipes yet",
-        "addYourFirst": "Add your first recipe to get started",
-        "searchPlaceholder": "Search by name or keyword...",
-        "allRecipes": "All",
-        "createFirstRecipe": "Create First Recipe"
-      },
-      "recipe": {
-        "title": "Recipe Details",
-        "ingredients": "Ingredients",
-        "instructions": "Instructions",
-        "prepTime": "Preparation Time",
-        "cookTime": "Cooking Time",
-        "totalTime": "Total Time",
-        "servings": "Servings",
-        "servings_interval": "(1)[serving];(2-inf)[servings];",
-        "keywords": "Keywords",
-        "recipeNotFound": "Recipe not found",
-        "recipeNotFoundDesc": "The recipe you're looking for doesn't exist or has been removed."
-      },
-      "settings": {
-        "title": "Settings",
-        "stayTuned": "Coming soon! Stay tuned for updates.",
-        "resetAllData": "Reset All Data",
-        "importRecipes": "Import Recipes",
-        "importing": "Importing..."
-      },
-      "forms": {
-        "createRecipe": "Create New Recipe",
-        "editRecipe": "Edit Recipe",
-        "createRecipeDescription": "Create a new recipe",
-        "editRecipeDescription": "Edit an existing recipe",
-        "recipeName": "Recipe Name",
-        "namePlaceholder": "Enter recipe name",
-        "description": "Description",
-        "descriptionPlaceholder": "A brief description of your recipe...",
-        "prepTime": "Prep Time",
-        "cookTime": "Cook Time",
-        "totalTime": "Total Time",
-        "presetDuration": "Cooking Duration",
-        "presetDurationPlaceholder": "Choose a preset duration",
-        "durationPresets": {
-          "quick": "Quick (5m)",
-          "short": "Short (15m)",
-          "medium": "Medium (30m)",
-          "long": "Long (1h)",
-          "veryLong": "Very Long (2h)"
-        },
-        "noDuration": "No duration set",
-        "servings": "Servings",
-        "servingsPlaceholder": "e.g. 4",
-        "keywords": "Keywords",
-        "keywordsPlaceholder": "Add a keyword (e.g. grandma, affordable)",
-        "cuisine": "Cuisine",
-        "cuisinePlaceholder": "Add a cuisine (e.g. American, Italian)",
-        "category": "Category",
-        "categoryPlaceholder": "Add a category (e.g. Vegetarian, Dessert)",
-        "ingredients": "Ingredients",
-        "ingredientPlaceholder": "Ingredient {{index}}",
-        "addIngredient": "Add Ingredient",
-        "instructions": "Instructions",
-        "stepPlaceholder": "Step {{index}}",
-        "addStep": "Add Step",
-        "saveRecipe": "Save Recipe",
-        "failedToSubmit": "Failed to submit the form. Please try again."
-      },
-      "validation": {
-        "nameTooShort": "Recipe name must be at least 2 characters.",
-        "nameTooLong": "Recipe name must not exceed 50 characters.",
-        "prepTimeInvalid": "Please enter a valid preparation time.",
-        "cookTimeEmpty": "Cooking time cannot be empty.",
-        "cookTimeInvalid": "Please enter a valid cooking time.",
-        "servingsTooFew": "Servings must be at least 1.",
-        "servingsTooMany": "Servings must be at most 100."
-      },
-      "modals": {
-        "deleteRecipe": "Delete Recipe",
-        "deleteRecipeConfirm": "Are you sure you want to delete {{recipeTitle}}? This action cannot be undone.",
-        "shareRecipe": "Share Recipe",
-        "shareRecipeDesc": "Share {{recipeTitle}} with friends and family"
-      },
-      "share": {
-        "link": "Link",
-        "social": "Social",
-        "export": "Export",
-        "text": "Text",
-        "email": "Email",
-        "image": "Image",
-        "twitter": "Twitter",
-        "facebook": "Facebook",
-        "exportThisRecipe": "Export this recipe",
-        "exportAllRecipes": "Export all recipes",
-        "exportAllAsJson": "Export All as JSON"
-      },
-      "theme": {
-        "label": "Theme",
-        "light": "Light",
-        "dark": "Dark",
-        "system": "System"
-      },
-      "language": {
-        "label": "Language",
-        "supported": {
-          "en": "English",
-          "ru": "Russian"
-        }
-      },
-      "time": {
-        "hours": "Hours",
-        "minutes": "Minutes",
-        "seconds": "Seconds",
-        "hourShort": "h",
-        "minuteShort": "m",
-        "secondShort": "s",
-        "hour_interval": "(1)[hour];(2-inf)[hours];",
-        "minute_interval": "(1)[minute];(2-inf)[minutes];",
-        "lessThanMinute": "less than a minute",
-        "invalid": "Invalid duration"
-      },
-      "timer": {
-        "setTimerTitle": "Set Timer",
-        "setTimerDescription": "Enter the duration for your timer.",
-        "setTimer": "Set Timer",
-        "clearTimer": "Clear Timer",
-        "start": "Start",
-        "pause": "Pause",
-        "resume": "Resume",
-        "reset": "Reset",
-        "notification": {
-          "startTitle": "Timer Running",
-          "startBody": "Your timer is now active.",
-          "endTitle": "Timer Complete!",
-          "endBody": "Your timer has finished."
-        }
-      },
-      "reloadPrompt": {
-        "readyForOfflineUse": "App ready for offline use",
-        "newUpdateAvailable": "New update available",
-        "offlineDescription": "You can now use the app even without an internet connection.",
-        "updateDescription": "Click \"Reload\" to get the latest version of the app."
-      },
-      "installPrompt": {
-        "installApp": "Install App",
-        "howToInstall": "How to Install",
-        "installAppDescription": "While direct installation isn't supported on your browser, you can still add this app to your home screen for quick access.",
-        "instructions": {
-          "title": "Instructions:",
-          "chrome": "**Chrome/Edge on Android:** Tap the three dots menu in the top-right and select \"Add to Home screen\".",
-          "safari": "**Safari on iOS:** Tap the Share button (square with an arrow pointing up) and select \"Add to Home Screen\".",
-          "other": "**Other Browsers/Platforms:** Look for an \"Add to Home screen\", \"Install app\", or similar option in your browser's menu."
-        },
-        "stepsMayVary": " These steps may vary slightly depending on your browser and device."
-      }
-    }
-  }
+  translation: {
+    common: {
+      appName: "Receptik";
+      loading: "Loading...";
+      save: "Save";
+      cancel: "Cancel";
+      delete: "Delete";
+      edit: "Edit";
+      share: "Share";
+      back: "Back";
+      add: "Add";
+      addToFavorites: "Add to favorites";
+      search: "Search";
+      clear: "Clear";
+      close: "Close";
+      reset: "Reset";
+      reload: "Reload";
+      notFound: "Not found";
+      today: "Today is";
+      allRightsReserved: "All rights reserved";
+      backToRecipes: "Back to Recipes";
+      addRecipe: "Add Recipe";
+      toHomePage: "Go to homepage";
+      noRecipesFound: "No recipes found";
+      noRecipesFoundDesc: "No recipes match {{searchQuery}}. Try adjusting your search or filters.";
+      pageNotFound: "Page not found";
+      pageNotFoundDesc: "The page you&apos;re looking for doesn&apos;t exist or has been removed.";
+    };
+    home: {
+      title: "My Recipes";
+      loadingRecipes: "Loading Recipes...";
+      errorLoadingRecipes: "Error loading recipes";
+      subtitle: "Browse and manage your favorite recipes";
+      noRecipes: "No recipes yet";
+      addYourFirst: "Add your first recipe to get started";
+      searchPlaceholder: "Search by name or keyword...";
+      allRecipes: "All";
+      createFirstRecipe: "Create First Recipe";
+    };
+    recipe: {
+      title: "Recipe Details";
+      ingredients: "Ingredients";
+      instructions: "Instructions";
+      prepTime: "Preparation Time";
+      cookTime: "Cooking Time";
+      totalTime: "Total Time";
+      servings: "Servings";
+      servings_interval: "(1)[serving];(2-inf)[servings];";
+      keywords: "Keywords";
+      recipeNotFound: "Recipe not found";
+      recipeNotFoundDesc: "The recipe you're looking for doesn't exist or has been removed.";
+    };
+    settings: {
+      title: "Settings";
+      stayTuned: "Coming soon! Stay tuned for updates.";
+      resetAllData: "Reset All Data";
+      importRecipes: "Import Recipes";
+      importing: "Importing...";
+    };
+    forms: {
+      createRecipe: "Create New Recipe";
+      editRecipe: "Edit Recipe";
+      createRecipeDescription: "Create a new recipe";
+      editRecipeDescription: "Edit an existing recipe";
+      recipeName: "Recipe Name";
+      namePlaceholder: "Enter recipe name";
+      description: "Description";
+      descriptionPlaceholder: "A brief description of your recipe...";
+      prepTime: "Prep Time";
+      cookTime: "Cook Time";
+      totalTime: "Total Time";
+      presetDuration: "Cooking Duration";
+      presetDurationPlaceholder: "Choose a preset duration";
+      durationPresets: {
+        quick: "Quick (5m)";
+        short: "Short (15m)";
+        medium: "Medium (30m)";
+        long: "Long (1h)";
+        veryLong: "Very Long (2h)";
+      };
+      noDuration: "No duration set";
+      servings: "Servings";
+      servingsPlaceholder: "e.g. 4";
+      keywords: "Keywords";
+      keywordsPlaceholder: "Add a keyword (e.g. grandma, affordable)";
+      cuisine: "Cuisine";
+      cuisinePlaceholder: "Add a cuisine (e.g. American, Italian)";
+      category: "Category";
+      categoryPlaceholder: "Add a category (e.g. Vegetarian, Dessert)";
+      ingredients: "Ingredients";
+      ingredientPlaceholder: "Ingredient {{index}}";
+      addIngredient: "Add Ingredient";
+      instructions: "Instructions";
+      stepPlaceholder: "Step {{index}}";
+      addStep: "Add Step";
+      saveRecipe: "Save Recipe";
+      failedToSubmit: "Failed to submit the form. Please try again.";
+    };
+    validation: {
+      nameTooShort: "Recipe name must be at least 2 characters.";
+      nameTooLong: "Recipe name must not exceed 50 characters.";
+      prepTimeInvalid: "Please enter a valid preparation time.";
+      cookTimeEmpty: "Cooking time cannot be empty.";
+      cookTimeInvalid: "Please enter a valid cooking time.";
+      servingsTooFew: "Servings must be at least 1.";
+      servingsTooMany: "Servings must be at most 100.";
+    };
+    modals: {
+      deleteRecipe: "Delete Recipe";
+      deleteRecipeConfirm: "Are you sure you want to delete {{recipeTitle}}? This action cannot be undone.";
+      shareRecipe: "Share Recipe";
+      shareRecipeDesc: "Share {{recipeTitle}} with friends and family";
+    };
+    share: {
+      link: "Link";
+      social: "Social";
+      export: "Export";
+      text: "Text";
+      email: "Email";
+      image: "Image";
+      twitter: "Twitter";
+      facebook: "Facebook";
+      exportThisRecipe: "Export this recipe";
+      exportAllRecipes: "Export all recipes";
+      exportAllAsJson: "Export All as JSON";
+    };
+    theme: {
+      label: "Theme";
+      light: "Light";
+      dark: "Dark";
+      system: "System";
+    };
+    language: {
+      label: "Language";
+      supported: {
+        en: "English";
+        ru: "Russian";
+      };
+    };
+    time: {
+      hours: "Hours";
+      minutes: "Minutes";
+      seconds: "Seconds";
+      hourShort: "h";
+      minuteShort: "m";
+      secondShort: "s";
+      hour_interval: "(1)[hour];(2-inf)[hours];";
+      minute_interval: "(1)[minute];(2-inf)[minutes];";
+      lessThanMinute: "less than a minute";
+      invalid: "Invalid duration";
+    };
+    timer: {
+      setTimerTitle: "Set Timer";
+      setTimerDescription: "Enter the duration for your timer.";
+      setTimer: "Set Timer";
+      clearTimer: "Clear Timer";
+      start: "Start";
+      pause: "Pause";
+      resume: "Resume";
+      reset: "Reset";
+      notification: {
+        startTitle: "Timer Running";
+        startBody: "Your timer is now active.";
+        endTitle: "Timer Complete!";
+        endBody: "Your timer has finished.";
+      };
+    };
+    reloadPrompt: {
+      readyForOfflineUse: "App ready for offline use";
+      newUpdateAvailable: "New update available";
+      offlineDescription: "You can now use the app even without an internet connection.";
+      updateDescription: 'Click "Reload" to get the latest version of the app.';
+    };
+    installPrompt: {
+      installApp: "Install App";
+      howToInstall: "How to Install";
+      installAppDescription: "While direct installation isn't supported on your browser, you can still add this app to your home screen for quick access.";
+      instructions: {
+        title: "Instructions:";
+        chrome: '**Chrome/Edge on Android:** Tap the three dots menu in the top-right and select "Add to Home screen".';
+        safari: '**Safari on iOS:** Tap the Share button (square with an arrow pointing up) and select "Add to Home Screen".';
+        other: '**Other Browsers/Platforms:** Look for an "Add to Home screen", "Install app", or similar option in your browser\'s menu.';
+      };
+      stepsMayVary: " These steps may vary slightly depending on your browser and device.";
+    };
+  };
 }
 
 export default Resources;
