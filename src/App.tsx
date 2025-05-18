@@ -11,6 +11,7 @@ import EditRecipePage from "./pages/EditRecipePage";
 import Home from "./pages/Home/index";
 import NotFound from "./pages/NotFound";
 import SettingsPage from "./pages/SettingsPage";
+import ReloadPrompt from "./components/ReloadPrompt";
 
 function App() {
   // const isDevelopment = import.meta.env.DEV;
@@ -40,6 +41,7 @@ function App() {
           </Routes>
         </Layout>
         <Toaster position="top-center" />
+        <ReloadPrompt />
 
         {/* {isDevelopment && isSmallDevice && <VirtualKeyboardSimulator />} */}
       </Router>
