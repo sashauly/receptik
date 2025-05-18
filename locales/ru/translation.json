@@ -1,167 +1,176 @@
 {
-    "common": {
-        "appName": "Рецептик",
-        "loading": "Загрузка...",
-        "save": "Сохранить",
-        "cancel": "Отмена",
-        "delete": "Удалить",
-        "edit": "Редактировать",
-        "share": "Поделиться",
-        "back": "Назад",
-        "add": "Добавить",
-        "addToFavorites": "Добавить в избранное",
-        "search": "Поиск",
-        "clear": "Очистить",
-        "close": "Закрыть",
-        "reset": "Сбросить",
-        "notFound": "Не найдено",
-        "today": "Сегодня",
-        "allRightsReserved": "Все права защищены",
-        "backToRecipes": "Назад к рецептам",
-        "addRecipe": "Добавить рецепт",
-        "toHomePage": "На главную",
-        "noRecipesFound": "Рецептов не найдено",
-        "noRecipesFoundDesc": "Нет рецептов, соответствующих {{searchQuery}}. Попробуйте настроить поиск или фильтры.",
-        "pageNotFound": "Страница не найдена",
-        "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена."
-    },
-    "home": {
-        "title": "Мои рецепты",
-        "loadingRecipes": "Загружаем рецепты...",
-        "errorLoadingRecipes": "Ошибка загрузки рецептов",
-        "subtitle": "Просматривайте и управляйте своими любимыми рецептами",
-        "noRecipes": "Пока нет рецептов",
-        "addYourFirst": "Добавьте свой первый рецепт, чтобы начать",
-        "searchPlaceholder": "Поиск по названию или ключевому слову...",
-        "allRecipes": "Все",
-        "createFirstRecipe": "Создать первый рецепт"
-    },
-    "recipe": {
-        "title": "Детали рецепта",
-        "ingredients": "Ингредиенты",
-        "instructions": "Инструкции",
-        "prepTime": "Подготовка",
-        "cookTime": "Время готовки",
-        "totalTime": "Общее время",
-        "servings": "Порции",
-        "servings_interval": "(1)[порция];(2-4)[порции];(5-inf)[порций];",
-        "keywords": "Ключевые слова",
-        "recipeNotFound": "Рецепт не найден",
-        "recipeNotFoundDesc": "Рецепт, который вы ищете, не существует или был удален."
-    },
-    "settings": {
-        "title": "Настройки",
-        "stayTuned": "Скоро будет! Следите за обновлениями.",
-        "resetAllData": "Сбросить все данные",
-        "importRecipes": "Импортировать рецепты",
-        "importing": "Импортируем..."
-    },
-    "forms": {
-        "createRecipe": "Создать новый рецепт",
-        "editRecipe": "Редактировать рецепт",
-        "createRecipeDescription": "Создать новый рецепт",
-        "editRecipeDescription": "Редактировать существующий рецепт",
-        "recipeName": "Название рецепта",
-        "namePlaceholder": "Введите название рецепта",
-        "description": "Описание",
-        "descriptionPlaceholder": "Кратко опишите свой рецепт...",
-        "prepTime": "Время подготовки",
-        "cookTime": "Время готовки",
-        "totalTime": "Общее время",
-        "presetDuration": "Время готовки",
-        "presetDurationPlaceholder": "Выберите предустановленное время",
-        "durationPresets": {
-            "quick": "Быстро (5м)",
-            "short": "Коротко (15м)",
-            "medium": "Средне (30м)",
-            "long": "Долго (1ч)",
-            "veryLong": "Очень долго (2ч)"
+    "translation": {
+        "common": {
+            "appName": "Рецептик",
+            "loading": "Загрузка...",
+            "save": "Сохранить",
+            "cancel": "Отмена",
+            "delete": "Удалить",
+            "edit": "Редактировать",
+            "share": "Поделиться",
+            "back": "Назад",
+            "add": "Добавить",
+            "addToFavorites": "Добавить в избранное",
+            "search": "Поиск",
+            "clear": "Очистить",
+            "close": "Закрыть",
+            "reset": "Сбросить",
+            "reload": "Обновить",
+            "notFound": "Не найдено",
+            "today": "Сегодня",
+            "allRightsReserved": "Все права защищены",
+            "backToRecipes": "Назад к рецептам",
+            "addRecipe": "Добавить рецепт",
+            "toHomePage": "На главную",
+            "noRecipesFound": "Рецептов не найдено",
+            "noRecipesFoundDesc": "Нет рецептов, соответствующих {{searchQuery}}. Попробуйте настроить поиск или фильтры.",
+            "pageNotFound": "Страница не найдена",
+            "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена."
         },
-        "noDuration": "Время не установлено",
-        "servings": "Порции",
-        "servingsPlaceholder": "например, 4",
-        "keywords": "Ключевые слова",
-        "keywordsPlaceholder": "Добавьте ключевые слова (например, бабулины, экономия)",
-        "cuisine": "Национальная кухня",
-        "cuisinePlaceholder": "Добавьте национальную кухню (например, Американская, Итальянская)",
-        "category": "Категория",
-        "categoryPlaceholder": "Добавьте категорию (например, Вегетарианский, Десерт)",
-        "ingredients": "Ингредиенты",
-        "ingredientPlaceholder": "Ингредиент {{index}}",
-        "addIngredient": "Добавить ингредиент",
-        "instructions": "Инструкции",
-        "stepPlaceholder": "Шаг {{index}}",
-        "addStep": "Добавить шаг",
-        "saveRecipe": "Сохранить рецепт",
-        "failedToSubmit": "Ошибка при отправке формы. Пожалуйста, попробуйте еще раз."
-    },
-    "validation": {
-        "nameTooShort": "Имя рецепта должно быть не менее 2 символов.",
-        "nameTooLong": "Имя рецепта не должно превышать 50 символов.",
-        "prepTimeInvalid": "Введите корректное время приготовления.",
-        "cookTimeEmpty": "Время готовки не может быть пустым.",
-        "cookTimeInvalid": "Введите корректное время готовки.",
-        "servingsTooFew": "Порций должно быть не менее 1.",
-        "servingsTooMany": "Порций должно быть не более 100."
-    },
-    "modals": {
-        "deleteRecipe": "Удалить рецепт",
-        "deleteRecipeConfirm": "Вы уверены, что хотите удалить этот рецепт? Это действие нельзя отменить.",
-        "shareRecipe": "Поделиться рецептом",
-        "shareRecipeDesc": "Поделитесь {{recipeTitle}} с друзьями и семьей"
-    },
-    "share": {
-        "link": "Ссылка",
-        "social": "Соцсети",
-        "export": "Экспорт",
-        "text": "Текст",
-        "email": "Email",
-        "image": "Изображение",
-        "twitter": "Twitter",
-        "facebook": "Facebook",
-        "exportThisRecipe": "Экспортировать этот рецепт",
-        "exportAllRecipes": "Экспортировать все рецепты",
-        "exportAllAsJson": "Экспортировать всё как JSON"
-    },
-    "theme": {
-        "label": "Тема",
-        "light": "Светлая",
-        "dark": "Темная",
-        "system": "Системная"
-    },
-    "language": {
-        "label": "Язык",
-        "supported": {
-            "en": "Английский",
-            "ru": "Русский"
-        }
-    },
-    "time": {
-        "hours": "Часы",
-        "minutes": "Минуты",
-        "seconds": "Секунды",
-        "hourShort": "ч",
-        "minuteShort": "мин",
-        "secondShort": "с",
-        "hour_interval": "(1)[час];(2-4)[часа];(5-inf)[часов];",
-        "minute_interval": "(1)[минута];(2-4)[минуты];(5-inf)[минут];",
-        "lessThanMinute": "меньше минуты",
-        "invalid": "Недопустимое время"
-    },
-    "timer": {
-        "setTimerTitle": "Установить таймер",
-        "setTimerDescription": "Введите продолжительность таймера.",
-        "setTimer": "Установить таймер",
-        "clearTimer": "Очистить таймер",
-        "start": "Начать",
-        "pause": "Пауза",
-        "resume": "Возобновить",
-        "reset": "Сбросить",
-        "notification": {
-            "startTitle": "Таймер запущен",
-            "startBody": "Таймер теперь активен.",
-            "endTitle": "Таймер завершен!",
-            "endBody": "Ваш таймер завершился."
+        "home": {
+            "title": "Мои рецепты",
+            "loadingRecipes": "Загружаем рецепты...",
+            "errorLoadingRecipes": "Ошибка загрузки рецептов",
+            "subtitle": "Просматривайте и управляйте своими любимыми рецептами",
+            "noRecipes": "Пока нет рецептов",
+            "addYourFirst": "Добавьте свой первый рецепт, чтобы начать",
+            "searchPlaceholder": "Поиск по названию или ключевому слову...",
+            "allRecipes": "Все",
+            "createFirstRecipe": "Создать первый рецепт"
+        },
+        "recipe": {
+            "title": "Детали рецепта",
+            "ingredients": "Ингредиенты",
+            "instructions": "Инструкции",
+            "prepTime": "Подготовка",
+            "cookTime": "Время готовки",
+            "totalTime": "Общее время",
+            "servings": "Порции",
+            "servings_interval": "(1)[порция];(2-4)[порции];(5-inf)[порций];",
+            "keywords": "Ключевые слова",
+            "recipeNotFound": "Рецепт не найден",
+            "recipeNotFoundDesc": "Рецепт, который вы ищете, не существует или был удален."
+        },
+        "settings": {
+            "title": "Настройки",
+            "stayTuned": "Скоро будет! Следите за обновлениями.",
+            "resetAllData": "Сбросить все данные",
+            "importRecipes": "Импортировать рецепты",
+            "importing": "Импортируем..."
+        },
+        "forms": {
+            "createRecipe": "Создать новый рецепт",
+            "editRecipe": "Редактировать рецепт",
+            "createRecipeDescription": "Создать новый рецепт",
+            "editRecipeDescription": "Редактировать существующий рецепт",
+            "recipeName": "Название рецепта",
+            "namePlaceholder": "Введите название рецепта",
+            "description": "Описание",
+            "descriptionPlaceholder": "Кратко опишите свой рецепт...",
+            "prepTime": "Время подготовки",
+            "cookTime": "Время готовки",
+            "totalTime": "Общее время",
+            "presetDuration": "Время готовки",
+            "presetDurationPlaceholder": "Выберите предустановленное время",
+            "durationPresets": {
+                "quick": "Быстро (5м)",
+                "short": "Коротко (15м)",
+                "medium": "Средне (30м)",
+                "long": "Долго (1ч)",
+                "veryLong": "Очень долго (2ч)"
+            },
+            "noDuration": "Время не установлено",
+            "servings": "Порции",
+            "servingsPlaceholder": "например, 4",
+            "keywords": "Ключевые слова",
+            "keywordsPlaceholder": "Добавьте ключевые слова (например, бабулины, экономия)",
+            "cuisine": "Национальная кухня",
+            "cuisinePlaceholder": "Добавьте национальную кухню (например, Американская, Итальянская)",
+            "category": "Категория",
+            "categoryPlaceholder": "Добавьте категорию (например, Вегетарианский, Десерт)",
+            "ingredients": "Ингредиенты",
+            "ingredientPlaceholder": "Ингредиент {{index}}",
+            "addIngredient": "Добавить ингредиент",
+            "instructions": "Инструкции",
+            "stepPlaceholder": "Шаг {{index}}",
+            "addStep": "Добавить шаг",
+            "saveRecipe": "Сохранить рецепт",
+            "failedToSubmit": "Ошибка при отправке формы. Пожалуйста, попробуйте еще раз."
+        },
+        "validation": {
+            "nameTooShort": "Имя рецепта должно быть не менее 2 символов.",
+            "nameTooLong": "Имя рецепта не должно превышать 50 символов.",
+            "prepTimeInvalid": "Введите корректное время приготовления.",
+            "cookTimeEmpty": "Время готовки не может быть пустым.",
+            "cookTimeInvalid": "Введите корректное время готовки.",
+            "servingsTooFew": "Порций должно быть не менее 1.",
+            "servingsTooMany": "Порций должно быть не более 100."
+        },
+        "modals": {
+            "deleteRecipe": "Удалить рецепт",
+            "deleteRecipeConfirm": "Вы уверены, что хотите удалить этот рецепт? Это действие нельзя отменить.",
+            "shareRecipe": "Поделиться рецептом",
+            "shareRecipeDesc": "Поделитесь {{recipeTitle}} с друзьями и семьей"
+        },
+        "share": {
+            "link": "Ссылка",
+            "social": "Соцсети",
+            "export": "Экспорт",
+            "text": "Текст",
+            "email": "Email",
+            "image": "Изображение",
+            "twitter": "Twitter",
+            "facebook": "Facebook",
+            "exportThisRecipe": "Экспортировать этот рецепт",
+            "exportAllRecipes": "Экспортировать все рецепты",
+            "exportAllAsJson": "Экспортировать всё как JSON"
+        },
+        "theme": {
+            "label": "Тема",
+            "light": "Светлая",
+            "dark": "Темная",
+            "system": "Системная"
+        },
+        "language": {
+            "label": "Язык",
+            "supported": {
+                "en": "Английский",
+                "ru": "Русский"
+            }
+        },
+        "time": {
+            "hours": "Часы",
+            "minutes": "Минуты",
+            "seconds": "Секунды",
+            "hourShort": "ч",
+            "minuteShort": "мин",
+            "secondShort": "с",
+            "hour_interval": "(1)[час];(2-4)[часа];(5-inf)[часов];",
+            "minute_interval": "(1)[минута];(2-4)[минуты];(5-inf)[минут];",
+            "lessThanMinute": "меньше минуты",
+            "invalid": "Недопустимое время"
+        },
+        "timer": {
+            "setTimerTitle": "Установить таймер",
+            "setTimerDescription": "Введите продолжительность таймера.",
+            "setTimer": "Установить таймер",
+            "clearTimer": "Очистить таймер",
+            "start": "Начать",
+            "pause": "Пауза",
+            "resume": "Возобновить",
+            "reset": "Сбросить",
+            "notification": {
+                "startTitle": "Таймер запущен",
+                "startBody": "Таймер теперь активен.",
+                "endTitle": "Таймер завершен!",
+                "endBody": "Ваш таймер завершился."
+            }
+        },
+        "reloadPrompt": {
+            "readyForOfflineUse": "Приложение готово к оффлайн использованию",
+            "newUpdateAvailable": "Доступно новое обновление",
+            "offlineDescription": "Теперь вы можете использовать приложение, даже без подключения к интернету.",
+            "updateDescription": "Нажмите \"Обновить\", чтобы получить последнюю версию приложения."
         }
     }
 }
