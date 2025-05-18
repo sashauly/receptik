@@ -16,7 +16,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 import DesktopHome from "./DesktopHome";
-import InstallPWAButton from "@/components/InstallPwaButton";
+import PWAInstallPrompt from "@/components/PWAInstallPrompt";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -131,30 +131,8 @@ export default function Home() {
               placeholder={t("home.searchPlaceholder")}
             />
 
-            <InstallPWAButton
-              fallbackInstructions={
-                <div className="p-4 border rounded-md">
-                  <h3 className="font-bold">How to Install Our App</h3>
-                  <p className="mt-2 text-sm text-gray-500">
-                    On some browsers (like Safari), you can manually add our app
-                    to your home screen:
-                  </p>
-                  <ul className="mt-2 text-sm list-disc list-inside text-gray-500">
-                    <li>
-                      On iOS Safari: Tap the Share icon{" "}
-                      <span className="inline-block align-middle text-lg">
-                        📱
-                      </span>{" "}
-                      and select "Add to Home Screen".
-                    </li>
-                    <li>
-                      On other browsers: Look for an "Add to Home Screen" or
-                      "Install App" option in the browser's menu.
-                    </li>
-                  </ul>
-                </div>
-              }
-            />
+            <PWAInstallPrompt />
+
             <Button
               asChild
               size="icon"
