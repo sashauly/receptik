@@ -171,6 +171,18 @@
       "newUpdateAvailable": "New update available",
       "offlineDescription": "You can now use the app even without an internet connection.",
       "updateDescription": "Click \"Reload\" to get the latest version of the app."
+    },
+    "installPrompt": {
+      "installApp": "Install App",
+      "howToInstall": "How to Install",
+      "installAppDescription": "While direct installation isn't supported on your browser, you can still add this app to your home screen for quick access.",
+      "instructions": {
+        "title": "Instructions:",
+        "chrome": "**Chrome/Edge on Android:** Tap the three dots menu in the top-right and select \"Add to Home screen\".",
+        "safari": "**Safari on iOS:** Tap the Share button (square with an arrow pointing up) and select \"Add to Home Screen\".",
+        "other": "**Other Browsers/Platforms:** Look for an \"Add to Home screen\", \"Install app\", or similar option in your browser's menu."
+      },
+      "stepsMayVary": " These steps may vary slightly depending on your browser and device."
     }
   }
 }
