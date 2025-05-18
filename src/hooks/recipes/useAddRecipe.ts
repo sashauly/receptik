@@ -8,7 +8,7 @@ export const useAddRecipe = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const addRecipeMutation = async (
-    recipeData: Omit<Recipe, "id" | "slug" | "dateCreated" | "dateModified">
+    recipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">
   ) => {
     try {
       setLoading(true);

@@ -15,7 +15,7 @@ const CreateRecipePage: React.FC = () => {
   const { addRecipe, loading: addLoading, error: addError } = useAddRecipe();
 
   const handleAddRecipe = async (
-    newRecipeData: Omit<Recipe, "id" | "slug" | "dateCreated" | "dateModified">
+    newRecipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">
   ) => {
     try {
       const addedRecipe = await addRecipe(newRecipeData);

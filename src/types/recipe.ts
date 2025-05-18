@@ -10,8 +10,8 @@ export interface Recipe {
   totalTime: string; // ISO 8601 string duration format
   servings: number;
   keywords?: string[];
-  dateCreated: string;
-  dateModified: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 // export interface Ingredient {
@@ -44,8 +44,8 @@ export interface Recipe {
 //   servings: number; // recipeYield
 //   category?: string[]; // recipeCategory
 //   cuisine?: string[]; // recipeCuisine
-//   dateCreated?: Date;
-//   dateModified?: Date;
+//   createdAt?: Date;
+//   updatedAt?: Date;
 //   author: string;
 //   keywords?: string[];
 // }

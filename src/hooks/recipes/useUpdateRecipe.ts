@@ -9,7 +9,7 @@ export const useUpdateRecipe = () => {
 
   const updateRecipeMutation = async (
     id: string,
-    updates: Omit<Recipe, "dateCreated" | "dateModified">
+    updates: Omit<Recipe, "createdAt" | "updatedAt">
   ) => {
     try {
       setLoading(true);

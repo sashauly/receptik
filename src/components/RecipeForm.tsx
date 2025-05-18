@@ -81,8 +81,8 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         totalTime: calculatedTotalTime,
         ingredients: filteredIngredients,
         instructions: filteredInstructions,
-        dateCreated: initialRecipe?.dateCreated || "",
-        dateModified: new Date().toISOString(),
+        createdAt: initialRecipe?.createdAt || new Date(),
+        updatedAt: new Date(),
       };
 
       onSave(newRecipe);

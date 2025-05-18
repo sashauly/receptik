@@ -29,7 +29,7 @@ const EditRecipePage: React.FC = () => {
   } = useUpdateRecipe();
 
   const handleUpdateRecipe = async (
-    updatedRecipeData: Omit<Recipe, "dateCreated" | "dateModified">
+    updatedRecipeData: Omit<Recipe, "createdAt" | "updatedAt">
   ) => {
     try {
       if (!recipe) {

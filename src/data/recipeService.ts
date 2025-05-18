@@ -23,7 +23,7 @@ export const getRecipeBySlug = async (
 };
 
 export const addRecipe = async (
-  recipeData: Omit<Recipe, "id" | "slug" | "dateCreated" | "dateModified">
+  recipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">
 ): Promise<Recipe> => {
   const allRecipes = await recipesTable.toArray();
   const existingSlugs = allRecipes
@@ -36,8 +36,8 @@ export const addRecipe = async (
     ...recipeData,
     id: uuidv4(),
     slug: slug,
-    dateCreated: new Date().toISOString(),
-    dateModified: new Date().toISOString(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
 
   await recipesTable.add(newRecipe);
@@ -47,7 +47,7 @@ export const addRecipe = async (
 
 export const updateRecipe = async (
   id: string,
-  updates: Omit<Recipe, "dateCreated" | "dateModified">
+  updates: Omit<Recipe, "createdAt" | "updatedAt">
 ): Promise<Recipe | undefined> => {
   const existingRecipe = await getRecipeById(id);
 
@@ -72,7 +72,7 @@ export const updateRecipe = async (
   const updatedData: Partial<Recipe> = {
     ...updates,
     slug: updatedSlug,
-    dateModified: new Date().toISOString(),
+    updatedAt: new Date(),
   };
 
   await recipesTable.update(id, updatedData);
@@ -102,7 +102,7 @@ export const importRecipes = async (
       const existingRecipe = await getRecipeById(recipeData.id);
 
       if (existingRecipe) {
-        if (existingRecipe.dateModified < recipeData.dateModified) {
+        if (existingRecipe.updatedAt < recipeData.updatedAt) {
           await recipesTable.put({
             ...recipeData,
           });

@@ -133,7 +133,21 @@ export default function RecipeDetail({
         </CardContent>
 
         <CardFooter className="flex justify-between">
-          {/* TODO add author and dateCreated */}
+          {/* TODO add author */}
+          <>
+            {/* <div itemProp="author">{recipe.author}</div> */}
+            {recipe.updatedAt && (
+              <div className="flex items-center">
+                <Clock size={14} className="mr-1" />
+                <span itemProp="dateModified">
+                  Last updated:{" "}
+                  {recipe.updatedAt.toLocaleString(
+                    localStorage.getItem("receptik-i18nextLng") || "en"
+                  )}
+                </span>
+              </div>
+            )}
+          </>
         </CardFooter>
       </Card>
     </>
