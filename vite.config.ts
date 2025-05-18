@@ -30,6 +30,20 @@ export default defineConfig({
         name: "Receptik",
         short_name: "Receptik",
         description: "A PWA for managing recipes",
+        theme_color: "#ffffff",
+        background_color: "#ffffff",
+        display: "standalone",
+        lang: "en",
+        display_override: ["window-controls-overlay", "standalone", "browser"],
+        categories: ["food", "lifestyle"],
+        shortcuts: [
+          {
+            name: "Add new recipe",
+            short_name: "Add recipe",
+            description: "Add new recipe to Receptik",
+            url: "/receptik/recipes/create",
+          },
+        ],
         icons: [
           {
             src: "pwa-64x64.png",
@@ -53,12 +67,6 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
-        theme_color: "#ffffff",
-        background_color: "#ffffff",
-        display: "standalone",
-        lang: "en",
-        display_override: ["window-controls-overlay", "standalone", "browser"],
-        categories: ["food", "lifestyle"],
       },
     }),
   ],

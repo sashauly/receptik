@@ -22,6 +22,14 @@ export default function DebugInfo() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
+  function canBrowserShareData(data: ShareData) {
+    if (!navigator.share || !navigator.canShare) {
+      return false;
+    }
+
+    return navigator.canShare(data);
+  }
+
   return (
     <div>
       <summary className="block mb-2">
@@ -49,6 +57,7 @@ export default function DebugInfo() {
           </p>
         </div>
         <Separator className="my-2" />
+
         <div className="flex flex-col gap-2">
           <h4 className="text-sm font-mono">Feature Checks: </h4>
           <p>
@@ -66,6 +75,15 @@ export default function DebugInfo() {
           </p>
           <p>Notifications Support: {"Notification" in window ? "✅" : "❌"}</p>
           <p>Clipboard API Support: {"clipboard" in navigator ? "✅" : "❌"}</p>
+          <p>
+            Share API Support:{" "}
+            {canBrowserShareData({
+              title: "Receptik",
+              text: "Check out this awesome recipe!",
+            })
+              ? "✅"
+              : "❌"}
+          </p>
         </div>
         <Separator className="my-2" />
         <div className="flex flex-col gap-2">
