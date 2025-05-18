@@ -3,12 +3,16 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import i18nextLoader from "vite-plugin-i18next-loader";
 
 export default defineConfig({
   base: "/receptik/",
   plugins: [
     react(),
     tailwindcss(),
+    i18nextLoader({
+      paths: ["public/locales"],
+    }),
     VitePWA({
       registerType: "autoUpdate",
       workbox: {
