@@ -57,9 +57,7 @@ const PWAInstallPrompt = () => {
             </DrawerHeader>
             <InstallInstructions />
             <DrawerFooter>
-              <DrawerClose>
-                <Button>{t("common.cancel")}</Button>
-              </DrawerClose>
+              <DrawerClose>{t("common.cancel")}</DrawerClose>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>
