@@ -33,6 +33,7 @@ export default defineConfig({
         theme_color: "#ffffff",
         background_color: "#ffffff",
         display: "standalone",
+        orientation: "portrait",
         lang: "en",
         display_override: ["window-controls-overlay", "standalone", "browser"],
         categories: ["food", "lifestyle"],
@@ -77,7 +78,7 @@ export default defineConfig({
         screenshots: [
           {
             src: "screenshots/android/homeAndroid.png",
-            sizes: "2220x1080",
+            sizes: "1081x2222",
             type: "image/png",
             form_factor: "narrow",
             platform: "android",
@@ -85,7 +86,7 @@ export default defineConfig({
           },
           {
             src: "screenshots/android/recipeAndroid.png",
-            sizes: "2220x1080",
+            sizes: "1081x2222",
             type: "image/png",
             form_factor: "narrow",
             platform: "android",
@@ -93,7 +94,7 @@ export default defineConfig({
           },
           {
             src: "screenshots/android/newAndroid.png",
-            sizes: "2220x1080",
+            sizes: "1081x2222",
             type: "image/png",
             form_factor: "narrow",
             platform: "android",
@@ -101,7 +102,7 @@ export default defineConfig({
           },
           {
             src: "screenshots/ios/homeIos.png",
-            sizes: "1792x828",
+            sizes: "828x1792",
             type: "image/png",
             form_factor: "narrow",
             platform: "ios",
@@ -109,7 +110,7 @@ export default defineConfig({
           },
           {
             src: "screenshots/ios/recipeIos.png",
-            sizes: "1792x828",
+            sizes: "828x1792",
             type: "image/png",
             form_factor: "narrow",
             platform: "ios",
@@ -117,7 +118,7 @@ export default defineConfig({
           },
           {
             src: "screenshots/ios/newIos.png",
-            sizes: "1792x828",
+            sizes: "828x1792",
             type: "image/png",
             form_factor: "narrow",
             platform: "ios",
