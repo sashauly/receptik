@@ -1,3 +1,5 @@
+import { TFunction } from "i18next";
+
 export type MeasurementSystem = "metric" | "us" | "imperial";
 export type MeasurementType = "volume" | "weight" | "length";
 
@@ -272,6 +274,22 @@ const allUnits = [
   },
 ] as const;
 
+export function getUnitTranslatedLabel(
+  unit: Unit,
+  t: TFunction<"translation", undefined>
+) {
+  return t(`units.${unit.type}.${unit.value}`);
+}
+
+export function getAllUnitsWithTranslatedLabels(
+  t: TFunction<"translation", undefined>
+) {
+  return (allUnits as unknown as Unit[]).map((unit) => ({
+    value: unit.value,
+    label: getUnitTranslatedLabel(unit, t),
+  }));
+}
+
 export type UnitValue = (typeof allUnits)[number]["value"];
 
 const unitMap = new Map<string, Unit>();
@@ -282,16 +300,6 @@ const unitMap = new Map<string, Unit>();
 function getUnitByValue(value: UnitValue): Unit | undefined {
   return unitMap.get(value);
 }
-
-function getUnitsBySystem(system: MeasurementSystem): Unit[] {
-  return (allUnits as unknown as Unit[]).filter((unit) =>
-    unit.systems.includes(system)
-  );
-}
-
-const metricSystem = getUnitsBySystem("metric");
-const usSystem = getUnitsBySystem("us");
-const imperialSystem = getUnitsBySystem("imperial");
 
 export function convertUnits(
   value: number,
@@ -317,6 +325,19 @@ export function convertUnits(
 
   return metricBaseValue / toUnit.baseValue;
 }
+
+function getUnitsBySystem(allUnits: Unit[], system: MeasurementSystem): Unit[] {
+  return allUnits.filter((unit) => unit.systems.includes(system));
+}
+
+// Examples, should be moved to a component level
+
+const metricSystem = getUnitsBySystem(allUnits as unknown as Unit[], "metric");
+const usSystem = getUnitsBySystem(allUnits as unknown as Unit[], "us");
+const imperialSystem = getUnitsBySystem(
+  allUnits as unknown as Unit[],
+  "imperial"
+);
 
 export const metricUnitOptions = metricSystem.map((unit) => ({
   value: unit.value,

@@ -184,5 +184,46 @@
       },
       "stepsMayVary": " These steps may vary slightly depending on your browser and device."
     }
+  },
+  "units": {
+    "volume": {
+      "ml": "Milliliter",
+      "l": "Liter",
+      "metric-cup": "Metric Cup",
+      "tbsp": "Tablespoon",
+      "tsp": "Teaspoon",
+      "gal-us": "Gallon (US)",
+      "qt-us": "Quart (US)",
+      "pt-us": "Pint (US)",
+      "cup-us": "Cup (US)",
+      "fl-oz-us": "Fluid Ounce (US)",
+      "tbsp-us": "Tablespoon (US)",
+      "tsp-us": "Teaspoon (US)",
+      "lb": "Pound",
+      "oz": "Ounce",
+      "gal-imp": "Gallon (Imperial)",
+      "qt-imp": "Quart (Imperial)",
+      "pt-imp": "Pint (Imperial)",
+      "cup-imp": "Cup (Imperial)",
+      "fl-oz-imp": "Fluid Ounce (Imperial)",
+      "tbsp-imp": "Tablespoon (Imperial)",
+      "tsp-imp": "Teaspoon (Imperial)"
+    },
+    "weight": {
+      "kg": "Kilogram",
+      "g": "Gram",
+      "lb": "Pound",
+      "oz": "Ounce"
+    },
+    "length": {
+      "mm": "Millimeter",
+      "cm": "Centimeter",
+      "m": "Meter",
+      "km": "Kilometer",
+      "mi": "Mile",
+      "yd": "Yard",
+      "ft": "Foot",
+      "in": "Inch"
+    }
   }
 }
