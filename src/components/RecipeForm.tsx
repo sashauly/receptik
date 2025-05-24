@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { recipeFormSchema, type RecipeFormValues } from "@/data/schema";
+import { createRecipeFormSchema, RecipeFormValues } from "@/data/schema";
 import { logError } from "@/lib/utils/logger";
 import { calculateTotalTime } from "@/lib/utils/time";
 import type { Recipe } from "@/types/recipe";
@@ -41,6 +41,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
   const { t } = useTranslation();
 
   const recipe = initialRecipe || emptyRecipe();
+  const recipeFormSchema = createRecipeFormSchema(t);
 
   const form = useForm<RecipeFormValues>({
     resolver: zodResolver(recipeFormSchema),
