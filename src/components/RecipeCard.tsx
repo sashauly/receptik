@@ -33,64 +33,66 @@ const RecipeCard = ({
   };
 
   return (
-    <Link to={`/recipes/${recipe.slug}`} className="block" title={recipe.name}>
-      <Card className="overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
-        <CardContent className="p-4 flex-grow">
-          <div className="space-y-2">
-            <h3 className="font-semibold text-xl cursor-pointer">
-              {recipe.name}
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {recipe.keywords &&
-                recipe.keywords.map((keyword) => (
-                  <Badge
-                    key={keyword}
-                    variant="outline"
-                    className="bg-orange-50 dark:bg-orange-900"
-                  >
-                    {keyword}
-                  </Badge>
-                ))}
-            </div>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center">
-                <Clock className="mr-1 h-4 w-4" />
-                <meta itemProp="totalTime" content={recipe.totalTime} />
-                <span>{totalTimeString}</span>
+    <li>
+      <Link to={`/recipes/${recipe.slug}`} viewTransition className="block" title={recipe.name}>
+        <Card className="overflow-hidden hover:shadow-md transition-shadow h-full flex flex-col">
+          <CardContent className="p-4 flex-grow">
+            <div className="space-y-2">
+              <h3 className="font-semibold text-xl cursor-pointer">
+                {recipe.name}
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {recipe.keywords &&
+                  recipe.keywords.map((keyword) => (
+                    <Badge
+                      key={keyword}
+                      variant="outline"
+                      className="bg-orange-50 dark:bg-orange-900"
+                    >
+                      {keyword}
+                    </Badge>
+                  ))}
               </div>
-              <div className="flex items-center">
-                <Users className="mr-1 h-4 w-4" />
-                <span>
-                  {recipe.servings}{" "}
-                  {t("recipe.servings_interval", {
-                    postProcess: "interval",
-                    count: Number(recipe.servings),
-                  })}
-                </span>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center">
+                  <Clock className="mr-1 h-4 w-4" />
+                  <meta itemProp="totalTime" content={recipe.totalTime} />
+                  <span>{totalTimeString}</span>
+                </div>
+                <div className="flex items-center">
+                  <Users className="mr-1 h-4 w-4" />
+                  <span>
+                    {recipe.servings}{" "}
+                    {t("recipe.servings_interval", {
+                      postProcess: "interval",
+                      count: Number(recipe.servings),
+                    })}
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </CardContent>
-        <CardFooter className="flex gap-2 justify-end">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={onEditClick}
-            title={t("common.edit")}
-          >
-            <Edit className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={onDeleteClick}
-            title={t("common.delete")}
-          >
-            <Trash2 className="h-4 w-4" />
-          </Button>
-        </CardFooter>
-      </Card>
-    </Link>
+          </CardContent>
+          <CardFooter className="flex gap-2 justify-end">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onEditClick}
+              title={t("common.edit")}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onDeleteClick}
+              title={t("common.delete")}
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </CardFooter>
+        </Card>
+      </Link>
+    </li>
   );
 };
 
