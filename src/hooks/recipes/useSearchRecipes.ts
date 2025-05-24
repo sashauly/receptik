@@ -10,13 +10,14 @@ export const useSearchRecipes = (searchTerm: string) => {
 
   useEffect(() => {
     const search = async () => {
-      if (!searchTerm) {
-        setSearchResults([]);
-        return;
-      }
-
       setLoading(true);
       setError(null);
+
+      if (!searchTerm) {
+        setSearchResults([]);
+        setLoading(false);
+        return;
+      }
 
       try {
         const results = await performSearch(searchTerm);
