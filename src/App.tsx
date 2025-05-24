@@ -14,8 +14,6 @@ import SettingsPage from "./pages/SettingsPage";
 import ReloadPrompt from "./components/ReloadPrompt";
 
 function App() {
-  // const isDevelopment = import.meta.env.DEV;
-  // const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
   useEffect(() => {
     ensureLatestDbSchema().catch((err) => {
       logError("Error upgrading database schema:", err);
@@ -42,8 +40,6 @@ function App() {
         </Layout>
         <Toaster position="top-center" />
         <ReloadPrompt />
-
-        {/* {isDevelopment && isSmallDevice && <VirtualKeyboardSimulator />} */}
       </Router>
     </ErrorBoundary>
   );
