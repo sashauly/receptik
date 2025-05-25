@@ -23,7 +23,9 @@ const isTimeEmpty = (val: string) => {
   }
 };
 
-export const createRecipeFormSchema = (t: TFunction<"translation", undefined>) =>
+export const createRecipeFormSchema = (
+  t: TFunction<"translation", undefined>
+) =>
   z.object({
     name: z
       .string()
@@ -53,14 +55,24 @@ export const createRecipeFormSchema = (t: TFunction<"translation", undefined>) =
       .max(100, { message: t("validation.servingsTooMany") }),
     keywords: z.array(z.string()).default([]).optional(),
     ingredients: z
-      .array(z.string().min(1, "Ingredient name cannot be empty"))
-      .min(1, "At least one ingredient is required"),
+      .array(
+        z.object({
+          name: z.string().min(1, "Ingredient name is required"),
+          amount: z.number().min(0, "Amount must be a positive number"),
+          unit: z.string(),
+        })
+      )
+      .refine((ingredients) => ingredients.length > 0, {
+        message: "At least one ingredient is required",
+      }),
     instructions: z
       .array(z.string().min(1, "Instruction step cannot be empty"))
       .min(1, "At least one instruction step is required"),
   });
 
-export type RecipeFormValues = z.infer<ReturnType<typeof createRecipeFormSchema>>;
+export type RecipeFormValues = z.infer<
+  ReturnType<typeof createRecipeFormSchema>
+>;
 
 // const RecipeSchema = z.object({
 //   name: z.string().min(1, "Recipe name is required"),

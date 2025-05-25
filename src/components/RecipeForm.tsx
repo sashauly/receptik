@@ -23,7 +23,7 @@ const emptyRecipe = (): RecipeFormValues => ({
   prepTime: "PT0S",
   cookTime: "PT0S",
   keywords: [],
-  ingredients: [""],
+  ingredients: [{ name: "", amount: 0, unit: "piece" }],
   instructions: [""],
 });
 
@@ -61,9 +61,6 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
 
   const onSubmit = (values: RecipeFormValues) => {
     try {
-      const filteredIngredients = values.ingredients.filter(
-        (i) => i.trim() !== ""
-      );
       const filteredInstructions = values.instructions.filter(
         (i) => i.trim() !== ""
       );
@@ -80,7 +77,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         prepTime: values.prepTime,
         cookTime: values.cookTime,
         totalTime: calculatedTotalTime,
-        ingredients: filteredIngredients,
+        ingredients: values.ingredients,
         instructions: filteredInstructions,
         createdAt: initialRecipe?.createdAt || new Date(),
         updatedAt: new Date(),

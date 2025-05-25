@@ -1,84 +1,179 @@
 import { RecipeFormValues } from "@/data/schema";
 import { Plus, X } from "lucide-react";
-import { useFormContext } from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
-import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
+import { FormControl, FormField, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import {
+  getAllUnitsWithTranslatedLabels,
+  getUnitsBySystem,
+  getUnitsByType,
+  Unit,
+} from "@/lib/measurements";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const IngredientFields = () => {
   const { t } = useTranslation();
-  const {
-    setValue,
-    getValues,
-    watch,
+
+  const { control, watch } = useFormContext<RecipeFormValues>();
+
+  const { fields, append, remove } = useFieldArray({
     control,
-    formState: { errors },
-  } = useFormContext<RecipeFormValues>();
+    name: "ingredients",
+  });
 
-  const ingredients = watch("ingredients");
+  const watchIngredients = watch("ingredients");
 
-  const handleAddIngredient = () => {
-    const currentIngredients = getValues("ingredients");
-    setValue("ingredients", [...currentIngredients, ""]);
+  const allUnitsWithLabels = getAllUnitsWithTranslatedLabels(t);
+  const metricSystem = getUnitsBySystem(
+    allUnitsWithLabels as unknown as Unit[],
+    "metric"
+  );
+  const otherUnits = getUnitsByType(allUnitsWithLabels, "other");
+
+  const metricUnitOptions = metricSystem.map((unit) => ({
+    value: unit.value,
+    label: unit.label,
+  }));
+  const otherUnitOptions = otherUnits.map((unit) => ({
+    value: unit.value,
+    label: unit.label,
+  }));
+  // TODO this is a placeholder only for metric
+  const unitOptions = [...otherUnitOptions, ...metricUnitOptions];
+
+  const addIngredient = () => {
+    append({ name: "", amount: 0, unit: "piece" });
   };
 
-  const handleRemoveIngredient = (index: number) => {
-    if (ingredients.length > 1) {
-      const newIngredients = [...ingredients];
-      newIngredients.splice(index, 1);
-      setValue("ingredients", newIngredients);
+  const removeIngredient = (index: number) => {
+    if (fields.length <= 1) {
+      return;
     }
+    remove(index);
+  };
+
+  const isAmountRequired = (unit: string): boolean => {
+    return unit !== "toTaste" && unit !== "optional";
   };
 
   return (
     <>
-      <Label
-        className={`text-sm font-medium text-inherit m-0 p-0 ${errors.ingredients ? "text-destructive" : ""}`}
-      >
+      <Label className="text-sm font-medium text-inherit m-0 p-0">
         {t("forms.ingredients")}
-      </Label>{" "}
-      <div className="space-y-2 mt-2">
-        {ingredients.map((_, index) => (
-          <FormField
-            key={index}
-            control={control}
-            name={`ingredients.${index}`}
-            render={({ field }) => (
-              <FormItem>
-                <div className="flex gap-2">
+      </Label>
+      <div className="space-y-4 mt-2">
+        {fields.map((field, index) => (
+          <div key={field.id} className="space-y-2">
+            <FormField
+              control={control}
+              name={`ingredients.${index}.name`}
+              render={({ field }) => (
+                <>
+                  <Label htmlFor={`ingredient-name-${index}`}>
+                    {t("forms.ingredientName")}
+                  </Label>
                   <FormControl>
                     <Input
+                      id={`ingredient-name-${index}`}
+                      placeholder={t("forms.ingredientNamePlaceholder")}
+                      itemProp="recipeIngredient"
                       {...field}
-                      placeholder={t("forms.ingredientPlaceholder", {
-                        index: index + 1,
-                      })}
                     />
                   </FormControl>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleRemoveIngredient(index)}
-                    disabled={ingredients.length === 1}
-                  >
-                    <X />
-                  </Button>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+                  <FormMessage />
+                </>
+              )}
+            />
 
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleAddIngredient}
-          className="mt-2"
-        >
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={control}
+                name={`ingredients.${index}.amount`}
+                render={({ field }) => (
+                  <div className="space-y-2">
+                    <Label htmlFor={`ingredient-amount-${index}`}>
+                      {t("forms.ingredientAmount")}
+                    </Label>
+                    <FormControl>
+                      <Input
+                        id={`ingredient-amount-${index}`}
+                        type="number"
+                        step="any"
+                        min="0"
+                        {...field}
+                        onChange={(e) =>
+                          field.onChange(parseFloat(e.target.value))
+                        }
+                        placeholder={t("forms.ingredientAmount")}
+                        disabled={
+                          !isAmountRequired(watchIngredients[index].unit)
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name={`ingredients.${index}.unit`}
+                render={({ field }) => (
+                  <div className="space-y-2">
+                    <Label htmlFor={`ingredient-unit-${index}`}>
+                      {t("forms.ingredientUnit")}
+                    </Label>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger
+                          id={`ingredient-unit-${index}`}
+                          className="w-full"
+                        >
+                          <SelectValue
+                            placeholder={t("forms.ingredientUnit")}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {unitOptions.map((unit) => (
+                          <SelectItem key={unit.value} value={unit.value}>
+                            {unit.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+              />
+            </div>
+
+            <div>
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={() => removeIngredient(index)}
+                disabled={fields.length <= 1}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        ))}
+        <Button type="button" variant="outline" onClick={addIngredient}>
           <Plus />
           {t("forms.addIngredient")}
         </Button>

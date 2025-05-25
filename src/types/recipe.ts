@@ -1,9 +1,18 @@
+import { UnitValue } from "@/lib/measurements";
+
+export interface Ingredient {
+  id?: string;
+  name: string;
+  amount: number;
+  unit: string | UnitValue;
+}
+
 export interface Recipe {
   id: string;
   name: string;
   description?: string;
   slug: string;
-  ingredients: string[];
+  ingredients: Ingredient[];
   instructions: string[];
   prepTime?: string; // ISO 8601 string duration format
   cookTime: string; // ISO 8601 string duration format
@@ -13,14 +22,6 @@ export interface Recipe {
   createdAt: Date;
   updatedAt: Date;
 }
-
-// export interface Ingredient {
-//   id?: number;
-//   name: string;
-//   amount: number;
-//   unit: string;
-//   recipeId?: number;
-// }
 
 // export interface RecipeImage {
 //   id?: number;

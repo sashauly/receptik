@@ -5,8 +5,10 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { getBaseUnitByValue } from "@/lib/measurements";
 import { formatDuration } from "@/lib/utils/time";
 import type { Recipe } from "@/types/recipe";
 import { Clock, Users } from "lucide-react";
@@ -31,13 +33,28 @@ export default function RecipeDetail({
   const prepTimeString = formatDuration(recipe.cookTime, t);
   const totalTimeString = formatDuration(recipe.totalTime, t);
 
+  const getIngredientUnitLabel = (unit: string): string => {
+    if (getBaseUnitByValue(unit)?.type === "other") {
+      if (unit === "toTaste" || unit === "optional") {
+        return t(`units.other.${unit}`);
+      }
+
+      return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_interval`, {
+        postProcess: "interval",
+        count: Number(1),
+      });
+    }
+
+    return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_short`);
+  };
+
   return (
     <>
       <RecipeHeader onEdit={onEdit} onDelete={onDelete} onShare={onShare} />
 
       <Card>
         <CardHeader>
-          <h2 className="text-3xl font-bold tracking-tight">{recipe.name}</h2>
+          <CardTitle>{recipe.name}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-2">
@@ -109,9 +126,18 @@ export default function RecipeDetail({
             <h3 className="text-lg font-semibold mb-2">
               {t("recipe.ingredients")}
             </h3>
-            <ul className="list-disc pl-5 space-y-1">
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
+            <ul className="space-y-2">
+              {recipe.ingredients.map((ingredient) => (
+                <li
+                  key={ingredient.id}
+                  className="flex justify-between items-center"
+                >
+                  <span>{ingredient.name}</span>
+                  <span className="text-muted-foreground">
+                    {ingredient.amount !== 0 && ingredient.amount}{" "}
+                    {getIngredientUnitLabel(ingredient.unit)}
+                  </span>
+                </li>
               ))}
             </ul>
           </div>
@@ -124,8 +150,11 @@ export default function RecipeDetail({
             </h3>
             <ol className="space-y-3 pl-5 list-decimal">
               {recipe.instructions.map((step, index) => (
-                <li key={index} className="pl-1">
-                  {step}
+                <li key={index} className="flex gap-4">
+                  <span className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
+                    {index + 1}
+                  </span>
+                  <p className="flex-1">{step}</p>
                 </li>
               ))}
             </ol>
