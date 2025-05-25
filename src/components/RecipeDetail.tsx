@@ -38,13 +38,14 @@ export default function RecipeDetail({
       if (unit === "toTaste" || unit === "optional") {
         return t(`units.other.${unit}`);
       }
-
+      // @ts-expect-error Incompatible types with locale resources
       return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_interval`, {
         postProcess: "interval",
         count: Number(1),
       });
     }
 
+    // @ts-expect-error Incompatible types with locale resources
     return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_short`);
   };
 

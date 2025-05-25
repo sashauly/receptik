@@ -322,7 +322,7 @@ export function getUnitTranslatedLabel(
   unitType: MeasurementType,
   t: TFunction<"translation", undefined>
 ): string {
-  // Access the translation using the unit type and value
+  // @ts-expect-error Incompatible types with locale resources
   return t(`units.${unitType}.${unitValue}`);
 }
 
