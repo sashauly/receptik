@@ -27,6 +27,7 @@ const BasicInfoFields: React.FC = () => {
               <Input
                 id="name"
                 type="text"
+                autoComplete="off"
                 placeholder={t("forms.namePlaceholder")}
                 {...field}
               />
