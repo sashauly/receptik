@@ -10,7 +10,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { getBaseUnitByValue } from "@/lib/measurements";
 import { formatDuration } from "@/lib/utils/time";
-import type { Recipe } from "@/types/recipe";
+import type { Ingredient, Recipe } from "@/types/recipe";
 import { Clock, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -33,7 +33,8 @@ export default function RecipeDetail({
   const prepTimeString = formatDuration(recipe.cookTime, t);
   const totalTimeString = formatDuration(recipe.totalTime, t);
 
-  const getIngredientUnitLabel = (unit: string): string => {
+  const getIngredientUnitLabel = (ingredient: Ingredient): string => {
+    const { unit, amount } = ingredient;
     if (getBaseUnitByValue(unit)?.type === "other") {
       if (unit === "toTaste" || unit === "optional") {
         return t(`units.other.${unit}`);
@@ -41,7 +42,7 @@ export default function RecipeDetail({
       // @ts-expect-error Incompatible types with locale resources
       return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_interval`, {
         postProcess: "interval",
-        count: Number(1),
+        count: Number(amount),
       });
     }
 
@@ -136,7 +137,7 @@ export default function RecipeDetail({
                   <span>{ingredient.name}</span>
                   <span className="text-muted-foreground">
                     {ingredient.amount !== 0 && ingredient.amount}{" "}
-                    {getIngredientUnitLabel(ingredient.unit)}
+                    {getIngredientUnitLabel(ingredient)}
                   </span>
                 </li>
               ))}
