@@ -95,6 +95,9 @@ interface Resources {
       ingredientUnit: "Unit";
       ingredientPlaceholder: "Ingredient {{index}}";
       addIngredient: "Add Ingredient";
+      deleteIngredient: "Delete Ingredient";
+      cancelIngredient: "Cancel Ingredient";
+      saveIngredient: "Save Ingredient";
       instructions: "Instructions";
       stepPlaceholder: "Step {{index}}";
       addStep: "Add Step";

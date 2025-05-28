@@ -3,7 +3,7 @@ import { UnitValue } from "@/lib/measurements";
 export interface Ingredient {
   id?: string;
   name: string;
-  amount: number;
+  amount: number | null;
   unit: string | UnitValue;
 }
 

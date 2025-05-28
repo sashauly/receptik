@@ -3,7 +3,7 @@ import { createRecipeFormSchema, RecipeFormValues } from "@/data/schema";
 import { logError } from "@/lib/utils/logger";
 import { calculateTotalTime } from "@/lib/utils/time";
 import type { Recipe } from "@/types/recipe";
-import { DevTool } from "@hookform/devtools";
+// import { DevTool } from "@hookform/devtools";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -23,7 +23,7 @@ const emptyRecipe = (): RecipeFormValues => ({
   prepTime: "PT0S",
   cookTime: "PT0S",
   keywords: [],
-  ingredients: [{ name: "", amount: 0, unit: "piece" }],
+  ingredients: [],
   instructions: [""],
 });
 
@@ -61,10 +61,6 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
 
   const onSubmit = (values: RecipeFormValues) => {
     try {
-      const filteredInstructions = values.instructions.filter(
-        (i) => i.trim() !== ""
-      );
-
       const calculatedTotalTime = calculateTotalTime(
         values.prepTime || "PT0S",
         values.cookTime
@@ -74,11 +70,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         ...values,
         id: initialRecipe?.id || "",
         slug: initialRecipe?.slug || "",
-        prepTime: values.prepTime,
-        cookTime: values.cookTime,
         totalTime: calculatedTotalTime,
-        ingredients: values.ingredients,
-        instructions: filteredInstructions,
         createdAt: initialRecipe?.createdAt || new Date(),
         updatedAt: new Date(),
       };
@@ -118,7 +110,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
             <Button type="button" variant="outline" onClick={onCancel}>
               {t("common.cancel")}
             </Button>
-            <DevTool control={form.control} />
+            {/* <DevTool control={form.control} /> */}
           </div>
         </form>
       </FormProvider>
