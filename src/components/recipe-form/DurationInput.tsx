@@ -15,6 +15,8 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Temporal } from "temporal-polyfill";
 
+const MINUTES_STEP = 5;
+
 interface DurationInputProps {
   name: string;
   label?: string;
@@ -56,7 +58,7 @@ export function DurationInput({ name, label }: DurationInputProps) {
               newMinutes = 0;
               newHours += 1;
             } else {
-              newMinutes += 1;
+              newMinutes += MINUTES_STEP;
             }
           }
 
@@ -78,7 +80,7 @@ export function DurationInput({ name, label }: DurationInputProps) {
                 newMinutes = 0;
               }
             } else {
-              newMinutes -= 1;
+              newMinutes -= MINUTES_STEP;
             }
           }
 
@@ -114,7 +116,7 @@ export function DurationInput({ name, label }: DurationInputProps) {
         return (
           <FormItem className="space-y-2">
             <div className="flex items-center justify-between space-x-2">
-              <FormLabel>{effectiveLabel}</FormLabel>
+              <FormLabel htmlFor={`${name}-hours`}>{effectiveLabel}</FormLabel>
 
               <div className="flex items-center space-x-2 text-sm">
                 <Clock className="h-4 w-4 text-muted-foreground" />
