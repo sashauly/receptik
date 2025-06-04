@@ -107,11 +107,17 @@
     "validation": {
       "nameTooShort": "Recipe name must be at least 2 characters.",
       "nameTooLong": "Recipe name must not exceed 50 characters.",
+      "descriptionTooLong": "Description must not exceed 500 characters.",
       "prepTimeInvalid": "Please enter a valid preparation time.",
       "cookTimeEmpty": "Cooking time cannot be empty.",
       "cookTimeInvalid": "Please enter a valid cooking time.",
       "servingsTooFew": "Servings must be at least 1.",
-      "servingsTooMany": "Servings must be at most 100."
+      "servingsTooMany": "Servings must be at most 100.",
+      "ingredientRequired": "At least one ingredient is required.",
+      "ingredientNameRequired": "Ingredient name is required.",
+      "ingredientAmountRequired": "Amount is required and must be a positive number for this unit.",
+      "instructionRequired": "At least one instruction step is required.",
+      "instructionStepRequired": "Instruction step is required."
     },
     "modals": {
       "deleteRecipe": "Delete Recipe",

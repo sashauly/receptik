@@ -35,7 +35,7 @@ export const createRecipeFormSchema = (
     description: z
       .string()
       .trim()
-      .max(500, { message: "Description must not exceed 500 characters." })
+      .max(500, { message: t("validation.descriptionTooLong") })
       .optional(),
     prepTime: z
       .string()
@@ -60,10 +60,13 @@ export const createRecipeFormSchema = (
       .array(
         z
           .object({
-            name: z.string().trim().min(1, "Ingredient name is required"),
+            name: z
+              .string()
+              .trim()
+              .min(1, t("validation.ingredientNameRequired")),
             amount: z
               .number()
-              .min(0, "Amount must be a positive number")
+              .min(0, t("validation.ingredientAmountRequired"))
               .nullable(),
             unit: z.string(),
           })
@@ -86,18 +89,17 @@ export const createRecipeFormSchema = (
               }
             },
             {
-              message:
-                "Amount is required and must be a positive number for this unit.",
+              message: t("validation.ingredientAmountRequired"),
               path: ["amount"],
             }
           )
       )
       .refine((ingredients) => ingredients.length > 0, {
-        message: "At least one ingredient is required",
+        message: t("validation.ingredientRequired"),
       }),
     instructions: z
-      .array(z.string().trim().min(1, "Instruction step cannot be empty"))
-      .min(1, "At least one instruction step is required"),
+      .array(z.string().trim().min(1, t("validation.instructionStepRequired")))
+      .min(1, t("validation.instructionRequired")),
   });
 
 export type RecipeFormValues = z.infer<
