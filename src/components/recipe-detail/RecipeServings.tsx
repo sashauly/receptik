@@ -1,23 +1,53 @@
-import { Users } from "lucide-react";
-import React from "react";
-import { useTranslation } from "react-i18next";
+import { Minus, Plus } from "lucide-react";
+import React, { useCallback } from "react";
+import { Button } from "../ui/button";
+
+const SERVINGS_STEP = 1;
+const SERVINGS_MIN = 1;
 
 interface RecipeServingsProps {
   servings: number;
+  onServingsChange: (change: number) => void;
 }
 
-const RecipeServings: React.FC<RecipeServingsProps> = ({ servings }) => {
-  const { t } = useTranslation();
+const RecipeServings: React.FC<RecipeServingsProps> = ({
+  servings,
+  onServingsChange,
+}) => {
+  const incrementServings = useCallback(() => {
+    onServingsChange(SERVINGS_STEP);
+  }, [onServingsChange]);
+
+  const decrementServings = useCallback(() => {
+    onServingsChange(-SERVINGS_STEP);
+  }, [onServingsChange]);
+
   return (
     <div className="flex items-center">
-      <Users className="mr-2 h-4 w-4 text-muted-foreground" />
-      <p className="text-muted-foreground">
-        {servings}{" "}
-        {t("recipe.servings_interval", {
-          postProcess: "interval",
-          count: Number(servings),
-        })}
-      </p>
+      <div className="flex items-center justify-center" itemProp="recipeYield">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="rounded-r-none"
+          onClick={decrementServings}
+          disabled={servings <= SERVINGS_MIN}
+        >
+          <Minus className="h-4 w-4" />
+        </Button>
+        <span className="inline-flex items-center justify-center border size-9 text-center">
+          {servings}
+        </span>
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="rounded-l-none"
+          onClick={incrementServings}
+        >
+          <Plus className="h-4 w-4" />
+        </Button>
+      </div>
     </div>
   );
 };

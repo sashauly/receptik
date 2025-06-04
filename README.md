@@ -43,7 +43,7 @@
 - [ ] Adjust UI/UX for mobile (!)
 - [ ] Create separate page for choosing units of ingredients for mobile
 - [ ] Move search to separate page
-- [ ] Add auto calculation of amount of ingredients based on number of servings
+- [x] Add auto calculation of amount of ingredients based on number of servings
 - [ ] refine UI components in the form
 - [ ] refine UI components in recipe detail
 - [ ] refactor Home page

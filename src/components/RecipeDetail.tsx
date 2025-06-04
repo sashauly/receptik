@@ -11,7 +11,6 @@ import { Separator } from "@/components/ui/separator";
 import type { Recipe } from "@/types/recipe";
 import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
 import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
-import RecipeServings from "./recipe-detail/RecipeServings";
 import RecipeIngredients from "./recipe-detail/RecipeIngredients";
 import RecipeInstructions from "./recipe-detail/RecipeInstructions";
 import RecipeFooter from "./recipe-detail/RecipeFooter";
@@ -33,11 +32,13 @@ export default function RecipeDetail({
     <>
       <RecipeHeader onEdit={onEdit} onDelete={onDelete} onShare={onShare} />
 
-      <Card>
+      <Card itemScope itemType="https://schema.org/Recipe">
         <CardHeader>
-          <CardTitle>{recipe.name}</CardTitle>
+          <CardTitle itemProp="name">{recipe.name}</CardTitle>
           {recipe.description && (
-            <CardDescription>{recipe.description}</CardDescription>
+            <CardDescription itemProp="description">
+              {recipe.description}
+            </CardDescription>
           )}
         </CardHeader>
         <CardContent className="space-y-4">
@@ -54,9 +55,11 @@ export default function RecipeDetail({
             totalTime={recipe.totalTime}
           />
 
-          <RecipeServings servings={recipe.servings} />
-
-          <RecipeIngredients ingredients={recipe.ingredients} />
+          <RecipeIngredients
+            ingredients={recipe.ingredients}
+            servings={recipe.servings}
+            recipeId={recipe.id}
+          />
 
           <Separator />
 
