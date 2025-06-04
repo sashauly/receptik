@@ -5,8 +5,8 @@ interface RecipeFooterProps {
   author?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const RecipeFooter: React.FC<RecipeFooterProps> = ({ updatedAt, author }) => {
+  console.log(author ?? "No author");
   return (
     <>
       {/* TODO add author */}
