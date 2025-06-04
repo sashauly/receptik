@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getBaseUnitByValue } from "@/lib/measurements";
-import { formatDuration } from "@/lib/utils/time";
 import type { Ingredient, Recipe } from "@/types/recipe";
 import { Clock, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
+import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -29,10 +29,6 @@ export default function RecipeDetail({
   onShare,
 }: RecipeDetailProps) {
   const { t } = useTranslation();
-
-  const cookTimeString = formatDuration(recipe.prepTime || "PT0S", t);
-  const prepTimeString = formatDuration(recipe.cookTime, t);
-  const totalTimeString = formatDuration(recipe.totalTime, t);
 
   const getIngredientUnitLabel = (ingredient: Ingredient): string => {
     const { unit, amount } = ingredient;
@@ -70,36 +66,11 @@ export default function RecipeDetail({
             </>
           )}
 
-          <div className="grid grid-cols-3 gap-2">
-            {recipe.prepTime && (
-              <div className="bg-muted rounded-lg p-2">
-                <h4 className="font-medium">{t("recipe.prepTime")}</h4>
-                <p className="text-muted-foreground">
-                  <meta itemProp="prepTime" content={recipe.prepTime} />
-                  {prepTimeString}
-                </p>
-              </div>
-            )}
-            {recipe.cookTime && (
-              <div className="bg-muted rounded-lg p-2">
-                <h4 className="font-medium">{t("recipe.cookTime")}</h4>
-                <p className="text-muted-foreground">
-                  <meta itemProp="cookTime" content={recipe.cookTime} />
-                  {cookTimeString}
-                </p>
-              </div>
-            )}
-            <div className="flex flex-col bg-muted rounded-lg p-2">
-              <h4 className="font-medium">{t("recipe.totalTime")}</h4>
-              <div className="flex items-center space-x-2">
-                <Clock className="h-4 w-4 text-muted-foreground" />
-                <p className="text-muted-foreground">
-                  <meta itemProp="totalTime" content={recipe.totalTime} />
-                  {totalTimeString}
-                </p>
-              </div>
-            </div>
-          </div>
+          <RecipeTimes
+            cookTime={recipe.cookTime}
+            prepTime={recipe.prepTime}
+            totalTime={recipe.totalTime}
+          />
 
           <div className="flex items-center">
             <Users className="mr-2 h-4 w-4 text-muted-foreground" />
