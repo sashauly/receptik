@@ -25,6 +25,7 @@ export default defineConfig({
         "favicon.ico",
         "apple-touch-icon-180x180.png",
         "man-cook.svg",
+        "locales/**/*.json",
       ],
       manifest: {
         name: "Receptik",
