@@ -107,11 +107,17 @@
         "validation": {
             "nameTooShort": "Имя рецепта должно быть не менее 2 символов.",
             "nameTooLong": "Имя рецепта не должно превышать 50 символов.",
+            "descriptionTooLong": "Описание не должно превышать 500 символов.",
             "prepTimeInvalid": "Введите корректное время приготовления.",
             "cookTimeEmpty": "Время готовки не может быть пустым.",
             "cookTimeInvalid": "Введите корректное время готовки.",
             "servingsTooFew": "Порций должно быть не менее 1.",
-            "servingsTooMany": "Порций должно быть не более 100."
+            "servingsTooMany": "Порций должно быть не более 100.",
+            "ingredientRequired": "Необходим хотя бы один ингредиент.",
+            "ingredientNameRequired": "Имя ингредиента обязательно.",
+            "ingredientAmountRequired": "Количество обязательно и должно быть положительным числом для этой единицы.",
+            "instructionRequired": "Необходима хотя бы одна инструкция.",
+            "instructionStepRequired": "Шаг инструкции обязателен."
         },
         "modals": {
             "deleteRecipe": "Удалить рецепт",
