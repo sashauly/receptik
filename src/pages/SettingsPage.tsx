@@ -52,9 +52,6 @@ export default function SettingsPage() {
 
   return (
     <div className="container mx-auto py-6 px-4 md:px-6 space-y-4">
-      <h2 className="text-3xl font-bold tracking-tight">
-        {t("settings.title")}
-      </h2>
       <div className="flex items-center mb-4 gap-2">
         <Button
           variant="ghost"

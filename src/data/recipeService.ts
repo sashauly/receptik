@@ -97,24 +97,43 @@ export const deleteAllRecipes = async (): Promise<void> => {
 export const importRecipes = async (
   recipesToImport: Recipe[]
 ): Promise<void> => {
-  await db.transaction("rw", [recipesTable], async () => {
+  if (!recipesToImport || recipesToImport.length === 0) {
+    throw new Error("No recipes provided for import.");
+  }
+
+  await db.transaction("rw", recipesTable, async () => {
     for (const recipeData of recipesToImport) {
-      const existingRecipe = await getRecipeById(recipeData.id);
+      if (!recipeData.id || !recipeData.name) {
+        logWarn(
+          `Skipping invalid recipe data: missing ID or name. Data:`,
+          recipeData
+        );
+        continue;
+      }
+
+      const parsedRecipeData: Recipe = {
+        ...recipeData,
+        createdAt: new Date(recipeData.createdAt),
+        updatedAt: new Date(recipeData.updatedAt),
+      };
+
+      const existingRecipe = await recipesTable.get(parsedRecipeData.id);
 
       if (existingRecipe) {
-        if (existingRecipe.updatedAt < recipeData.updatedAt) {
-          await recipesTable.put({
-            ...recipeData,
-          });
+        if (
+          parsedRecipeData.updatedAt instanceof Date &&
+          existingRecipe.updatedAt instanceof Date &&
+          parsedRecipeData.updatedAt.getTime() >
+            existingRecipe.updatedAt.getTime()
+        ) {
+          await recipesTable.put(parsedRecipeData);
         } else {
           logWarn(
-            `Skipping import of recipe with id ${recipeData.id} as existing recipe is newer.`
+            `Skipping import of recipe with id ${recipeData.id} as existing recipe is newer or same.`
           );
         }
       } else {
-        await recipesTable.add({
-          ...recipeData,
-        });
+        await recipesTable.add(parsedRecipeData);
       }
     }
   });

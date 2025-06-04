@@ -96,7 +96,7 @@ export default function RecipePage() {
   }
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6">
+    <div className="container mx-auto px-4 py-6">
       {recipe && (
         <RecipeDetail
           recipe={recipe}

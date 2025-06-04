@@ -142,28 +142,16 @@ function ShareTabs({ recipe, setErrorMessage }: ShareTabsProps) {
         <div className="space-y-2">
           <h3 className="text-sm font-medium">{t("share.exportThisRecipe")}</h3>
           <div className="flex flex-col items-baseline gap-2 sm:flex-row">
-            <Button
-              onClick={onExportAsJson}
-              variant="outline"
-              className="w-full"
-            >
-              <FileJson className="h-4 w-4" />
+            <Button onClick={onExportAsJson} variant="outline">
+              <FileJson />
               JSON
             </Button>
-            <Button
-              onClick={onExportAsTxt}
-              variant="outline"
-              className="w-full"
-            >
-              <FileText className="h-4 w-4" />
+            <Button onClick={onExportAsTxt} variant="outline">
+              <FileText />
               {t("share.text")}
             </Button>
-            <Button
-              onClick={onExportAsImage}
-              variant="outline"
-              className="w-full"
-            >
-              <Image className="h-4 w-4" />
+            <Button onClick={onExportAsImage} variant="outline">
+              <Image />
               {t("share.image")}
             </Button>
           </div>

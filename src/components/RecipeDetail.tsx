@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -57,14 +58,11 @@ export default function RecipeDetail({
       <Card>
         <CardHeader>
           <CardTitle>{recipe.name}</CardTitle>
+          {recipe.description && (
+            <CardDescription>{recipe.description}</CardDescription>
+          )}
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex items-center space-x-2">
-            {recipe.description && (
-              <p className="text-muted-foreground">{recipe.description}</p>
-            )}
-          </div>
-
           {recipe.keywords && recipe.keywords.length > 0 && (
             <>
               <Separator />
@@ -82,7 +80,7 @@ export default function RecipeDetail({
             </>
           )}
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-2">
             {recipe.prepTime && (
               <div className="bg-muted rounded-lg p-2">
                 <h4 className="font-medium">{t("recipe.prepTime")}</h4>
@@ -101,15 +99,15 @@ export default function RecipeDetail({
                 </p>
               </div>
             )}
-          </div>
-          <div className="flex flex-col bg-muted rounded-lg p-2">
-            <h4 className="font-medium">{t("recipe.totalTime")}</h4>
-            <div className="flex items-center space-x-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
-              <p className="text-muted-foreground">
-                <meta itemProp="totalTime" content={recipe.totalTime} />
-                {totalTimeString}
-              </p>
+            <div className="flex flex-col bg-muted rounded-lg p-2">
+              <h4 className="font-medium">{t("recipe.totalTime")}</h4>
+              <div className="flex items-center space-x-2">
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                <p className="text-muted-foreground">
+                  <meta itemProp="totalTime" content={recipe.totalTime} />
+                  {totalTimeString}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -132,7 +130,7 @@ export default function RecipeDetail({
               {recipe.ingredients.map((ingredient) => (
                 <li
                   key={ingredient.id}
-                  className="flex justify-between items-center"
+                  className="flex justify-between items-center gap-2"
                 >
                   <span>{ingredient.name}</span>
                   <span className="text-muted-foreground">

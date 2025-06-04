@@ -2,7 +2,7 @@ import { Book, PlusCircle, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import PWAInstallPrompt from "../PWAInstallPrompt";
+// import PWAInstallPrompt from "../PWAInstallPrompt";
 
 export default function DesktopHeader() {
   const { t } = useTranslation();
@@ -22,10 +22,10 @@ export default function DesktopHeader() {
         </Link>
 
         <div className="flex items-center space-x-2">
-          <PWAInstallPrompt />
+          {/* <PWAInstallPrompt /> */}
           <Button
             asChild
-            className="flex items-center bg-orange-600 hover:bg-orange-700 dark:text-white"
+            className="flex items-center"
           >
             <Link to="/recipes/create" title={t("common.addRecipe")}>
               <PlusCircle className="h-4 w-4" />
