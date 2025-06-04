@@ -1,47 +1,21 @@
 import { getBaseUnitByValue } from "@/lib/measurements";
 import { Ingredient } from "@/types/recipe";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import RecipeServings from "./RecipeServings";
-import { logError } from "@/lib/utils/logger";
 
 interface RecipeIngredientsProps {
   ingredients: Ingredient[];
   servings: number;
-  recipeId: string;
 }
 
 const RecipeIngredients: React.FC<RecipeIngredientsProps> = ({
   ingredients,
   servings: originalRecipeServings,
-  recipeId,
 }) => {
   const { t } = useTranslation();
 
-  const localStorageKey = `receptik_servings_${recipeId}`;
-
-  const [servings, setServings] = useState(() => {
-    try {
-      const storedServings = localStorage.getItem(localStorageKey);
-      if (storedServings) {
-        const parsedServings = parseInt(storedServings, 10);
-        if (!isNaN(parsedServings) && parsedServings >= 1) {
-          return parsedServings;
-        }
-      }
-    } catch (error) {
-      logError("Failed to read servings from localStorage:", error);
-    }
-    return originalRecipeServings;
-  });
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(localStorageKey, servings.toString());
-    } catch (error) {
-      logError("Failed to write servings to localStorage:", error);
-    }
-  }, [servings, localStorageKey]);
+  const [servings, setServings] = useState(originalRecipeServings);
 
   const handleServingsChange = useCallback((change: number) => {
     setServings((prevServings) => {

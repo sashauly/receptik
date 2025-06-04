@@ -58,7 +58,6 @@ export default function RecipeDetail({
           <RecipeIngredients
             ingredients={recipe.ingredients}
             servings={recipe.servings}
-            recipeId={recipe.id}
           />
 
           <Separator />
