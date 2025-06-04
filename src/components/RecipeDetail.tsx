@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { Recipe } from "@/types/recipe";
-import { Clock } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
 import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
 import RecipeServings from "./recipe-detail/RecipeServings";
 import RecipeIngredients from "./recipe-detail/RecipeIngredients";
+import RecipeInstructions from "./recipe-detail/RecipeInstructions";
+import RecipeFooter from "./recipe-detail/RecipeFooter";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -29,8 +29,6 @@ export default function RecipeDetail({
   onDelete,
   onShare,
 }: RecipeDetailProps) {
-  const { t } = useTranslation();
-
   return (
     <>
       <RecipeHeader onEdit={onEdit} onDelete={onDelete} onShare={onShare} />
@@ -62,39 +60,14 @@ export default function RecipeDetail({
 
           <Separator />
 
-          <div>
-            <h3 className="text-lg font-semibold mb-2">
-              {t("recipe.instructions")}
-            </h3>
-            <ol className="space-y-3 pl-5 list-decimal">
-              {recipe.instructions.map((step, index) => (
-                <li key={index} className="flex gap-4">
-                  <span className="flex-shrink-0 w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-sm font-medium">
-                    {index + 1}
-                  </span>
-                  <p className="flex-1">{step}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          <RecipeInstructions instructions={recipe.instructions} />
         </CardContent>
 
         <CardFooter className="flex justify-between">
-          {/* TODO add author */}
-          <>
-            {/* <div itemProp="author">{recipe.author}</div> */}
-            {recipe.updatedAt && (
-              <div className="flex items-center">
-                <Clock size={14} className="mr-1" />
-                <span itemProp="dateModified">
-                  Last updated:{" "}
-                  {recipe.updatedAt.toLocaleString(
-                    localStorage.getItem("receptik-i18nextLng") || "en"
-                  )}
-                </span>
-              </div>
-            )}
-          </>
+          <RecipeFooter
+            updatedAt={recipe.updatedAt}
+            // author={recipe.author}
+          />
         </CardFooter>
       </Card>
     </>
