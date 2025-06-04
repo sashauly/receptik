@@ -41,7 +41,10 @@
     "recipe": {
       "title": "Recipe Details",
       "ingredients": "Ingredients",
+      "ingredient_interval": "(1)[ingredient];(2-inf)[ingredients];",
       "instructions": "Instructions",
+      "step": "Step",
+      "step_interval": "(1)[step];(2-inf)[steps];",
       "prepTime": "Preparation Time",
       "cookTime": "Cooking Time",
       "totalTime": "Total Time",
@@ -57,6 +60,27 @@
       "resetAllData": "Reset All Data",
       "importRecipes": "Import Recipes",
       "importing": "Importing..."
+    },
+    "importRecipes": {
+      "selectFile": "Select File",
+      "noFileSelected": "Please select a JSON file.",
+      "notJsonFile": "Please select a valid JSON file.",
+      "errorReadingFile": "Error reading file.",
+      "errorParsingJson": "Error parsing JSON file. Please check its format.",
+      "invalidJsonFormat": "The JSON file does not contain a valid recipe or array of recipes.",
+      "noValidRecipesFound": "No valid recipes found in the selected file.",
+      "noValidRecipesInArray": "The selected file contains an array, but no valid recipes were found within it.",
+      "someInvalidRecipes": "Some items in the file were not valid recipes and were skipped.",
+      "success": "Successfully imported {{count}} recipes!",
+      "importFailed": "Import failed. See console for details.",
+      "preview": "Preview",
+      "previewFailed": "Failed to generate preview. See console for details.",
+      "previewTitle": "Preview Recipes",
+      "previewDescription": "Please review the recipes below before importing.",
+      "confirmImport": "Confirm Import ({{count}})",
+      "noRecipesToImport": "No recipes to import. Please select a file first.",
+      "moreIngredients": "and {{count}} more",
+      "moreInstructions": "and {{count}} more"
     },
     "forms": {
       "createRecipe": "Create New Recipe",
