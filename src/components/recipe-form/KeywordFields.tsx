@@ -12,6 +12,7 @@ import { Plus, X } from "lucide-react";
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { Badge } from "../ui/badge";
 
 const KeywordFields: React.FC = () => {
   const { t } = useTranslation();
@@ -53,21 +54,22 @@ const KeywordFields: React.FC = () => {
           <FormLabel htmlFor="keywords">{t("forms.keywords")}</FormLabel>
           <div className="flex flex-wrap gap-2">
             {field.value?.map((keyword) => (
-              <div
+              <Badge
                 key={keyword}
-                className="flex items-center bg-orange-100 text-orange-800 rounded-full px-3 py-1 text-sm"
+                variant="outline"
+                className="flex items-center bg-muted/50 rounded-full px-3 py-1 text-sm"
               >
                 {keyword}
                 <Button
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-4 w-4 p-0 ml-1"
+                  className="h-4 w-4"
                   onClick={() => handleRemoveKeyword(keyword)}
                 >
                   <X className="h-3 w-3" />
                 </Button>
-              </div>
+              </Badge>
             ))}
           </div>
           <div className="flex gap-2">

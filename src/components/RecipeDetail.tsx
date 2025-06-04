@@ -1,5 +1,4 @@
 import RecipeHeader from "@/components/recipe-detail/RecipeHeader";
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -14,6 +13,7 @@ import { formatDuration } from "@/lib/utils/time";
 import type { Ingredient, Recipe } from "@/types/recipe";
 import { Clock, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -66,17 +66,7 @@ export default function RecipeDetail({
           {recipe.keywords && recipe.keywords.length > 0 && (
             <>
               <Separator />
-              <div className="flex flex-wrap gap-2">
-                {recipe.keywords.map((keyword) => (
-                  <Badge
-                    key={keyword}
-                    variant="outline"
-                    className="bg-orange-50 dark:bg-orange-900"
-                  >
-                    {keyword}
-                  </Badge>
-                ))}
-              </div>
+              <RecipeKeywords keywords={recipe.keywords} />
             </>
           )}
 
