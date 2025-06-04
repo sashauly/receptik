@@ -8,13 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getBaseUnitByValue } from "@/lib/measurements";
-import type { Ingredient, Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
 import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
 import RecipeServings from "./recipe-detail/RecipeServings";
+import RecipeIngredients from "./recipe-detail/RecipeIngredients";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -30,23 +30,6 @@ export default function RecipeDetail({
   onShare,
 }: RecipeDetailProps) {
   const { t } = useTranslation();
-
-  const getIngredientUnitLabel = (ingredient: Ingredient): string => {
-    const { unit, amount } = ingredient;
-    if (getBaseUnitByValue(unit)?.type === "other") {
-      if (unit === "toTaste" || unit === "optional") {
-        return t(`units.other.${unit}`);
-      }
-      // @ts-expect-error Incompatible types with locale resources
-      return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_interval`, {
-        postProcess: "interval",
-        count: Number(amount),
-      });
-    }
-
-    // @ts-expect-error Incompatible types with locale resources
-    return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_short`);
-  };
 
   return (
     <>
@@ -75,25 +58,7 @@ export default function RecipeDetail({
 
           <RecipeServings servings={recipe.servings} />
 
-          <div>
-            <h3 className="text-lg font-semibold mb-2">
-              {t("recipe.ingredients")}
-            </h3>
-            <ul className="space-y-2">
-              {recipe.ingredients.map((ingredient) => (
-                <li
-                  key={ingredient.id}
-                  className="flex justify-between items-center gap-2"
-                >
-                  <span>{ingredient.name}</span>
-                  <span className="text-muted-foreground">
-                    {ingredient.amount !== 0 && ingredient.amount}{" "}
-                    {getIngredientUnitLabel(ingredient)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <RecipeIngredients ingredients={recipe.ingredients} />
 
           <Separator />
 
