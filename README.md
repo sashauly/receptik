@@ -28,10 +28,10 @@
   - [ ] Implement storage in IndexedDB (as base64 encoded string)
   - [ ] Add ability to add photo using camera
   - [ ] Add ability to delete images
-- [ ] Add custom button to install PWA(i think it's now works only in chrome?)
+- [x] Add custom button to install PWA(i think it's now works only in chrome?)
 - [x] Consider changing some UI elements to drawers
 - [ ] Adjust Recipe schema according to schema.org(https://schema.org/Recipe)
-  - [ ] Consider using units and amount for ingredients
+  - [x] Consider using units and amount for ingredients
     - [ ] Add US and EU measurement units
   - [ ] Consider adding photos or/and videos for each instructions step
   - [ ] Add ability to specify cuisine
