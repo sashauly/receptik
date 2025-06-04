@@ -10,10 +10,11 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { getBaseUnitByValue } from "@/lib/measurements";
 import type { Ingredient, Recipe } from "@/types/recipe";
-import { Clock, Users } from "lucide-react";
+import { Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
 import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
+import RecipeServings from "./recipe-detail/RecipeServings";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -72,16 +73,7 @@ export default function RecipeDetail({
             totalTime={recipe.totalTime}
           />
 
-          <div className="flex items-center">
-            <Users className="mr-2 h-4 w-4 text-muted-foreground" />
-            <p className="text-muted-foreground">
-              {recipe.servings}{" "}
-              {t("recipe.servings_interval", {
-                postProcess: "interval",
-                count: Number(recipe.servings),
-              })}
-            </p>
-          </div>
+          <RecipeServings servings={recipe.servings} />
 
           <div>
             <h3 className="text-lg font-semibold mb-2">
