@@ -6,7 +6,9 @@ import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useUrlParams } from "@/hooks/useUrlParams";
+import { logError } from "@/lib/utils/logger";
 import { PlusCircle, Settings } from "lucide-react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 
@@ -38,26 +40,35 @@ export default function Home() {
     error: recipeToDeleteError,
   } = useRecipe({ id: deleteRecipeId || undefined });
 
-  const handleCloseModals = () => {
+  const handleCloseModals = useCallback(() => {
     updateParams({
       delete: null,
       share: null,
     });
-  };
+  }, [updateParams]);
 
-  const handleEditRecipe = (recipeSlug: string) => {
-    navigate(`/recipes/${recipeSlug}/edit`);
-  };
+  const handleEditRecipe = useCallback(
+    (recipeSlug: string) => {
+      navigate(`/recipes/${recipeSlug}/edit`);
+    },
+    [navigate]
+  );
 
-  const handleDeleteRecipe = (recipeId: string) => {
-    updateParams({ delete: recipeId });
-  };
+  const handleDeleteRecipe = useCallback(
+    (recipeId: string) => {
+      updateParams({ delete: recipeId });
+    },
+    [updateParams]
+  );
 
   const confirmDeleteRecipe = async () => {
-    if (deleteRecipeId) {
-      await deleteRecipe(deleteRecipeId);
-
-      handleCloseModals();
+    handleCloseModals();
+    try {
+      if (deleteRecipeId) {
+        await deleteRecipe(deleteRecipeId);
+      }
+    } catch (error) {
+      logError("Failed to confirm delete:", error);
     }
   };
 
@@ -98,7 +109,9 @@ export default function Home() {
         // Desktop
         <div className="space-y-4">
           {recipesError && (
-            <p className="text-destructive">{recipesError.message}</p>
+            <p className="text-destructive">
+              {(recipesError as Error).message}
+            </p>
           )}
 
           <RecipeList

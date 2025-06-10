@@ -10,6 +10,7 @@ interface Resources {
       share: "Share";
       back: "Back";
       add: "Add";
+      moreActions: "More Actions";
       addToFavorites: "Add to favorites";
       search: "Search";
       clear: "Clear";
@@ -26,6 +27,8 @@ interface Resources {
       noRecipesFoundDesc: "No recipes match {{searchQuery}}. Try adjusting your search or filters.";
       pageNotFound: "Page not found";
       pageNotFoundDesc: "The page you&apos;re looking for doesn&apos;t exist or has been removed.";
+      gridView: "Grid View";
+      listView: "List View";
     };
     home: {
       title: "My Recipes";

@@ -1,10 +1,11 @@
-// import NoResults from "@/components/NoResults";
 import RecipeCard from "@/components/RecipeCard";
+import RecipeCardSkeleton from "@/components/RecipeCardSkeleton";
 import { Button } from "@/components/ui/button";
 import type { Recipe } from "@/types/recipe";
-import { BookPlus } from "lucide-react";
+import { BookPlus, LayoutGrid, List } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import React, { useState, useCallback } from "react";
 
 interface RecipeListProps {
   recipes: Recipe[];
@@ -13,6 +14,8 @@ interface RecipeListProps {
   onEditRecipe: (recipeId: string) => void;
   onDeleteRecipe: (id: string) => void;
 }
+
+type ViewMode = "grid" | "list";
 
 export default function RecipeList({
   recipes,
@@ -23,19 +26,36 @@ export default function RecipeList({
 }: RecipeListProps) {
   const { t } = useTranslation();
 
-  if (isLoading) {
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+
+  const setGridView = useCallback(() => setViewMode("grid"), []);
+  const setListView = useCallback(() => setViewMode("list"), []);
+
+  const MemoizedRecipeCard = React.memo(RecipeCard);
+
+  if (error && recipes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-64">
-        {t("home.loadingRecipes")}
+      <div className="flex items-center justify-center h-64 text-destructive">
+        {t("home.errorLoadingRecipes")}
       </div>
     );
   }
 
-  if (error) {
+  if (isLoading && recipes.length === 0) {
+    const skeletonCount = viewMode === "grid" ? 6 : 3;
+
     return (
-      <div className="flex items-center justify-center h-64">
-        {t("home.errorLoadingRecipes")}
-      </div>
+      <ul
+        className={
+          viewMode === "grid"
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            : "space-y-4"
+        }
+      >
+        {[...Array(skeletonCount)].map((_, index) => (
+          <RecipeCardSkeleton key={index} />
+        ))}
+      </ul>
     );
   }
 
@@ -48,7 +68,7 @@ export default function RecipeList({
         <p className="text-muted-foreground mb-4">{t("home.addYourFirst")}</p>
         <Button asChild>
           <Link to="/recipes/create" title={t("home.createFirstRecipe")}>
-            <BookPlus />
+            <BookPlus className="mr-2 h-4 w-4" />
             {t("home.createFirstRecipe")}
           </Link>
         </Button>
@@ -57,16 +77,47 @@ export default function RecipeList({
   }
 
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {recipes &&
-        recipes.map((recipe) => (
-          <RecipeCard
+    <div className="space-y-4">
+      {/* View Toggle Buttons */}
+      <div className="flex justify-end gap-2 mb-4">
+        <Button
+          variant={viewMode === "grid" ? "default" : "outline"}
+          size="icon"
+          onClick={setGridView}
+          title={t("common.gridView")}
+        >
+          <LayoutGrid className="h-4 w-4" />
+          <span className="sr-only">{t("common.gridView")}</span>
+        </Button>
+        <Button
+          variant={viewMode === "list" ? "default" : "outline"}
+          size="icon"
+          onClick={setListView}
+          title={t("common.listView")}
+        >
+          <List className="h-4 w-4" />
+          <span className="sr-only">{t("common.listView")}</span>
+        </Button>
+      </div>
+
+      {/* Conditional Rendering based on viewMode */}
+      <ul
+        className={
+          viewMode === "grid"
+            ? "grid grid-cols-2 lg:grid-cols-3 gap-4"
+            : "space-y-4"
+        }
+      >
+        {recipes.map((recipe) => (
+          <MemoizedRecipeCard
             key={recipe.id}
             recipe={recipe}
             onEditRecipe={onEditRecipe}
             onDeleteRecipe={onDeleteRecipe}
+            viewMode={viewMode}
           />
         ))}
-    </ul>
+      </ul>
+    </div>
   );
 }

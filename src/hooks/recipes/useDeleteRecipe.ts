@@ -1,4 +1,4 @@
-import { deleteRecipe } from "@/data/recipeService";
+import { deleteRecipe as deleteRecipeService } from "@/data/recipeService";
 import { logError } from "@/lib/utils/logger";
 import { useState } from "react";
 
@@ -6,20 +6,21 @@ export const useDeleteRecipe = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const deleteRecipeMutation = async (id: string) => {
+  const deleteRecipe = async (id: string) => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      await deleteRecipe(id);
+      await deleteRecipeService(id);
     } catch (err) {
       setError(
-        err instanceof Error ? err : new Error("Unknown error occurred")
+        err instanceof Error ? err : new Error("Failed to delete recipe")
       );
-      logError(`Error deleting recipe with ID ${id}:`, err);
+      logError(`Error deleting recipe ${id}:`, err);
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  return { deleteRecipe: deleteRecipeMutation, loading, error };
+  return { deleteRecipe, loading, error };
 };
