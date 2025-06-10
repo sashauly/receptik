@@ -79,7 +79,9 @@ export default function SettingsPage() {
 
           <h3 className="text-sm font-medium">{t("settings.resetAllData")}</h3>
           {recipesError && (
-            <p className="text-destructive">{recipesError.message}</p>
+            <p className="text-destructive">
+              {(recipesError as Error).message}
+            </p>
           )}
           {recipesLoading ? (
             <p>Loading recipes...</p>

@@ -96,7 +96,7 @@ export default function DebugInfo() {
           )}
           {recipesError && (
             <p className="text-destructive">
-              Error loading recipes: {recipesError.message}
+              Error loading recipes: {(recipesError as Error).message}
             </p>
           )}
         </div>
