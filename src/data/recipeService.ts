@@ -168,26 +168,26 @@ export const deleteDatabase = async (): Promise<void> => {
 };
 
 export const searchRecipes = async (searchTerm: string): Promise<Recipe[]> => {
-  // return await recipesTable
-  //   .where("name")
-  //   .startsWithIgnoreCase(searchTerm)
-  //   .or("keywords")
-  //   .anyOfIgnoreCase(searchTerm.split(" "))
-  //   .toArray();
-  //   const recipes = await recipesTable.toArray();
-  const recipe = await recipesTable.toArray();
+  if (!searchTerm || searchTerm.trim() === "") {
+    return recipesTable.toArray();
+  }
 
-  return recipe.filter((recipe) => {
-    const matchesSearch =
-      recipe.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      recipe.keywords?.some((keyword) =>
-        keyword.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  const lowerCaseSearchTerm = searchTerm.toLowerCase();
 
-    // if (activeKeyword === "all") return matchesSearch;
-    // return matchesSearch && recipe.keywords?.includes(activeKeyword);
-    return matchesSearch;
-  });
+  return await recipesTable
+    .filter((recipe) => {
+      const nameMatches = recipe.name
+        .toLowerCase()
+        .includes(lowerCaseSearchTerm);
+
+      const keywordsMatch =
+        recipe.keywords?.some((keyword) =>
+          keyword.toLowerCase().includes(lowerCaseSearchTerm)
+        ) || false;
+
+      return nameMatches || keywordsMatch;
+    })
+    .toArray();
 };
 
 export interface FilterOptions {

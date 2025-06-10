@@ -1,5 +1,6 @@
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import RecipeList from "@/components/RecipeList";
+import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
 import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
 import { useRecipe } from "@/hooks/recipes/useRecipe";
@@ -8,18 +9,20 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useUrlParams } from "@/hooks/useUrlParams";
 import { logError } from "@/lib/utils/logger";
 import { PlusCircle, Settings } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
 
 export default function Home() {
   const { t } = useTranslation();
 
+  const [currentSearchTerm, setCurrentSearchTerm] = useState("");
+
   const {
     recipes,
     loading: recipesLoading,
     error: recipesError,
-  } = useRecipes();
+  } = useRecipes({ searchTerm: currentSearchTerm });
 
   const {
     deleteRecipe,
@@ -72,8 +75,20 @@ export default function Home() {
     }
   };
 
+  const handleSearch = useCallback((searchTerm: string) => {
+    setCurrentSearchTerm(searchTerm);
+  }, []);
+
+  const handleClearSearch = useCallback(() => {
+    setCurrentSearchTerm("");
+  }, []);
+
   return (
     <div className="container mx-auto py-6 px-4 md:px-6 space-y-2">
+      <div className="mb-4">
+        <SearchInput onSearch={handleSearch} />
+      </div>
+
       {isSmallDevice ? (
         <>
           <div className="flex items-center justify-end gap-2 mb-4">
@@ -103,6 +118,8 @@ export default function Home() {
             error={recipesError}
             onEditRecipe={handleEditRecipe}
             onDeleteRecipe={handleDeleteRecipe}
+            searchTerm={currentSearchTerm}
+            onClearSearch={handleClearSearch}
           />
         </>
       ) : (
@@ -120,6 +137,8 @@ export default function Home() {
             error={recipesError}
             onEditRecipe={handleEditRecipe}
             onDeleteRecipe={handleDeleteRecipe}
+            searchTerm={currentSearchTerm}
+            onClearSearch={handleClearSearch}
           />
         </div>
       )}

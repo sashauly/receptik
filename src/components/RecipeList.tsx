@@ -1,3 +1,4 @@
+import NoResults from "./NoResults";
 import RecipeCard from "@/components/RecipeCard";
 import RecipeCardSkeleton from "@/components/RecipeCardSkeleton";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,8 @@ interface RecipeListProps {
   error: Error | null;
   onEditRecipe: (recipeId: string) => void;
   onDeleteRecipe: (id: string) => void;
+  searchTerm: string;
+  onClearSearch: () => void;
 }
 
 type ViewMode = "grid" | "list";
@@ -23,6 +26,8 @@ export default function RecipeList({
   error,
   onEditRecipe,
   onDeleteRecipe,
+  searchTerm,
+  onClearSearch,
 }: RecipeListProps) {
   const { t } = useTranslation();
 
@@ -59,26 +64,29 @@ export default function RecipeList({
     );
   }
 
-  const showNoRecipesState = !recipes || recipes.length === 0;
+  const hasRecipes = recipes && recipes.length > 0;
 
-  if (showNoRecipesState) {
-    return (
-      <div className="text-center py-12 border rounded-lg bg-muted/30">
-        <h3 className="text-lg font-medium mb-2">{t("home.noRecipes")}</h3>
-        <p className="text-muted-foreground mb-4">{t("home.addYourFirst")}</p>
-        <Button asChild>
-          <Link to="/recipes/create" title={t("home.createFirstRecipe")}>
-            <BookPlus className="mr-2 h-4 w-4" />
-            {t("home.createFirstRecipe")}
-          </Link>
-        </Button>
-      </div>
-    );
+  if (!hasRecipes) {
+    if (searchTerm.trim() !== "") {
+      return <NoResults searchQuery={searchTerm} onClear={onClearSearch} />;
+    } else {
+      return (
+        <div className="text-center py-12 border rounded-lg bg-muted/30">
+          <h3 className="text-lg font-medium mb-2">{t("home.noRecipes")}</h3>
+          <p className="text-muted-foreground mb-4">{t("home.addYourFirst")}</p>
+          <Button asChild>
+            <Link to="/recipes/create" title={t("home.createFirstRecipe")}>
+              <BookPlus className="mr-2 h-4 w-4" />
+              {t("home.createFirstRecipe")}
+            </Link>
+          </Button>
+        </div>
+      );
+    }
   }
 
   return (
     <div className="space-y-4">
-      {/* View Toggle Buttons */}
       <div className="flex justify-end gap-2 mb-4">
         <Button
           variant={viewMode === "grid" ? "default" : "outline"}
@@ -100,7 +108,6 @@ export default function RecipeList({
         </Button>
       </div>
 
-      {/* Conditional Rendering based on viewMode */}
       <ul
         className={
           viewMode === "grid"

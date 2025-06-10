@@ -1,15 +1,41 @@
 import { db } from "@/data/db";
-import { useLiveQuery } from "dexie-react-hooks"; // Still need this import
-// import { useEffect } from "react";
+import { logError } from "@/lib/utils/logger";
+import { useEffect } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
 
-export const useRecipes = () => {
-  const recipes = useLiveQuery(() => db.recipes.toArray(), []);
+interface UseRecipesOptions {
+  searchTerm?: string;
+}
+
+export const useRecipes = ({ searchTerm = "" }: UseRecipesOptions = {}) => {
+  const recipes = useLiveQuery(() => {
+    if (searchTerm.trim() !== "") {
+      return db.recipes
+        .filter((recipe) => {
+          const lowerCaseSearchTerm = searchTerm.toLowerCase();
+          const nameMatches = recipe.name
+            .toLowerCase()
+            .includes(lowerCaseSearchTerm);
+          const keywordsMatch =
+            recipe.keywords?.some((keyword) =>
+              keyword.toLowerCase().includes(lowerCaseSearchTerm)
+            ) || false;
+          return nameMatches || keywordsMatch;
+        })
+        .toArray();
+    } else {
+      return db.recipes.toArray();
+    }
+  }, [searchTerm]);
 
   const isLoading = recipes === undefined;
-
   const error: Error | null = null;
 
-  // useEffect(() => {}, [recipes]);
+  useEffect(() => {
+    if (error) {
+      logError("Error fetching recipes with liveQuery:", error);
+    }
+  }, [error]);
 
   return { recipes: recipes || [], loading: isLoading, error };
 };
