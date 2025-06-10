@@ -75,7 +75,8 @@ const RecipeCard = ({
                   </Badge>
                 ))}
             </div>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground pt-1">
+
+            <div className="flex flex-col md:flex-row items-baseline gap-2 text-sm text-muted-foreground">
               <div className="flex items-center">
                 <Clock className="mr-1 h-4 w-4" />
                 <meta itemProp="totalTime" content={recipe.totalTime} />
@@ -94,6 +95,7 @@ const RecipeCard = ({
             </div>
           </CardContent>
         </Link>
+
         <CardFooter
           className={`p-4 border-t ${viewMode === "list" ? "shrink-0 border-t-0 border-l" : "grow-0 justify-end"}`}
         >

@@ -1,25 +1,10 @@
-import {
-  Book,
-  Filter,
-  HomeIcon,
-  Menu,
-  PlusCircle,
-  Settings,
-} from "lucide-react";
+import { Book, Filter, PlusCircle, Settings } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  SheetTitle,
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-  SheetDescription,
-} from "@/components/ui/sheet";
 
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useUrlParams } from "@/hooks/useUrlParams";
@@ -101,45 +86,9 @@ export default function Home() {
 
   if (isMobile) {
     return (
-      <div className="flex flex-col h-screen">
+      <>
         {/* Mobile Header */}
         <header className="flex items-center justify-between p-4 border-b">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Open Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-64 p-4 flex flex-col">
-              <SheetHeader>
-                <SheetTitle className="flex items-center gap-2">
-                  <Book className="h-6 w-6 text-orange-600" />
-                  {t("common.appName")}
-                </SheetTitle>
-              </SheetHeader>
-              <SheetDescription>
-                TODO This is where the description would go.
-              </SheetDescription>
-              <nav className="flex flex-col gap-2">
-                <Link
-                  to="/"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  {t("navigation.myRecipes")}
-                </Link>
-                <Separator className="my-2" />
-                <Link
-                  to="/settings"
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Settings className="h-5 w-5" />
-                  {t("navigation.settings")}
-                </Link>
-              </nav>
-            </SheetContent>
-          </Sheet>
-
           <h1 className="text-lg font-semibold">{t("navigation.myRecipes")}</h1>
           <div className="flex items-center gap-2">
             <Button asChild size="icon" variant="outline">
@@ -165,35 +114,6 @@ export default function Home() {
           />
         </main>
 
-        <footer className="flex justify-around items-center h-16 border-t bg-background shadow-lg">
-          <Button asChild variant="ghost">
-            <NavLink to="/" className="flex flex-col items-center gap-1">
-              <HomeIcon className="h-5 w-5" />
-              <span className="text-xs">{t("navigation.myRecipes")}</span>
-            </NavLink>
-          </Button>
-          <Button
-            asChild
-            variant="default"
-            size="icon"
-            className="h-12 w-12 rounded-full -mt-8 shadow-lg bg-primary text-primary-foreground cursor-pointer hover:bg-primary/90 active:bg-primary/80"
-          >
-            <Link to="/recipes/create" title={t("common.addRecipe")}>
-              <PlusCircle className="h-6 w-6" />
-              <span className="sr-only">{t("common.addRecipe")}</span>
-            </Link>
-          </Button>
-          <Button variant="ghost">
-            <NavLink
-              to="/settings"
-              className="flex flex-col items-center gap-1"
-            >
-              <Settings className="h-5 w-5" />
-              <span className="text-xs">{t("navigation.settings")}</span>
-            </NavLink>
-          </Button>
-        </footer>
-
         <DeleteRecipeDialog
           recipeToDelete={recipeToDelete}
           isLoading={deleteLoading || recipeToDeleteLoading}
@@ -202,18 +122,18 @@ export default function Home() {
           onClose={handleCloseModals}
           onConfirm={confirmDeleteRecipe}
         />
-      </div>
+      </>
     );
   } else {
     // Desktop Layout
     return (
-      <div className="flex h-screen">
+      <>
         <aside className="w-64 p-6 border-r flex flex-col bg-card shadow-sm">
           <div className="flex items-center gap-2 mb-6">
             <Book className="h-6 w-6 text-orange-600" />
             <h2 className="text-2xl font-bold">{t("common.appName")}</h2>
           </div>
-          <nav className="flex flex-col gap-2 mb-4">
+          <nav className="flex flex-col gap-2">
             <Link
               to="/"
               className="text-lg font-medium text-primary hover:text-foreground"
@@ -328,7 +248,7 @@ export default function Home() {
           onClose={handleCloseModals}
           onConfirm={confirmDeleteRecipe}
         />
-      </div>
+      </>
     );
   }
 }
