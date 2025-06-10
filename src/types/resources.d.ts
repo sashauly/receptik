@@ -19,6 +19,7 @@ interface Resources {
       reload: "Reload";
       notFound: "Not found";
       today: "Today is";
+      filters: "Filters";
       allRightsReserved: "All rights reserved";
       backToRecipes: "Back to Recipes";
       addRecipe: "Add Recipe";
@@ -29,6 +30,17 @@ interface Resources {
       pageNotFoundDesc: "The page you&apos;re looking for doesn&apos;t exist or has been removed.";
       gridView: "Grid View";
       listView: "List View";
+    };
+    desktop: {
+      selectRecipe: "Select Recipe";
+      viewDetailsPrompt: "View details for {{recipeTitle}}";
+      viewSample: "View Sample";
+    };
+    navigation: {
+      myRecipes: "My Recipes";
+      mealPlan: "Meal Plan";
+      importExport: "Import/Export";
+      settings: "Settings";
     };
     home: {
       title: "My Recipes";

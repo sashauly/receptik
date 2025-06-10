@@ -19,6 +19,7 @@
             "reload": "Обновить",
             "notFound": "Не найдено",
             "today": "Сегодня",
+            "filters": "Фильтры",
             "allRightsReserved": "Все права защищены",
             "backToRecipes": "Назад к рецептам",
             "addRecipe": "Добавить рецепт",
@@ -29,6 +30,17 @@
             "pageNotFoundDesc": "Страница, которую вы ищете, не существует или была удалена.",
             "gridView": "Сетка",
             "listView": "Список"
+        },
+        "navigation": {
+            "myRecipes": "Мои рецепты",
+            "mealPlan": "План питания",
+            "importExport": "Импорт/Экспорт",
+            "settings": "Настройки"
+        },
+        "desktop": {
+            "selectRecipe": "Выберите рецепт",
+            "viewDetailsPrompt": "Посмотреть детали для {{recipeTitle}}",
+            "viewSample": "Посмотреть пример"
         },
         "home": {
             "title": "Мои рецепты",
