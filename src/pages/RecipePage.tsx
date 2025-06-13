@@ -9,6 +9,7 @@ import { ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 export default function RecipePage() {
   const { t } = useTranslation();
@@ -98,28 +99,34 @@ export default function RecipePage() {
   return (
     <div className="container mx-auto px-4 py-6">
       {recipe && (
-        <RecipeDetail
-          recipe={recipe}
-          onEdit={handleEditRecipe}
-          onDelete={handleDeleteRecipe}
-          onShare={handleShareRecipe}
-        />
+        <ErrorBoundary componentName="RecipeDetail">
+          <RecipeDetail
+            recipe={recipe}
+            onEdit={handleEditRecipe}
+            onDelete={handleDeleteRecipe}
+            onShare={handleShareRecipe}
+          />
+        </ErrorBoundary>
       )}
 
-      <DeleteRecipeDialog
-        recipeToDelete={recipe}
-        isLoading={deleteLoading || recipeLoading}
-        error={recipeError || deleteError}
-        isOpen={showDelete}
-        onClose={handleCloseModals}
-        onConfirm={confirmDeleteRecipe}
-      />
+      <ErrorBoundary componentName="DeleteRecipeDialog">
+        <DeleteRecipeDialog
+          recipeToDelete={recipe}
+          isLoading={deleteLoading || recipeLoading}
+          error={recipeError || deleteError}
+          isOpen={showDelete}
+          onClose={handleCloseModals}
+          onConfirm={confirmDeleteRecipe}
+        />
+      </ErrorBoundary>
 
-      <ShareRecipeDialog
-        recipe={recipe}
-        isOpen={showShare}
-        onClose={handleCloseModals}
-      />
+      <ErrorBoundary componentName="ShareRecipeDialog">
+        <ShareRecipeDialog
+          recipe={recipe}
+          isOpen={showShare}
+          onClose={handleCloseModals}
+        />
+      </ErrorBoundary>
     </div>
   );
 }

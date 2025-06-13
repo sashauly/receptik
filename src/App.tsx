@@ -30,24 +30,53 @@ function App() {
   }, []);
 
   return (
-    <ErrorBoundary>
+    <ErrorBoundary componentName="App">
       <SettingsProvider>
         <ThemeProvider>
           <I18nextProvider i18n={i18n}>
             <Router basename="/receptik/">
               <Layout>
                 <Routes>
-                  <Route path="/" element={<Home />} />
+                  <Route
+                    path="/"
+                    element={
+                      <ErrorBoundary componentName="HomePage">
+                        <Home />
+                      </ErrorBoundary>
+                    }
+                  />
                   <Route
                     path="/recipes/create"
-                    element={<CreateRecipePage />}
+                    element={
+                      <ErrorBoundary componentName="CreateRecipePage">
+                        <CreateRecipePage />
+                      </ErrorBoundary>
+                    }
                   />
-                  <Route path="/recipes/:slug" element={<RecipePage />} />
+                  <Route
+                    path="/recipes/:slug"
+                    element={
+                      <ErrorBoundary componentName="RecipePage">
+                        <RecipePage />
+                      </ErrorBoundary>
+                    }
+                  />
                   <Route
                     path="/recipes/:slug/edit"
-                    element={<EditRecipePage />}
+                    element={
+                      <ErrorBoundary componentName="EditRecipePage">
+                        <EditRecipePage />
+                      </ErrorBoundary>
+                    }
                   />
-                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route
+                    path="/settings"
+                    element={
+                      <ErrorBoundary componentName="SettingsPage">
+                        <SettingsPage />
+                      </ErrorBoundary>
+                    }
+                  />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>

@@ -2,15 +2,46 @@ import { deleteDatabase } from "@/data/recipeService";
 import { logError } from "@/lib/utils/logger";
 import { Component, ErrorInfo, ReactNode } from "react";
 import { Button } from "./ui/button";
+import { AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./ui/drawer";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface Props {
   children: ReactNode;
   fallback?: ReactNode;
+  componentName?: string;
+  className?: string;
+  t: TFunction;
 }
 
 interface State {
   hasError: boolean;
   error?: Error;
+  errorInfo?: ErrorInfo;
+  timestamp?: string;
 }
 
 class ErrorBoundary extends Component<Props, State> {
@@ -23,14 +54,39 @@ class ErrorBoundary extends Component<Props, State> {
     return {
       hasError: true,
       error,
+      timestamp: new Date().toISOString(),
     };
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+    this.setState({ errorInfo });
     logError("ErrorBoundary caught an error:", error, errorInfo);
   }
 
+  private renderStackContent(content: string) {
+    return (
+      <div className="w-full overflow-x-auto">
+        <pre className="text-xs font-mono bg-muted/50 p-2 rounded whitespace-pre">
+          {content}
+        </pre>
+      </div>
+    );
+  }
+
+  private formatError(error: Error): string {
+    return `${error.name}: ${error.message}\n${error.stack || ""}`;
+  }
+
+  private formatComponentStack(componentStack: string): string {
+    return componentStack
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line)
+      .join("\n");
+  }
+
   public render(): ReactNode {
+    const { t } = this.props;
     const onResetAllData = async () => {
       try {
         await deleteDatabase();
@@ -40,28 +96,76 @@ class ErrorBoundary extends Component<Props, State> {
         logError(err);
       }
     };
+
     if (this.state.hasError) {
+      const errorMessage = this.state.error?.message || "An error occurred";
+
       return (
         this.props.fallback || (
-          <div className="container mx-auto py-6 px-4 pt-18 md:px-6 space-y-2">
-            <div className="py-12 px-8 border rounded-lg bg-muted/30">
-              <h2 className="text-2xl font-medium">Something went wrong.</h2>
-              <p>
-                Please try refreshing the page or contact the administrator.
-              </p>
-              <details className="text-muted-foreground whitespace-pre-wrap">
-                {this.state.error?.toString()}
-              </details>
-              <div className="flex flex-col justify-end gap-2 sm:flex-row">
-                <Button onClick={() => window.location.assign("/receptik/")}>
-                  Go to Home
-                </Button>
-                <Button onClick={() => window.location.reload()}>
-                  Refresh Page
-                </Button>
-                <Button variant="destructive" onClick={onResetAllData}>
-                  Reset All Data
-                </Button>
+          <div
+            className={cn(
+              "rounded-lg border bg-destructive/10 p-4 max-w-full",
+              this.props.className
+            )}
+          >
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+              <div className="flex-1 space-y-2 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <h3 className="font-medium text-destructive break-words">
+                    {t("errorBoundary.errorInComponent", {
+                      componentName: this.props.componentName || "component",
+                    })}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => window.location.reload()}
+                    >
+                      {t("errorBoundary.refresh")}
+                    </Button>
+                    <ResetDataButton onReset={onResetAllData} t={t} />
+                  </div>
+                </div>
+
+                <details className="text-sm">
+                  <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+                    {t("errorBoundary.showErrorDetails")}
+                  </summary>
+                  <div className="mt-2 space-y-2 text-xs">
+                    <p>
+                      <strong>{t("errorBoundary.time")}:</strong>{" "}
+                      {this.state.timestamp}
+                    </p>
+                    <p className="break-words">
+                      <strong>{t("errorBoundary.message")}:</strong>{" "}
+                      {errorMessage}
+                    </p>
+                    {this.state.error?.stack && (
+                      <div className="mt-2">
+                        <p className="font-medium mb-1">
+                          {t("errorBoundary.stackTrace")}:
+                        </p>
+                        {this.renderStackContent(
+                          this.formatError(this.state.error)
+                        )}
+                      </div>
+                    )}
+                    {this.state.errorInfo?.componentStack && (
+                      <div className="mt-2">
+                        <p className="font-medium mb-1">
+                          {t("errorBoundary.componentStack")}:
+                        </p>
+                        {this.renderStackContent(
+                          this.formatComponentStack(
+                            this.state.errorInfo.componentStack
+                          )
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </details>
               </div>
             </div>
           </div>
@@ -73,4 +177,71 @@ class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-export default ErrorBoundary;
+interface ResetDataButtonProps {
+  onReset: () => void;
+  t: TFunction;
+}
+
+const ResetDataButton = ({ onReset, t }: ResetDataButtonProps) => {
+  const isMobile = useMediaQuery("(max-width: 640px)");
+
+  if (isMobile) {
+    return (
+      <Drawer>
+        <DrawerTrigger asChild>
+          <Button variant="destructive" size="sm">
+            {t("errorBoundary.resetData")}
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>{t("settings.resetAllData")}</DrawerTitle>
+            <DrawerDescription>
+              {t("errorBoundary.resetDataConfirm")}
+            </DrawerDescription>
+          </DrawerHeader>
+          <DrawerFooter>
+            <DrawerClose asChild>
+              <Button variant="outline">{t("common.cancel")}</Button>
+            </DrawerClose>
+            <Button variant="destructive" onClick={onReset}>
+              {t("errorBoundary.resetData")}
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="destructive" size="sm">
+          {t("errorBoundary.resetData")}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{t("settings.resetAllData")}</AlertDialogTitle>
+          <AlertDialogDescription>
+            {t("errorBoundary.resetDataConfirm")}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
+          <AlertDialogAction onClick={onReset}>
+            {t("errorBoundary.resetData")}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
+
+// Wrap the ErrorBoundary with a function component to use hooks
+const ErrorBoundaryWithTranslation = (props: Omit<Props, "t">) => {
+  const { t } = useTranslation();
+  return <ErrorBoundary {...props} t={t} />;
+};
+
+export default ErrorBoundaryWithTranslation;

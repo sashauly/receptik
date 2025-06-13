@@ -1,5 +1,5 @@
 import NoResults from "./NoResults";
-import RecipeCard from "@/components/RecipeCard";
+import MemoizedRecipeCard from "@/components/RecipeCard";
 import RecipeCardSkeleton from "@/components/RecipeCardSkeleton";
 import { Button } from "@/components/ui/button";
 import type { Recipe } from "@/types/recipe";
@@ -7,6 +7,7 @@ import { BookPlus, LayoutGrid, List } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import React, { useState, useCallback } from "react";
+import ErrorBoundary from "./ErrorBoundary";
 
 interface RecipeListProps {
   recipes: Recipe[];
@@ -20,7 +21,7 @@ interface RecipeListProps {
 
 type ViewMode = "grid" | "list";
 
-export default function RecipeList({
+const RecipeList: React.FC<RecipeListProps> = ({
   recipes,
   isLoading,
   error,
@@ -28,7 +29,7 @@ export default function RecipeList({
   onDeleteRecipe,
   searchTerm,
   onClearSearch,
-}: RecipeListProps) {
+}) => {
   const { t } = useTranslation();
 
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
@@ -36,12 +37,10 @@ export default function RecipeList({
   const setGridView = useCallback(() => setViewMode("grid"), []);
   const setListView = useCallback(() => setViewMode("list"), []);
 
-  const MemoizedRecipeCard = React.memo(RecipeCard);
-
   if (error && recipes.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-destructive">
-        {t("home.errorLoadingRecipes")}
+        {error.message || t("home.errorLoadingRecipes")}
       </div>
     );
   }
@@ -116,15 +115,18 @@ export default function RecipeList({
         }
       >
         {recipes.map((recipe) => (
-          <MemoizedRecipeCard
-            key={recipe.id}
-            recipe={recipe}
-            onEditRecipe={onEditRecipe}
-            onDeleteRecipe={onDeleteRecipe}
-            viewMode={viewMode}
-          />
+          <ErrorBoundary componentName="RecipeCard" key={recipe.id}>
+            <MemoizedRecipeCard
+              recipe={recipe}
+              onEditRecipe={onEditRecipe}
+              onDeleteRecipe={onDeleteRecipe}
+              viewMode={viewMode}
+            />
+          </ErrorBoundary>
         ))}
       </ul>
     </div>
   );
-}
+};
+
+export default RecipeList;

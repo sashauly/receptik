@@ -365,6 +365,17 @@ interface Resources {
         optional: "optional";
       };
     };
+    errorBoundary: {
+      errorInComponent: "Error in {{componentName}}";
+      refresh: "Refresh Page";
+      resetData: "Reset All Data";
+      resetDataConfirm: "Are you sure you want to reset all data? This action cannot be undone and will delete all your recipes and settings.";
+      showErrorDetails: "Show Error Details";
+      time: "Time";
+      message: "Message";
+      stackTrace: "Stack Trace";
+      componentStack: "Component Stack";
+    };
   };
 }
 

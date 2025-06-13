@@ -8,6 +8,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const CreateRecipePage: React.FC = () => {
   const { t } = useTranslation();
@@ -49,11 +50,13 @@ const CreateRecipePage: React.FC = () => {
           {t("common.back")}
         </Button>
       </div>
-      <RecipeForm
-        initialRecipe={null}
-        onSave={handleAddRecipe}
-        onCancel={handleCancel}
-      />
+      <ErrorBoundary componentName="RecipeForm">
+        <RecipeForm
+          initialRecipe={null}
+          onSave={handleAddRecipe}
+          onCancel={handleCancel}
+        />
+      </ErrorBoundary>
       {addLoading && <p>Adding recipe...</p>}
       {addError && (
         <p className="text-destructive">

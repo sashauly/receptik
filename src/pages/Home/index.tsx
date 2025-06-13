@@ -2,6 +2,7 @@ import { Book, Filter, PlusCircle, Settings } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -103,25 +104,29 @@ export default function Home() {
         {/* Mobile Main Content */}
         <main className="flex-1 overflow-y-auto p-4 space-y-4">
           <SearchInput onSearch={handleSearch} />
-          <RecipeList
-            recipes={recipes}
-            isLoading={recipesLoading}
-            error={recipesError}
-            onEditRecipe={handleEditRecipe}
-            onDeleteRecipe={handleDeleteRecipe}
-            searchTerm={currentSearchTerm}
-            onClearSearch={handleClearSearch}
-          />
+          <ErrorBoundary componentName="RecipeList">
+            <RecipeList
+              recipes={recipes}
+              isLoading={recipesLoading}
+              error={recipesError}
+              onEditRecipe={handleEditRecipe}
+              onDeleteRecipe={handleDeleteRecipe}
+              searchTerm={currentSearchTerm}
+              onClearSearch={handleClearSearch}
+            />
+          </ErrorBoundary>
         </main>
 
-        <DeleteRecipeDialog
-          recipeToDelete={recipeToDelete}
-          isLoading={deleteLoading || recipeToDeleteLoading}
-          error={deleteError}
-          isOpen={!!deleteRecipeId}
-          onClose={handleCloseModals}
-          onConfirm={confirmDeleteRecipe}
-        />
+        <ErrorBoundary componentName="DeleteRecipeDialog">
+          <DeleteRecipeDialog
+            recipeToDelete={recipeToDelete}
+            isLoading={deleteLoading || recipeToDeleteLoading}
+            error={deleteError}
+            isOpen={!!deleteRecipeId}
+            onClose={handleCloseModals}
+            onConfirm={confirmDeleteRecipe}
+          />
+        </ErrorBoundary>
       </>
     );
   } else {
@@ -218,15 +223,17 @@ export default function Home() {
               </p>
             )}
 
-            <RecipeList
-              recipes={recipes}
-              isLoading={recipesLoading}
-              error={recipesError}
-              onEditRecipe={handleEditRecipe}
-              onDeleteRecipe={handleDeleteRecipe}
-              searchTerm={currentSearchTerm}
-              onClearSearch={handleClearSearch}
-            />
+            <ErrorBoundary componentName="RecipeList">
+              <RecipeList
+                recipes={recipes}
+                isLoading={recipesLoading}
+                error={recipesError}
+                onEditRecipe={handleEditRecipe}
+                onDeleteRecipe={handleDeleteRecipe}
+                searchTerm={currentSearchTerm}
+                onClearSearch={handleClearSearch}
+              />
+            </ErrorBoundary>
           </section>
 
           {/* Right Pane: Recipe Detail or Empty State (dynamic content) */}
@@ -240,14 +247,16 @@ export default function Home() {
           </section> */}
         </main>
 
-        <DeleteRecipeDialog
-          recipeToDelete={recipeToDelete}
-          isLoading={deleteLoading || recipeToDeleteLoading}
-          error={recipeToDeleteError || deleteError}
-          isOpen={!!recipeToDelete}
-          onClose={handleCloseModals}
-          onConfirm={confirmDeleteRecipe}
-        />
+        <ErrorBoundary componentName="DeleteRecipeDialog">
+          <DeleteRecipeDialog
+            recipeToDelete={recipeToDelete}
+            isLoading={deleteLoading || recipeToDeleteLoading}
+            error={recipeToDeleteError || deleteError}
+            isOpen={!!recipeToDelete}
+            onClose={handleCloseModals}
+            onConfirm={confirmDeleteRecipe}
+          />
+        </ErrorBoundary>
       </>
     );
   }
