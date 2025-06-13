@@ -1,4 +1,6 @@
-import { Clock } from "lucide-react";
+import { Clock, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { useSettings } from "@/context/SettingsContext";
 
 interface RecipeFooterProps {
   updatedAt: Date;
@@ -6,23 +8,27 @@ interface RecipeFooterProps {
 }
 
 const RecipeFooter: React.FC<RecipeFooterProps> = ({ updatedAt, author }) => {
-  console.log(author ?? "No author");
+  const { t } = useTranslation();
+  const { settings } = useSettings();
+
   return (
-    <>
-      {/* TODO add author */}
-      {/* <div itemProp="author">{recipe.author}</div> */}
+    <div className="flex items-center gap-4">
+      {author && (
+        <div className="flex items-center" itemProp="author">
+          <User size={14} className="mr-1" />
+          <span>{author}</span>
+        </div>
+      )}
       {updatedAt && (
         <div className="flex items-center">
           <Clock size={14} className="mr-1" />
           <span itemProp="dateModified">
-            Last updated:{" "}
-            {updatedAt.toLocaleString(
-              localStorage.getItem("receptik-i18nextLng") || "en"
-            )}
+            {t("common.lastUpdated")}:{" "}
+            {updatedAt.toLocaleString(settings.language)}
           </span>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

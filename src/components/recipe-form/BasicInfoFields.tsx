@@ -39,6 +39,26 @@ const BasicInfoFields: React.FC = () => {
 
       <FormField
         control={control}
+        name="author"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel htmlFor="author">{t("forms.author")}</FormLabel>
+            <FormControl>
+              <Input
+                id="author"
+                type="text"
+                autoComplete="off"
+                placeholder={t("forms.authorPlaceholder")}
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <FormField
+        control={control}
         name="description"
         render={({ field }) => (
           <FormItem>

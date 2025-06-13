@@ -30,6 +30,7 @@ interface Resources {
       pageNotFoundDesc: "The page you&apos;re looking for doesn&apos;t exist or has been removed.";
       gridView: "Grid View";
       listView: "List View";
+      lastUpdated: "Last updated";
     };
     desktop: {
       selectRecipe: "Select Recipe";
@@ -104,6 +105,8 @@ interface Resources {
       editRecipeDescription: "Edit an existing recipe";
       recipeName: "Recipe Name";
       namePlaceholder: "Enter recipe name";
+      author: "Author";
+      authorPlaceholder: "Enter author name";
       description: "Description";
       descriptionPlaceholder: "A brief description of your recipe...";
       prepTime: "Prep Time";
@@ -146,6 +149,8 @@ interface Resources {
     validation: {
       nameTooShort: "Recipe name must be at least 2 characters.";
       nameTooLong: "Recipe name must not exceed 50 characters.";
+      authorTooShort: "Author name must be at least 2 characters.";
+      authorTooLong: "Author name must not exceed 50 characters.";
       descriptionTooLong: "Description must not exceed 500 characters.";
       prepTimeInvalid: "Please enter a valid preparation time.";
       cookTimeEmpty: "Cooking time cannot be empty.";

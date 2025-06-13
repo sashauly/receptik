@@ -10,7 +10,7 @@ const db = new Dexie(DB_NAME) as Dexie & {
 
 db.version(3).stores({
   recipes:
-    "id, name, slug, ingredients, instructions, prepTime, cookTime, totalTime, servings, *keywords, createdAt, updatedAt",
+    "id, name, slug, ingredients, instructions, prepTime, cookTime, totalTime, servings, *keywords, author, createdAt, updatedAt",
 });
 
 export const ensureLatestDbSchema = async (): Promise<void> => {

@@ -25,6 +25,7 @@ const emptyRecipe = (): RecipeFormValues => ({
   keywords: [],
   ingredients: [],
   instructions: [""],
+  author: "",
 });
 
 interface RecipeFormModalProps {

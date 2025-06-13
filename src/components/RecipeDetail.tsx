@@ -66,10 +66,7 @@ export default function RecipeDetail({
         </CardContent>
 
         <CardFooter className="flex justify-between">
-          <RecipeFooter
-            updatedAt={recipe.updatedAt}
-            // author={recipe.author}
-          />
+          <RecipeFooter updatedAt={recipe.updatedAt} author={recipe.author} />
         </CardFooter>
       </Card>
     </>

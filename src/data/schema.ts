@@ -37,6 +37,11 @@ export const createRecipeFormSchema = (
       .trim()
       .max(500, { message: t("validation.descriptionTooLong") })
       .optional(),
+    author: z
+      .string()
+      .trim()
+      .min(1, { message: t("validation.authorTooShort") })
+      .max(50, { message: t("validation.authorTooLong") }),
     prepTime: z
       .string()
       .refine(isValidISO8601Duration, {

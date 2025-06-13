@@ -19,6 +19,7 @@ export interface Recipe {
   totalTime: string; // ISO 8601 string duration format
   servings: number;
   keywords?: string[];
+  author: string;
   createdAt: Date;
   updatedAt: Date;
 }
