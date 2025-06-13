@@ -31,6 +31,7 @@ interface Resources {
       gridView: "Grid View";
       listView: "List View";
       lastUpdated: "Last updated";
+      noResultsFound: "No results found";
     };
     desktop: {
       selectRecipe: "Select Recipe";
@@ -145,6 +146,7 @@ interface Resources {
       addStep: "Add Step";
       saveRecipe: "Save Recipe";
       failedToSubmit: "Failed to submit the form. Please try again.";
+      selectUnit: "Select Unit";
     };
     validation: {
       nameTooShort: "Recipe name must be at least 2 characters.";

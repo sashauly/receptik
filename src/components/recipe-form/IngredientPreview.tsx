@@ -1,9 +1,10 @@
 import { UnitValue } from "@/lib/measurements";
 import { Ingredient } from "@/types/recipe";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface IngredientPreviewProps {
   ingredient: Ingredient;
@@ -22,6 +23,7 @@ const IngredientPreview: React.FC<IngredientPreviewProps> = ({
   getUnitLabel,
   className,
 }) => {
+  const { t } = useTranslation();
   const itemRef = useRef<HTMLDivElement>(null);
 
   const handleEdit = () => {
@@ -59,31 +61,51 @@ const IngredientPreview: React.FC<IngredientPreviewProps> = ({
       ? ingredient.amount
       : "";
 
+  const unitLabel = getUnitLabel(ingredient.unit);
+  const displayText = displayAmount
+    ? `${displayAmount} ${unitLabel}`
+    : unitLabel;
+
   return (
     <div
       ref={itemRef}
       className={cn(
-        `flex items-center justify-between cursor-pointer p-3`,
+        "group flex items-center justify-between p-4 hover:bg-accent/50 transition-colors rounded-lg cursor-pointer",
         className
       )}
       onClick={handleEdit}
       tabIndex={0}
-      aria-label={`Ingredient: ${ingredient.name || "New Ingredient"}`}
+      role="button"
+      aria-label={`Edit ingredient: ${ingredient.name || "New Ingredient"}`}
     >
-      <div className="flex-1">
-        <div className="font-medium">{ingredient.name || "New Ingredient"}</div>
-        <div className="text-sm text-muted-foreground">
-          {displayAmount} {getUnitLabel(ingredient.unit)}
+      <div className="flex-1 min-w-0">
+        <div className="font-medium truncate group-hover:text-primary transition-colors">
+          {ingredient.name || "New Ingredient"}
+        </div>
+        <div className="text-sm text-muted-foreground truncate">
+          {displayText}
         </div>
       </div>
-      <div className="flex gap-2">
+      <div className="flex gap-2 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
         <Button
           type="button"
-          variant="outline"
+          variant="ghost"
+          size="icon"
+          onClick={handleEdit}
+          className="h-8 w-8"
+          title={t("common.edit")}
+          aria-label={t("common.edit")}
+        >
+          <Edit2 className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
           size="icon"
           onClick={handleDelete}
-          title={`Delete ${ingredient.name || "New Ingredient"}`}
-          aria-label={`Delete ${ingredient.name || "New Ingredient"}`}
+          className="h-8 w-8"
+          title={t("common.delete")}
+          aria-label={t("common.delete")}
         >
           <Trash2 className="h-4 w-4" />
         </Button>

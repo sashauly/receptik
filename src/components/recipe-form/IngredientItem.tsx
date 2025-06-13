@@ -21,6 +21,8 @@ import { Check, Trash2, X } from "lucide-react";
 import { UnitValue } from "@/lib/measurements";
 import IngredientPreview from "./IngredientPreview";
 import { Ingredient } from "@/types/recipe";
+import UnitSelectionPage from "./UnitSelectionPage";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface IngredientItemProps {
   index: number;
@@ -42,8 +44,11 @@ const IngredientItem: React.FC<IngredientItemProps> = ({
   const { t } = useTranslation();
   const { control, trigger, getValues, setValue, clearErrors } =
     useFormContext();
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [showUnitSelection, setShowUnitSelection] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const originalIngredientData = useRef<Ingredient | null>(null);
 
   const itemContainerRef = useRef<HTMLDivElement>(null);
@@ -106,6 +111,18 @@ const IngredientItem: React.FC<IngredientItemProps> = ({
     originalIngredientData.current = null;
   }, [clearErrors, handleDelete, index, setValue]);
 
+  const handleUnitSelect = (value: string | UnitValue) => {
+    setValue(`ingredients.${index}.unit`, value);
+    if (!isAmountRequired(value)) {
+      setValue(`ingredients.${index}.amount`, null);
+    }
+    setShowUnitSelection(false);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
@@ -131,6 +148,19 @@ const IngredientItem: React.FC<IngredientItemProps> = ({
 
   if (!watchedIngredient) {
     return null;
+  }
+
+  if (showUnitSelection) {
+    return (
+      <UnitSelectionPage
+        unitOptions={unitOptions}
+        selectedUnit={watchedIngredient.unit}
+        onSelect={handleUnitSelect}
+        onBack={() => setShowUnitSelection(false)}
+        searchQuery={searchQuery}
+        onSearch={handleSearch}
+      />
+    );
   }
 
   return (
@@ -206,34 +236,46 @@ const IngredientItem: React.FC<IngredientItemProps> = ({
                   <FormLabel htmlFor={`ingredient-unit-${fieldId}`}>
                     {t("forms.ingredientUnit")}
                   </FormLabel>
-                  <Select
-                    name={`ingredients-${index}-unit`}
-                    value={field.value}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      if (!isAmountRequired(value)) {
-                        setValue(`ingredients.${index}.amount`, null);
-                      }
-                    }}
-                    aria-label={t("forms.ingredientUnit")}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger
-                        id={`ingredient-unit-${fieldId}`}
-                        className="w-full"
-                      >
-                        <SelectValue placeholder={t("forms.ingredientUnit")} />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {unitOptions.map((unit) => (
-                        <SelectItem key={unit.value} value={unit.value}>
-                          {unit.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  {isMobile ? (
+                    <Button
+                      variant="outline"
+                      className="w-full justify-between"
+                      onClick={() => setShowUnitSelection(true)}
+                    >
+                      {getUnitLabel(field.value)}
+                    </Button>
+                  ) : (
+                    <Select
+                      name={`ingredients-${index}-unit`}
+                      value={field.value}
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        if (!isAmountRequired(value)) {
+                          setValue(`ingredients.${index}.amount`, null);
+                        }
+                      }}
+                      aria-label={t("forms.ingredientUnit")}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger
+                          id={`ingredient-unit-${fieldId}`}
+                          className="w-full"
+                        >
+                          <SelectValue
+                            placeholder={t("forms.ingredientUnit")}
+                          />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {unitOptions.map((unit) => (
+                          <SelectItem key={unit.value} value={unit.value}>
+                            {unit.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
                 </FormItem>
               )}
             />

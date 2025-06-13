@@ -37,11 +37,11 @@
   - [ ] Consider adding photos or/and videos for each instructions step
   - [ ] Add ability to specify cuisine
   - [ ] Add ability to specify category
-  - [ ] Add ability to specify author
+  - [x] Add ability to specify author
 - [x] Move all logging to DEV level
 - [x] Add toasts on success, warn and error
 - [ ] Adjust UI/UX for mobile (!)
-- [ ] Create separate page for choosing units of ingredients for mobile
+- [x] Create separate page for choosing units of ingredients for mobile
 - [ ] Move search to separate page
 - [x] Add auto calculation of amount of ingredients based on number of servings
 - [ ] refine UI components in the form

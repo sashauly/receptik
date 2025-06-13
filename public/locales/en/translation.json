@@ -30,7 +30,8 @@
       "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed.",
       "gridView": "Grid View",
       "listView": "List View",
-      "lastUpdated": "Last updated"
+      "lastUpdated": "Last updated",
+      "noResultsFound": "No results found"
     },
     "navigation": {
       "myRecipes": "My Recipes",
@@ -144,7 +145,8 @@
       "stepPlaceholder": "Step {{index}}",
       "addStep": "Add Step",
       "saveRecipe": "Save Recipe",
-      "failedToSubmit": "Failed to submit the form. Please try again."
+      "failedToSubmit": "Failed to submit the form. Please try again.",
+      "selectUnit": "Select Unit"
     },
     "validation": {
       "nameTooShort": "Recipe name must be at least 2 characters.",
