@@ -6,6 +6,7 @@ export const mockRecipes: Recipe[] = [
     id: "1",
     name: "Classic Spaghetti Bolognese",
     slug: "classic-spaghetti-bolognese",
+    author: "Chef John",
     ingredients: [
       {
         name: "Pasta",
@@ -36,6 +37,7 @@ export const mockRecipes: Recipe[] = [
     id: "2",
     name: "Quick Chicken Stir-fry",
     slug: "quick-chicken-stir-fry",
+    author: "Chef Sarah",
     ingredients: [
       {
         name: "Chicken",
@@ -66,6 +68,7 @@ export const mockRecipes: Recipe[] = [
     id: "3",
     name: "Healthy Quinoa Salad",
     slug: "healthy-quinoa-salad",
+    author: "Chef Maria",
     ingredients: [
       // Array of ingredients
       {
@@ -122,6 +125,7 @@ export const mockRecipes: Recipe[] = [
     id: "4",
     name: "Simple Pancakes",
     slug: "simple-pancakes",
+    author: "Chef Mike",
     ingredients: [
       // Array of ingredients
       {
@@ -153,6 +157,7 @@ export const mockRecipes: Recipe[] = [
     id: "5",
     name: "Vegetable Curry",
     slug: "vegetable-curry",
+    author: "Chef Raj",
     ingredients: [
       // Array of ingredients
       {
@@ -205,6 +210,7 @@ export const mockRecipes: Recipe[] = [
     id: "6",
     name: "Lemon Herb Baked Salmon",
     slug: "lemon-herb-baked-salmon",
+    author: "Chef Emma",
     ingredients: [
       // Array of ingredients
       {
