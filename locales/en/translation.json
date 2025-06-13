@@ -29,7 +29,9 @@
       "pageNotFound": "Page not found",
       "pageNotFoundDesc": "The page you&apos;re looking for doesn&apos;t exist or has been removed.",
       "gridView": "Grid View",
-      "listView": "List View"
+      "listView": "List View",
+      "lastUpdated": "Last updated",
+      "noResultsFound": "No results found"
     },
     "navigation": {
       "myRecipes": "My Recipes",
@@ -104,6 +106,8 @@
       "editRecipeDescription": "Edit an existing recipe",
       "recipeName": "Recipe Name",
       "namePlaceholder": "Enter recipe name",
+      "author": "Author",
+      "authorPlaceholder": "Enter author name",
       "description": "Description",
       "descriptionPlaceholder": "A brief description of your recipe...",
       "prepTime": "Prep Time",
@@ -141,11 +145,14 @@
       "stepPlaceholder": "Step {{index}}",
       "addStep": "Add Step",
       "saveRecipe": "Save Recipe",
-      "failedToSubmit": "Failed to submit the form. Please try again."
+      "failedToSubmit": "Failed to submit the form. Please try again.",
+      "selectUnit": "Select Unit"
     },
     "validation": {
       "nameTooShort": "Recipe name must be at least 2 characters.",
       "nameTooLong": "Recipe name must not exceed 50 characters.",
+      "authorTooShort": "Author name must be at least 1 character.",
+      "authorTooLong": "Author name must not exceed 50 characters.",
       "descriptionTooLong": "Description must not exceed 500 characters.",
       "prepTimeInvalid": "Please enter a valid preparation time.",
       "cookTimeEmpty": "Cooking time cannot be empty.",
@@ -364,6 +371,17 @@
         "toTaste": "to taste",
         "optional": "optional"
       }
+    },
+    "errorBoundary": {
+      "errorInComponent": "Error in {{componentName}}",
+      "refresh": "Refresh Page",
+      "resetData": "Reset All Data",
+      "resetDataConfirm": "Are you sure you want to reset all data? This action cannot be undone and will delete all your recipes and settings.",
+      "showErrorDetails": "Show Error Details",
+      "time": "Time",
+      "message": "Message",
+      "stackTrace": "Stack Trace",
+      "componentStack": "Component Stack"
     }
   }
 }
