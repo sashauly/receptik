@@ -3,6 +3,7 @@ import { Ingredient } from "@/types/recipe";
 import React, { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import RecipeServings from "./RecipeServings";
+import { v4 as uuidv4 } from "uuid";
 
 interface RecipeIngredientsProps {
   ingredients: Ingredient[];
@@ -94,9 +95,10 @@ const RecipeIngredients: React.FC<RecipeIngredientsProps> = ({
           const adjustedAmount = ingredientsAmountOnServingsRatio(
             ingredient.amount
           );
+          const ingredientId = ingredient.id || uuidv4();
           return (
             <li
-              key={ingredient.id}
+              key={ingredientId}
               className="flex justify-between items-center gap-2"
               itemProp="recipeIngredient"
             >

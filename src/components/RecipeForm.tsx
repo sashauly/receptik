@@ -16,6 +16,7 @@ import KeywordsField from "./recipe-form/KeywordFields";
 import ServingsField from "./recipe-form/ServingsField";
 import TimeFields from "./recipe-form/TimeFields";
 import { FormSchemaProvider } from "@/components/ui/form";
+import { v4 as uuidv4 } from "uuid";
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",
@@ -23,7 +24,7 @@ const emptyRecipe = (): RecipeFormValues => ({
   prepTime: "PT0S",
   cookTime: "PT0S",
   keywords: [],
-  ingredients: [],
+  ingredients: [{ id: uuidv4(), name: "", amount: null, unit: "piece" }],
   instructions: [""],
   author: "",
 });

@@ -2,6 +2,17 @@ import { importRecipes as performImport } from "@/data/recipeService";
 import { logDebug, logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+
+const ensureRecipeIds = (recipe: Recipe): Recipe => {
+  return {
+    ...recipe,
+    ingredients: recipe.ingredients.map((ingredient) => ({
+      ...ingredient,
+      id: ingredient.id || uuidv4(),
+    })),
+  };
+};
 
 export const useImportRecipes = () => {
   const [loading, setLoading] = useState(false);
@@ -22,7 +33,9 @@ export const useImportRecipes = () => {
     setSuccess(false);
 
     try {
-      await performImport(recipesToImport);
+      // Ensure all recipes have proper ingredient IDs before import
+      const recipesWithIds = recipesToImport.map(ensureRecipeIds);
+      await performImport(recipesWithIds);
       setSuccess(true);
       logDebug("Recipes imported successfully!");
     } catch (err) {

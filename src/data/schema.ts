@@ -65,6 +65,7 @@ export const createRecipeFormSchema = (
       .array(
         z
           .object({
+            id: z.string().optional(),
             name: z
               .string()
               .trim()

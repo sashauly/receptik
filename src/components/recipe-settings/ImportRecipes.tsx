@@ -15,6 +15,7 @@ import type { Recipe } from "@/types/recipe";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 
 const isRecipe = (obj: unknown): obj is Recipe => {
   return (
@@ -29,6 +30,16 @@ const isRecipe = (obj: unknown): obj is Recipe => {
     "instructions" in obj &&
     Array.isArray((obj as Recipe).instructions)
   );
+};
+
+const ensureRecipeIds = (recipe: Recipe): Recipe => {
+  return {
+    ...recipe,
+    ingredients: recipe.ingredients.map((ingredient) => ({
+      ...ingredient,
+      id: ingredient.id || uuidv4(),
+    })),
+  };
 };
 
 const ImportRecipes = () => {
@@ -71,9 +82,9 @@ const ImportRecipes = () => {
             } else if (validRecipes.length < jsonData.length) {
               toast.warning(t("importRecipes.someInvalidRecipes"));
             }
-            recipes = validRecipes;
+            recipes = validRecipes.map(ensureRecipeIds);
           } else if (isRecipe(jsonData)) {
-            recipes = [jsonData];
+            recipes = [ensureRecipeIds(jsonData)];
           } else {
             toast.error(t("importRecipes.invalidJsonFormat"));
             return;

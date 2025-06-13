@@ -17,6 +17,7 @@ import { Plus } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import IngredientItem from "./IngredientItem";
+import { v4 as uuidv4 } from "uuid";
 
 const IngredientFields: React.FC = () => {
   const { t } = useTranslation();
@@ -57,7 +58,7 @@ const IngredientFields: React.FC = () => {
   };
 
   const addIngredient = async () => {
-    append({ name: "", amount: null, unit: "piece" });
+    append({ id: uuidv4(), name: "", amount: null, unit: "piece" });
   };
 
   return (

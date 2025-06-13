@@ -23,6 +23,7 @@ import IngredientPreview from "./IngredientPreview";
 import { Ingredient } from "@/types/recipe";
 import UnitSelectionPage from "./UnitSelectionPage";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { v4 as uuidv4 } from "uuid";
 
 interface IngredientItemProps {
   index: number;
@@ -61,8 +62,11 @@ const IngredientItem: React.FC<IngredientItemProps> = ({
   const handleStartEditing = () => {
     setIsEditing(true);
     const currentValues = getValues(`ingredients.${index}`);
-
-    originalIngredientData.current = Object.assign({}, currentValues);
+    // Preserve the ID when editing
+    originalIngredientData.current = {
+      ...currentValues,
+      id: currentValues.id || uuidv4(),
+    };
 
     requestAnimationFrame(() => {
       const firstInput = itemContainerRef.current?.querySelector(
