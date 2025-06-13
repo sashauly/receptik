@@ -1,68 +1,46 @@
-import type React from "react";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect } from "react";
+import { useSettings } from "./SettingsContext";
 
-export type Theme = "dark" | "light" | "system";
+type Theme = "dark" | "light" | "system";
 
-type ThemeProviderProps = {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
-};
-
-type ThemeProviderState = {
+interface ThemeContextType {
   theme: Theme;
-  setTheme: (theme: Theme) => void;
   activeTheme: "dark" | "light";
-};
+  setTheme: (theme: Theme) => void;
+}
 
-const ThemeProviderContext = createContext<ThemeProviderState>({
-  theme: "system",
-  setTheme: () => null,
-  activeTheme: "light",
-});
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 const getSystemTheme = (): "dark" | "light" => {
+  if (typeof window === "undefined") return "light";
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
 };
 
 const applyTheme = (theme: "dark" | "light") => {
+  if (typeof window === "undefined") return;
   const root = window.document.documentElement;
   root.classList.remove("light", "dark");
   root.classList.add(theme);
+  root.setAttribute("data-theme", theme);
 };
 
-export function ThemeProvider({
-  children,
-  defaultTheme = "system",
-  storageKey = "receptik-theme",
-  ...props
-}: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const savedTheme = localStorage.getItem(storageKey);
-    if (savedTheme && ["dark", "light", "system"].includes(savedTheme)) {
-      return savedTheme as Theme;
-    }
-    return defaultTheme;
-  });
-
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const { settings, updateSettings } = useSettings();
+  const theme = settings.theme;
   const activeTheme = theme === "system" ? getSystemTheme() : theme;
 
-  useEffect(() => {
-    localStorage.setItem(storageKey, theme);
-  }, [theme, storageKey]);
+  const setTheme = (newTheme: Theme) => {
+    updateSettings({ theme: newTheme });
+  };
 
   useEffect(() => {
     applyTheme(activeTheme);
   }, [activeTheme]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = () => {
       if (theme === "system") {
@@ -71,29 +49,20 @@ export function ThemeProvider({
     };
 
     mediaQuery.addEventListener("change", handleChange);
-
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
-  const value = {
-    theme,
-    setTheme: (theme: Theme) => setTheme(theme),
-    activeTheme,
-  };
-
   return (
-    <ThemeProviderContext.Provider {...props} value={value}>
+    <ThemeContext.Provider value={{ theme, activeTheme, setTheme }}>
       {children}
-    </ThemeProviderContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext);
-
+export function useTheme() {
+  const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider");
   }
-
   return context;
-};
+}

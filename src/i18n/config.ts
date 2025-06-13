@@ -3,14 +3,15 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import intervalPlural from "i18next-intervalplural-postprocessor";
 import resources from "virtual:i18next-loader";
+import { LocalStorageSettings } from "@/lib/settings/storage";
 
-const localStorageKey = "receptik-i18nextLng";
+const storage = new LocalStorageSettings();
 export const defaultNS = "translation";
 
 const DETECTION_OPTIONS = {
   order: ["localStorage", "navigator"],
   caches: ["localStorage"],
-  lookupLocalStorage: localStorageKey,
+  lookupLocalStorage: storage.getKey("settings"),
 };
 
 i18next
@@ -33,9 +34,5 @@ i18next
     },
     detection: DETECTION_OPTIONS,
   });
-
-i18next.on("languageChanged", (lng) => {
-  localStorage.setItem(localStorageKey, lng);
-});
 
 export default i18next;

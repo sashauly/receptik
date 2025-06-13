@@ -14,6 +14,8 @@ import SettingsPage from "./pages/SettingsPage";
 import ReloadPrompt from "./components/ReloadPrompt";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/config.ts";
+import { SettingsProvider } from "./context/SettingsContext";
+import { ThemeProvider } from "./context/ThemeContext";
 
 function App() {
   useEffect(() => {
@@ -29,22 +31,32 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <I18nextProvider i18n={i18n}>
-        <Router basename="/receptik/">
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/recipes/create" element={<CreateRecipePage />} />
-              <Route path="/recipes/:slug" element={<RecipePage />} />
-              <Route path="/recipes/:slug/edit" element={<EditRecipePage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-          <Toaster position="top-center" />
-          <ReloadPrompt />
-        </Router>
-      </I18nextProvider>
+      <SettingsProvider>
+        <ThemeProvider>
+          <I18nextProvider i18n={i18n}>
+            <Router basename="/receptik/">
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route
+                    path="/recipes/create"
+                    element={<CreateRecipePage />}
+                  />
+                  <Route path="/recipes/:slug" element={<RecipePage />} />
+                  <Route
+                    path="/recipes/:slug/edit"
+                    element={<EditRecipePage />}
+                  />
+                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+              <Toaster position="top-center" />
+              <ReloadPrompt />
+            </Router>
+          </I18nextProvider>
+        </ThemeProvider>
+      </SettingsProvider>
     </ErrorBoundary>
   );
 }

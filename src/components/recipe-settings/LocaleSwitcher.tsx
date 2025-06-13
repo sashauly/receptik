@@ -8,9 +8,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect } from "react";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function LocaleSwitcher() {
   const { i18n, t } = useTranslation();
+  const { updateSettings } = useSettings();
 
   const supportedLngs = t("language.supported", { returnObjects: true });
 
@@ -19,13 +21,18 @@ export default function LocaleSwitcher() {
     document.title = t("common.appName");
   }, [t, i18n.language]);
 
+  const handleLanguageChange = (value: string) => {
+    i18n.changeLanguage(value);
+    updateSettings({ language: value });
+  };
+
   return (
     <div className="flex items-center justify-between space-x-2">
       <Label htmlFor="locale-options">{t("language.label")}</Label>
 
       <Select
         value={i18n.resolvedLanguage}
-        onValueChange={(value) => i18n.changeLanguage(value)}
+        onValueChange={handleLanguageChange}
       >
         <SelectTrigger className="w-[200px]">
           <SelectValue placeholder={t("language.label")} />
