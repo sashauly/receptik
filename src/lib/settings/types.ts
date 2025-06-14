@@ -1,9 +1,11 @@
 export type Theme = "light" | "dark" | "system";
+export type ViewMode = "grid" | "list";
 
 export interface AppSettings {
   theme: Theme;
   language: string;
   notifications: boolean;
+  viewMode: ViewMode;
 }
 
 export interface SettingsStorage {
@@ -17,4 +19,5 @@ export const DEFAULT_SETTINGS: AppSettings = {
   theme: "system",
   language: "en",
   notifications: false,
+  viewMode: "grid",
 };

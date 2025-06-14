@@ -6,8 +6,9 @@ import type { Recipe } from "@/types/recipe";
 import { BookPlus, LayoutGrid, List } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import React, { useState, useCallback } from "react";
+import React from "react";
 import ErrorBoundary from "./ErrorBoundary";
+import { useSettings } from "@/context/SettingsContext";
 
 interface RecipeListProps {
   recipes: Recipe[];
@@ -19,8 +20,6 @@ interface RecipeListProps {
   onClearSearch: () => void;
 }
 
-type ViewMode = "grid" | "list";
-
 const RecipeList: React.FC<RecipeListProps> = ({
   recipes,
   isLoading,
@@ -31,11 +30,11 @@ const RecipeList: React.FC<RecipeListProps> = ({
   onClearSearch,
 }) => {
   const { t } = useTranslation();
+  const { settings, updateSettings } = useSettings();
+  const viewMode = settings.viewMode;
 
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
-
-  const setGridView = useCallback(() => setViewMode("grid"), []);
-  const setListView = useCallback(() => setViewMode("list"), []);
+  const setGridView = () => updateSettings({ viewMode: "grid" });
+  const setListView = () => updateSettings({ viewMode: "list" });
 
   if (error && recipes.length === 0) {
     return (
