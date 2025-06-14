@@ -2,28 +2,18 @@ import { useState } from "react";
 import usePWAInstall from "../hooks/usePWAInstall";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/ui/responsive-dialog";
 import { useTranslation } from "react-i18next";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "./ui/drawer";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const PWAInstallPrompt = () => {
   const { t } = useTranslation();
   const { canInstall, promptInstall, isInstalled } = usePWAInstall();
-  const isSmallDevice = useMediaQuery("only screen and (max-width: 768px)");
   const [showFallback, setShowFallback] = useState(false);
 
   if (isInstalled) {
@@ -46,35 +36,24 @@ const PWAInstallPrompt = () => {
           : t("installPrompt.howToInstall")}
       </Button>
 
-      {isSmallDevice ? (
-        <Drawer open={showFallback} onOpenChange={setShowFallback}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>{t("installPrompt.howToInstall")}</DrawerTitle>
-              <DrawerDescription>
-                {t("installPrompt.installAppDescription")}
-              </DrawerDescription>
-            </DrawerHeader>
-            <InstallInstructions />
-            <DrawerFooter>
-              <DrawerClose>{t("common.cancel")}</DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Dialog open={showFallback} onOpenChange={setShowFallback}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{t("installPrompt.howToInstall")}</DialogTitle>
-              <DialogDescription>
-                {t("installPrompt.installAppDescription")}
-              </DialogDescription>
-            </DialogHeader>
-
-            <InstallInstructions />
-          </DialogContent>
-        </Dialog>
-      )}
+      <ResponsiveDialog open={showFallback} onOpenChange={setShowFallback}>
+        <ResponsiveDialogContent>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>
+              {t("installPrompt.howToInstall")}
+            </ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
+              {t("installPrompt.installAppDescription")}
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
+          <InstallInstructions />
+          <ResponsiveDialogFooter>
+            <Button variant="outline" onClick={() => setShowFallback(false)}>
+              {t("common.cancel")}
+            </Button>
+          </ResponsiveDialogFooter>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     </>
   );
 };

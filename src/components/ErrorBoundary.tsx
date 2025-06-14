@@ -7,27 +7,14 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "./ui/alert-dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "./ui/drawer";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogTrigger,
+} from "@/components/ui/responsive-dialog";
 
 interface Props {
   children: ReactNode;
@@ -183,58 +170,34 @@ interface ResetDataButtonProps {
 }
 
 const ResetDataButton = ({ onReset, t }: ResetDataButtonProps) => {
-  const isMobile = useMediaQuery("(max-width: 640px)");
-
-  if (isMobile) {
-    return (
-      <Drawer>
-        <DrawerTrigger asChild>
+  return (
+    <>
+      <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
+        <ResponsiveDialogTrigger>
           <Button variant="destructive" size="sm">
             {t("errorBoundary.resetData")}
           </Button>
-        </DrawerTrigger>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>{t("settings.resetAllData")}</DrawerTitle>
-            <DrawerDescription>
+        </ResponsiveDialogTrigger>
+        <ResponsiveDialogContent>
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle>
+              {t("settings.resetAllData")}
+            </ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
               {t("errorBoundary.resetDataConfirm")}
-            </DrawerDescription>
-          </DrawerHeader>
-          <DrawerFooter>
-            <DrawerClose asChild>
-              <Button variant="outline">{t("common.cancel")}</Button>
-            </DrawerClose>
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
+          <ResponsiveDialogFooter>
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              {t("common.cancel")}
+            </Button>
             <Button variant="destructive" onClick={onReset}>
               {t("errorBoundary.resetData")}
             </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive" size="sm">
-          {t("errorBoundary.resetData")}
-        </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{t("settings.resetAllData")}</AlertDialogTitle>
-          <AlertDialogDescription>
-            {t("errorBoundary.resetDataConfirm")}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
-          <AlertDialogAction onClick={onReset}>
-            {t("errorBoundary.resetData")}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </ResponsiveDialogFooter>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
+    </>
   );
 };
 

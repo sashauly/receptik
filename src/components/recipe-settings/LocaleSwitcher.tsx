@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/select";
 import { useEffect } from "react";
 import { useSettings } from "@/context/SettingsContext";
+import { Globe } from "lucide-react";
 
 export default function LocaleSwitcher() {
   const { i18n, t } = useTranslation();
@@ -28,19 +29,28 @@ export default function LocaleSwitcher() {
 
   return (
     <div className="flex items-center justify-between space-x-2">
-      <Label htmlFor="locale-options">{t("language.label")}</Label>
+      <Label htmlFor="locale-options" className="text-sm font-medium">
+        <Globe className="h-4 w-4 mr-2" aria-hidden="true" />
+        {t("language.label")}
+      </Label>
 
       <Select
         value={i18n.resolvedLanguage}
         onValueChange={handleLanguageChange}
+        name="language"
       >
-        <SelectTrigger className="w-[200px]">
+        <SelectTrigger
+          id="locale-options"
+          className="w-[200px]"
+          aria-label={t("language.label")}
+        >
           <SelectValue placeholder={t("language.label")} />
         </SelectTrigger>
-        <SelectContent id="locale-options">
+        <SelectContent>
           {Object.entries(supportedLngs).map(([code, name]) => (
             <SelectItem value={code} key={code}>
-              {name}
+              <span className="font-medium">{code.toUpperCase()}</span>
+              <span className="text-muted-foreground">{name}</span>
             </SelectItem>
           ))}
         </SelectContent>

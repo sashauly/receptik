@@ -1,21 +1,22 @@
 import RecipePreviewCard from "@/components/RecipePreviewCard";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import {
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/ui/responsive-dialog";
 import { useImportRecipes } from "@/hooks/recipes/useImportRecipe";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
+import { Loader2 } from "lucide-react";
 
 const isRecipe = (obj: unknown): obj is Recipe => {
   return (
@@ -47,16 +48,32 @@ const ImportRecipes = () => {
   const { importRecipes, loading: isLoading } = useImportRecipes();
   const [recipesToPreview, setRecipesToPreview] = useState<Recipe[]>([]);
   const [showPreviewDialog, setShowPreviewDialog] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  // Focus management for the dialog
+  useEffect(() => {
+    if (showPreviewDialog && dialogRef.current) {
+      const focusableElements = dialogRef.current.querySelectorAll(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusableElements.length > 0) {
+        (focusableElements[0] as HTMLElement).focus();
+      }
+    }
+  }, [showPreviewDialog]);
 
   const processFileForPreview = useCallback(
     (file: File) => {
       setRecipesToPreview([]);
       setShowPreviewDialog(false);
+      setIsProcessing(true);
 
       if (file.type !== "application/json") {
         toast.error(t("importRecipes.notJsonFile"));
+        setIsProcessing(false);
         return;
       }
 
@@ -100,12 +117,15 @@ const ImportRecipes = () => {
         } catch (parseError) {
           logError("Error parsing JSON for preview:", parseError);
           toast.error(t("importRecipes.errorParsingJson"));
+        } finally {
+          setIsProcessing(false);
         }
       };
 
       reader.onerror = (errorEvent) => {
         logError("FileReader error for preview:", errorEvent);
         toast.error(t("importRecipes.errorReadingFile"));
+        setIsProcessing(false);
       };
 
       reader.readAsText(file);
@@ -154,61 +174,125 @@ const ImportRecipes = () => {
     }
   }, []);
 
-  return (
-    <>
-      <Label htmlFor="import-recipes">{t("settings.importRecipes")}</Label>
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Escape") {
+      handleClosePreview();
+    }
+  };
 
-      <input
-        id="import-recipes"
-        type="file"
-        accept=".json"
-        onChange={handleFileChange}
-        ref={fileInputRef}
-        style={{ display: "none" }}
-      />
-      <Label htmlFor="import-recipes">
-        <Button asChild>
-          <span>{t("importRecipes.selectFile")}</span>
-        </Button>
+  return (
+    <div
+      className="flex items-center justify-between gap-2"
+      role="region"
+      aria-label={t("settings.importRecipes")}
+    >
+      <Label htmlFor="import-recipes" className="text-base font-medium">
+        {t("settings.importRecipes")}
       </Label>
 
+      <div className="flex items-center gap-4">
+        <input
+          id="import-recipes"
+          type="file"
+          accept=".json"
+          onChange={handleFileChange}
+          ref={fileInputRef}
+          className="sr-only"
+          aria-label={t("importRecipes.selectFile")}
+        />
+        <Button
+          asChild
+          disabled={isProcessing || isLoading}
+          aria-busy={isProcessing || isLoading}
+        >
+          <Label
+            htmlFor="import-recipes"
+            className="cursor-pointer"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+          >
+            {isProcessing ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {t("importRecipes.processing")}
+              </>
+            ) : (
+              t("importRecipes.selectFile")
+            )}
+          </Label>
+        </Button>
+      </div>
+
       {showPreviewDialog && (
-        <Dialog open={showPreviewDialog} onOpenChange={handleClosePreview}>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{t("importRecipes.previewTitle")}</DialogTitle>
-              <DialogDescription>
+        <ResponsiveDialog
+          open={showPreviewDialog}
+          onOpenChange={handleClosePreview}
+        >
+          <ResponsiveDialogContent
+            ref={dialogRef}
+            className="sm:max-w-[425px]"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="preview-dialog-title"
+            aria-describedby="preview-dialog-description"
+            onKeyDown={handleKeyDown}
+          >
+            <ResponsiveDialogHeader>
+              <ResponsiveDialogTitle id="preview-dialog-title">
+                {t("importRecipes.previewTitle")}
+              </ResponsiveDialogTitle>
+              <ResponsiveDialogDescription id="preview-dialog-description">
                 {t("importRecipes.previewDescription")}
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto">
+              </ResponsiveDialogDescription>
+            </ResponsiveDialogHeader>
+            <div
+              className="grid gap-4 py-4 max-h-[60vh] overflow-y-auto"
+              role="list"
+              aria-label={t("importRecipes.previewList")}
+            >
               {recipesToPreview.map((recipe, index) => (
-                <RecipePreviewCard
-                  key={recipe.id || `preview-${index}`}
-                  recipe={recipe}
-                />
+                <div key={recipe.id || `preview-${index}`} role="listitem">
+                  <RecipePreviewCard recipe={recipe} />
+                </div>
               ))}
             </div>
-            <DialogFooter>
+            <ResponsiveDialogFooter>
               <Button
                 variant="outline"
                 onClick={handleClosePreview}
                 disabled={isLoading}
+                aria-label={t("common.cancel")}
               >
                 {t("common.cancel")}
               </Button>
-              <Button onClick={handleImportConfirmed} disabled={isLoading}>
-                {isLoading
-                  ? t("settings.importing")
-                  : t("importRecipes.confirmImport", {
-                      count: recipesToPreview.length,
-                    })}
+              <Button
+                onClick={handleImportConfirmed}
+                disabled={isLoading}
+                aria-label={t("importRecipes.confirmImport", {
+                  count: recipesToPreview.length,
+                })}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t("settings.importing")}
+                  </>
+                ) : (
+                  t("importRecipes.confirmImport", {
+                    count: recipesToPreview.length,
+                  })
+                )}
               </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+            </ResponsiveDialogFooter>
+          </ResponsiveDialogContent>
+        </ResponsiveDialog>
       )}
-    </>
+    </div>
   );
 };
 

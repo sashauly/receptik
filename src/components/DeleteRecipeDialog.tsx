@@ -1,26 +1,14 @@
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useIsMobile } from "@/hooks/useMobile";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/ui/responsive-dialog";
 import type { Recipe } from "@/types/recipe";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "./ui/drawer";
 
 interface DeleteRecipeDialogProps {
   recipeToDelete: Recipe | null | undefined;
@@ -40,56 +28,33 @@ export default function DeleteRecipeDialog({
   onConfirm,
 }: DeleteRecipeDialogProps) {
   const { t } = useTranslation();
-  const isMobile = useIsMobile();
-
-  if (isMobile) {
-    return (
-      <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent>
-          {isLoading && <p>Deleting recipe...</p>}
-
-          {error && <p className="text-destructive">{error.message}</p>}
-
-          <DrawerHeader className="text-left">
-            <DrawerTitle>{t("modals.deleteRecipe")}</DrawerTitle>
-            <DrawerDescription>
-              {t("modals.deleteRecipeConfirm", {
-                recipeTitle: `"${recipeToDelete?.name}"`,
-              })}
-            </DrawerDescription>
-          </DrawerHeader>
-          <DrawerFooter className="pt-2">
-            <DrawerClose asChild>
-              <Button variant="outline">{t("common.cancel")}</Button>
-            </DrawerClose>
-            <Button variant="destructive" onClick={onConfirm}>
-              {t("common.delete")}
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={onClose}>
-      <AlertDialogContent>
+    <ResponsiveDialog open={isOpen} onOpenChange={onClose}>
+      <ResponsiveDialogContent>
         {isLoading && <p>Deleting recipe...</p>}
-        <AlertDialogHeader>
-          <AlertDialogTitle>{t("modals.deleteRecipe")}</AlertDialogTitle>
-          <AlertDialogDescription>
+
+        {error && <p className="text-destructive">{error.message}</p>}
+
+        <ResponsiveDialogHeader>
+          <ResponsiveDialogTitle>
+            {t("modals.deleteRecipe")}
+          </ResponsiveDialogTitle>
+          <ResponsiveDialogDescription>
             {t("modals.deleteRecipeConfirm", {
               recipeTitle: `"${recipeToDelete?.name}"`,
             })}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>
+          </ResponsiveDialogDescription>
+        </ResponsiveDialogHeader>
+        <ResponsiveDialogFooter>
+          <Button variant="outline" onClick={onClose}>
+            {t("common.cancel")}
+          </Button>
+          <Button variant="destructive" onClick={onConfirm}>
             {t("common.delete")}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </ResponsiveDialogFooter>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }

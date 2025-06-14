@@ -32,6 +32,7 @@ interface Resources {
       listView: "List View";
       lastUpdated: "Last updated";
       noResultsFound: "No results found";
+      confirm: "Confirm";
     };
     desktop: {
       selectRecipe: "Select Recipe";
@@ -77,6 +78,15 @@ interface Resources {
       resetAllData: "Reset All Data";
       importRecipes: "Import Recipes";
       importing: "Importing...";
+      appearance: "Appearance";
+      dataManagement: "Data Management";
+      debug: "Debug";
+      exportSuccess: "All recipes exported as JSON";
+      exportError: "Error exporting recipes";
+      resetSuccess: "All data has been deleted";
+      resetError: "Error deleting all data";
+      resetConfirmationTitle: "Reset All Data";
+      resetConfirmationDescription: "Are you sure you want to reset all data? This action cannot be undone.";
     };
     importRecipes: {
       selectFile: "Select File";
@@ -96,8 +106,10 @@ interface Resources {
       previewDescription: "Please review the recipes below before importing.";
       confirmImport: "Confirm Import ({{count}})";
       noRecipesToImport: "No recipes to import. Please select a file first.";
-      moreIngredients: "and {{count}} more ingredient | and {{count}} more ingredients";
-      moreInstructions: "and {{count}} more step | and {{count}} more steps";
+      moreIngredients: "and {{count}} more";
+      moreInstructions: "and {{count}} more";
+      processing: "Processing...";
+      previewList: "Recipe preview list";
     };
     forms: {
       createRecipe: "Create New Recipe";

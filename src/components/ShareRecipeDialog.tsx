@@ -1,90 +1,59 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
 import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useIsMobile } from "@/hooks/useMobile";
 import { exportAsImage, exportAsJson, exportAsTxt } from "@/lib/utils/export";
 import type { Recipe } from "@/types/recipe";
 import { FileJson, FileText, Image } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import {
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/ui/responsive-dialog";
 
 interface ShareRecipeDialogProps {
   recipe: Recipe;
-  isOpen: boolean;
-  onClose: () => void;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export default function ShareRecipeDialog({
   recipe,
-  isOpen,
-  onClose,
+  open,
+  onOpenChange,
 }: ShareRecipeDialogProps) {
   const { t } = useTranslation();
-  const isMobile = useIsMobile();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  if (isMobile) {
-    return (
-      <Drawer open={isOpen} onOpenChange={onClose}>
-        <DrawerContent>
-          <DrawerHeader>
-            <DrawerTitle>{t("modals.shareRecipe")}</DrawerTitle>
-            <DrawerDescription>
-              {t("modals.shareRecipeDesc", {
-                recipeTitle: `"${recipe.name}"`,
-              })}
-            </DrawerDescription>
-          </DrawerHeader>
-
-          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-
-          <ShareTabs recipe={recipe} setErrorMessage={setErrorMessage} />
-
-          <DrawerFooter className="pt-2">
-            <DrawerClose asChild>
-              <Button variant="default">{t("common.close")}</Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{t("modals.shareRecipe")}</DialogTitle>
-          <DialogDescription>
-            {t("modals.shareRecipeDesc", {
-              recipeTitle: `"${recipe.name}"`,
-            })}
-          </DialogDescription>
-        </DialogHeader>
-
+    <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
+      <ResponsiveDialogContent>
+        <ResponsiveDialogHeader>
+          <ResponsiveDialogTitle>
+            {t("modals.shareRecipe")}
+          </ResponsiveDialogTitle>
+          <ResponsiveDialogDescription>
+            {t("modals.shareRecipeDesc", { recipeTitle: recipe.name })}
+          </ResponsiveDialogDescription>
+        </ResponsiveDialogHeader>
         {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
         <ShareTabs recipe={recipe} setErrorMessage={setErrorMessage} />
-      </DialogContent>
-    </Dialog>
+
+        <ResponsiveDialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            {t("common.close")}
+          </Button>
+        </ResponsiveDialogFooter>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }
 
