@@ -31,7 +31,8 @@
       "gridView": "Grid View",
       "listView": "List View",
       "lastUpdated": "Last updated",
-      "noResultsFound": "No results found"
+      "noResultsFound": "No results found",
+      "confirm": "Confirm"
     },
     "navigation": {
       "myRecipes": "My Recipes",
@@ -76,7 +77,16 @@
       "stayTuned": "Coming soon! Stay tuned for updates.",
       "resetAllData": "Reset All Data",
       "importRecipes": "Import Recipes",
-      "importing": "Importing..."
+      "importing": "Importing...",
+      "appearance": "Appearance",
+      "dataManagement": "Data Management",
+      "debug": "Debug",
+      "exportSuccess": "All recipes exported as JSON",
+      "exportError": "Error exporting recipes",
+      "resetSuccess": "All data has been deleted",
+      "resetError": "Error deleting all data",
+      "resetConfirmationTitle": "Reset All Data",
+      "resetConfirmationDescription": "Are you sure you want to reset all data? This action cannot be undone."
     },
     "importRecipes": {
       "selectFile": "Select File",
@@ -97,7 +107,9 @@
       "confirmImport": "Confirm Import ({{count}})",
       "noRecipesToImport": "No recipes to import. Please select a file first.",
       "moreIngredients": "and {{count}} more",
-      "moreInstructions": "and {{count}} more"
+      "moreInstructions": "and {{count}} more",
+      "processing": "Processing...",
+      "previewList": "Recipe preview list"
     },
     "forms": {
       "createRecipe": "Create New Recipe",

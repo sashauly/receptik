@@ -31,7 +31,8 @@
             "gridView": "Сетка",
             "listView": "Список",
             "lastUpdated": "Последнее обновление",
-            "noResultsFound": "Ничего не найдено"
+            "noResultsFound": "Ничего не найдено",
+            "confirm": "Подтвердить"
         },
         "navigation": {
             "myRecipes": "Мои рецепты",
@@ -76,7 +77,16 @@
             "stayTuned": "Скоро будет! Следите за обновлениями.",
             "resetAllData": "Сбросить все данные",
             "importRecipes": "Импортировать рецепты",
-            "importing": "Импортируем..."
+            "importing": "Импортируем...",
+            "appearance": "Внешний вид",
+            "dataManagement": "Управление данными",
+            "debug": "Отладка",
+            "exportSuccess": "Все рецепты экспортированы в JSON",
+            "exportError": "Ошибка экспорта рецептов",
+            "resetSuccess": "Все данные удалены",
+            "resetError": "Ошибка удаления данных",
+            "resetConfirmationTitle": "Сбросить все данные",
+            "resetConfirmationDescription": "Вы уверены, что хотите сбросить все данные? Это действие нельзя отменить."
         },
         "importRecipes": {
             "selectFile": "Выберите файл",
@@ -97,7 +107,9 @@
             "confirmImport": "Подтвердить импорт ({{count}})",
             "noRecipesToImport": "Нет рецептов для импорта. Пожалуйста, сначала выберите файл.",
             "moreIngredients": "и ещё {{count}}",
-            "moreInstructions": "и ещё {{count}}"
+            "moreInstructions": "и ещё {{count}}",
+            "processing": "Обработка...",
+            "previewList": "Список предпросмотра рецептов"
         },
         "forms": {
             "createRecipe": "Создать новый рецепт",
