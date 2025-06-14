@@ -172,7 +172,7 @@ interface ResetDataButtonProps {
 const ResetDataButton = ({ onReset, t }: ResetDataButtonProps) => {
   return (
     <>
-      <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
+      <ResponsiveDialog>
         <ResponsiveDialogTrigger>
           <Button variant="destructive" size="sm">
             {t("errorBoundary.resetData")}
@@ -188,9 +188,7 @@ const ResetDataButton = ({ onReset, t }: ResetDataButtonProps) => {
             </ResponsiveDialogDescription>
           </ResponsiveDialogHeader>
           <ResponsiveDialogFooter>
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
-              {t("common.cancel")}
-            </Button>
+            <Button variant="outline">{t("common.cancel")}</Button>
             <Button variant="destructive" onClick={onReset}>
               {t("errorBoundary.resetData")}
             </Button>
