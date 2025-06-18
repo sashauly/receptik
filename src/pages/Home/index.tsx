@@ -86,19 +86,6 @@ export default function Home() {
   if (isMobile) {
     return (
       <>
-        {/* Mobile Header */}
-        <header className="flex items-center justify-between p-4 border-b">
-          <h1 className="text-lg font-semibold">{t("navigation.myRecipes")}</h1>
-          <div className="flex items-center gap-2">
-            <Button asChild size="icon" variant="outline">
-              <Link to="/settings" title={t("settings.title")}>
-                <Settings className="h-5 w-5" />
-                <span className="sr-only">{t("settings.title")}</span>
-              </Link>
-            </Button>
-          </div>
-        </header>
-
         {/* Mobile Main Content */}
         <main className="flex-1 overflow-y-auto p-4 space-y-4">
           <SearchInput onSearch={handleSearch} />
