@@ -186,7 +186,7 @@ const ImportRecipes = () => {
       role="region"
       aria-label={t("settings.importRecipes")}
     >
-      <Label htmlFor="import-recipes" className="text-base font-medium">
+      <Label htmlFor="import-recipes" className="text-lg font-semibold">
         {t("settings.importRecipes")}
       </Label>
 
