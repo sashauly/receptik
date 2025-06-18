@@ -219,8 +219,8 @@
             "twitter": "Twitter",
             "facebook": "Facebook",
             "exportThisRecipe": "Экспортировать этот рецепт",
-            "exportAllRecipes": "Экспортировать все рецепты",
-            "exportAllAsJson": "Экспортировать всё как JSON"
+            "exportAllRecipes": "Экспортировать все рецепты как JSON",
+            "exportAllAsJson": "Экспорт всех"
         },
         "theme": {
             "label": "Тема",

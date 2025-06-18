@@ -218,8 +218,8 @@
       "twitter": "Twitter",
       "facebook": "Facebook",
       "exportThisRecipe": "Export this recipe",
-      "exportAllRecipes": "Export all recipes",
-      "exportAllAsJson": "Export All as JSON"
+      "exportAllRecipes": "Export all recipes as JSON",
+      "exportAllAsJson": "Export All"
     },
     "theme": {
       "label": "Theme",
