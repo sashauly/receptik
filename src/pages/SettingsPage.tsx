@@ -2,7 +2,7 @@ import DebugInfo from "@/components/recipe-settings/DebugInfo";
 import ImportRecipes from "@/components/recipe-settings/ImportRecipes";
 import LocaleSwitcher from "@/components/recipe-settings/LocaleSwitcher";
 import ThemeSelect from "@/components/recipe-settings/ThemeSelect";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   ResponsiveDialog,
@@ -130,14 +130,12 @@ export default function SettingsPage() {
                 <p>{t("common.loading")}</p>
               ) : (
                 <ResponsiveDialog>
-                  <ResponsiveDialogTrigger>
-                    <Button
-                      variant="destructive"
-                      aria-label={t("settings.resetAllData")}
-                    >
-                      <Trash2 className="h-4 w-4" aria-hidden="true" />
-                      {t("common.reset")}
-                    </Button>
+                  <ResponsiveDialogTrigger
+                    className={buttonVariants({ variant: "destructive" })}
+                    aria-label={t("settings.resetAllData")}
+                  >
+                    <Trash2 className="h-4 w-4" aria-hidden="true" />
+                    {t("common.reset")}
                   </ResponsiveDialogTrigger>
                   <ResponsiveDialogContent>
                     <ResponsiveDialogHeader>
