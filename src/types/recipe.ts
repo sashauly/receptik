@@ -7,6 +7,13 @@ export interface Ingredient {
   unit: string | UnitValue;
 }
 
+export interface RecipeImage {
+  id: string;
+  data: string; // Base64 encoded image data
+  type: string; // MIME type
+  name: string;
+}
+
 export interface Recipe {
   id: string;
   name: string;
@@ -22,14 +29,8 @@ export interface Recipe {
   author: string;
   createdAt: Date;
   updatedAt: Date;
+  images?: RecipeImage[];
 }
-
-// export interface RecipeImage {
-//   id?: number;
-//   name: string;
-//   data: string; // Base64 encoded image data
-//   recipeId?: number;
-// }
 
 // // based on https://schema.org/Recipe
 // export interface Recipe {

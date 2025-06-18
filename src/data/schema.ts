@@ -61,6 +61,17 @@ export const createRecipeFormSchema = (
       .min(1, { message: t("validation.servingsTooFew") })
       .max(100, { message: t("validation.servingsTooMany") }),
     keywords: z.array(z.string().trim()).default([]).optional(),
+    images: z
+      .array(
+        z.object({
+          id: z.string(),
+          data: z.string(),
+          type: z.string(),
+          name: z.string(),
+        })
+      )
+      .default([])
+      .optional(),
     ingredients: z
       .array(
         z
