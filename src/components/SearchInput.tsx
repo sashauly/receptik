@@ -4,13 +4,19 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useTranslation } from "react-i18next";
 import { Search, X } from "lucide-react";
 import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
 
 interface SearchInputProps {
   onSearch: (searchTerm: string) => void;
   delay?: number;
+  className?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ onSearch, delay = 300 }) => {
+const SearchInput: React.FC<SearchInputProps> = ({
+  onSearch,
+  delay = 300,
+  className,
+}) => {
   const { t } = useTranslation();
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,7 +31,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ onSearch, delay = 300 }) => {
   }, []);
 
   return (
-    <div className="relative w-full">
+    <div className={cn("relative w-full", className)}>
       <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
         <Search className="h-4 w-4 text-muted-foreground" />
       </div>
