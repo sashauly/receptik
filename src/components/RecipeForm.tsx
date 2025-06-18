@@ -17,6 +17,7 @@ import ServingsField from "./recipe-form/ServingsField";
 import TimeFields from "./recipe-form/TimeFields";
 import { FormSchemaProvider } from "@/components/ui/form";
 import { v4 as uuidv4 } from "uuid";
+import ImageUploadField from "./recipe-form/ImageUploadField";
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",
@@ -24,6 +25,7 @@ const emptyRecipe = (): RecipeFormValues => ({
   prepTime: "PT0S",
   cookTime: "PT0S",
   keywords: [],
+  images: [],
   ingredients: [{ id: uuidv4(), name: "", amount: null, unit: "piece" }],
   instructions: [""],
   author: "",
@@ -75,6 +77,7 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
         totalTime: calculatedTotalTime,
         createdAt: initialRecipe?.createdAt || new Date(),
         updatedAt: new Date(),
+        images: values.images || [],
       };
 
       onSave(newRecipe);
@@ -88,6 +91,8 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
     <FormSchemaProvider schema={recipeFormSchema}>
       <FormProvider {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <ImageUploadField />
+
           <BasicInfoFields />
 
           <TimeFields />
