@@ -32,7 +32,9 @@
             "listView": "Список",
             "lastUpdated": "Последнее обновление",
             "noResultsFound": "Ничего не найдено",
-            "confirm": "Подтвердить"
+            "confirm": "Подтвердить",
+            "viewMode": "Режим отображения",
+            "noDescription": "Нет описания"
         },
         "navigation": {
             "myRecipes": "Мои рецепты",
@@ -67,10 +69,13 @@
             "cookTime": "Время готовки",
             "totalTime": "Общее время",
             "servings": "Порции",
-            "servings_interval": "(1)[порция];(2-4)[порции];(5-inf)[порций];",
+            "servings_interval": "(1)[порция];(2-4)[порции];(5-20)[порций];",
             "keywords": "Ключевые слова",
             "recipeNotFound": "Рецепт не найден",
-            "recipeNotFoundDesc": "Рецепт, который вы ищете, не существует или был удален."
+            "recipeNotFoundDesc": "Рецепт, который вы ищете, не существует или был удален.",
+            "noKeywords": "Нет ключевых слов",
+            "noImages": "Нет изображений",
+            "searchResults": "{{count}} результатов найдено"
         },
         "settings": {
             "title": "Настройки",
@@ -158,7 +163,20 @@
             "addStep": "Добавить шаг",
             "saveRecipe": "Сохранить рецепт",
             "failedToSubmit": "Ошибка при отправке формы. Пожалуйста, попробуйте еще раз.",
-            "selectUnit": "Выберите единицу измерения"
+            "selectUnit": "Выберите единицу измерения",
+            "images": "Изображения",
+            "uploadImages": "Загрузить изображения",
+            "uploading": "Загрузка...",
+            "uploadedImages": "Загруженные изображения",
+            "removeImage": "Удалить изображение {{name}}",
+            "imageUploadDescription": "Загрузите изображения для вашего рецепта. Поддерживаемые форматы: JPEG, PNG, WebP. Максимальный размер: 5MB.",
+            "imageUploadSuccess": "Изображение успешно загружено",
+            "imageUploadError": "Не удалось загрузить изображение",
+            "imageRemoved": "Изображение удалено",
+            "imagePreview": "Предпросмотр {{name}}",
+            "imageUploadButton": "Выбрать изображения для загрузки",
+            "imageUploadButtonDescription": "Нажмите, чтобы выбрать изображения с вашего устройства",
+            "imagesCount": "{{current}}/{{max}} изображений"
         },
         "validation": {
             "nameTooShort": "Имя рецепта должно быть не менее 2 символов.",
@@ -175,7 +193,15 @@
             "ingredientNameRequired": "Имя ингредиента обязательно.",
             "ingredientAmountRequired": "Количество обязательно и должно быть положительным числом для этой единицы.",
             "instructionRequired": "Необходима хотя бы одна инструкция.",
-            "instructionStepRequired": "Шаг инструкции обязателен."
+            "instructionStepRequired": "Шаг инструкции обязателен.",
+            "invalidFileType": "Недопустимый тип файла",
+            "allowedImageTypes": "Разрешены только изображения JPEG, PNG и WebP",
+            "fileTooLarge": "Файл слишком большой",
+            "maxFileSize": "Максимальный размер файла {{size}}",
+            "uploadFailed": "Не удалось загрузить изображение",
+            "tryAgain": "Пожалуйста, попробуйте снова",
+            "tooManyImages": "Слишком много изображений",
+            "maxImages": "Максимум {{count}} изображений"
         },
         "modals": {
             "deleteRecipe": "Удалить рецепт",

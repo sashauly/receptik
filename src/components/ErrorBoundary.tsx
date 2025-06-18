@@ -1,7 +1,7 @@
 import { deleteDatabase } from "@/data/recipeService";
 import { logError } from "@/lib/utils/logger";
 import { Component, ErrorInfo, ReactNode } from "react";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import { AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
@@ -173,10 +173,10 @@ const ResetDataButton = ({ onReset, t }: ResetDataButtonProps) => {
   return (
     <>
       <ResponsiveDialog>
-        <ResponsiveDialogTrigger>
-          <Button variant="destructive" size="sm">
-            {t("errorBoundary.resetData")}
-          </Button>
+        <ResponsiveDialogTrigger
+          className={buttonVariants({ variant: "destructive", size: "sm" })}
+        >
+          {t("errorBoundary.resetData")}
         </ResponsiveDialogTrigger>
         <ResponsiveDialogContent>
           <ResponsiveDialogHeader>

@@ -1,4 +1,10 @@
+import RecipeFooter from "@/components/recipe-detail/RecipeFooter";
 import RecipeHeader from "@/components/recipe-detail/RecipeHeader";
+import RecipeImages from "@/components/recipe-detail/RecipeImages";
+import RecipeIngredients from "@/components/recipe-detail/RecipeIngredients";
+import RecipeInstructions from "@/components/recipe-detail/RecipeInstructions";
+import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
+import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
 import {
   Card,
   CardContent,
@@ -9,11 +15,6 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { Recipe } from "@/types/recipe";
-import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
-import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
-import RecipeIngredients from "./recipe-detail/RecipeIngredients";
-import RecipeInstructions from "./recipe-detail/RecipeInstructions";
-import RecipeFooter from "./recipe-detail/RecipeFooter";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -42,10 +43,17 @@ export default function RecipeDetail({
           )}
         </CardHeader>
         <CardContent className="space-y-4">
+          {recipe.images && recipe.images.length > 0 && (
+            <>
+              <RecipeImages images={recipe.images} />
+              <Separator />
+            </>
+          )}
+
           {recipe.keywords && recipe.keywords.length > 0 && (
             <>
-              <Separator />
               <RecipeKeywords keywords={recipe.keywords} />
+              <Separator />
             </>
           )}
 

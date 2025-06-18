@@ -1,14 +1,15 @@
-import NoResults from "./NoResults";
-import MemoizedRecipeCard from "@/components/RecipeCard";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import NoResults from "@/components/NoResults";
+import { RecipeCard } from "@/components/RecipeCard";
 import RecipeCardSkeleton from "@/components/RecipeCardSkeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { useSettings } from "@/context/SettingsContext";
 import type { Recipe } from "@/types/recipe";
-import { BookPlus, LayoutGrid, List } from "lucide-react";
+import { AlertCircle, BookPlus, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import React from "react";
-import ErrorBoundary from "./ErrorBoundary";
-import { useSettings } from "@/context/SettingsContext";
+import { ViewModeControls } from "@/components/ViewModeControls";
 
 interface RecipeListProps {
   recipes: Recipe[];
@@ -30,41 +31,40 @@ const RecipeList: React.FC<RecipeListProps> = ({
   onClearSearch,
 }) => {
   const { t } = useTranslation();
-  const { settings, updateSettings } = useSettings();
+  const { settings } = useSettings();
   const viewMode = settings.viewMode;
 
-  const setGridView = () => updateSettings({ viewMode: "grid" });
-  const setListView = () => updateSettings({ viewMode: "list" });
-
-  if (error && recipes.length === 0) {
+  if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64 text-destructive">
-        {error.message || t("home.errorLoadingRecipes")}
+      <div className="space-y-4">
+        <ViewModeControls disabled />
+        <ul
+          className={
+            viewMode === "grid"
+              ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+              : "space-y-4"
+          }
+        >
+          {Array.from({ length: 6 }).map((_, index) => (
+            <ErrorBoundary componentName="RecipeCardSkeleton" key={index}>
+              <RecipeCardSkeleton viewMode={viewMode} />
+            </ErrorBoundary>
+          ))}
+        </ul>
       </div>
     );
   }
 
-  if (isLoading && recipes.length === 0) {
-    const skeletonCount = viewMode === "grid" ? 6 : 3;
-
+  if (error) {
     return (
-      <ul
-        className={
-          viewMode === "grid"
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
-            : "space-y-4"
-        }
-      >
-        {[...Array(skeletonCount)].map((_, index) => (
-          <RecipeCardSkeleton key={index} />
-        ))}
-      </ul>
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
     );
   }
 
-  const hasRecipes = recipes && recipes.length > 0;
-
-  if (!hasRecipes) {
+  if (recipes.length === 0) {
     if (searchTerm.trim() !== "") {
       return <NoResults searchQuery={searchTerm} onClear={onClearSearch} />;
     } else {
@@ -85,37 +85,30 @@ const RecipeList: React.FC<RecipeListProps> = ({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end gap-2 mb-4">
-        <Button
-          variant={viewMode === "grid" ? "default" : "outline"}
-          size="icon"
-          onClick={setGridView}
-          title={t("common.gridView")}
-        >
-          <LayoutGrid className="h-4 w-4" />
-          <span className="sr-only">{t("common.gridView")}</span>
-        </Button>
-        <Button
-          variant={viewMode === "list" ? "default" : "outline"}
-          size="icon"
-          onClick={setListView}
-          title={t("common.listView")}
-        >
-          <List className="h-4 w-4" />
-          <span className="sr-only">{t("common.listView")}</span>
-        </Button>
-      </div>
-
+      {searchTerm && (
+        <div className="flex items-center justify-between">
+          <p className="text-sm text-muted-foreground">
+            {t("recipe.searchResults", { count: recipes.length })}
+          </p>
+          {onClearSearch && (
+            <Button variant="outline" size="sm" onClick={onClearSearch}>
+              <X className="h-4 w-4 mr-2" />
+              {t("common.clear")}
+            </Button>
+          )}
+        </div>
+      )}
+      <ViewModeControls />
       <ul
         className={
           viewMode === "grid"
-            ? "grid grid-cols-2 lg:grid-cols-3 gap-4"
+            ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
             : "space-y-4"
         }
       >
         {recipes.map((recipe) => (
           <ErrorBoundary componentName="RecipeCard" key={recipe.id}>
-            <MemoizedRecipeCard
+            <RecipeCard
               recipe={recipe}
               onEditRecipe={onEditRecipe}
               onDeleteRecipe={onDeleteRecipe}

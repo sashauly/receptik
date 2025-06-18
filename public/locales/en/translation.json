@@ -32,7 +32,8 @@
       "listView": "List View",
       "lastUpdated": "Last updated",
       "noResultsFound": "No results found",
-      "confirm": "Confirm"
+      "confirm": "Confirm",
+      "noDescription": "No description available"
     },
     "navigation": {
       "myRecipes": "My Recipes",
@@ -70,7 +71,10 @@
       "servings_interval": "(1)[serving];(2-inf)[servings];",
       "keywords": "Keywords",
       "recipeNotFound": "Recipe not found",
-      "recipeNotFoundDesc": "The recipe you're looking for doesn't exist or has been removed."
+      "recipeNotFoundDesc": "The recipe you're looking for doesn't exist or has been removed.",
+      "noKeywords": "No keywords",
+      "noImages": "No images",
+      "searchResults": "{{count}} results found"
     },
     "settings": {
       "title": "Settings",
@@ -158,7 +162,20 @@
       "addStep": "Add Step",
       "saveRecipe": "Save Recipe",
       "failedToSubmit": "Failed to submit the form. Please try again.",
-      "selectUnit": "Select Unit"
+      "selectUnit": "Select Unit",
+      "images": "Images",
+      "uploadImages": "Upload Images",
+      "uploading": "Uploading...",
+      "uploadedImages": "Uploaded Images",
+      "removeImage": "Remove image {{name}}",
+      "imageUploadDescription": "Upload images for your recipe. Supported formats: JPEG, PNG, WebP. Maximum size: 5MB.",
+      "imageUploadSuccess": "Image uploaded successfully",
+      "imageUploadError": "Failed to upload image",
+      "imageRemoved": "Image removed",
+      "imagePreview": "Preview of {{name}}",
+      "imageUploadButton": "Choose images to upload",
+      "imageUploadButtonDescription": "Click to select images from your device",
+      "imagesCount": "{{current}}/{{max}} images"
     },
     "validation": {
       "nameTooShort": "Recipe name must be at least 2 characters.",
@@ -175,7 +192,15 @@
       "ingredientNameRequired": "Ingredient name is required.",
       "ingredientAmountRequired": "Amount is required and must be a positive number for this unit.",
       "instructionRequired": "At least one instruction step is required.",
-      "instructionStepRequired": "Instruction step is required."
+      "instructionStepRequired": "Instruction step is required.",
+      "invalidFileType": "Invalid file type",
+      "allowedImageTypes": "Only JPEG, PNG, and WebP images are allowed",
+      "fileTooLarge": "File is too large",
+      "maxFileSize": "Maximum file size is {{size}}",
+      "uploadFailed": "Failed to upload image",
+      "tryAgain": "Please try again",
+      "tooManyImages": "Too many images",
+      "maxImages": "Maximum {{count}} images allowed"
     },
     "modals": {
       "deleteRecipe": "Delete Recipe",

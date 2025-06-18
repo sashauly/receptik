@@ -1,18 +1,18 @@
-import React from "react";
-import { formatDuration } from "@/lib/utils/time";
-import { Recipe } from "@/types/recipe";
-import { Clock, Edit, MoreVertical, Trash2, Users } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router"; // Assuming react-router-dom
-import { Badge } from "./ui/badge";
-import { buttonVariants } from "./ui/button";
-import { Card, CardContent, CardFooter } from "./ui/card";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { formatDuration } from "@/lib/utils/time";
+import type { Recipe, RecipeImage } from "@/types/recipe";
+import { Clock, Image as ImageIcon, MoreHorizontal } from "lucide-react";
+import { memo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -21,114 +21,183 @@ interface RecipeCardProps {
   viewMode: "grid" | "list";
 }
 
-const RecipeCard = ({
+interface RecipeImageProps {
+  image?: RecipeImage;
+  name: string;
+  viewMode: "grid" | "list";
+}
+
+const RecipeImage = memo(({ image, name, viewMode }: RecipeImageProps) => {
+  if (image) {
+    return (
+      <div className="relative w-full h-full">
+        <img
+          src={image.data}
+          alt={name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+          sizes={
+            viewMode === "list" ? "80px" : "(max-width: 768px) 100vw, 320px"
+          }
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="flex items-center justify-center h-full bg-muted"
+      aria-hidden="true"
+    >
+      <ImageIcon className="h-6 w-6 text-muted-foreground" />
+    </div>
+  );
+});
+
+RecipeImage.displayName = "RecipeImage";
+
+export const RecipeCard = memo(function RecipeCard({
   recipe,
   onEditRecipe,
   onDeleteRecipe,
   viewMode,
-}: RecipeCardProps) => {
+}: RecipeCardProps) {
   const { t } = useTranslation();
-
   const totalTimeString = formatDuration(recipe.totalTime, t);
 
-  const handleEditClick = () => {
-    onEditRecipe(recipe.slug);
-  };
+  const handleEditClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onEditRecipe(recipe.slug);
+    },
+    [onEditRecipe, recipe.slug]
+  );
 
-  const handleDeleteClick = () => {
-    onDeleteRecipe(recipe.id);
-  };
+  const handleDeleteClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      onDeleteRecipe(recipe.id);
+    },
+    [onDeleteRecipe, recipe.id]
+  );
+
+  const handleMoreClick = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
 
   return (
-    <li className={viewMode === "list" ? "w-full" : "h-full"}>
-      <Card
-        className={`overflow-hidden hover:shadow-md transition-shadow h-full flex ${viewMode === "list" ? "flex-row items-center" : "flex-col"}`}
+    <li
+      className={cn("w-full", viewMode === "grid" ? "h-[320px]" : "h-[80px]")}
+    >
+      <Link
+        to={`/recipes/${recipe.slug}`}
+        className="block w-full h-full"
+        title={recipe.name}
+        aria-label={t("desktop.viewDetailsPrompt", {
+          recipeTitle: recipe.name,
+        })}
       >
-        {/* <div
-          className={
-            viewMode === "list" ? "w-32 h-32 mr-4 flex-shrink-0" : "w-full h-48"
-          }
+        <Card
+          className={cn(
+            "relative hover:shadow-md transition-shadow w-full flex",
+            viewMode === "list" ? "flex-row items-center" : "flex-col h-full",
+            "overflow-hidden"
+          )}
         >
-          <img />
-        </div> */}
-
-        <Link
-          to={`/recipes/${recipe.slug}`}
-          className="block flex-grow"
-          title={recipe.name}
-        >
-          <CardContent
-            className={`p-4 space-y-3 ${viewMode === "list" ? "flex-grow" : ""}`}
+          {/* Image Section */}
+          <div
+            className={cn(
+              viewMode === "list"
+                ? "w-[80px] h-[80px] flex-shrink-0"
+                : "w-full h-[160px]",
+              "relative overflow-hidden"
+            )}
           >
-            <h3 className="font-semibold text-md md:text-xl leading-tight truncate">
-              {recipe.name}
-            </h3>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {recipe.keywords &&
-                recipe.keywords.map((keyword) => (
-                  <Badge
-                    key={keyword}
-                    variant="outline"
-                    className="bg-orange-50 dark:bg-orange-900"
-                  >
-                    {keyword}
-                  </Badge>
-                ))}
-            </div>
+            <RecipeImage
+              image={recipe.images?.[0]}
+              name={recipe.name}
+              viewMode={viewMode}
+            />
+          </div>
 
-            <div className="flex flex-col md:flex-row items-baseline gap-2 text-sm text-muted-foreground">
-              <div className="flex items-center">
-                <Clock className="mr-1 h-4 w-4" />
-                <meta itemProp="totalTime" content={recipe.totalTime} />
-                <span>{totalTimeString}</span>
-              </div>
-              <div className="flex items-center">
-                <Users className="mr-1 h-4 w-4" />
-                <span>
-                  {recipe.servings}{" "}
-                  {t("recipe.servings_interval", {
-                    postProcess: "interval",
-                    count: Number(recipe.servings),
-                  })}
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Link>
-
-        <CardFooter
-          className={`p-4 border-t ${viewMode === "list" ? "shrink-0 border-t-0 border-l" : "grow-0 justify-end"}`}
-        >
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                className={buttonVariants({ variant: "outline", size: "icon" })}
+          {/* Content Section */}
+          <div
+            className={cn(
+              "flex flex-col",
+              viewMode === "list"
+                ? "flex-1 min-w-0 max-w-[70%] px-4 justify-center"
+                : "flex-1 p-4 justify-between"
+            )}
+          >
+            <div className="flex flex-col gap-2 min-w-0">
+              <CardTitle
+                className={cn(
+                  "line-clamp-2",
+                  viewMode === "list" ? "text-sm" : "text-base"
+                )}
               >
-                <MoreVertical className="h-4 w-4" />
-                <span className="sr-only">{t("common.moreActions")}</span>
+                {recipe.name}
+              </CardTitle>
+
+              {viewMode === "grid" && (
+                <div className="line-clamp-2 text-sm text-muted-foreground">
+                  {recipe.description ? (
+                    <p className="break-words">{recipe.description}</p>
+                  ) : (
+                    <p className="text-muted-foreground/50 italic">
+                      {t("common.noDescription")}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Time */}
+            <div
+              className={cn(
+                "flex items-center gap-1 text-sm text-muted-foreground",
+                viewMode === "list" ? "mt-1" : "mt-auto"
+              )}
+            >
+              <Clock className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              <span className="truncate">
+                {totalTimeString || t("common.loading")}
+              </span>
+            </div>
+          </div>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild className="absolute right-4 top-4">
+              <button
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "icon",
+                })}
+                onClick={handleMoreClick}
+                aria-label={t("common.moreActions")}
+              >
+                <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuItem
-                onClick={handleEditClick}
-                className="cursor-pointer"
-              >
-                <Edit className="mr-2 h-4 w-4" />
-                <span>{t("common.edit")}</span>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={handleEditClick}>
+                {t("common.edit")}
               </DropdownMenuItem>
               <DropdownMenuItem
+                className="text-destructive"
                 onClick={handleDeleteClick}
-                className="text-destructive focus:text-destructive cursor-pointer"
               >
-                <Trash2 className="mr-2 h-4 w-4" />
-                <span>{t("common.delete")}</span>
+                {t("common.delete")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </CardFooter>
-      </Card>
+        </Card>
+      </Link>
     </li>
   );
-};
+});
 
-export default React.memo(RecipeCard);
+RecipeCard.displayName = "RecipeCard";
