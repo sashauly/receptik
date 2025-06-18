@@ -16,6 +16,7 @@ import SearchInput from "@/components/SearchInput";
 import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
+import { ViewModeControls } from "@/components/ViewModeControls";
 
 import { logError } from "@/lib/utils/logger";
 
@@ -86,9 +87,16 @@ export default function Home() {
   if (isMobile) {
     return (
       <>
+        {/* Mobile Fixed Top Bar */}
+        <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
+          <div className="flex items-center gap-2 p-4">
+            <SearchInput onSearch={handleSearch} className="flex-1" />
+            <ViewModeControls />
+          </div>
+        </div>
+
         {/* Mobile Main Content */}
-        <main className="flex-1 overflow-y-auto p-4 space-y-4">
-          <SearchInput onSearch={handleSearch} />
+        <main className="flex-1 overflow-y-auto p-4 space-y-4 mt-[72px]">
           <ErrorBoundary componentName="RecipeList">
             <RecipeList
               recipes={recipes}
@@ -139,7 +147,10 @@ export default function Home() {
               <Filter className="h-5 w-5" />
               {t("common.filters")}
             </h3>
-            <SearchInput onSearch={handleSearch} delay={300} />
+            <div className="flex items-center gap-2">
+              <SearchInput onSearch={handleSearch} className="flex-1" />
+              <ViewModeControls />
+            </div>
 
             {/* Mock Filter Sections - Expandable */}
             {/* <div className="space-y-2">

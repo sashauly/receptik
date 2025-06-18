@@ -9,7 +9,6 @@ import type { Recipe } from "@/types/recipe";
 import { AlertCircle, BookPlus, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
-import { ViewModeControls } from "@/components/ViewModeControls";
 
 interface RecipeListProps {
   recipes: Recipe[];
@@ -37,7 +36,6 @@ const RecipeList: React.FC<RecipeListProps> = ({
   if (isLoading) {
     return (
       <div className="space-y-4">
-        <ViewModeControls disabled />
         <ul
           className={
             viewMode === "grid"
@@ -98,7 +96,7 @@ const RecipeList: React.FC<RecipeListProps> = ({
           )}
         </div>
       )}
-      <ViewModeControls />
+
       <ul
         className={
           viewMode === "grid"
