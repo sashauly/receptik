@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/context/SettingsContext";
+import { cn } from "@/lib/utils";
 import { LayoutGrid, List } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -12,31 +13,27 @@ export function ViewModeControls({ disabled }: ViewModeControlsProps) {
   const { settings, updateSettings } = useSettings();
   const viewMode = settings.viewMode;
 
-  const setGridView = () => updateSettings({ viewMode: "grid" });
-  const setListView = () => updateSettings({ viewMode: "list" });
+  const toggleViewMode = () => {
+    updateSettings({ viewMode: viewMode === "grid" ? "list" : "grid" });
+  };
 
   return (
-    <div className="flex justify-end gap-2 mb-4">
-      <Button
-        variant={viewMode === "grid" ? "default" : "outline"}
-        size="icon"
-        onClick={setGridView}
-        disabled={disabled}
-        title={t("common.gridView")}
-      >
-        <LayoutGrid className="h-4 w-4" />
-        <span className="sr-only">{t("common.gridView")}</span>
-      </Button>
-      <Button
-        variant={viewMode === "list" ? "default" : "outline"}
-        size="icon"
-        onClick={setListView}
-        disabled={disabled}
-        title={t("common.listView")}
-      >
+    <Button
+      variant="outline"
+      size="icon"
+      className={cn("relative transition-all duration-200", "active:scale-95")}
+      onClick={toggleViewMode}
+      disabled={disabled}
+      title={viewMode === "grid" ? t("common.listView") : t("common.gridView")}
+    >
+      {viewMode === "grid" ? (
         <List className="h-4 w-4" />
-        <span className="sr-only">{t("common.listView")}</span>
-      </Button>
-    </div>
+      ) : (
+        <LayoutGrid className="h-4 w-4" />
+      )}
+      <span className="sr-only">
+        {viewMode === "grid" ? t("common.listView") : t("common.gridView")}
+      </span>
+    </Button>
   );
 }
