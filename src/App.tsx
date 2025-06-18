@@ -17,6 +17,8 @@ import i18n from "./i18n/config.ts";
 import { SettingsProvider } from "./context/SettingsContext";
 import { ThemeProvider } from "./context/ThemeContext";
 
+const basename = (import.meta.env.VITE_BASE_URL || "/") as string;
+
 function App() {
   useEffect(() => {
     ensureLatestDbSchema().catch((err) => {
@@ -34,7 +36,7 @@ function App() {
       <SettingsProvider>
         <ThemeProvider>
           <I18nextProvider i18n={i18n}>
-            <Router basename="/receptik/">
+            <Router basename={basename}>
               <Layout>
                 <Routes>
                   <Route
