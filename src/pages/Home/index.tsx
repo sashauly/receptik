@@ -17,8 +17,6 @@ import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 
-// import RecipeDetail from "@/pages/RecipeDetail";
-// import RecipeEdit from "@/pages/RecipeEdit";
 import { logError } from "@/lib/utils/logger";
 
 export default function Home() {
@@ -152,7 +150,6 @@ export default function Home() {
           <div className="space-y-4 flex-grow">
             <h3 className="flex items-center gap-2 text-lg font-semibold mb-2">
               <Filter className="h-5 w-5" />
-
               {t("common.filters")}
             </h3>
             <SearchInput onSearch={handleSearch} delay={300} />
@@ -201,10 +198,9 @@ export default function Home() {
           </Link>
         </aside>
 
-        {/* Desktop Main Content (Split Pane - List + Detail/Empty State) */}
-        <main className="flex-1 flex overflow-hidden">
-          {/* Left Pane: Recipe List */}
-          <section className="w-2/3 max-w-[800px] p-6 overflow-y-auto border-r space-y-4">
+        {/* Desktop Main Content */}
+        <main className="flex-1 overflow-hidden">
+          <section className="h-full p-6 overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h1 className="text-2xl font-bold">
                 {t("navigation.myRecipes")}
@@ -235,16 +231,6 @@ export default function Home() {
               />
             </ErrorBoundary>
           </section>
-
-          {/* Right Pane: Recipe Detail or Empty State (dynamic content) */}
-          {/* <section className="flex-1 p-6 overflow-y-auto flex items-center justify-center bg-muted/20">
-            <div className="text-center text-muted-foreground">
-              <h3 className="text-xl font-semibold mb-2">
-                {t("desktop.selectRecipe")}
-              </h3>
-              <p>{t("desktop.viewDetailsPrompt")}</p>
-            </div> 
-          </section> */}
         </main>
 
         <ErrorBoundary componentName="DeleteRecipeDialog">
