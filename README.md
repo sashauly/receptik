@@ -47,7 +47,6 @@
 
 ## Issues
 
-- [ ] db is resetting on version upgrade
 - [x] recipe title takes too much width in [Recipe card](./src/components/RecipeCard.tsx)
 - [ ] Clear button doesn't work for regular search and NoResults states in [SearchInput](./src/components/SearchInput.tsx)
 - [ ] The import of incorrect, missing or undefined data still counts as sucessfull and leads to more bugs later in EditRecipePage.([ImportRecipe](./src/components/recipe-settings/ImportRecipes.tsx), [useImportRecipe](./src/hooks/recipes/useImportRecipe.ts))
