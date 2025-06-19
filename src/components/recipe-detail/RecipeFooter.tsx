@@ -12,7 +12,7 @@ const RecipeFooter: React.FC<RecipeFooterProps> = ({ updatedAt, author }) => {
   const { settings } = useSettings();
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="w-full flex flex-col md:flex-row md:justify-between gap-2 text-sm text-muted-foreground">
       {author && (
         <div className="flex items-center" itemProp="author">
           <User size={14} className="mr-1" />

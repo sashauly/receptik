@@ -73,7 +73,7 @@ export default function RecipeDetail({
           <RecipeInstructions instructions={recipe.instructions} />
         </CardContent>
 
-        <CardFooter className="flex justify-between">
+        <CardFooter>
           <RecipeFooter updatedAt={recipe.updatedAt} author={recipe.author} />
         </CardFooter>
       </Card>
