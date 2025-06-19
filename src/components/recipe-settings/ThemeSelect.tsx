@@ -25,9 +25,19 @@ export default function ThemeSelect() {
     { value: "dark", label: t("theme.dark"), icon: Moon },
   ];
 
+  const labelId = "theme-options-label";
+
   return (
-    <div className="flex items-center justify-between space-x-2">
-      <Label htmlFor="theme-options" className="text-sm font-medium">
+    <div
+      className="flex items-center justify-between space-x-2"
+      role="group"
+      aria-labelledby={labelId}
+    >
+      <Label
+        htmlFor="theme-options"
+        id={labelId}
+        className="text-sm font-medium"
+      >
         <Brush className="w-4 h-4 mr-2" />
         {t("theme.label")}
       </Label>
@@ -35,6 +45,7 @@ export default function ThemeSelect() {
         value={settings.theme}
         onValueChange={handleThemeChange}
         name="theme"
+        aria-labelledby={labelId}
       >
         <SelectTrigger
           id="theme-options"

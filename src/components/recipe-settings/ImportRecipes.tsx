@@ -186,11 +186,22 @@ const ImportRecipes = () => {
       role="region"
       aria-label={t("settings.importRecipes")}
     >
-      <Label htmlFor="import-recipes" className="text-lg font-semibold">
-        {t("settings.importRecipes")}
-      </Label>
-
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-1">
+        <h3 className="text-sm font-medium" id="import-recipes-section-label">
+          {t("settings.importRecipes")}
+        </h3>
+        <p
+          className="text-muted-foreground text-sm mb-2"
+          id="import-recipes-desc"
+        >
+          {t("settings.importRecipesDesc")}
+        </p>
+      </div>
+      <div
+        className="flex items-center gap-4"
+        role="group"
+        aria-labelledby="import-recipes-section-label"
+      >
         <input
           id="import-recipes"
           type="file"
@@ -199,9 +210,12 @@ const ImportRecipes = () => {
           ref={fileInputRef}
           className="sr-only"
           aria-label={t("importRecipes.selectFile")}
+          aria-describedby="import-recipes-desc"
+          tabIndex={-1}
         />
         <Button
           asChild
+          variant="outline"
           disabled={isProcessing || isLoading}
           aria-busy={isProcessing || isLoading}
         >

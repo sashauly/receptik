@@ -27,9 +27,19 @@ export default function LocaleSwitcher() {
     updateSettings({ language: value });
   };
 
+  const labelId = "locale-options-label";
+
   return (
-    <div className="flex items-center justify-between space-x-2">
-      <Label htmlFor="locale-options" className="text-sm font-medium">
+    <div
+      className="flex items-center justify-between space-x-2"
+      role="group"
+      aria-labelledby={labelId}
+    >
+      <Label
+        htmlFor="locale-options"
+        id={labelId}
+        className="text-sm font-medium"
+      >
         <Globe className="h-4 w-4 mr-2" aria-hidden="true" />
         {t("language.label")}
       </Label>
@@ -38,6 +48,7 @@ export default function LocaleSwitcher() {
         value={i18n.resolvedLanguage}
         onValueChange={handleLanguageChange}
         name="language"
+        aria-labelledby={labelId}
       >
         <SelectTrigger
           id="locale-options"

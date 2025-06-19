@@ -91,6 +91,9 @@ interface Resources {
       resetError: "Error deleting all data";
       resetConfirmationTitle: "Reset All Data";
       resetConfirmationDescription: "Are you sure you want to reset all data? This action cannot be undone.";
+      importRecipesDesc: "Import recipes from a JSON file exported from Receptik or another compatible app.";
+      exportAllRecipesDesc: "Export all your recipes as a JSON file for backup or sharing.";
+      resetAllDataDesc: "Delete all your recipes and reset the app to its default state. This action cannot be undone.";
     };
     importRecipes: {
       selectFile: "Select File";
@@ -218,8 +221,8 @@ interface Resources {
       twitter: "Twitter";
       facebook: "Facebook";
       exportThisRecipe: "Export this recipe";
-      exportAllRecipes: "Export all recipes";
-      exportAllAsJson: "Export All as JSON";
+      exportAllRecipes: "Export all recipes as JSON";
+      exportAllAsJson: "Export All";
     };
     theme: {
       label: "Theme";

@@ -90,7 +90,10 @@
       "resetSuccess": "All data has been deleted",
       "resetError": "Error deleting all data",
       "resetConfirmationTitle": "Reset All Data",
-      "resetConfirmationDescription": "Are you sure you want to reset all data? This action cannot be undone."
+      "resetConfirmationDescription": "Are you sure you want to reset all data? This action cannot be undone.",
+      "importRecipesDesc": "Import recipes from a JSON file exported from Receptik or another compatible app.",
+      "exportAllRecipesDesc": "Export all your recipes as a JSON file for backup or sharing.",
+      "resetAllDataDesc": "Delete all your recipes and reset the app to its default state. This action cannot be undone."
     },
     "importRecipes": {
       "selectFile": "Select File",

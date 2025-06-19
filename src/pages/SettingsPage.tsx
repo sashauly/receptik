@@ -2,25 +2,14 @@ import DebugInfo from "@/components/recipe-settings/DebugInfo";
 import ImportRecipes from "@/components/recipe-settings/ImportRecipes";
 import LocaleSwitcher from "@/components/recipe-settings/LocaleSwitcher";
 import ThemeSelect from "@/components/recipe-settings/ThemeSelect";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogFooter,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "@/components/ui/responsive-dialog";
-import { deleteAllRecipes } from "@/data/recipeService";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
-import { exportAllRecipesAsJson } from "@/lib/utils/export";
-import { ChevronLeft, Download, Trash2 } from "lucide-react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
+import ExportAllRecipes from "@/components/recipe-settings/ExportAllRecipes";
+import ResetAllData from "@/components/recipe-settings/ResetAllData";
+import { ChevronLeft } from "lucide-react";
 
 export default function SettingsPage() {
   const { t } = useTranslation();
@@ -31,32 +20,6 @@ export default function SettingsPage() {
     loading: recipesLoading,
     error: recipesError,
   } = useRecipes();
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const onExportAllAsJson = () => {
-    try {
-      exportAllRecipesAsJson(recipes);
-      toast.success(t("settings.exportSuccess"));
-    } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : t("settings.exportError");
-      setErrorMessage(errorMessage);
-      toast.error(t("settings.exportError"));
-    }
-  };
-
-  const onResetAllData = async () => {
-    try {
-      await deleteAllRecipes();
-      toast.success(t("settings.resetSuccess"));
-    } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error ? err.message : t("settings.resetError");
-      setErrorMessage(errorMessage);
-      toast.error(t("settings.resetError"));
-    }
-  };
 
   const handleBack = () => {
     navigate(-1);
@@ -76,13 +39,7 @@ export default function SettingsPage() {
         </Button>
       </header>
 
-      {errorMessage && (
-        <div role="alert" className="text-destructive">
-          {errorMessage}
-        </div>
-      )}
-
-      <div className="space-y-6">
+      <main className="space-y-6">
         <section aria-labelledby="appearance-heading">
           <h2 id="appearance-heading" className="text-lg font-semibold mb-4">
             {t("settings.appearance")}
@@ -103,72 +60,14 @@ export default function SettingsPage() {
             {t("settings.dataManagement")}
           </h2>
           <div className="space-y-4">
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="text-sm font-medium mb-2">
-                {t("share.exportAllRecipes")}
-              </h3>
-              <Button
-                onClick={onExportAllAsJson}
-                variant="outline"
-                aria-label={t("share.exportAllAsJson")}
-              >
-                <Download className="h-4 w-4" aria-hidden="true" />
-                {t("share.exportAllAsJson")}
-              </Button>
-            </div>
-
-            <div className="flex items-center justify-between gap-2">
-              <h3 className="text-sm font-medium mb-2">
-                {t("settings.resetAllData")}
-              </h3>
-              {recipesError && (
-                <p className="text-destructive" role="alert">
-                  {(recipesError as Error).message}
-                </p>
-              )}
-              {recipesLoading ? (
-                <p>{t("common.loading")}</p>
-              ) : (
-                <ResponsiveDialog>
-                  <ResponsiveDialogTrigger
-                    className={buttonVariants({ variant: "destructive" })}
-                    aria-label={t("settings.resetAllData")}
-                  >
-                    <Trash2 className="h-4 w-4" aria-hidden="true" />
-                    {t("common.reset")}
-                  </ResponsiveDialogTrigger>
-                  <ResponsiveDialogContent>
-                    <ResponsiveDialogHeader>
-                      <ResponsiveDialogTitle>
-                        {t("settings.resetConfirmationTitle")}
-                      </ResponsiveDialogTitle>
-                      <ResponsiveDialogDescription>
-                        {t("settings.resetConfirmationDescription")}
-                      </ResponsiveDialogDescription>
-                    </ResponsiveDialogHeader>
-                    <ResponsiveDialogFooter>
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          const dialog =
-                            document.querySelector('[role="dialog"]');
-                          if (dialog) {
-                            (dialog as HTMLDialogElement).close();
-                          }
-                        }}
-                      >
-                        {t("common.cancel")}
-                      </Button>
-                      <Button variant="destructive" onClick={onResetAllData}>
-                        {t("common.confirm")}
-                      </Button>
-                    </ResponsiveDialogFooter>
-                  </ResponsiveDialogContent>
-                </ResponsiveDialog>
-              )}
-            </div>
-
             <ImportRecipes />
+
+            <ExportAllRecipes recipes={recipes} />
+
+            <ResetAllData
+              recipesLoading={recipesLoading}
+              recipesError={recipesError}
+            />
           </div>
         </section>
 
@@ -180,7 +79,7 @@ export default function SettingsPage() {
           </h2>
           <DebugInfo />
         </section>
-      </div>
+      </main>
     </div>
   );
 }
