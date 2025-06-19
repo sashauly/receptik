@@ -75,7 +75,7 @@
             "recipeNotFoundDesc": "Рецепт, который вы ищете, не существует или был удален.",
             "noKeywords": "Нет ключевых слов",
             "noImages": "Нет изображений",
-            "searchResults": "{{count}} результатов найдено"
+            "searchResults": "Результатов найдено: {{count}}"
         },
         "settings": {
             "title": "Настройки",

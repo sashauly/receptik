@@ -19,6 +19,7 @@ import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { ViewModeControls } from "@/components/ViewModeControls";
 
 import { logError } from "@/lib/utils/logger";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -26,12 +27,13 @@ export default function Home() {
   const { getParam, updateParams } = useUrlParams();
 
   const [currentSearchTerm, setCurrentSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(currentSearchTerm, 300);
 
   const {
     recipes,
     loading: recipesLoading,
     error: recipesError,
-  } = useRecipes({ searchTerm: currentSearchTerm });
+  } = useRecipes({ searchTerm: debouncedSearchTerm });
 
   const {
     deleteRecipe,
@@ -76,22 +78,25 @@ export default function Home() {
     }
   };
 
-  const handleSearch = useCallback((searchTerm: string) => {
-    setCurrentSearchTerm(searchTerm);
-  }, []);
-
-  const handleClearSearch = useCallback(() => {
-    setCurrentSearchTerm("");
-  }, []);
-
   if (isMobile) {
     return (
       <>
         {/* Mobile Fixed Top Bar */}
         <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-          <div className="flex items-center gap-2 p-4">
-            <SearchInput onSearch={handleSearch} className="flex-1" />
-            <ViewModeControls />
+          <div className="flex flex-col gap-2 p-4">
+            <div className="flex items-center gap-2">
+              <SearchInput
+                value={currentSearchTerm}
+                onChange={setCurrentSearchTerm}
+                className="flex-1"
+              />
+              <ViewModeControls />
+            </div>
+            {/* {currentSearchTerm && (
+              <p className="text-sm text-muted-foreground">
+                {t("recipe.searchResults", { count: recipes.length })}
+              </p>
+            )} */}
           </div>
         </div>
 
@@ -105,7 +110,7 @@ export default function Home() {
               onEditRecipe={handleEditRecipe}
               onDeleteRecipe={handleDeleteRecipe}
               searchTerm={currentSearchTerm}
-              onClearSearch={handleClearSearch}
+              onClearSearch={() => setCurrentSearchTerm("")}
             />
           </ErrorBoundary>
         </main>
@@ -148,9 +153,18 @@ export default function Home() {
               {t("common.filters")}
             </h3>
             <div className="flex items-center gap-2">
-              <SearchInput onSearch={handleSearch} className="flex-1" />
+              <SearchInput
+                value={currentSearchTerm}
+                onChange={setCurrentSearchTerm}
+                className="flex-1"
+              />
               <ViewModeControls />
             </div>
+            {currentSearchTerm && (
+              <p className="text-sm text-muted-foreground">
+                {t("recipe.searchResults", { count: recipes.length })}
+              </p>
+            )}
 
             {/* Mock Filter Sections - Expandable */}
             {/* <div className="space-y-2">
@@ -225,7 +239,7 @@ export default function Home() {
                 onEditRecipe={handleEditRecipe}
                 onDeleteRecipe={handleDeleteRecipe}
                 searchTerm={currentSearchTerm}
-                onClearSearch={handleClearSearch}
+                onClearSearch={() => setCurrentSearchTerm("")}
               />
             </ErrorBoundary>
           </section>

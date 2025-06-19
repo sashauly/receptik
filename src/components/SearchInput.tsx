@@ -1,34 +1,26 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React from "react";
 import { Input } from "@/components/ui/input";
-import { useDebounce } from "@/hooks/useDebounce";
 import { useTranslation } from "react-i18next";
 import { Search, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 
 interface SearchInputProps {
-  onSearch: (searchTerm: string) => void;
-  delay?: number;
+  value: string;
+  onChange: (value: string) => void;
   className?: string;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
-  onSearch,
-  delay = 300,
+  value,
+  onChange,
   className,
 }) => {
   const { t } = useTranslation();
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, delay);
-
-  useEffect(() => {
-    onSearch(debouncedSearchTerm);
-  }, [debouncedSearchTerm, onSearch]);
-
-  const handleInternalClear = useCallback(() => {
-    setSearchTerm("");
-  }, []);
+  const handleInternalClear = React.useCallback(() => {
+    onChange("");
+  }, [onChange]);
 
   return (
     <div className={cn("relative w-full", className)}>
@@ -39,11 +31,11 @@ const SearchInput: React.FC<SearchInputProps> = ({
         id="search"
         type="text"
         placeholder={t("common.search")}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         className="pl-10 pr-10"
       />
-      {searchTerm && (
+      {value && (
         <Button
           variant="ghost"
           size="icon"

@@ -6,7 +6,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/context/SettingsContext";
 import type { Recipe } from "@/types/recipe";
-import { AlertCircle, BookPlus, X } from "lucide-react";
+import { AlertCircle, BookPlus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
@@ -83,20 +83,6 @@ const RecipeList: React.FC<RecipeListProps> = ({
 
   return (
     <div className="space-y-4">
-      {searchTerm && (
-        <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
-            {t("recipe.searchResults", { count: recipes.length })}
-          </p>
-          {onClearSearch && (
-            <Button variant="outline" size="sm" onClick={onClearSearch}>
-              <X className="h-4 w-4 mr-2" />
-              {t("common.clear")}
-            </Button>
-          )}
-        </div>
-      )}
-
       <ul
         className={
           viewMode === "grid"

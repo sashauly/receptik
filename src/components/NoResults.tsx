@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 
@@ -20,6 +20,7 @@ export default function NoResults({ searchQuery, onClear }: NoResultsProps) {
         {t("common.noRecipesFoundDesc", { searchQuery })}
       </p>
       <Button variant="outline" onClick={onClear}>
+        <X className="w-4 h-4" />
         {t("common.clear")}
       </Button>
     </div>
