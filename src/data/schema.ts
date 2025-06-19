@@ -27,6 +27,7 @@ export const createRecipeFormSchema = (
   t: TFunction<"translation", undefined>
 ) =>
   z.object({
+    id: z.string().optional(),
     name: z
       .string()
       .trim()

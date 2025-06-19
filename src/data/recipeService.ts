@@ -103,37 +103,36 @@ export const importRecipes = async (
 
   await db.transaction("rw", recipesTable, async () => {
     for (const recipeData of recipesToImport) {
-      if (!recipeData.id || !recipeData.name) {
-        logWarn(
-          `Skipping invalid recipe data: missing ID or name. Data:`,
-          recipeData
-        );
-        continue;
-      }
+      const allRecipes = await recipesTable.toArray();
+      const existingSlugs = allRecipes
+        .map((r) => r.slug)
+        .filter((slug): slug is string => slug !== undefined);
 
-      const parsedRecipeData: Recipe = {
+      const importedRecipe: Recipe = {
         ...recipeData,
-        createdAt: new Date(recipeData.createdAt),
-        updatedAt: new Date(recipeData.updatedAt),
+        id: recipeData.id || uuidv4(),
+        slug: getUniqueSlug(recipeData.name, existingSlugs),
+        createdAt: recipeData.createdAt ?? new Date(),
+        updatedAt: recipeData.updatedAt ?? new Date(),
       };
 
-      const existingRecipe = await recipesTable.get(parsedRecipeData.id);
+      const existingRecipe = await recipesTable.get(importedRecipe.id);
 
       if (existingRecipe) {
         if (
-          parsedRecipeData.updatedAt instanceof Date &&
+          importedRecipe.updatedAt instanceof Date &&
           existingRecipe.updatedAt instanceof Date &&
-          parsedRecipeData.updatedAt.getTime() >
+          importedRecipe.updatedAt.getTime() >
             existingRecipe.updatedAt.getTime()
         ) {
-          await recipesTable.put(parsedRecipeData);
+          await recipesTable.put(importedRecipe);
         } else {
           logWarn(
             `Skipping import of recipe with id ${recipeData.id} as existing recipe is newer or same.`
           );
         }
       } else {
-        await recipesTable.add(parsedRecipeData);
+        await recipesTable.add(importedRecipe);
       }
     }
   });

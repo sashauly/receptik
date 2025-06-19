@@ -1,5 +1,4 @@
 import DebugInfo from "@/components/recipe-settings/DebugInfo";
-import ImportRecipes from "@/components/recipe-settings/ImportRecipes";
 import LocaleSwitcher from "@/components/recipe-settings/LocaleSwitcher";
 import ThemeSelect from "@/components/recipe-settings/ThemeSelect";
 import { Button } from "@/components/ui/button";
@@ -60,7 +59,9 @@ export default function SettingsPage() {
             {t("settings.dataManagement")}
           </h2>
           <div className="space-y-4">
-            <ImportRecipes />
+            <Button onClick={() => navigate("/import")}>
+              {t("settings.importRecipes")}
+            </Button>
 
             <ExportAllRecipes recipes={recipes} />
 

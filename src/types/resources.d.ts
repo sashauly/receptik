@@ -74,7 +74,7 @@ interface Resources {
       recipeNotFoundDesc: "The recipe you're looking for doesn't exist or has been removed.";
       noKeywords: "No keywords";
       noImages: "No images";
-      searchResults: "{{count}} results found";
+      searchResults: "Results found: {{count}}";
     };
     settings: {
       title: "Settings";
@@ -117,6 +117,25 @@ interface Resources {
       moreInstructions: "and {{count}} more";
       processing: "Processing...";
       previewList: "Recipe preview list";
+      tabs: {
+        existing: "Existing";
+        imported: "Imported";
+        diff: "Diff";
+      };
+      diffDescription1: "Below is a field-by-field diff between the existing and imported recipe.";
+      diffDescriptionRed: "Red lines";
+      diffDescriptionGreen: "green lines";
+      diffDescription2: "are old values,";
+      diffDescription3: "are new values, and unchanged fields are shown normally.";
+      duplicateTitle: "Duplicate for Recipe #{{num}} (matched by {{field}})";
+      duplicatePrompt: "Please choose how to handle this duplicate:";
+      duplicateUpdate: "Update";
+      duplicateUpdateDesc: "Overwrite the existing recipe with the imported one.";
+      duplicateSkip: "Skip";
+      duplicateSkipDesc: "Do not import this recipe.";
+      duplicateKeepBoth: "Keep Both";
+      duplicateKeepBothDesc: "Import as a new recipe (with a new id and slug).";
+      previewInvalidFields: "Some fields in this imported recipe are invalid:";
     };
     forms: {
       createRecipe: "Create New Recipe";

@@ -10,7 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { getBaseUnitByValue } from "@/lib/measurements";
 import { formatDuration } from "@/lib/utils/time";
 import type { Ingredient, Recipe } from "@/types/recipe";
-import { Clock, Users } from "lucide-react";
+import { Clock, Users, AlertTriangle } from "lucide-react";
 import React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -19,9 +19,15 @@ const INSTRUCTIONS_TO_SHOW = 3;
 
 interface RecipePreviewCardProps {
   recipe: Recipe;
+  invalidFields?: string[];
+  invalidFieldErrors?: Record<string, string>;
 }
 
-const RecipePreviewCard: React.FC<RecipePreviewCardProps> = ({ recipe }) => {
+const RecipePreviewCard: React.FC<RecipePreviewCardProps> = ({
+  recipe,
+  invalidFields = [],
+  invalidFieldErrors = {},
+}) => {
   const { t } = useTranslation();
 
   const totalTimeString = formatDuration(recipe.totalTime, t);
@@ -43,12 +49,34 @@ const RecipePreviewCard: React.FC<RecipePreviewCardProps> = ({ recipe }) => {
     return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_short`);
   };
 
+  const highlight = (field: string) =>
+    invalidFields.includes(field)
+      ? "border border-yellow-400 bg-yellow-50 dark:bg-yellow-900/40 relative"
+      : "";
+  const warningIcon = (field: string) =>
+    invalidFields.includes(field) ? (
+      <span className="ml-2 flex gap-2 items-center">
+        <AlertTriangle className="w-4 h-4 text-yellow-700 dark:text-yellow-300 flex-shrink-0" />
+        <span className="text-xs text-yellow-700 dark:text-yellow-300 font-normal break-words text-left">
+          {invalidFieldErrors[field]}
+        </span>
+      </span>
+    ) : null;
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl">{recipe.name}</CardTitle>
+        <CardTitle className={highlight("name") + " text-xl flex items-center"}>
+          {recipe.name}
+          {warningIcon("name")}
+        </CardTitle>
         {recipe.description && (
-          <CardDescription>{recipe.description}</CardDescription>
+          <CardDescription
+            className={highlight("description") + " flex items-center"}
+          >
+            {recipe.description}
+            {warningIcon("description")}
+          </CardDescription>
         )}
       </CardHeader>
       <CardContent className="space-y-3 text-sm">
@@ -89,12 +117,18 @@ const RecipePreviewCard: React.FC<RecipePreviewCardProps> = ({ recipe }) => {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-1">{t("recipe.ingredients")}</h4>
+          <h4
+            className={
+              "font-semibold mb-1 flex items-center " + highlight("ingredients")
+            }
+          >
+            {t("recipe.ingredients")}
+            {warningIcon("ingredients")}
+          </h4>
           <ul className="list-disc list-inside text-muted-foreground">
             {recipe.ingredients
               .slice(0, INGREDIENTS_TO_SHOW)
               .map((ingredient, index) => (
-                // Using index as key is acceptable for previews where order doesn't change
                 <li key={ingredient.id || index}>
                   <span>{ingredient.name}</span>{" "}
                   <span className="text-muted-foreground">
@@ -119,7 +153,15 @@ const RecipePreviewCard: React.FC<RecipePreviewCardProps> = ({ recipe }) => {
         </div>
 
         <div>
-          <h4 className="font-semibold mb-1">{t("recipe.instructions")}</h4>
+          <h4
+            className={
+              "font-semibold mb-1 flex items-center " +
+              highlight("instructions")
+            }
+          >
+            {t("recipe.instructions")}
+            {warningIcon("instructions")}
+          </h4>
           <ol className="list-decimal list-inside text-muted-foreground">
             {recipe.instructions
               .slice(0, INSTRUCTIONS_TO_SHOW)

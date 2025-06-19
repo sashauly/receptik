@@ -17,7 +17,6 @@ const ensureRecipeIds = (recipe: Recipe): Recipe => {
 export const useImportRecipes = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const importRecipesMutation = async (recipesToImport: Recipe[]) => {
     if (!Array.isArray(recipesToImport) || recipesToImport.length === 0) {
@@ -30,13 +29,11 @@ export const useImportRecipes = () => {
 
     setLoading(true);
     setError(null);
-    setSuccess(false);
 
     try {
       // Ensure all recipes have proper ingredient IDs before import
       const recipesWithIds = recipesToImport.map(ensureRecipeIds);
       await performImport(recipesWithIds);
-      setSuccess(true);
       logDebug("Recipes imported successfully!");
     } catch (err) {
       setError(err as Error);
@@ -48,5 +45,9 @@ export const useImportRecipes = () => {
     }
   };
 
-  return { importRecipes: importRecipesMutation, loading, error, success };
+  return {
+    importRecipes: importRecipesMutation,
+    loading,
+    error,
+  };
 };
