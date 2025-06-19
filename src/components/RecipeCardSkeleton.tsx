@@ -17,15 +17,13 @@ export default function RecipeCardSkeleton({
 function RecipeCardSkeletonGrid() {
   return (
     <li className="w-full">
-      <Card className="relative w-full flex flex-col h-[320px] overflow-hidden">
+      <Card className="relative w-full flex flex-col">
         {/* Image Section */}
-        <div className="w-full h-[160px] relative overflow-hidden">
+        <div className="w-full h-[160px] relative">
           <Skeleton className="w-full h-full" />
-          {/* Time badge skeleton */}
-          <Skeleton className="absolute bottom-1 right-1 z-10 h-6 w-20 rounded-md" />
         </div>
         {/* Content Section */}
-        <div className="flex flex-col p-4 justify-between flex-1">
+        <div className="flex flex-col p-4 justify-between">
           <div className="flex flex-col gap-2 min-w-0">
             {/* Title */}
             <Skeleton className="h-6 w-4/5" />
