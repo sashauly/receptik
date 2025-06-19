@@ -13,6 +13,7 @@ import { Clock, Image as ImageIcon, MoreHorizontal } from "lucide-react";
 import { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
+import { Badge } from "@/components/ui/badge";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -88,10 +89,49 @@ export const RecipeCard = memo(function RecipeCard({
     e.stopPropagation();
   }, []);
 
+  if (viewMode === "grid") {
+    return (
+      <RecipeCardGrid
+        recipe={recipe}
+        totalTimeString={totalTimeString}
+        handleEditClick={handleEditClick}
+        handleDeleteClick={handleDeleteClick}
+        handleMoreClick={handleMoreClick}
+      />
+    );
+  }
   return (
-    <li
-      className={cn("w-full", viewMode === "grid" ? "h-[320px]" : "h-[80px]")}
-    >
+    <RecipeCardList
+      recipe={recipe}
+      totalTimeString={totalTimeString}
+      handleEditClick={handleEditClick}
+      handleDeleteClick={handleDeleteClick}
+      handleMoreClick={handleMoreClick}
+    />
+  );
+});
+
+RecipeCard.displayName = "RecipeCard";
+
+interface RecipeCardChildProps {
+  recipe: Recipe;
+  totalTimeString: string;
+  handleEditClick: (e: React.MouseEvent) => void;
+  handleDeleteClick: (e: React.MouseEvent) => void;
+  handleMoreClick: (e: React.MouseEvent) => void;
+}
+
+const RecipeCardGrid = memo(function RecipeCardGrid({
+  recipe,
+  totalTimeString,
+  handleEditClick,
+  handleDeleteClick,
+  handleMoreClick,
+}: RecipeCardChildProps) {
+  const { t } = useTranslation();
+
+  return (
+    <li className="w-full">
       <Link
         to={`/recipes/${recipe.slug}`}
         className="block w-full h-full"
@@ -102,75 +142,48 @@ export const RecipeCard = memo(function RecipeCard({
       >
         <Card
           className={cn(
-            "relative hover:shadow-md transition-shadow w-full flex",
-            viewMode === "list" ? "flex-row items-center" : "flex-col h-full",
-            "overflow-hidden"
+            "relative hover:shadow-md hover:scale-105 transition w-full flex flex-col h-full overflow-hidden"
           )}
         >
           {/* Image Section */}
-          <div
-            className={cn(
-              viewMode === "list"
-                ? "w-[80px] h-[80px] flex-shrink-0"
-                : "w-full h-[160px]",
-              "relative overflow-hidden"
-            )}
-          >
+          <div className="w-full h-[160px] relative overflow-hidden">
             <RecipeImage
               image={recipe.images?.[0]}
               name={recipe.name}
-              viewMode={viewMode}
+              viewMode="grid"
             />
+            <Badge
+              className="absolute bottom-1 right-1 z-10 bg-foreground/80 backdrop-blur shadow text-xs text-primary-foreground px-2 py-0.5"
+              variant="default"
+            >
+              <Clock
+                className="h-3.5 w-3.5 inline-block align-text-bottom"
+                aria-hidden="true"
+              />
+              {totalTimeString || t("common.loading")}
+            </Badge>
           </div>
 
           {/* Content Section */}
-          <div
-            className={cn(
-              "flex flex-col",
-              viewMode === "list"
-                ? "flex-1 min-w-0 max-w-[70%] px-4 justify-center"
-                : "flex-1 p-4 justify-between"
-            )}
-          >
+          <div className="flex flex-col p-4 justify-between">
             <div className="flex flex-col gap-2 min-w-0">
-              <CardTitle
-                className={cn(
-                  "line-clamp-2",
-                  viewMode === "list" ? "text-sm" : "text-base"
-                )}
-              >
+              <CardTitle className="line-clamp-2 text-base">
                 {recipe.name}
               </CardTitle>
-
-              {viewMode === "grid" && (
-                <div className="line-clamp-2 text-sm text-muted-foreground">
-                  {recipe.description ? (
-                    <p className="break-words">{recipe.description}</p>
-                  ) : (
-                    <p className="text-muted-foreground/50 italic">
-                      {t("common.noDescription")}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Time */}
-            <div
-              className={cn(
-                "flex items-center gap-1 text-sm text-muted-foreground",
-                viewMode === "list" ? "mt-1" : "mt-auto"
-              )}
-            >
-              <Clock className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
-              <span className="truncate">
-                {totalTimeString || t("common.loading")}
-              </span>
+              <div className="line-clamp-2 text-sm text-muted-foreground">
+                {recipe.description ? (
+                  <p className="break-words">{recipe.description}</p>
+                ) : (
+                  <p className="text-muted-foreground/50 italic">
+                    {t("common.noDescription")}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
 
           <DropdownMenu>
-            <DropdownMenuTrigger asChild className="absolute right-4 top-4">
+            <DropdownMenuTrigger asChild className="absolute right-2 top-2">
               <button
                 className={buttonVariants({
                   variant: "outline",
@@ -200,4 +213,86 @@ export const RecipeCard = memo(function RecipeCard({
   );
 });
 
-RecipeCard.displayName = "RecipeCard";
+RecipeCardGrid.displayName = "RecipeCardGrid";
+
+const RecipeCardList = memo(function RecipeCardList({
+  recipe,
+  totalTimeString,
+  handleEditClick,
+  handleDeleteClick,
+  handleMoreClick,
+}: RecipeCardChildProps) {
+  const { t } = useTranslation();
+
+  return (
+    <li className={cn("w-full", "h-[80px]")}>
+      <Link
+        to={`/recipes/${recipe.slug}`}
+        className="block w-full h-full"
+        title={recipe.name}
+        aria-label={t("desktop.viewDetailsPrompt", {
+          recipeTitle: recipe.name,
+        })}
+      >
+        <Card
+          className={cn(
+            "relative hover:shadow-md hover:scale-105 transition w-full flex flex-row items-center overflow-hidden h-full"
+          )}
+        >
+          {/* Image Section */}
+          <div className="w-[80px] h-[80px] flex-shrink-0 relative overflow-hidden">
+            <RecipeImage
+              image={recipe.images?.[0]}
+              name={recipe.name}
+              viewMode="list"
+            />
+          </div>
+
+          {/* Content Section */}
+          <div className="flex flex-col flex-1 min-w-0 max-w-[70%] px-4 justify-center">
+            <div className="flex flex-col gap-2 min-w-0">
+              <CardTitle className="line-clamp-2 text-sm">
+                {recipe.name}
+              </CardTitle>
+            </div>
+            <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
+              <Clock className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              <span className="truncate">
+                {totalTimeString || t("common.loading")}
+              </span>
+            </div>
+          </div>
+          <div className="p-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className={buttonVariants({
+                    variant: "outline",
+                    size: "icon",
+                  })}
+                  onClick={handleMoreClick}
+                  aria-label={t("common.moreActions")}
+                >
+                  <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={handleEditClick}>
+                  {t("common.edit")}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="text-destructive"
+                  onClick={handleDeleteClick}
+                >
+                  {t("common.delete")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </Card>
+      </Link>
+    </li>
+  );
+});
+
+RecipeCardList.displayName = "RecipeCardList";
