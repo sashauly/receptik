@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { AppSettings, DEFAULT_SETTINGS } from "@/lib/settings/types";
-import { LocalStorageSettings } from "@/lib/settings/storage";
+import { localStorageSettings } from "@/lib/settings/storage";
 
 interface SettingsContextType {
   settings: AppSettings;
@@ -12,7 +12,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(
   undefined
 );
 
-const storage = new LocalStorageSettings();
+const storage = localStorageSettings;
 const STORAGE_KEY = "settings";
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {

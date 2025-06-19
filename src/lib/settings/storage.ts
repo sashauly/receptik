@@ -44,3 +44,5 @@ export class LocalStorageSettings implements SettingsStorage {
     }
   }
 }
+
+export const localStorageSettings = new LocalStorageSettings();
