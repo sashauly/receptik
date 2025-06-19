@@ -50,7 +50,7 @@ const UnitSelectionPage: React.FC<UnitSelectionPageProps> = ({
       </div>
 
       <div className="p-4 border-b shrink-0">
-        <SearchInput onSearch={onSearch} />
+        <SearchInput value={searchQuery} onChange={onSearch} />
       </div>
 
       <div className="flex-1 min-h-0">
