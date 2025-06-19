@@ -16,7 +16,7 @@
   - [ ] Add immediate refresh
   - [ ] Add ability to turn off confirmation dialogs
 - [ ] Add ability to add recipes from a file
-  - [ ] import for one or multiple recipes
+  - [x] import for one or multiple recipes
   - [ ] Maybe add ability to upload one recipe directly from JSON string
 - [ ] Add ability to add recipes from a URL( requires parsing?)
 - [ ] Add ability to share recipes
@@ -24,10 +24,10 @@
   - [ ] Telegram
   - [ ] Whatsapp
 - [ ] Add ability to upload images
-  - [ ] Implement upload functionality from desktop and mobile
-  - [ ] Implement storage in IndexedDB (as base64 encoded string)
+  - [x] Implement upload functionality from desktop and mobile
+  - [x] Implement storage in IndexedDB (as base64 encoded string)
   - [ ] Add ability to add photo using camera
-  - [ ] Add ability to delete images
+  - [x] Add ability to delete images
 - [x] Add custom button to install PWA(i think it's now works only in chrome?)
 - [x] Consider changing some UI elements to drawers
 - [ ] Adjust Recipe schema according to schema.org(https://schema.org/Recipe)
@@ -40,13 +40,18 @@
   - [x] Add ability to specify author
 - [x] Move all logging to DEV level
 - [x] Add toasts on success, warn and error
-- [ ] Adjust UI/UX for mobile (!)
 - [x] Create separate page for choosing units of ingredients for mobile
-- [ ] Move search to separate page
 - [x] Add auto calculation of amount of ingredients based on number of servings
 - [ ] refine UI components in the form
-- [ ] refine UI components in recipe detail
-- [ ] refactor Home page
+- [x] refactor Home page
+
+## Issues
+
+- [ ] db is resetting on version upgrade
+- [ ] recipe title takes too much width in [Recipe card](./src/components/RecipeCard.tsx)
+- [ ] Clear button doesn't work for regular search and NoResults states in [SearchInput](./src/components/SearchInput.tsx)
+- [ ] The import of incorrect, missing or undefined data still counts as sucessfull and leads to more bugs later in EditRecipePage.([ImportRecipe](./src/components/recipe-settings/ImportRecipes.tsx), [useImportRecipe](./src/hooks/recipes/useImportRecipe.ts))
+- [ ] Empty ingredient appear in the [CreateRecipePage](./src/pages/CreateRecipePage.tsx) but it rather needs to be in edit mode or doesn't appear at all(so empty array)
 
 ## Notes
 
