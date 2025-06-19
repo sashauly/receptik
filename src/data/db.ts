@@ -20,7 +20,7 @@ export const ensureLatestDbSchema = async (): Promise<void> => {
   logInfo("Database schema needs updating to v2, will upgrade on next open");
 
   localStorage.setItem("db_upgrade_pending", "true");
-  window.location.reload();
+  // window.location.reload();
 };
 
 export { db };
