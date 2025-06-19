@@ -41,6 +41,8 @@ export function ResponsiveDialog({
   );
 }
 
+ResponsiveDialog.displayName = "ResponsiveDialog";
+
 export const ResponsiveDialogContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<typeof DialogContent> &
@@ -81,6 +83,8 @@ export function ResponsiveDialogHeader({
     </DrawerHeader>
   );
 }
+
+ResponsiveDialogHeader.displayName = "ResponsiveDialogHeader";
 
 export const ResponsiveDialogTitle = React.forwardRef<
   HTMLHeadingElement,
@@ -143,6 +147,8 @@ export function ResponsiveDialogFooter({
     </DrawerFooter>
   );
 }
+
+ResponsiveDialogFooter.displayName = "ResponsiveDialogFooter";
 
 export const ResponsiveDialogTrigger = React.forwardRef<
   HTMLButtonElement,
