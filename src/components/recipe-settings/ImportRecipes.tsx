@@ -12,7 +12,7 @@ import {
 import { useImportRecipes } from "@/hooks/recipes/useImportRecipe";
 import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
-import React, { useCallback, useRef, useState, useEffect } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
@@ -43,7 +43,7 @@ const ensureRecipeIds = (recipe: Recipe): Recipe => {
   };
 };
 
-const ImportRecipes = () => {
+export default function ImportRecipes() {
   const { t } = useTranslation();
   const { importRecipes, loading: isLoading } = useImportRecipes();
   const [recipesToPreview, setRecipesToPreview] = useState<Recipe[]>([]);
@@ -52,18 +52,6 @@ const ImportRecipes = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
-
-  // Focus management for the dialog
-  useEffect(() => {
-    if (showPreviewDialog && dialogRef.current) {
-      const focusableElements = dialogRef.current.querySelectorAll(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      );
-      if (focusableElements.length > 0) {
-        (focusableElements[0] as HTMLElement).focus();
-      }
-    }
-  }, [showPreviewDialog]);
 
   const processFileForPreview = useCallback(
     (file: File) => {
@@ -81,14 +69,14 @@ const ImportRecipes = () => {
 
       reader.onload = async (event: ProgressEvent<FileReader>) => {
         try {
-          const result = event.target?.result;
-          if (typeof result !== "string") {
+          const fileResult = event.target?.result;
+          if (typeof fileResult !== "string") {
             logError("FileReader result is not a string.");
             toast.error(t("importRecipes.errorReadingFile"));
             return;
           }
 
-          const jsonData: unknown = JSON.parse(result);
+          const jsonData: unknown = JSON.parse(fileResult);
           let recipes: Recipe[] = [];
 
           if (Array.isArray(jsonData)) {
@@ -308,6 +296,4 @@ const ImportRecipes = () => {
       )}
     </div>
   );
-};
-
-export default ImportRecipes;
+}
