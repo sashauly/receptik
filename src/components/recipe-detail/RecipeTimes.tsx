@@ -9,11 +9,7 @@ interface RecipeTimesProps {
   totalTime: string;
 }
 
-const RecipeTimes: React.FC<RecipeTimesProps> = ({
-  cookTime,
-  prepTime,
-  totalTime,
-}) => {
+function RecipeTimes({ cookTime, prepTime, totalTime }: RecipeTimesProps) {
   const { t } = useTranslation();
 
   const cookTimeString = formatDuration(prepTime || "PT0S", t);
@@ -52,6 +48,6 @@ const RecipeTimes: React.FC<RecipeTimesProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default RecipeTimes;

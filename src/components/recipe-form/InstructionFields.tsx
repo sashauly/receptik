@@ -8,7 +8,7 @@ import { FormControl, FormField, FormMessage } from "../ui/form";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 
-const InstructionFields = () => {
+export default function InstructionFields() {
   const { t } = useTranslation();
   const {
     setValue,
@@ -104,6 +104,4 @@ const InstructionFields = () => {
       </div>
     </div>
   );
-};
-
-export default InstructionFields;
+}

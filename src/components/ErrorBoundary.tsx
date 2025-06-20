@@ -169,7 +169,7 @@ interface ResetDataButtonProps {
   t: TFunction;
 }
 
-const ResetDataButton = ({ onReset, t }: ResetDataButtonProps) => {
+function ResetDataButton({ onReset, t }: ResetDataButtonProps) {
   return (
     <>
       <ResponsiveDialog>
@@ -197,12 +197,12 @@ const ResetDataButton = ({ onReset, t }: ResetDataButtonProps) => {
       </ResponsiveDialog>
     </>
   );
-};
+}
 
 // Wrap the ErrorBoundary with a function component to use hooks
-const ErrorBoundaryWithTranslation = (props: Omit<Props, "t">) => {
+function ErrorBoundaryWithTranslation(props: Omit<Props, "t">) {
   const { t } = useTranslation();
   return <ErrorBoundary {...props} t={t} />;
-};
+}
 
 export default ErrorBoundaryWithTranslation;

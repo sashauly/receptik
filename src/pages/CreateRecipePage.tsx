@@ -10,7 +10,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
-const CreateRecipePage: React.FC = () => {
+function CreateRecipePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { addRecipe, loading: addLoading, error: addError } = useAddRecipe();
@@ -65,6 +65,6 @@ const CreateRecipePage: React.FC = () => {
       )}
     </div>
   );
-};
+}
 
 export default CreateRecipePage;

@@ -15,14 +15,14 @@ interface UnitSelectionPageProps {
   onSearch: (query: string) => void;
 }
 
-const UnitSelectionPage: React.FC<UnitSelectionPageProps> = ({
+function UnitSelectionPage({
   unitOptions,
   selectedUnit,
   onSelect,
   onBack,
   searchQuery,
   onSearch,
-}) => {
+}: UnitSelectionPageProps) {
   const { t } = useTranslation();
 
   const filteredUnits = useMemo(() => {
@@ -78,6 +78,6 @@ const UnitSelectionPage: React.FC<UnitSelectionPageProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default UnitSelectionPage;

@@ -21,7 +21,7 @@ interface RecipePreviewCardProps {
   recipe: Recipe;
 }
 
-const RecipePreviewCard: React.FC<RecipePreviewCardProps> = ({ recipe }) => {
+function RecipePreviewCard({ recipe }: RecipePreviewCardProps) {
   const { t } = useTranslation();
 
   const totalTimeString = formatDuration(recipe.totalTime, t);
@@ -145,6 +145,6 @@ const RecipePreviewCard: React.FC<RecipePreviewCardProps> = ({ recipe }) => {
       </CardContent>
     </Card>
   );
-};
+}
 
 export default RecipePreviewCard;

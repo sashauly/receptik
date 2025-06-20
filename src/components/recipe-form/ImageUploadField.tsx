@@ -15,7 +15,7 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_IMAGES = 5;
 
-const ImageUploadField: React.FC = () => {
+function ImageUploadField() {
   const { t } = useTranslation();
   const { setValue } = useFormContext();
   const images = useWatch({ name: "images" });
@@ -295,6 +295,6 @@ const ImageUploadField: React.FC = () => {
       </Dialog>
     </div>
   );
-};
+}
 
 export default ImageUploadField;

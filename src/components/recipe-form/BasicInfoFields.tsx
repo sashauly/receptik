@@ -11,7 +11,7 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Textarea } from "@/components/ui/textarea";
 
-const BasicInfoFields: React.FC = () => {
+function BasicInfoFields() {
   const { t } = useTranslation();
   const { control } = useFormContext<RecipeFormValues>();
 
@@ -76,6 +76,6 @@ const BasicInfoFields: React.FC = () => {
       />
     </>
   );
-};
+}
 
 export default BasicInfoFields;

@@ -23,7 +23,7 @@ interface TimerDrawerProps {
   children: React.ReactNode;
 }
 
-const TimerDrawer: React.FC<TimerDrawerProps> = ({ children }) => {
+function TimerDrawer({ children }: TimerDrawerProps) {
   const { t } = useTranslation();
 
   const [setHours, setSetHours] = useState<string>("0");
@@ -160,6 +160,6 @@ const TimerDrawer: React.FC<TimerDrawerProps> = ({ children }) => {
       </DrawerContent>
     </Drawer>
   );
-};
+}
 
 export default TimerDrawer;

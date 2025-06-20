@@ -10,10 +10,7 @@ interface RecipeServingsProps {
   onServingsChange: (change: number) => void;
 }
 
-const RecipeServings: React.FC<RecipeServingsProps> = ({
-  servings,
-  onServingsChange,
-}) => {
+function RecipeServings({ servings, onServingsChange }: RecipeServingsProps) {
   const incrementServings = useCallback(() => {
     onServingsChange(SERVINGS_STEP);
   }, [onServingsChange]);
@@ -50,6 +47,6 @@ const RecipeServings: React.FC<RecipeServingsProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default RecipeServings;

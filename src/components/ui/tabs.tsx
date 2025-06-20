@@ -33,6 +33,8 @@ const TabsList = React.forwardRef<
   );
 });
 
+TabsList.displayName = "TabsList";
+
 function TabsTrigger({
   className,
   ...props

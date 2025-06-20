@@ -34,14 +34,14 @@ interface IngredientItemProps {
   isAmountRequired: (unit: string | UnitValue) => boolean;
 }
 
-const IngredientItem: React.FC<IngredientItemProps> = ({
+function IngredientItem({
   index,
   fieldId,
   remove,
   getUnitLabel,
   unitOptions,
   isAmountRequired,
-}) => {
+}: IngredientItemProps) {
   const { t } = useTranslation();
   const { control, trigger, getValues, setValue, clearErrors } =
     useFormContext();
@@ -331,6 +331,6 @@ const IngredientItem: React.FC<IngredientItemProps> = ({
       )}
     </div>
   );
-};
+}
 
 export default IngredientItem;

@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 import IngredientItem from "./IngredientItem";
 import { v4 as uuidv4 } from "uuid";
 
-const IngredientFields: React.FC = () => {
+function IngredientFields() {
   const { t } = useTranslation();
   const { control } = useFormContext<RecipeFormValues>();
 
@@ -92,6 +92,6 @@ const IngredientFields: React.FC = () => {
       )}
     />
   );
-};
+}
 
 export default IngredientFields;

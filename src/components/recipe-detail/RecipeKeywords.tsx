@@ -4,7 +4,7 @@ interface RecipeKeywordsProps {
   keywords: string[];
 }
 
-const RecipeKeywords: React.FC<RecipeKeywordsProps> = ({ keywords }) => {
+function RecipeKeywords({ keywords }: RecipeKeywordsProps) {
   if (!keywords || keywords.length === 0) {
     return null;
   }
@@ -23,6 +23,6 @@ const RecipeKeywords: React.FC<RecipeKeywordsProps> = ({ keywords }) => {
       ))}
     </div>
   );
-};
+}
 
 export default RecipeKeywords;

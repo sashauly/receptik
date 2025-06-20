@@ -5,7 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DurationInput } from "./DurationInput";
 
-const TimeFields = () => {
+export default function TimeFields() {
   const { t } = useTranslation();
   const { watch } = useFormContext();
 
@@ -37,6 +37,4 @@ const TimeFields = () => {
       </div>
     </>
   );
-};
-
-export default TimeFields;
+}

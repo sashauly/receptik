@@ -20,7 +20,7 @@ interface RecipeListProps {
   onClearSearch: () => void;
 }
 
-const RecipeList: React.FC<RecipeListProps> = ({
+function RecipeList({
   recipes,
   isLoading,
   error,
@@ -28,7 +28,7 @@ const RecipeList: React.FC<RecipeListProps> = ({
   onDeleteRecipe,
   searchTerm,
   onClearSearch,
-}) => {
+}: RecipeListProps) {
   const { t } = useTranslation();
   const { settings } = useSettings();
   const viewMode = settings.viewMode;
@@ -103,6 +103,6 @@ const RecipeList: React.FC<RecipeListProps> = ({
       </ul>
     </div>
   );
-};
+}
 
 export default RecipeList;

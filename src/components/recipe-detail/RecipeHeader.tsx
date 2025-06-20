@@ -10,11 +10,7 @@ interface RecipeHeaderProps {
   onShare: () => void;
 }
 
-const RecipeHeader: React.FC<RecipeHeaderProps> = ({
-  onEdit,
-  onDelete,
-  onShare,
-}) => {
+function RecipeHeader({ onEdit, onDelete, onShare }: RecipeHeaderProps) {
   const { t } = useTranslation();
   const isSmallDevice = useMediaQuery("(max-width: 768px)");
   const navigate = useNavigate();
@@ -58,6 +54,6 @@ const RecipeHeader: React.FC<RecipeHeaderProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default RecipeHeader;

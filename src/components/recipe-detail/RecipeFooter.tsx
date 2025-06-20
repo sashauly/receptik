@@ -7,7 +7,7 @@ interface RecipeFooterProps {
   author?: string;
 }
 
-const RecipeFooter: React.FC<RecipeFooterProps> = ({ updatedAt, author }) => {
+function RecipeFooter({ updatedAt, author }: RecipeFooterProps) {
   const { t } = useTranslation();
   const { settings } = useSettings();
 
@@ -30,6 +30,6 @@ const RecipeFooter: React.FC<RecipeFooterProps> = ({ updatedAt, author }) => {
       )}
     </div>
   );
-};
+}
 
 export default RecipeFooter;

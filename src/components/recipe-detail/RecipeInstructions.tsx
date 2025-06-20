@@ -4,9 +4,7 @@ interface RecipeInstructionsProps {
   instructions: string[];
 }
 
-const RecipeInstructions: React.FC<RecipeInstructionsProps> = ({
-  instructions,
-}) => {
+function RecipeInstructions({ instructions }: RecipeInstructionsProps) {
   const { t } = useTranslation();
   if (!instructions || instructions.length === 0) {
     return null;
@@ -27,6 +25,6 @@ const RecipeInstructions: React.FC<RecipeInstructionsProps> = ({
       </ol>
     </div>
   );
-};
+}
 
 export default RecipeInstructions;

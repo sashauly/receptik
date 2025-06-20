@@ -10,10 +10,10 @@ interface RecipeIngredientsProps {
   servings: number;
 }
 
-const RecipeIngredients: React.FC<RecipeIngredientsProps> = ({
+function RecipeIngredients({
   ingredients,
   servings: originalRecipeServings,
-}) => {
+}: RecipeIngredientsProps) {
   const { t } = useTranslation();
 
   const [servings, setServings] = useState(originalRecipeServings);
@@ -115,6 +115,6 @@ const RecipeIngredients: React.FC<RecipeIngredientsProps> = ({
       </ul>
     </div>
   );
-};
+}
 
 export default RecipeIngredients;

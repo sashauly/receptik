@@ -15,14 +15,14 @@ interface IngredientPreviewProps {
   className?: string;
 }
 
-const IngredientPreview: React.FC<IngredientPreviewProps> = ({
+function IngredientPreview({
   ingredient,
   index,
   onEdit,
   onDelete,
   getUnitLabel,
   className,
-}) => {
+}: IngredientPreviewProps) {
   const { t } = useTranslation();
   const itemRef = useRef<HTMLDivElement>(null);
 
@@ -112,6 +112,6 @@ const IngredientPreview: React.FC<IngredientPreviewProps> = ({
       </div>
     </div>
   );
-};
+}
 
 export default IngredientPreview;

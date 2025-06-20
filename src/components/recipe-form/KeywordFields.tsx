@@ -14,7 +14,7 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Badge } from "../ui/badge";
 
-const KeywordFields: React.FC = () => {
+function KeywordFields() {
   const { t } = useTranslation();
   const form = useFormContext<RecipeFormValues>();
 
@@ -96,6 +96,6 @@ const KeywordFields: React.FC = () => {
       )}
     />
   );
-};
+}
 
 export default KeywordFields;

@@ -37,11 +37,11 @@ interface RecipeFormModalProps {
   onCancel: () => void;
 }
 
-const RecipeForm: React.FC<RecipeFormModalProps> = ({
+export default function RecipeForm({
   initialRecipe,
   onSave,
   onCancel,
-}) => {
+}: RecipeFormModalProps) {
   const { t } = useTranslation();
 
   const recipe = initialRecipe || emptyRecipe();
@@ -123,6 +123,4 @@ const RecipeForm: React.FC<RecipeFormModalProps> = ({
       </FormProvider>
     </FormSchemaProvider>
   );
-};
-
-export default RecipeForm;
+}

@@ -9,11 +9,11 @@ interface TimerDisplayProps {
   onTimerStart?: () => void;
 }
 
-const TimerDisplay: React.FC<TimerDisplayProps> = ({
+function TimerDisplay({
   initialTimeInSeconds,
   onTimerEnd,
   onTimerStart,
-}) => {
+}: TimerDisplayProps) {
   const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(initialTimeInSeconds);
   const [progressValue, setProgressValue] = useState(
@@ -113,6 +113,6 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({
       <Progress value={progressValue} />
     </div>
   );
-};
+}
 
 export default TimerDisplay;

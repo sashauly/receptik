@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/responsive-dialog";
 import { useTranslation } from "react-i18next";
 
-const PWAInstallPrompt = () => {
+function PWAInstallPrompt() {
   const { t } = useTranslation();
   const { canInstall, promptInstall, isInstalled } = usePWAInstall();
   const [showFallback, setShowFallback] = useState(false);
@@ -56,9 +56,9 @@ const PWAInstallPrompt = () => {
       </ResponsiveDialog>
     </>
   );
-};
+}
 
-const InstallInstructions = () => {
+function InstallInstructions() {
   const { t } = useTranslation();
 
   return (
@@ -74,6 +74,6 @@ const InstallInstructions = () => {
       </p>
     </div>
   );
-};
+}
 
 export default PWAInstallPrompt;

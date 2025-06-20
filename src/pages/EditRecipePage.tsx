@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 
-const EditRecipePage: React.FC = () => {
+function EditRecipePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { slug } = useParams();
@@ -89,6 +89,6 @@ const EditRecipePage: React.FC = () => {
       )}
     </div>
   );
-};
+}
 
 export default EditRecipePage;

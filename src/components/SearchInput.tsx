@@ -11,11 +11,7 @@ interface SearchInputProps {
   className?: string;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({
-  value,
-  onChange,
-  className,
-}) => {
+function SearchInput({ value, onChange, className }: SearchInputProps) {
   const { t } = useTranslation();
 
   const handleInternalClear = React.useCallback(() => {
@@ -49,6 +45,6 @@ const SearchInput: React.FC<SearchInputProps> = ({
       )}
     </div>
   );
-};
+}
 
 export default React.memo(SearchInput);
