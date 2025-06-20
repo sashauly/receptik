@@ -1,5 +1,5 @@
 import { Minus, Plus } from "lucide-react";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { Button } from "../ui/button";
 
 const SERVINGS_STEP = 1;

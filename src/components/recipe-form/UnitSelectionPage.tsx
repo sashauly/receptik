@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { UnitValue } from "@/lib/measurements";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";

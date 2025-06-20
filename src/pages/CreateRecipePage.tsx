@@ -4,7 +4,6 @@ import { useAddRecipe } from "@/hooks/recipes/useAddRecipe";
 import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";

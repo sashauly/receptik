@@ -5,7 +5,6 @@ import { useUpdateRecipe } from "@/hooks/recipes/useUpdateRecipe";
 import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { ChevronLeft } from "lucide-react";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";

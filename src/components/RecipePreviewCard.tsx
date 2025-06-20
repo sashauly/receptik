@@ -11,7 +11,6 @@ import { getBaseUnitByValue } from "@/lib/measurements";
 import { formatDuration } from "@/lib/utils/time";
 import type { Ingredient, Recipe } from "@/types/recipe";
 import { Clock, Users } from "lucide-react";
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 const INGREDIENTS_TO_SHOW = 3;

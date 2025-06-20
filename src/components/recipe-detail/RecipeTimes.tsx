@@ -1,6 +1,5 @@
 import { formatDuration } from "@/lib/utils/time";
 import { Clock } from "lucide-react";
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 interface RecipeTimesProps {

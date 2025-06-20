@@ -1,6 +1,6 @@
 import { getBaseUnitByValue } from "@/lib/measurements";
 import { Ingredient } from "@/types/recipe";
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import RecipeServings from "./RecipeServings";
 import { v4 as uuidv4 } from "uuid";
