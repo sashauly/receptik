@@ -78,7 +78,12 @@
             "recipeNotFoundDesc": "Рецепт, который вы ищете, не существует или был удален.",
             "noKeywords": "Нет ключевых слов",
             "noImages": "Нет изображений",
-            "searchResults": "Результатов найдено: {{count}}"
+            "searchResults": "Результатов найдено: {{count}}",
+            "cookingMode": "Режим готовки",
+            "startCooking": "Готовить",
+            "nextStep": "Следующий шаг",
+            "prevStep": "Предыдущий шаг",
+            "finish": "Завершить"
         },
         "settings": {
             "title": "Настройки",

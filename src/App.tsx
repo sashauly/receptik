@@ -16,6 +16,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n/config.ts";
 import { SettingsProvider } from "./context/SettingsContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import CookingModePage from "./pages/CookingModePage";
 
 const basename = (import.meta.env.VITE_BASE_URL || "/") as string;
 
@@ -76,6 +77,14 @@ function App() {
                     element={
                       <ErrorBoundary componentName="SettingsPage">
                         <SettingsPage />
+                      </ErrorBoundary>
+                    }
+                  />
+                  <Route
+                    path="/cook/:slug"
+                    element={
+                      <ErrorBoundary componentName="CookingModePage">
+                        <CookingModePage />
                       </ErrorBoundary>
                     }
                   />

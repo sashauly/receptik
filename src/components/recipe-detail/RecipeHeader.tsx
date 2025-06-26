@@ -38,10 +38,10 @@ export default function RecipeHeader({
       )}
     >
       <Button
-        onClick={handleClickBackButton}
-        aria-label="Back"
-        variant="outline"
         size={isSmallDevice ? "icon" : "sm"}
+        variant="outline"
+        onClick={handleClickBackButton}
+        aria-label={t("common.back")}
       >
         <ChevronLeft size={20} />
         {!isSmallDevice && t("common.back")}

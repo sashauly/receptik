@@ -36,7 +36,12 @@
       "noDescription": "No description available",
       "showMore": "Show more",
       "showLess": "Show less",
-      "default": "Default"
+      "default": "Default",
+      "cookingMode": "Cooking Mode",
+      "startCooking": "Cook",
+      "nextStep": "Next Step",
+      "prevStep": "Previous Step",
+      "finish": "Finish"
     },
     "navigation": {
       "myRecipes": "My Recipes",
@@ -77,7 +82,12 @@
       "recipeNotFoundDesc": "The recipe you're looking for doesn't exist or has been removed.",
       "noKeywords": "No keywords",
       "noImages": "No images",
-      "searchResults": "Results found: {{count}}"
+      "searchResults": "Results found: {{count}}",
+      "cookingMode": "Cooking Mode",
+      "startCooking": "Cook",
+      "nextStep": "Next Step",
+      "prevStep": "Previous Step",
+      "finish": "Finish"
     },
     "settings": {
       "title": "Settings",

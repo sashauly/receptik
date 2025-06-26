@@ -37,6 +37,11 @@ interface Resources {
       showMore: "Show more";
       showLess: "Show less";
       default: "Default";
+      cookingMode: "Cooking Mode";
+      startCooking: "Cook";
+      nextStep: "Next Step";
+      prevStep: "Previous Step";
+      finish: "Finish";
     };
     navigation: {
       myRecipes: "My Recipes";
@@ -78,6 +83,11 @@ interface Resources {
       noKeywords: "No keywords";
       noImages: "No images";
       searchResults: "Results found: {{count}}";
+      cookingMode: "Cooking Mode";
+      startCooking: "Cook";
+      nextStep: "Next Step";
+      prevStep: "Previous Step";
+      finish: "Finish";
     };
     settings: {
       title: "Settings";

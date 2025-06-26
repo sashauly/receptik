@@ -8,7 +8,10 @@ import RecipeDescription from "@/components/recipe-detail/RecipeDescription";
 import type { Recipe } from "@/types/recipe";
 import { Separator } from "./ui/separator";
 import { useSettings } from "@/context/SettingsContext";
-import { Clock, User } from "lucide-react";
+import { Clock, CookingPot, User } from "lucide-react";
+import { Link } from "react-router";
+import { useTranslation } from "react-i18next";
+import { Button } from "./ui/button";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -24,6 +27,7 @@ export default function RecipeDetailRefined({
   onShare,
 }: RecipeDetailProps) {
   const { settings } = useSettings();
+  const { t } = useTranslation();
 
   return (
     <div className="relative min-h-screen">
@@ -35,7 +39,7 @@ export default function RecipeDetailRefined({
             <RecipeImages images={recipe.images} />
           </div>
         )}
-        <div className="z-10 p-4 pb-6">
+        <div className="z-10 px-4 py-2">
           <h1
             className="text-3xl md:text-4xl font-bold drop-shadow-lg text-white"
             style={{ textShadow: "0 2px 8px rgba(0,0,0,0.7)" }}
@@ -58,6 +62,17 @@ export default function RecipeDetailRefined({
                 </span>
               </div>
             )}
+          </div>
+          <div className="flex items-center gap-2 py-2">
+            <Button asChild variant="default">
+              <Link
+                to={`/cook/${recipe.slug}`}
+                className="flex items-center gap-2"
+              >
+                <CookingPot />
+                {t("recipe.startCooking")}
+              </Link>
+            </Button>
           </div>
         </div>
       </div>
