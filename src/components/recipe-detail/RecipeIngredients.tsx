@@ -2,20 +2,21 @@ import { getBaseUnitByValue } from "@/lib/measurements";
 import { Ingredient } from "@/types/recipe";
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import RecipeServings from "./RecipeServings";
-import { v4 as uuidv4 } from "uuid";
+import RecipeServings from "../recipe-detail/RecipeServings";
+import { Badge } from "../ui/badge";
+// import { Plus } from "lucide-react";
+// import { Button } from "../ui/button";
 
 interface RecipeIngredientsProps {
   ingredients: Ingredient[];
   servings: number;
 }
 
-function RecipeIngredients({
+export default function RecipeIngredients({
   ingredients,
   servings: originalRecipeServings,
 }: RecipeIngredientsProps) {
   const { t } = useTranslation();
-
   const [servings, setServings] = useState(originalRecipeServings);
 
   const handleServingsChange = useCallback((change: number) => {
@@ -50,7 +51,6 @@ function RecipeIngredients({
   const getIngredientUnitLabel = useCallback(
     (unit: string, amount: number | null): string => {
       const displayAmount = amount !== null ? amount : 0;
-
       if (getBaseUnitByValue(unit)?.type === "other") {
         if (unit === "toTaste" || unit === "optional") {
           return t(`units.other.${unit}`);
@@ -61,7 +61,6 @@ function RecipeIngredients({
           count: Number(displayAmount),
         });
       }
-
       // @ts-expect-error Incompatible types with locale resources
       return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_short`);
     },
@@ -73,16 +72,22 @@ function RecipeIngredients({
   }
 
   return (
-    <div>
+    <>
       <div className="flex justify-between mb-2">
         <div className="flex flex-col">
-          <h3 className="text-lg font-semibold">{t("recipe.ingredients")}</h3>
-          <p className="text-muted-foreground" itemProp="recipeYield">
+          <h3 className="text-base font-semibold">{t("recipe.ingredients")}</h3>
+          <p
+            className="text-xs text-muted-foreground flex items-center gap-2"
+            itemProp="recipeYield"
+          >
             {servings}{" "}
             {t("recipe.servings_interval", {
               postProcess: "interval",
               count: Number(servings),
             })}
+            <Badge variant="outline" className="ml-2">
+              {t("common.default")}: {originalRecipeServings}
+            </Badge>
           </p>
         </div>
         <RecipeServings
@@ -90,31 +95,43 @@ function RecipeIngredients({
           onServingsChange={handleServingsChange}
         />
       </div>
-      <ul className="space-y-2">
+      <ul className="divide-y divide-border">
         {ingredients.map((ingredient) => {
           const adjustedAmount = ingredientsAmountOnServingsRatio(
             ingredient.amount
           );
-          const ingredientId = ingredient.id || uuidv4();
           return (
             <li
-              key={ingredientId}
-              className="flex justify-between items-center gap-2"
+              key={ingredient.id || ingredient.name}
+              className="flex items-center gap-3 py-2"
               itemProp="recipeIngredient"
             >
-              <span>{ingredient.name}</span>
-              <span className="text-muted-foreground">
-                {adjustedAmount !== null &&
-                  adjustedAmount !== 0 &&
-                  ingredientAmountToString(adjustedAmount)}{" "}
-                {getIngredientUnitLabel(ingredient.unit, adjustedAmount)}
-              </span>
+              {/* Placeholder for ingredient image */}
+              {/* <img
+                src={ingredient.image}
+                alt={ingredient.name}
+                className="w-10 h-10 rounded object-cover"
+              /> */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm truncate">{ingredient.name}</p>
+                <p className="text-muted-foreground text-sm">
+                  {adjustedAmount !== null &&
+                    adjustedAmount !== 0 &&
+                    ingredientAmountToString(adjustedAmount)}{" "}
+                  {getIngredientUnitLabel(ingredient.unit, adjustedAmount)}
+                </p>
+              </div>
+              {/* <Button
+                size="icon"
+                className="rounded-full"
+                aria-label="Add to cart"
+              >
+                <Plus className="w-5 h-5" />
+              </Button> */}
             </li>
           );
         })}
       </ul>
-    </div>
+    </>
   );
 }
-
-export default RecipeIngredients;

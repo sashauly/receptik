@@ -33,7 +33,10 @@
       "lastUpdated": "Updated",
       "noResultsFound": "No results found",
       "confirm": "Confirm",
-      "noDescription": "No description available"
+      "noDescription": "No description available",
+      "showMore": "Show more",
+      "showLess": "Show less",
+      "default": "Default"
     },
     "navigation": {
       "myRecipes": "My Recipes",

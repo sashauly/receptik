@@ -97,7 +97,7 @@ export default function RecipePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-6">
+    <div className="container mx-auto">
       {recipe && (
         <ErrorBoundary componentName="RecipeDetail">
           <RecipeDetail

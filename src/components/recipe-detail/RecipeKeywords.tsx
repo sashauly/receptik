@@ -1,28 +1,18 @@
-import { Badge } from "../ui/badge";
+import { Badge } from "@/components/ui/badge";
 
 interface RecipeKeywordsProps {
   keywords: string[];
 }
 
-function RecipeKeywords({ keywords }: RecipeKeywordsProps) {
-  if (!keywords || keywords.length === 0) {
-    return null;
-  }
-
+export default function RecipeKeywords({ keywords }: RecipeKeywordsProps) {
+  if (!keywords || keywords.length === 0) return null;
   return (
     <div className="flex flex-wrap gap-2">
       {keywords.map((keyword) => (
-        <Badge
-          key={keyword}
-          variant="outline"
-          className="bg-muted/50 rounded-full"
-          itemProp="keywords"
-        >
+        <Badge key={keyword} variant="outline" itemProp="keywords">
           {keyword}
         </Badge>
       ))}
     </div>
   );
 }
-
-export default RecipeKeywords;

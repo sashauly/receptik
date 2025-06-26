@@ -20,6 +20,7 @@ import { ViewModeControls } from "@/components/ViewModeControls";
 
 import { logError } from "@/lib/utils/logger";
 import { useDebounce } from "@/hooks/useDebounce";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const { t } = useTranslation();
@@ -82,22 +83,26 @@ export default function Home() {
     return (
       <>
         {/* Mobile Fixed Top Bar */}
-        <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-          <div className="flex flex-col gap-2 p-4">
-            <div className="flex items-center gap-2">
-              <SearchInput
-                value={currentSearchTerm}
-                onChange={setCurrentSearchTerm}
-                className="flex-1"
-              />
-              <ViewModeControls />
-            </div>
-            {/* {currentSearchTerm && (
+        <div
+          className={cn(
+            "fixed top-0 left-0 right-0 z-50",
+            "flex flex-col gap-2 p-4",
+            "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
+          )}
+        >
+          <div className="flex items-center gap-2">
+            <SearchInput
+              value={currentSearchTerm}
+              onChange={setCurrentSearchTerm}
+              className="flex-1"
+            />
+            <ViewModeControls />
+          </div>
+          {/* {currentSearchTerm && (
               <p className="text-sm text-muted-foreground">
                 {t("recipe.searchResults", { count: recipes.length })}
               </p>
             )} */}
-          </div>
         </div>
 
         {/* Mobile Main Content */}

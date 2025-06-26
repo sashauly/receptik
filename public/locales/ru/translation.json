@@ -34,7 +34,10 @@
             "noResultsFound": "Ничего не найдено",
             "confirm": "Подтвердить",
             "viewMode": "Режим отображения",
-            "noDescription": "Нет описания"
+            "noDescription": "Нет описания",
+            "showMore": "Показать больше",
+            "showLess": "Скрыть",
+            "default": "По умолчанию"
         },
         "navigation": {
             "myRecipes": "Мои рецепты",

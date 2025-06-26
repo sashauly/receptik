@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { cn } from "@/lib/utils";
 import { ChevronLeft, Edit, Share2, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
@@ -10,7 +11,11 @@ interface RecipeHeaderProps {
   onShare: () => void;
 }
 
-function RecipeHeader({ onEdit, onDelete, onShare }: RecipeHeaderProps) {
+export default function RecipeHeader({
+  onEdit,
+  onDelete,
+  onShare,
+}: RecipeHeaderProps) {
   const { t } = useTranslation();
   const isSmallDevice = useMediaQuery("(max-width: 768px)");
   const navigate = useNavigate();
@@ -24,36 +29,56 @@ function RecipeHeader({ onEdit, onDelete, onShare }: RecipeHeaderProps) {
   // };
 
   return (
-    <div className="flex items-center justify-between mb-4 gap-2">
+    <div
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50",
+        "flex justify-between items-center gap-2",
+        "w-full p-4",
+        "bg-linear-to-b from-black"
+      )}
+    >
       <Button
-        variant="ghost"
         onClick={handleClickBackButton}
-        className="flex items-center"
+        aria-label="Back"
+        variant="outline"
+        size={isSmallDevice ? "icon" : "sm"}
       >
-        <ChevronLeft />
-        {t("common.back")}
+        <ChevronLeft size={20} />
+        {!isSmallDevice && t("common.back")}
       </Button>
-
-      <div className="flex flex-wrap gap-2">
+      <div className="flex gap-2">
         {/* <Button variant="outline" disabled onClick={onAddToFavorites}>
           <Heart />
           {!isSmallDevice && t("common.addToFavorites")}
         </Button> */}
-        <Button variant="outline" onClick={onEdit}>
-          <Edit />
+        <Button
+          onClick={onEdit}
+          aria-label="Edit"
+          variant="outline"
+          size={isSmallDevice ? "icon" : "sm"}
+        >
+          <Edit size={20} />
           {!isSmallDevice && t("common.edit")}
         </Button>
-        <Button variant="outline" onClick={onShare}>
-          <Share2 />
+        <Button
+          onClick={onShare}
+          aria-label="Share"
+          variant="outline"
+          size={isSmallDevice ? "icon" : "sm"}
+        >
+          <Share2 size={20} />
           {!isSmallDevice && t("common.share")}
         </Button>
-        <Button variant="destructive" onClick={onDelete}>
-          <Trash2 />
+        <Button
+          onClick={onDelete}
+          aria-label="Delete"
+          variant="destructive"
+          size={isSmallDevice ? "icon" : "sm"}
+        >
+          <Trash2 size={20} />
           {!isSmallDevice && t("common.delete")}
         </Button>
       </div>
     </div>
   );
 }
-
-export default RecipeHeader;

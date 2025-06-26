@@ -34,6 +34,9 @@ interface Resources {
       noResultsFound: "No results found";
       confirm: "Confirm";
       noDescription: "No description available";
+      showMore: "Show more";
+      showLess: "Show less";
+      default: "Default";
     };
     navigation: {
       myRecipes: "My Recipes";
@@ -74,7 +77,7 @@ interface Resources {
       recipeNotFoundDesc: "The recipe you're looking for doesn't exist or has been removed.";
       noKeywords: "No keywords";
       noImages: "No images";
-      searchResults: "{{count}} results found";
+      searchResults: "Results found: {{count}}";
     };
     settings: {
       title: "Settings";

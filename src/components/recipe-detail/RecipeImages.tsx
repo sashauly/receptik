@@ -1,84 +1,59 @@
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { RecipeImage } from "@/types/recipe";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Card } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { useTranslation } from "react-i18next";
 
 interface RecipeImagesProps {
   images: RecipeImage[];
+  className?: string;
 }
 
-export default function RecipeImages({ images }: RecipeImagesProps) {
+export default function RecipeImages({ images, className }: RecipeImagesProps) {
+  const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+
   if (!images || images.length === 0) {
     return null;
   }
 
-  if (images.length === 1) {
-    return (
-      <div className="w-full max-w-3xl mx-auto">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Card className="cursor-pointer overflow-hidden group">
-              <div className="relative aspect-[16/9]">
-                <img
-                  src={images[0].data}
-                  alt={images[0].name}
-                  className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            </Card>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl">
-            <img
-              src={images[0].data}
-              alt={images[0].name}
-              className="w-full h-auto object-contain"
-            />
-          </DialogContent>
-        </Dialog>
-      </div>
-    );
-  }
-
   return (
-    <div className="w-full max-w-3xl mx-auto">
-      <Carousel className="w-full">
-        <CarouselContent>
-          {images.map((image) => (
-            <CarouselItem key={image.id}>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Card className="cursor-pointer overflow-hidden group">
-                    <div className="relative aspect-[16/9]">
-                      <img
-                        src={image.data}
-                        alt={image.name}
-                        className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </div>
-                  </Card>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl">
-                  <img
-                    src={image.data}
-                    alt={image.name}
-                    className="w-full h-auto object-contain"
-                  />
-                </DialogContent>
-              </Dialog>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="left-2" />
-        <CarouselNext className="right-2" />
-      </Carousel>
-    </div>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <div
+          className={cn("w-full h-full relative z-0", className)}
+          onClick={() => setOpen(false)}
+        >
+          <img
+            src={images[0].data}
+            alt={images[0].name}
+            className="w-full h-full object-cover object-center"
+            draggable={false}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+        </div>
+      </DialogTrigger>
+      <DialogContent
+        className="fixed inset-0 left-0 top-0 translate-x-0 translate-y-0 w-full h-full z-[1001] flex items-center justify-center bg-black/95 p-0 border-0 max-w-none rounded-none shadow-none"
+        style={{ background: "rgba(0,0,0,0.95)", padding: 0, border: 0 }}
+      >
+        <DialogTitle className="sr-only">{t("forms.imagePreview")}</DialogTitle>
+        <DialogDescription className="sr-only">
+          {images[0].name}
+        </DialogDescription>
+        <img
+          src={images[0].data}
+          alt={images[0].name}
+          className="max-w-full max-h-full object-contain"
+          draggable={false}
+        />
+      </DialogContent>
+    </Dialog>
   );
 }

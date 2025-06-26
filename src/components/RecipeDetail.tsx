@@ -1,20 +1,14 @@
-import RecipeFooter from "@/components/recipe-detail/RecipeFooter";
 import RecipeHeader from "@/components/recipe-detail/RecipeHeader";
 import RecipeImages from "@/components/recipe-detail/RecipeImages";
 import RecipeIngredients from "@/components/recipe-detail/RecipeIngredients";
 import RecipeInstructions from "@/components/recipe-detail/RecipeInstructions";
-import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
+// import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
 import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import RecipeDescription from "@/components/recipe-detail/RecipeDescription";
 import type { Recipe } from "@/types/recipe";
+import { Separator } from "./ui/separator";
+import { useSettings } from "@/context/SettingsContext";
+import { Clock, User } from "lucide-react";
 
 interface RecipeDetailProps {
   recipe: Recipe;
@@ -23,60 +17,80 @@ interface RecipeDetailProps {
   onShare: () => void;
 }
 
-export default function RecipeDetail({
+export default function RecipeDetailRefined({
   recipe,
   onEdit,
   onDelete,
   onShare,
 }: RecipeDetailProps) {
+  const { settings } = useSettings();
+
   return (
-    <>
+    <div className="relative min-h-screen">
       <RecipeHeader onEdit={onEdit} onDelete={onDelete} onShare={onShare} />
 
-      <Card itemScope itemType="https://schema.org/Recipe">
-        <CardHeader>
-          <CardTitle itemProp="name">{recipe.name}</CardTitle>
-          {recipe.description && (
-            <CardDescription itemProp="description">
-              {recipe.description}
-            </CardDescription>
-          )}
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {recipe.images && recipe.images.length > 0 && (
-            <>
-              <RecipeImages images={recipe.images} />
-              <Separator />
-            </>
-          )}
+      <div className="relative w-full h-56 md:h-72 flex items-end justify-start overflow-hidden rounded-b-3xl">
+        {recipe.images && recipe.images.length > 0 && (
+          <div className="absolute inset-0 z-0">
+            <RecipeImages images={recipe.images} />
+          </div>
+        )}
+        <div className="z-10 p-4 pb-6">
+          <h1
+            className="text-3xl md:text-4xl font-bold drop-shadow-lg text-white"
+            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.7)" }}
+            itemProp="name"
+          >
+            {recipe.name}
+          </h1>
+          <div className="mt-1 z-10 flex items-center gap-4 text-sm text-white">
+            {recipe.author && (
+              <div className="flex items-center gap-1">
+                <User size={14} />
+                <p>{recipe.author}</p>
+              </div>
+            )}
+            {recipe.updatedAt && (
+              <div className="flex items-center gap-1 ">
+                <Clock size={14} />
+                <span itemProp="dateModified">
+                  {recipe.updatedAt.toLocaleString(settings.language)}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
 
-          {recipe.keywords && recipe.keywords.length > 0 && (
-            <>
-              <RecipeKeywords keywords={recipe.keywords} />
-              <Separator />
-            </>
-          )}
+      <div className="p-4 space-y-6">
+        {/* {recipe.keywords && recipe.keywords.length > 0 && (
+          <>
+            <RecipeKeywords keywords={recipe.keywords} />
+            <Separator />
+          </>
+        )} */}
 
-          <RecipeTimes
-            cookTime={recipe.cookTime}
-            prepTime={recipe.prepTime}
-            totalTime={recipe.totalTime}
-          />
+        {/* Description */}
+        {recipe.description && (
+          <RecipeDescription description={recipe.description} />
+        )}
 
-          <RecipeIngredients
-            ingredients={recipe.ingredients}
-            servings={recipe.servings}
-          />
+        {/* Times, Keywords, Ingredients, Instructions */}
+        <RecipeTimes
+          cookTime={recipe.cookTime}
+          prepTime={recipe.prepTime}
+          totalTime={recipe.totalTime}
+        />
 
-          <Separator />
+        <Separator />
 
-          <RecipeInstructions instructions={recipe.instructions} />
-        </CardContent>
+        <RecipeIngredients
+          ingredients={recipe.ingredients}
+          servings={recipe.servings}
+        />
 
-        <CardFooter>
-          <RecipeFooter updatedAt={recipe.updatedAt} author={recipe.author} />
-        </CardFooter>
-      </Card>
-    </>
+        <RecipeInstructions instructions={recipe.instructions} />
+      </div>
+    </div>
   );
 }
