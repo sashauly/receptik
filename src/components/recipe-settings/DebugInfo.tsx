@@ -1,6 +1,69 @@
 import { Separator } from "@/components/ui/separator";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Check, X, Info, WifiHigh, WifiOff } from "lucide-react";
+
+const FEATURE_APIS = [
+  {
+    name: "Virtual Keyboard API",
+    key: "virtualKeyboard",
+    supported: () => "virtualKeyboard" in navigator,
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/Virtual_Keyboard_API",
+  },
+  {
+    name: "LocalStorage",
+    key: "localStorage",
+    supported: () => "localStorage" in window && window.localStorage !== null,
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage",
+  },
+  {
+    name: "IndexedDB",
+    key: "indexedDB",
+    supported: () => "indexedDB" in window,
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API",
+  },
+  {
+    name: "Service Worker",
+    key: "serviceWorker",
+    supported: () => "serviceWorker" in navigator,
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API",
+  },
+  {
+    name: "Notifications",
+    key: "Notification",
+    supported: () => "Notification" in window,
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/notification",
+  },
+  {
+    name: "Clipboard API",
+    key: "clipboard",
+    supported: () => "clipboard" in navigator,
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API",
+  },
+  {
+    name: "Share API",
+    key: "share",
+    supported: () => {
+      if (!navigator.share || !navigator.canShare) return false;
+      try {
+        return navigator.canShare({
+          title: "Receptik",
+          text: "Check out this awesome recipe!",
+        });
+      } catch {
+        return false;
+      }
+    },
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share",
+  },
+  {
+    name: "File System Access API",
+    key: "showOpenFilePicker",
+    supported: () => "showOpenFilePicker" in window,
+    mdn: "https://developer.mozilla.org/en-US/docs/Web/API/File_System_Access_API",
+  },
+];
 
 export default function DebugInfo() {
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
@@ -22,13 +85,15 @@ export default function DebugInfo() {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
-  function canBrowserShareData(data: ShareData) {
-    if (!navigator.share || !navigator.canShare) {
-      return false;
+  const featureResults = FEATURE_APIS.map((api) => {
+    let supported: boolean | null = null;
+    try {
+      supported = api.supported();
+    } catch {
+      supported = null;
     }
-
-    return navigator.canShare(data);
-  }
+    return { ...api, supported };
+  });
 
   return (
     <div>
@@ -48,7 +113,20 @@ export default function DebugInfo() {
               : navigator.platform}
           </p>
           <p>Browser Language: {navigator.language}</p>
-          <p>Online Status: {navigator.onLine ? "Online" : "Offline"}</p>
+          <p className="flex items-center gap-1">
+            Online Status:{" "}
+            {navigator.onLine ? (
+              <>
+                <WifiHigh className="text-green-600" />
+                <span className="text-green-600">Online</span>
+              </>
+            ) : (
+              <>
+                <WifiOff className="text-red-600" />
+                <span className="text-red-600">Offline</span>
+              </>
+            )}
+          </p>
           <p>
             Screen Resolution: {window.screen.width}x{window.screen.height}
           </p>
@@ -60,30 +138,31 @@ export default function DebugInfo() {
 
         <div className="flex flex-col gap-2">
           <h4 className="text-sm font-mono">Feature Checks: </h4>
-          <p>
-            VirtualKeyboardAPI: {"virtualKeyboard" in navigator ? "✅" : "❌"}
-          </p>
-          <p>
-            LocalStorage Support:{" "}
-            {"localStorage" in window && window.localStorage !== null
-              ? "✅"
-              : "❌"}
-          </p>
-          <p>IndexedDB Support: {"indexedDB" in window ? "✅" : "❌"}</p>
-          <p>
-            Service Worker Support: {"serviceWorker" in navigator ? "✅" : "❌"}
-          </p>
-          <p>Notifications Support: {"Notification" in window ? "✅" : "❌"}</p>
-          <p>Clipboard API Support: {"clipboard" in navigator ? "✅" : "❌"}</p>
-          <p>
-            Share API Support:{" "}
-            {canBrowserShareData({
-              title: "Receptik",
-              text: "Check out this awesome recipe!",
-            })
-              ? "✅"
-              : "❌"}
-          </p>
+          {featureResults.map(({ name, supported, mdn }) => (
+            <div key={name} className="flex items-center gap-2">
+              <Badge variant={supported ? "secondary" : "destructive"}>
+                {supported === true ? (
+                  <Check className="inline w-3 h-3 mr-1 text-green-600" />
+                ) : supported === false ? (
+                  <X className="inline w-3 h-3 mr-1" />
+                ) : (
+                  <Info className="inline w-3 h-3 mr-1 text-yellow-600" />
+                )}
+                {name}
+              </Badge>
+              {mdn && (
+                <a
+                  href={mdn}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ml-1 text-xs text-blue-600 underline align-middle"
+                  aria-label={`MDN ${name} documentation`}
+                >
+                  MDN
+                </a>
+              )}
+            </div>
+          ))}
         </div>
         <Separator className="my-2" />
         <div className="flex flex-col gap-2">
