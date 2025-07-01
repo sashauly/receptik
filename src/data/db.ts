@@ -41,13 +41,22 @@ export const ensureLatestDbSchema = async (): Promise<void> => {
             | { data: Blob; type: string };
           if (
             typeof image.data === "string" &&
-            image.data.startsWith("data:")
+            image.data.startsWith("data:") &&
+            image.data.includes(";base64,")
           ) {
-            needsUpdate = true;
-            return {
-              ...img,
-              data: base64ToBlob(image.data, image.type),
-            };
+            const blob = base64ToBlob(image.data, image.type);
+            if (blob) {
+              needsUpdate = true;
+              return {
+                ...img,
+                data: blob,
+              };
+            } else {
+              logInfo(
+                `Failed to convert base64 to Blob for image in recipe ${recipe.id}`
+              );
+              return img;
+            }
           }
           return img;
         });

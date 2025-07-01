@@ -21,14 +21,27 @@ export const exportAsJson = async (recipe: Recipe) => {
   }
 };
 
-export function base64ToBlob(base64: string, mimeType: string): Blob {
-  const byteString = atob(base64.split(",")[1]);
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
+export function base64ToBlob(base64: string, mimeType: string): Blob | null {
+  try {
+    if (
+      typeof base64 !== "string" ||
+      !base64.startsWith("data:") ||
+      !base64.includes(",")
+    ) {
+      return null;
+    }
+    const parts = base64.split(",");
+    if (parts.length < 2) return null;
+    const byteString = atob(parts[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mimeType });
+  } catch {
+    return null;
   }
-  return new Blob([ab], { type: mimeType });
 }
 
 export async function blobToBase64(blob: Blob): Promise<string> {
