@@ -14,6 +14,7 @@ import { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 import { Badge } from "@/components/ui/badge";
+import { useObjectUrl } from "@/hooks/useObjectUrl";
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -29,11 +30,13 @@ interface RecipeImageProps {
 }
 
 const RecipeImage = memo(({ image, name, viewMode }: RecipeImageProps) => {
+  const url = useObjectUrl(image?.data);
+
   if (image) {
     return (
       <div className="relative w-full h-full">
         <img
-          src={image.data}
+          src={url}
           alt={name}
           className="w-full h-full object-cover"
           loading="lazy"

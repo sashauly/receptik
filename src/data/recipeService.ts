@@ -94,6 +94,17 @@ export const deleteAllRecipes = async (): Promise<void> => {
   await recipesTable.clear();
 };
 
+// Helper to convert base64 string to Blob
+function base64ToBlob(base64: string, mimeType: string): Blob {
+  const byteString = atob(base64.split(",")[1]);
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: mimeType });
+}
+
 export const importRecipes = async (
   recipesToImport: Recipe[]
 ): Promise<void> => {
@@ -111,8 +122,31 @@ export const importRecipes = async (
         continue;
       }
 
+      // Convert image data from base64 string to Blob if needed
+      let images = recipeData.images;
+      if (images && images.length > 0) {
+        images = images.map((img) => {
+          const image = img as
+            | { data: string; type: string }
+            | { data: Blob; type: string };
+          if (
+            typeof image.data === "string" &&
+            image.data &&
+            image.data.startsWith("data:")
+          ) {
+            // Convert base64 string to Blob
+            return {
+              ...img,
+              data: base64ToBlob(image.data, image.type),
+            };
+          }
+          return img;
+        });
+      }
+
       const parsedRecipeData: Recipe = {
         ...recipeData,
+        images,
         createdAt: new Date(recipeData.createdAt),
         updatedAt: new Date(recipeData.updatedAt),
       };

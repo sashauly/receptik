@@ -21,23 +21,50 @@ export const exportAsJson = async (recipe: Recipe) => {
   }
 };
 
-export const exportAllRecipesAsJson = (recipes: Recipe[]) => {
+export function base64ToBlob(base64: string, mimeType: string): Blob {
+  const byteString = atob(base64.split(",")[1]);
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: mimeType });
+}
+
+export async function blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+
+// Export all recipes, converting image Blobs to base64 strings
+export const exportAllRecipesAsJson = async (recipes: Recipe[]) => {
   try {
     if (!recipes || recipes.length === 0) {
       throw new Error("No saved recipes found.");
     }
 
-    // const sanitizedRecipes = recipes.map((recipe: any) => ({
-    //   title: recipe.title.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-    //   ingredients: recipe.ingredients.map((i: string) =>
-    //     i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    //   ),
-    //   instructions: recipe.instructions.map((i: string) =>
-    //     i.replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    //   ),
-    // }));
+    // Convert all image Blobs to base64 strings for export
+    const recipesWithBase64Images = await Promise.all(
+      recipes.map(async (recipe) => {
+        if (!recipe.images || recipe.images.length === 0) return recipe;
+        const images = await Promise.all(
+          recipe.images.map(async (img) => {
+            const base64 = await blobToBase64(img.data);
+            return {
+              ...img,
+              data: base64, // base64 string for export
+            };
+          })
+        );
+        return { ...recipe, images };
+      })
+    );
 
-    const data = JSON.stringify(recipes);
+    const data = JSON.stringify(recipesWithBase64Images);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 

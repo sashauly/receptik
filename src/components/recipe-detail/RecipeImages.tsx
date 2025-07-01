@@ -9,6 +9,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { useTranslation } from "react-i18next";
+import { useObjectUrl } from "@/hooks/useObjectUrl";
 
 interface RecipeImagesProps {
   images: RecipeImage[];
@@ -18,6 +19,9 @@ interface RecipeImagesProps {
 export default function RecipeImages({ images, className }: RecipeImagesProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+  const thumbUrl = useObjectUrl(
+    images && images.length > 0 ? images[0].data : undefined
+  );
 
   if (!images || images.length === 0) {
     return null;
@@ -31,7 +35,7 @@ export default function RecipeImages({ images, className }: RecipeImagesProps) {
           onClick={() => setOpen(false)}
         >
           <img
-            src={images[0].data}
+            src={thumbUrl}
             alt={images[0].name}
             className="w-full h-full object-cover object-center"
             draggable={false}
@@ -47,13 +51,23 @@ export default function RecipeImages({ images, className }: RecipeImagesProps) {
         <DialogDescription className="sr-only">
           {images[0].name}
         </DialogDescription>
-        <img
-          src={images[0].data}
-          alt={images[0].name}
-          className="max-w-full max-h-full object-contain"
-          draggable={false}
-        />
+        <PreviewImageDialog image={images[0]} />
       </DialogContent>
     </Dialog>
+  );
+}
+
+// Helper component for preview dialog image
+function PreviewImageDialog({ image }: { image: RecipeImage }) {
+  const { t } = useTranslation();
+  const url = useObjectUrl(image.data);
+  if (!url) return null;
+  return (
+    <img
+      src={url}
+      alt={t("forms.imagePreview", { name: image.name })}
+      className="max-w-full max-h-full object-contain"
+      draggable={false}
+    />
   );
 }

@@ -10,6 +10,7 @@ import { logDebug, logError, logInfo, logWarn } from "@/lib/utils/logger";
 import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useObjectUrl } from "@/hooks/useObjectUrl";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -65,11 +66,10 @@ function ImageUploadField() {
           }
 
           try {
-            const base64 = await convertToBase64(file);
             const imageId = uuidv4();
             newImages.push({
               id: imageId,
-              data: base64,
+              data: file,
               type: file.type,
               name: file.name,
             });
@@ -142,18 +142,6 @@ function ImageUploadField() {
         images.filter((img: RecipeImage) => img.id !== id)
       );
     }
-  };
-
-  const convertToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => {
-        logError("Error converting file to base64", error);
-        reject(error);
-      };
-      reader.readAsDataURL(file);
-    });
   };
 
   return (
@@ -248,33 +236,13 @@ function ImageUploadField() {
           aria-label={t("forms.uploadedImages")}
         >
           {images.map((image: RecipeImage) => (
-            <Card
+            <ImagePreviewCard
               key={image.id}
-              className="relative overflow-hidden"
-              role="listitem"
-            >
-              <div className="aspect-square relative">
-                <img
-                  src={image.data}
-                  alt={t("forms.imagePreview", { name: image.name })}
-                  className="h-full w-full object-cover cursor-pointer"
-                  onClick={() => setPreviewImage(image)}
-                />
-                <div className="absolute right-1 top-1 flex gap-1">
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    className="h-5 w-5"
-                    onClick={() => removeImage(image.id)}
-                    aria-label={t("forms.removeImage", { name: image.name })}
-                    disabled={isUploading}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            </Card>
+              image={image}
+              onClick={() => setPreviewImage(image)}
+              onRemove={() => removeImage(image.id)}
+              isUploading={isUploading}
+            />
           ))}
         </div>
       )}
@@ -283,17 +251,67 @@ function ImageUploadField() {
         <DialogContent className="max-w-4xl">
           {previewImage && (
             <div className="relative">
-              <img
-                src={previewImage.data}
-                alt={t("forms.imagePreview", { name: previewImage.name })}
-                className="w-full h-auto rounded-lg"
-              />
+              <PreviewImageDialog image={previewImage} />
               <p className="mt-2 text-sm text-center">{previewImage.name}</p>
             </div>
           )}
         </DialogContent>
       </Dialog>
     </div>
+  );
+}
+
+// Helper component for preview dialog image
+function PreviewImageDialog({ image }: { image: RecipeImage }) {
+  const { t } = useTranslation();
+  const url = useObjectUrl(image.data);
+  if (!url) return null;
+  return (
+    <img
+      src={url}
+      alt={t("forms.imagePreview", { name: image.name })}
+      className="w-full h-auto rounded-lg"
+    />
+  );
+}
+
+function ImagePreviewCard({
+  image,
+  onClick,
+  onRemove,
+  isUploading,
+}: {
+  image: RecipeImage;
+  onClick: () => void;
+  onRemove: () => void;
+  isUploading: boolean;
+}) {
+  const { t } = useTranslation();
+  const objectUrl = useObjectUrl(image.data);
+  return (
+    <Card className="relative overflow-hidden" role="listitem">
+      <div className="aspect-square relative">
+        <img
+          src={objectUrl}
+          alt={t("forms.imagePreview", { name: image.name })}
+          className="h-full w-full object-cover cursor-pointer"
+          onClick={onClick}
+        />
+        <div className="absolute right-1 top-1 flex gap-1">
+          <Button
+            type="button"
+            variant="destructive"
+            size="icon"
+            className="h-5 w-5"
+            onClick={onRemove}
+            aria-label={t("forms.removeImage", { name: image.name })}
+            disabled={isUploading}
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    </Card>
   );
 }
 

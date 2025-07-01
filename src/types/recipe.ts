@@ -9,7 +9,7 @@ export interface Ingredient {
 
 export interface RecipeImage {
   id: string;
-  data: string; // Base64 encoded image data
+  data: Blob; // Blob object containing image data
   type: string; // MIME type
   name: string;
 }

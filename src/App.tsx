@@ -17,20 +17,23 @@ import i18n from "./i18n/config.ts";
 import { SettingsProvider } from "./context/SettingsContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import CookingModePage from "./pages/CookingModePage";
+import { useEffect } from "react";
+import { ensureLatestDbSchema } from "./data/db";
+import { logDebug, logError } from "./lib/utils/logger.ts";
 
 const basename = (import.meta.env.VITE_BASE_URL || "/") as string;
 
 function App() {
-  // useEffect(() => {
-  //   ensureLatestDbSchema().catch((err) => {
-  //     logError("Error upgrading database schema:", err);
-  //   });
+  useEffect(() => {
+    ensureLatestDbSchema().catch((err) => {
+      logError("Error upgrading database schema:", err);
+    });
 
-  //   if (localStorage.getItem("db_upgrade_pending") === "true") {
-  //     localStorage.removeItem("db_upgrade_pending");
-  //     logDebug("Database schema upgrade completed");
-  //   }
-  // }, []);
+    if (localStorage.getItem("db_upgrade_pending") === "true") {
+      localStorage.removeItem("db_upgrade_pending");
+      logDebug("Database schema upgrade completed");
+    }
+  }, []);
 
   return (
     <ErrorBoundary componentName="App">
