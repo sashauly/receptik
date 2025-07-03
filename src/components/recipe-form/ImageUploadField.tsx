@@ -1,16 +1,16 @@
+import PreviewImageDialog from "@/components/PreviewImageDialog";
+import ImagePreviewCard from "@/components/recipe-form/ImagePreviewCard";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { RecipeImage } from "@/types/recipe";
-import { v4 as uuidv4 } from "uuid";
-import { useTranslation } from "react-i18next";
-import { Loader2, Upload, X } from "lucide-react";
-import { toast } from "sonner";
-import { useFormContext, useWatch } from "react-hook-form";
-import { logDebug, logError, logInfo, logWarn } from "@/lib/utils/logger";
-import { useState, useCallback } from "react";
-import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { useObjectUrl } from "@/hooks/useObjectUrl";
+import { cn } from "@/lib/utils";
+import { logDebug, logError, logInfo, logWarn } from "@/lib/utils/logger";
+import { RecipeImage } from "@/types/recipe";
+import { Loader2, Upload } from "lucide-react";
+import { useCallback, useState } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -258,60 +258,6 @@ function ImageUploadField() {
         </DialogContent>
       </Dialog>
     </div>
-  );
-}
-
-// Helper component for preview dialog image
-function PreviewImageDialog({ image }: { image: RecipeImage }) {
-  const { t } = useTranslation();
-  const url = useObjectUrl(image.data);
-  if (!url) return null;
-  return (
-    <img
-      src={url}
-      alt={t("forms.imagePreview", { name: image.name })}
-      className="w-full h-auto rounded-lg"
-    />
-  );
-}
-
-function ImagePreviewCard({
-  image,
-  onClick,
-  onRemove,
-  isUploading,
-}: {
-  image: RecipeImage;
-  onClick: () => void;
-  onRemove: () => void;
-  isUploading: boolean;
-}) {
-  const { t } = useTranslation();
-  const objectUrl = useObjectUrl(image.data);
-  return (
-    <Card className="relative overflow-hidden" role="listitem">
-      <div className="aspect-square relative">
-        <img
-          src={objectUrl}
-          alt={t("forms.imagePreview", { name: image.name })}
-          className="h-full w-full object-cover cursor-pointer"
-          onClick={onClick}
-        />
-        <div className="absolute right-1 top-1 flex gap-1">
-          <Button
-            type="button"
-            variant="destructive"
-            size="icon"
-            className="h-5 w-5"
-            onClick={onRemove}
-            aria-label={t("forms.removeImage", { name: image.name })}
-            disabled={isUploading}
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
-    </Card>
   );
 }
 

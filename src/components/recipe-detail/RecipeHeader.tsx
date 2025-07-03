@@ -33,8 +33,7 @@ export default function RecipeHeader({
       className={cn(
         "fixed top-0 left-0 right-0 z-50",
         "flex justify-between items-center gap-2",
-        "w-full p-4",
-        "bg-linear-to-b from-black"
+        "w-full p-4"
       )}
     >
       <Button

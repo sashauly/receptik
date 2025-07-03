@@ -8,7 +8,7 @@ import RecipeDescription from "@/components/recipe-detail/RecipeDescription";
 import type { Recipe } from "@/types/recipe";
 import { Separator } from "./ui/separator";
 import { useSettings } from "@/context/SettingsContext";
-import { Clock, CookingPot, User } from "lucide-react";
+import { Clock, CookingPot, ImageIcon, User } from "lucide-react";
 import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
 import { Button } from "./ui/button";
@@ -33,37 +33,44 @@ export default function RecipeDetailRefined({
     <div className="relative min-h-screen">
       <RecipeHeader onEdit={onEdit} onDelete={onDelete} onShare={onShare} />
 
-      <div className="relative w-full h-56 md:h-72 flex items-end justify-start overflow-hidden rounded-b-3xl">
-        {recipe.images && recipe.images.length > 0 && (
-          <div className="absolute inset-0 z-0">
-            <RecipeImages images={recipe.images} />
+      <div className="relative w-full aspect-[3/4] overflow-hidden rounded-b-3xl">
+        {recipe.images && recipe.images.length > 0 ? (
+          <RecipeImages images={recipe.images} />
+        ) : (
+          <div
+            className="flex items-center justify-center h-full bg-muted"
+            aria-hidden="true"
+          >
+            <ImageIcon className="h-6 w-6 text-muted-foreground" />
           </div>
         )}
-        <div className="z-10 px-4 py-2">
+        {/* Top gradient */}
+        <div className="absolute left-0 top-0 w-full h-1/4 bg-gradient-to-b from-black/80 to-transparent pointer-events-none" />
+        {/* Bottom gradient */}
+        <div className="absolute left-0 bottom-0 w-full h-1/4 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+
+        <div className="absolute bottom-0 left-0 w-full z-10 p-4">
           <h1
-            className="text-3xl md:text-4xl font-bold drop-shadow-lg text-white"
-            style={{ textShadow: "0 2px 8px rgba(0,0,0,0.7)" }}
+            className="text-3xl font-bold text-white drop-shadow-lg"
             itemProp="name"
           >
             {recipe.name}
           </h1>
-          <div className="mt-1 z-10 flex items-center gap-4 text-sm text-white">
-            {recipe.author && (
-              <div className="flex items-center gap-1">
-                <User size={14} />
-                <p>{recipe.author}</p>
-              </div>
-            )}
-            {recipe.updatedAt && (
-              <div className="flex items-center gap-1 ">
-                <Clock size={14} />
-                <span itemProp="dateModified">
-                  {recipe.updatedAt.toLocaleString(settings.language)}
-                </span>
-              </div>
-            )}
-          </div>
-          <div className="flex items-center gap-2 py-2">
+          {recipe.author && (
+            <div className="flex items-center gap-2 text-white mt-1">
+              <User size={14} />
+              <span>{recipe.author}</span>
+            </div>
+          )}
+          {recipe.updatedAt && (
+            <div className="flex items-center gap-2 text-white mt-1">
+              <Clock size={14} />
+              <span itemProp="dateModified">
+                {recipe.updatedAt.toLocaleString(settings.language)}
+              </span>
+            </div>
+          )}
+          <div className="flex gap-2 mt-4">
             <Button asChild variant="default">
               <Link
                 to={`/cook/${recipe.slug}`}
@@ -72,7 +79,7 @@ export default function RecipeDetailRefined({
                 <CookingPot />
                 {t("recipe.startCooking")}
               </Link>
-            </Button>
+            </Button>{" "}
           </div>
         </div>
       </div>
