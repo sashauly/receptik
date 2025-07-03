@@ -3,6 +3,7 @@ import { logWarn } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./db";
+import { base64ToBlob } from "@/lib/utils/export";
 
 const recipesTable = db.recipes;
 
@@ -94,17 +95,6 @@ export const deleteAllRecipes = async (): Promise<void> => {
   await recipesTable.clear();
 };
 
-// Helper to convert base64 string to Blob
-function base64ToBlob(base64: string, mimeType: string): Blob {
-  const byteString = atob(base64.split(",")[1]);
-  const ab = new ArrayBuffer(byteString.length);
-  const ia = new Uint8Array(ab);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-  return new Blob([ab], { type: mimeType });
-}
-
 export const importRecipes = async (
   recipesToImport: Recipe[]
 ): Promise<void> => {
@@ -135,10 +125,18 @@ export const importRecipes = async (
             image.data.startsWith("data:")
           ) {
             // Convert base64 string to Blob
-            return {
-              ...img,
-              data: base64ToBlob(image.data, image.type),
-            };
+            const blob = base64ToBlob(image.data, image.type);
+            if (blob) {
+              return {
+                ...img,
+                data: blob,
+              };
+            } else {
+              logWarn(
+                `Failed to convert base64 to Blob for image in recipe ${parsedRecipeData.id}`
+              );
+              return img;
+            }
           }
           return img;
         });
