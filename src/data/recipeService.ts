@@ -1,4 +1,4 @@
-import { getUniqueSlug } from "@/lib/utils";
+import { getUniqueSlug } from "@/lib/utils/slug";
 import { logWarn } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { v4 as uuidv4 } from "uuid";
