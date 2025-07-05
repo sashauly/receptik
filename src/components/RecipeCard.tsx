@@ -144,9 +144,7 @@ const RecipeCardGrid = memo(function RecipeCardGrid({
         })}
       >
         <Card
-          className={cn(
-            "relative hover:shadow-md hover:scale-105 transition w-full flex flex-col h-full overflow-hidden"
-          )}
+          className={cn("relative w-full flex flex-col h-full overflow-hidden")}
         >
           {/* Image Section */}
           <div className="w-full h-[160px] relative overflow-hidden">
@@ -155,10 +153,7 @@ const RecipeCardGrid = memo(function RecipeCardGrid({
               name={recipe.name}
               viewMode="grid"
             />
-            <Badge
-              className="absolute bottom-1 right-1 z-10 bg-foreground/80 backdrop-blur shadow text-xs text-primary-foreground px-2 py-0.5"
-              variant="default"
-            >
+            <Badge className="absolute bottom-1 right-1 z-10" variant="default">
               <Clock
                 className="h-3.5 w-3.5 inline-block align-text-bottom"
                 aria-hidden="true"
@@ -239,7 +234,7 @@ const RecipeCardList = memo(function RecipeCardList({
       >
         <Card
           className={cn(
-            "relative hover:shadow-md hover:scale-105 transition w-full flex flex-row items-center overflow-hidden h-full"
+            "relative w-full flex flex-row items-center overflow-hidden h-full"
           )}
         >
           {/* Image Section */}
