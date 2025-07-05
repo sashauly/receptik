@@ -25,7 +25,7 @@ export function Header({ title }: HeaderProps) {
   return (
     <header
       className={cn(
-        "sticky w-full top-0 z-100 min-h-[70px]",
+        "sticky w-full top-0 z-100",
         "flex items-center gap-2 py-2 px-4",
         "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
       )}

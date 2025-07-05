@@ -42,7 +42,7 @@ export default function SidebarApp({
 
   return (
     <Sidebar>
-      <SidebarHeader className="min-h-[70px] py-4 flex items-center justify-center">
+      <SidebarHeader className="flex items-center justify-center">
         <Link
           to="/"
           className="flex items-center justify-center gap-2 text-primary hover:underline"
