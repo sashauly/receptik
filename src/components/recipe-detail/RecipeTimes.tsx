@@ -18,7 +18,7 @@ export default function RecipeTimes({
   const totalTimeString = formatDuration(totalTime, t);
 
   return (
-    <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs md:text-sm">
+    <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
       <div className="flex flex-col min-w-[60px]">
         <span>{t("recipe.cookTime")}</span>
         <span className="font-medium">

@@ -28,7 +28,7 @@ export default function RecipeDescription({
     >
       <span className={expanded ? "" : "line-clamp-2"}>{description}</span>
       <button
-        className="ml-2 text-primary underline text-xs"
+        className="ml-2 text-primary underline"
         tabIndex={-1}
         onClick={(e) => {
           e.stopPropagation();
