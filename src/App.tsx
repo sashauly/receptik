@@ -1,11 +1,8 @@
 import Layout from "@/components/Layout";
 import { Toaster } from "@/components/ui/sonner";
 import RecipePage from "@/pages/RecipePage";
-// import { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import ErrorBoundary from "./components/ErrorBoundary";
-// import { ensureLatestDbSchema } from "./data/db";
-// import { logDebug, logError } from "./lib/utils/logger";
 import CreateRecipePage from "./pages/CreateRecipePage";
 import EditRecipePage from "./pages/EditRecipePage";
 import Home from "./pages/Home/index";
@@ -23,7 +20,7 @@ import { logDebug, logError } from "./lib/utils/logger.ts";
 
 const basename = (import.meta.env.VITE_BASE_URL || "/") as string;
 
-function App() {
+export default function App() {
   useEffect(() => {
     ensureLatestDbSchema().catch((err) => {
       logError("Error upgrading database schema:", err);
@@ -103,5 +100,3 @@ function App() {
     </ErrorBoundary>
   );
 }
-
-export default App;
