@@ -70,7 +70,7 @@ function IngredientPreview({
     <div
       ref={itemRef}
       className={cn(
-        "group flex items-center justify-between p-4 hover:bg-accent/50 transition-colors rounded-lg cursor-pointer",
+        "group flex items-center justify-between p-4 hover:bg-accent transition-colors rounded-lg cursor-pointer",
         className
       )}
       onClick={handleEdit}

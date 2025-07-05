@@ -26,8 +26,8 @@ export function Header({ title }: HeaderProps) {
     <header
       className={cn(
         "sticky w-full top-0 z-100 min-h-[70px]",
-        "flex items-center gap-2 p-4",
-        "bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary border-b"
+        "flex items-center gap-2 py-2 px-4",
+        "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
       )}
     >
       <div className="flex items-center gap-4">

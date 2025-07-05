@@ -49,7 +49,7 @@ function UnitSelectionPage({
         <h2 className="text-lg font-semibold">{t("forms.selectUnit")}</h2>
       </div>
 
-      <div className="p-4 border-b shrink-0">
+      <div className="py-2 px-4 border-b shrink-0">
         <SearchInput value={searchQuery} onChange={onSearch} />
       </div>
 

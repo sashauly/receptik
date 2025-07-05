@@ -79,8 +79,8 @@ export default function Home() {
         <div
           className={cn(
             "fixed top-0 left-0 right-0 z-50",
-            "flex flex-col gap-2 p-4",
-            "bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary border-b"
+            "flex flex-col gap-2 py-2 px-4",
+            "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
           )}
         >
           <div className="flex items-center gap-2">

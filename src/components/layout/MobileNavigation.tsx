@@ -42,17 +42,16 @@ export default function MobileNavigation() {
         )}
 
         {/* Navigation Links */}
-        <ul className="flex items-center justify-around py-3 px-4">
+        <ul className="flex items-center justify-around py-1 px-4">
           <li>
             <NavLink
               to="/"
               className={({ isActive }) =>
                 cn(
-                  buttonVariants({ variant: "ghost", size: "sm" }),
-                  "flex flex-col items-center gap-1 h-auto py-2 min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                  isActive &&
-                    "bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary",
-                  "active:bg-primary/20 active:scale-95 transition-transform"
+                  buttonVariants({ variant: "ghost" }),
+                  "flex flex-col items-center gap-1 h-auto min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  isActive && "text-accent-foreground",
+                  "active:bg-accent active:scale-95 transition-transform"
                 )
               }
               aria-label={t("navigation.myRecipes")}
@@ -66,11 +65,10 @@ export default function MobileNavigation() {
               to="/settings"
               className={({ isActive }) =>
                 cn(
-                  buttonVariants({ variant: "ghost", size: "sm" }),
-                  "flex flex-col items-center gap-1 h-auto py-2 min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                  isActive &&
-                    "bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary",
-                  "active:bg-primary/20 active:scale-95 transition-transform"
+                  buttonVariants({ variant: "ghost" }),
+                  "flex flex-col items-center gap-1 h-auto min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                  isActive && "text-accent-foreground",
+                  "active:bg-accent active:scale-95 transition-transform"
                 )
               }
               aria-label={t("navigation.settings")}
