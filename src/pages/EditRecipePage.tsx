@@ -1,10 +1,9 @@
+import { ContentLayout } from "@/components/layout/ContentLayout";
 import RecipeForm from "@/components/RecipeForm";
-import { Button } from "@/components/ui/button";
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useUpdateRecipe } from "@/hooks/recipes/useUpdateRecipe";
 import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
-import { ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
@@ -42,15 +41,13 @@ function EditRecipePage() {
       }
       navigate(`/recipes/${updatedRecipe.slug}`);
 
+      // TODO add translation
       toast.success("Recipe Updated");
     } catch (err) {
       logError("Failed to update recipe", err);
+      // TODO add translation
       toast.error("Failed to update recipe");
     }
-  };
-
-  const handleBack = () => {
-    navigate(`/recipes/${recipeSlug}`);
   };
 
   const handleCancel = () => {
@@ -58,17 +55,7 @@ function EditRecipePage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6">
-      <div className="flex items-center justify-between mb-4 gap-2">
-        <Button
-          variant="ghost"
-          onClick={handleBack}
-          className="flex items-center"
-        >
-          <ChevronLeft />
-          {t("common.back")}
-        </Button>
-      </div>
+    <ContentLayout title={t("forms.editRecipe")}>
       {recipeError && <p className="text-destructive">{recipeError.message}</p>}
 
       {recipeLoading && <p>{t("common.loading")}</p>}
@@ -86,7 +73,7 @@ function EditRecipePage() {
           Error updating recipe: {updateError.message}
         </p>
       )}
-    </div>
+    </ContentLayout>
   );
 }
 

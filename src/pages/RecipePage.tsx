@@ -97,7 +97,7 @@ export default function RecipePage() {
   }
 
   return (
-    <div className="container mx-auto">
+    <>
       {recipe && (
         <ErrorBoundary componentName="RecipeDetail">
           <RecipeDetail
@@ -127,6 +127,6 @@ export default function RecipePage() {
           onOpenChange={handleCloseModals}
         />
       </ErrorBoundary>
-    </div>
+    </>
   );
 }

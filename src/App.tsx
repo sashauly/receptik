@@ -17,6 +17,7 @@ import CookingModePage from "./pages/CookingModePage";
 import { useEffect } from "react";
 import { ensureLatestDbSchema } from "./data/db";
 import { logDebug, logError } from "./lib/utils/logger.ts";
+import { SidebarProvider } from "./components/ui/sidebar.tsx";
 
 const basename = (import.meta.env.VITE_BASE_URL || "/") as string;
 
@@ -37,63 +38,65 @@ export default function App() {
       <SettingsProvider>
         <ThemeProvider>
           <I18nextProvider i18n={i18n}>
-            <Router basename={basename}>
-              <Layout>
-                <Routes>
-                  <Route
-                    path="/"
-                    element={
-                      <ErrorBoundary componentName="HomePage">
-                        <Home />
-                      </ErrorBoundary>
-                    }
-                  />
-                  <Route
-                    path="/recipes/create"
-                    element={
-                      <ErrorBoundary componentName="CreateRecipePage">
-                        <CreateRecipePage />
-                      </ErrorBoundary>
-                    }
-                  />
-                  <Route
-                    path="/recipes/:slug"
-                    element={
-                      <ErrorBoundary componentName="RecipePage">
-                        <RecipePage />
-                      </ErrorBoundary>
-                    }
-                  />
-                  <Route
-                    path="/recipes/:slug/edit"
-                    element={
-                      <ErrorBoundary componentName="EditRecipePage">
-                        <EditRecipePage />
-                      </ErrorBoundary>
-                    }
-                  />
-                  <Route
-                    path="/settings"
-                    element={
-                      <ErrorBoundary componentName="SettingsPage">
-                        <SettingsPage />
-                      </ErrorBoundary>
-                    }
-                  />
-                  <Route
-                    path="/cook/:slug"
-                    element={
-                      <ErrorBoundary componentName="CookingModePage">
-                        <CookingModePage />
-                      </ErrorBoundary>
-                    }
-                  />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Layout>
-              <Toaster position="top-center" />
-              <ReloadPrompt />
-            </Router>
+            <SidebarProvider>
+              <Router basename={basename}>
+                <Layout>
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        <ErrorBoundary componentName="HomePage">
+                          <Home />
+                        </ErrorBoundary>
+                      }
+                    />
+                    <Route
+                      path="/recipes/create"
+                      element={
+                        <ErrorBoundary componentName="CreateRecipePage">
+                          <CreateRecipePage />
+                        </ErrorBoundary>
+                      }
+                    />
+                    <Route
+                      path="/recipes/:slug"
+                      element={
+                        <ErrorBoundary componentName="RecipePage">
+                          <RecipePage />
+                        </ErrorBoundary>
+                      }
+                    />
+                    <Route
+                      path="/recipes/:slug/edit"
+                      element={
+                        <ErrorBoundary componentName="EditRecipePage">
+                          <EditRecipePage />
+                        </ErrorBoundary>
+                      }
+                    />
+                    <Route
+                      path="/settings"
+                      element={
+                        <ErrorBoundary componentName="SettingsPage">
+                          <SettingsPage />
+                        </ErrorBoundary>
+                      }
+                    />
+                    <Route
+                      path="/cook/:slug"
+                      element={
+                        <ErrorBoundary componentName="CookingModePage">
+                          <CookingModePage />
+                        </ErrorBoundary>
+                      }
+                    />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Layout>
+                <Toaster position="top-center" />
+                <ReloadPrompt />
+              </Router>
+            </SidebarProvider>
           </I18nextProvider>
         </ThemeProvider>
       </SettingsProvider>

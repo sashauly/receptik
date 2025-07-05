@@ -1,15 +1,8 @@
-import { Book, Filter, PlusCircle, Settings } from "lucide-react";
 import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import ErrorBoundary from "@/components/ErrorBoundary";
-
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useUrlParams } from "@/hooks/useUrlParams";
-
 import DeleteRecipeDialog from "@/components/DeleteRecipeDialog";
 import RecipeList from "@/components/RecipeList";
 import SearchInput from "@/components/SearchInput";
@@ -21,9 +14,9 @@ import { ViewModeControls } from "@/components/ViewModeControls";
 import { logError } from "@/lib/utils/logger";
 import { useDebounce } from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
+import { ContentLayout } from "@/components/layout/ContentLayout";
 
 export default function Home() {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const { getParam, updateParams } = useUrlParams();
 
@@ -87,7 +80,7 @@ export default function Home() {
           className={cn(
             "fixed top-0 left-0 right-0 z-50",
             "flex flex-col gap-2 p-4",
-            "bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b"
+            "bg-background/95 shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:shadow-secondary border-b"
           )}
         >
           <div className="flex items-center gap-2">
@@ -136,120 +129,25 @@ export default function Home() {
     // Desktop Layout
     return (
       <>
-        <aside className="w-64 p-6 border-r flex flex-col bg-card shadow-sm">
-          <div className="flex items-center gap-2 mb-6">
-            <Book className="h-6 w-6 text-orange-600" />
-            <h2 className="text-2xl font-bold">{t("common.appName")}</h2>
-          </div>
-          <nav className="flex flex-col gap-2">
-            <Link
-              to="/"
-              className="text-lg font-medium text-primary hover:text-foreground"
-            >
-              {t("navigation.myRecipes")}
-            </Link>
-          </nav>
+        <ContentLayout title="Receptik">
+          {recipesError && recipes.length === 0 && (
+            <p className="text-destructive">
+              {(recipesError as Error).message}
+            </p>
+          )}
 
-          <Separator className="my-4" />
-
-          <div className="space-y-4 flex-grow">
-            <h3 className="flex items-center gap-2 text-lg font-semibold mb-2">
-              <Filter className="h-5 w-5" />
-              {t("common.filters")}
-            </h3>
-            <div className="flex items-center gap-2">
-              <SearchInput
-                value={currentSearchTerm}
-                onChange={setCurrentSearchTerm}
-                className="flex-1"
-              />
-              <ViewModeControls />
-            </div>
-            {currentSearchTerm && (
-              <p className="text-sm text-muted-foreground">
-                {t("recipe.searchResults", { count: recipes.length })}
-              </p>
-            )}
-
-            {/* Mock Filter Sections - Expandable */}
-            {/* <div className="space-y-2">
-              <h4 className="text-md font-medium text-muted-foreground">
-                Categories
-              </h4>
-              <div className="flex flex-col gap-1 text-sm">
-                <Button variant="ghost" className="justify-start h-8">
-                  Dinner
-                </Button>
-                <Button variant="ghost" className="justify-start h-8">
-                  Breakfast
-                </Button>
-                <Button variant="ghost" className="justify-start h-8">
-                  Dessert
-                </Button>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <h4 className="text-md font-medium text-muted-foreground">
-                Cuisines
-              </h4>
-              <div className="flex flex-col gap-1 text-sm">
-                <Button variant="ghost" className="justify-start h-8">
-                  Italian
-                </Button>
-                <Button variant="ghost" className="justify-start h-8">
-                  Asian
-                </Button>
-                <Button variant="ghost" className="justify-start h-8">
-                  Indian
-                </Button>
-              </div>
-            </div> */}
-          </div>
-
-          <Link
-            to="/settings"
-            className="flex items-center gap-2 text-lg font-medium text-muted-foreground hover:text-foreground mt-auto pt-4"
-          >
-            <Settings className="h-5 w-5" />
-            {t("navigation.settings")}
-          </Link>
-        </aside>
-
-        {/* Desktop Main Content */}
-        <main className="flex-1 overflow-hidden">
-          <section className="h-full p-6 overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-2xl font-bold">
-                {t("navigation.myRecipes")}
-              </h1>
-              <Button asChild>
-                <Link to="/recipes/create" title={t("common.addRecipe")}>
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  {t("common.addRecipe")}
-                </Link>
-              </Button>
-            </div>
-
-            {recipesError && recipes.length === 0 && (
-              <p className="text-destructive">
-                {(recipesError as Error).message}
-              </p>
-            )}
-
-            <ErrorBoundary componentName="RecipeList">
-              <RecipeList
-                recipes={recipes}
-                isLoading={recipesLoading}
-                error={recipesError}
-                onEditRecipe={handleEditRecipe}
-                onDeleteRecipe={handleDeleteRecipe}
-                searchTerm={currentSearchTerm}
-                onClearSearch={() => setCurrentSearchTerm("")}
-              />
-            </ErrorBoundary>
-          </section>
-        </main>
-
+          <ErrorBoundary componentName="RecipeList">
+            <RecipeList
+              recipes={recipes}
+              isLoading={recipesLoading}
+              error={recipesError}
+              onEditRecipe={handleEditRecipe}
+              onDeleteRecipe={handleDeleteRecipe}
+              searchTerm={currentSearchTerm}
+              onClearSearch={() => setCurrentSearchTerm("")}
+            />
+          </ErrorBoundary>
+        </ContentLayout>
         <ErrorBoundary componentName="DeleteRecipeDialog">
           <DeleteRecipeDialog
             recipeToDelete={recipeToDelete}

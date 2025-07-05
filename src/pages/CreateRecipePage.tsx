@@ -1,13 +1,12 @@
+import ErrorBoundary from "@/components/ErrorBoundary";
+import { ContentLayout } from "@/components/layout/ContentLayout";
 import RecipeForm from "@/components/RecipeForm";
-import { Button } from "@/components/ui/button";
 import { useAddRecipe } from "@/hooks/recipes/useAddRecipe";
 import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
-import { ChevronLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
-import ErrorBoundary from "@/components/ErrorBoundary";
 
 function CreateRecipePage() {
   const { t } = useTranslation();
@@ -22,15 +21,13 @@ function CreateRecipePage() {
 
       navigate(`/recipes/${addedRecipe.slug}`);
 
+      // TODO add translation
       toast.success("Recipe Created");
     } catch (e) {
       logError("Failed to create recipe", e);
+      // TODO add translation
       toast.error("Failed to create recipe");
     }
-  };
-
-  const handleBack = () => {
-    navigate("/");
   };
 
   const handleCancel = () => {
@@ -38,17 +35,7 @@ function CreateRecipePage() {
   };
 
   return (
-    <div className="container max-w-3xl mx-auto px-4 py-6">
-      <div className="fflex items-center justify-between mb-4 gap-2">
-        <Button
-          variant="ghost"
-          onClick={handleBack}
-          className="flex items-center"
-        >
-          <ChevronLeft />
-          {t("common.back")}
-        </Button>
-      </div>
+    <ContentLayout title={t("forms.createRecipe")}>
       <ErrorBoundary componentName="RecipeForm">
         <RecipeForm
           initialRecipe={null}
@@ -56,13 +43,14 @@ function CreateRecipePage() {
           onCancel={handleCancel}
         />
       </ErrorBoundary>
+      {/* TODO: Add translation */}
       {addLoading && <p>Adding recipe...</p>}
       {addError && (
         <p className="text-destructive">
           Error adding recipe: {addError.message}
         </p>
       )}
-    </div>
+    </ContentLayout>
   );
 }
 
