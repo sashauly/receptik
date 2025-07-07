@@ -206,6 +206,10 @@
   }
 }
 
+html {
+  font-size: 100%;
+}
+
 body {
   display: flex;
   flex-direction: column;

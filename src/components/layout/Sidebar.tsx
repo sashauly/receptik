@@ -88,11 +88,9 @@ export default function SidebarApp({
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>
-            <div className="flex items-center gap-2">
-              <Filter />
-              {t("common.filters")}
-            </div>
+          <SidebarGroupLabel className="flex items-center gap-2">
+            <Filter aria-hidden="true" />
+            {t("common.filters")}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <div className="flex items-center gap-2">
