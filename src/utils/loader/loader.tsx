@@ -58,7 +58,9 @@ export function lazyLoad<T extends ComponentType<any>>(
   const {
     delay = 300,
     minimumLoading = 700,
-    fallback = <div className="flex items-center justify-center p-4">Loading...</div>,
+    fallback = (
+      <div className="flex items-center justify-center p-4">Loading...</div>
+    ),
   } = options || {};
 
   // Create a lazy component with anti-flicker protection
@@ -69,7 +71,10 @@ export function lazyLoad<T extends ComponentType<any>>(
       const loadTime = performance.now() - startTime;
 
       // Don't delay if loaded quickly or already waited long enough
-      if (loadTime < delay || loadTime > delay + minimumLoading) {
+      if (
+        loadTime < delay ||
+        (loadTime > delay && loadTime > delay + minimumLoading)
+      ) {
         return module;
       }
 
