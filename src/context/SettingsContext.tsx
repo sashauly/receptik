@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { AppSettings, DEFAULT_SETTINGS } from "@/lib/settings/types";
-import { localStorageSettings } from "@/lib/settings/storage";
+import { AppSettings, DEFAULT_SETTINGS } from "@/utils/settings/types";
+import { localStorageSettings } from "@/utils/settings/storage";
 
 interface SettingsContextType {
   settings: AppSettings;

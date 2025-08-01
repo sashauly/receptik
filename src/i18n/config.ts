@@ -3,8 +3,8 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import intervalPlural from "i18next-intervalplural-postprocessor";
 import resources from "virtual:i18next-loader";
-import { localStorageSettings } from "@/lib/settings/storage";
-import { AppSettings } from "@/lib/settings/types";
+import { localStorageSettings } from "@/utils/settings/storage";
+import { AppSettings } from "@/utils/settings/types";
 
 export const defaultNS = "translation";
 

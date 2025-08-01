@@ -8,7 +8,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
 import { useSettings } from "@/context/SettingsContext";
-import { Theme } from "@/lib/settings/types";
+import { Theme } from "@/utils/settings/types";
 import { Moon, Sun, Monitor, Brush } from "lucide-react";
 
 export default function ThemeSelect() {
