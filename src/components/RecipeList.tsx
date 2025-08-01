@@ -20,7 +20,7 @@ interface RecipeListProps {
   onClearSearch: () => void;
 }
 
-function RecipeList({
+export default function RecipeList({
   recipes,
   isLoading,
   error,
@@ -67,7 +67,7 @@ function RecipeList({
       return <NoResults searchQuery={searchTerm} onClear={onClearSearch} />;
     } else {
       return (
-        <div className="text-center py-12 border rounded-lg bg-muted/30">
+        <div className="w-full text-center py-12 border rounded-lg bg-muted/30">
           <h3 className="text-lg font-medium mb-2">{t("home.noRecipes")}</h3>
           <p className="text-muted-foreground mb-4">{t("home.addYourFirst")}</p>
           <Button asChild>
@@ -105,4 +105,3 @@ function RecipeList({
   );
 }
 
-export default RecipeList;

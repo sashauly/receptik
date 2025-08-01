@@ -17,7 +17,7 @@ export function ContentLayout({
       <Header title={title} />
       <div
         className={cn(
-          "container py-8 pt-2 pb-0 md:py-8 px-4 sm:px-8",
+          "py-2 sm:py-4 px-4 sm:px-6 ",
           className
         )}
       >

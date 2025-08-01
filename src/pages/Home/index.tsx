@@ -99,7 +99,7 @@ export default function Home() {
         </div>
 
         {/* Mobile Main Content */}
-        <main className="flex-1 overflow-y-auto p-4 space-y-4 mt-[72px]">
+        <main className="w-full flex-1 overflow-y-auto p-4 space-y-4 mt-[72px]">
           <ErrorBoundary componentName="RecipeList">
             <RecipeList
               recipes={recipes}
