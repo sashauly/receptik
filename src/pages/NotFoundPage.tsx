@@ -1,7 +1,7 @@
 import { ContentLayout } from "@/components/layout/ContentLayout";
 import { useTranslation } from "react-i18next";
 
-export default function NotFound() {
+export default function NotFoundPage() {
   const { t } = useTranslation();
 
   return (

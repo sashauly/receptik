@@ -1,19 +1,22 @@
 import Layout from "@/components/Layout";
 import { Toaster } from "@/components/ui/sonner";
-import RecipePage from "@/pages/RecipePage";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 import ErrorBoundary from "./components/ErrorBoundary";
-import CreateRecipePage from "./pages/CreateRecipePage";
-import EditRecipePage from "./pages/EditRecipePage";
-import Home from "./pages/Home/index";
-import NotFound from "./pages/NotFound";
-import SettingsPage from "./pages/SettingsPage";
 import ReloadPrompt from "./components/ReloadPrompt";
-import CookingModePage from "./pages/CookingModePage";
 import { useEffect } from "react";
 import { ensureLatestDbSchema } from "./data/db";
 import { logDebug, logError } from "./lib/utils/logger.ts";
 import { SidebarProvider } from "./components/ui/sidebar.tsx";
+import lazyLoad from "./utils/loader/loader.tsx";
+
+const HomePage = lazyLoad(() => import('@/pages/Home/index'));
+const CreateRecipePage = lazyLoad(() => import('@/pages/CreateRecipePage'));
+const RecipePage = lazyLoad(() => import('@/pages/RecipePage'));
+const EditRecipePage = lazyLoad(() => import('@/pages/EditRecipePage'));
+const SettingsPage = lazyLoad(() => import('@/pages/SettingsPage'));
+const CookingModePage = lazyLoad(() => import('@/pages/CookingModePage'));
+const NotFoundPage = lazyLoad(() => import('@/pages/NotFoundPage'));
+
 
 const basename = (import.meta.env.VITE_BASE_URL || "/") as string;
 
@@ -38,7 +41,7 @@ export default function App() {
               path="/"
               element={
                 <ErrorBoundary componentName="HomePage">
-                  <Home />
+                  <HomePage />
                 </ErrorBoundary>
               }
             />
@@ -82,7 +85,7 @@ export default function App() {
                 </ErrorBoundary>
               }
             />
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Layout>
         <Toaster position="top-center" />
