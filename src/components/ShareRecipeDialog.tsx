@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { exportAsImage, exportAsJson, exportAsTxt } from "@/lib/utils/export";
+import { exportAsImage, exportAsJson, exportAsTxt } from "@/utils/export";
 import type { Recipe } from "@/types/recipe";
 import { FileJson, FileText, Image } from "lucide-react";
 import { useTranslation } from "react-i18next";

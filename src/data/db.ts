@@ -1,7 +1,7 @@
 import { Recipe } from "@/types/recipe";
+import { base64ToBlob } from "@/utils/export";
+import { logInfo } from "@/utils/logger";
 import Dexie, { type EntityTable } from "dexie";
-import { logInfo } from "../lib/utils/logger";
-import { base64ToBlob } from "@/lib/utils/export";
 
 const DB_NAME = "receptik-db";
 const DB_VERSION = 2;

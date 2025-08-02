@@ -7,9 +7,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getBaseUnitByValue } from "@/lib/measurements";
-import { formatDuration } from "@/lib/utils/time";
 import type { Ingredient, Recipe } from "@/types/recipe";
+import { getBaseUnitByValue } from "@/utils/measurements";
+import { formatDuration } from "@/utils/time";
 import { Clock, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 

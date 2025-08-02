@@ -1,4 +1,4 @@
-import { logError } from "@/lib/utils/logger";
+import { logError } from "@/utils/logger";
 import { TFunction } from "i18next";
 import { Temporal } from "temporal-polyfill";
 import { z } from "zod";

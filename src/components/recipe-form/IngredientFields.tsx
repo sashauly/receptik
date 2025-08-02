@@ -1,3 +1,4 @@
+import IngredientItem from "@/components/recipe-form/IngredientItem";
 import { Button } from "@/components/ui/button";
 import {
   FormField,
@@ -12,11 +13,10 @@ import {
   getUnitsByType,
   Unit,
   UnitValue,
-} from "@/lib/measurements";
+} from "@/utils/measurements";
 import { Plus } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import IngredientItem from "./IngredientItem";
 import { v4 as uuidv4 } from "uuid";
 
 function IngredientFields() {

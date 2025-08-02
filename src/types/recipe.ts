@@ -1,4 +1,4 @@
-import { UnitValue } from "@/lib/measurements";
+import { UnitValue } from "@/utils/measurements";
 
 export interface Ingredient {
   id?: string;

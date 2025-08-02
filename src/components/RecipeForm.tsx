@@ -1,23 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { createRecipeFormSchema, RecipeFormValues } from "@/data/schema";
-import { logError } from "@/lib/utils/logger";
-import { calculateTotalTime } from "@/lib/utils/time";
 import type { Recipe } from "@/types/recipe";
+import { logError } from "@/utils/logger";
+import { calculateTotalTime } from "@/utils/time";
 // import { DevTool } from "@hookform/devtools";
+import BasicInfoFields from "@/components/recipe-form/BasicInfoFields";
+import ImageUploadField from "@/components/recipe-form/ImageUploadField";
+import IngredientFields from "@/components/recipe-form/IngredientFields";
+import InstructionFields from "@/components/recipe-form/InstructionFields";
+import KeywordsField from "@/components/recipe-form/KeywordFields";
+import ServingsField from "@/components/recipe-form/ServingsField";
+import TimeFields from "@/components/recipe-form/TimeFields";
+import { FormSchemaProvider } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import BasicInfoFields from "./recipe-form/BasicInfoFields";
-import IngredientFields from "./recipe-form/IngredientFields";
-import InstructionFields from "./recipe-form/InstructionFields";
-import KeywordsField from "./recipe-form/KeywordFields";
-import ServingsField from "./recipe-form/ServingsField";
-import TimeFields from "./recipe-form/TimeFields";
-import { FormSchemaProvider } from "@/components/ui/form";
 import { v4 as uuidv4 } from "uuid";
-import ImageUploadField from "./recipe-form/ImageUploadField";
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",

@@ -1,4 +1,4 @@
-import { logError } from "../../lib/utils/logger";
+import { logError } from "../logger";
 import { SettingsStorage } from "./types";
 
 export class LocalStorageSettings implements SettingsStorage {

@@ -1,4 +1,4 @@
-import { logDebug } from "@/lib/utils/logger";
+import { logDebug } from "@/utils/logger";
 import { useEffect, useState } from "react";
 
 const usePWAInstall = () => {

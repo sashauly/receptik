@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import {
   requestNotificationPermission,
   sendNotification,
-} from "@/lib/notificationService";
+} from "@/utils/notificationService";
 import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 

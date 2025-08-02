@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { formatHumanReadable, parseDuration } from "@/lib/utils/time";
+import { formatHumanReadable, parseDuration } from "@/utils/time";
 import { Clock, Minus, Plus } from "lucide-react";
 import type * as React from "react";
 import { useFormContext } from "react-hook-form";

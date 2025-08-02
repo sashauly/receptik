@@ -1,11 +1,4 @@
-import { deleteDatabase } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
-import { Component, ErrorInfo, ReactNode } from "react";
-import { Button, buttonVariants } from "./ui/button";
-import { AlertCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { useTranslation } from "react-i18next";
-import type { TFunction } from "i18next";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent,
@@ -15,6 +8,13 @@ import {
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
 } from "@/components/ui/responsive-dialog";
+import { deleteDatabase } from "@/data/recipeService";
+import { cn } from "@/lib/utils";
+import { logError } from "@/utils/logger";
+import type { TFunction } from "i18next";
+import { AlertCircle } from "lucide-react";
+import { Component, ErrorInfo, ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   children: ReactNode;

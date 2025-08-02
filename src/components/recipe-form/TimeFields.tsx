@@ -1,9 +1,9 @@
-import { calculateTotalTime, formatDuration } from "@/lib/utils/time";
+import { DurationInput } from "@/components/recipe-form/DurationInput";
+import { calculateTotalTime, formatDuration } from "@/utils/time";
 import { Clock } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { DurationInput } from "./DurationInput";
 
 export default function TimeFields() {
   const { t } = useTranslation();

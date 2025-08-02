@@ -1,6 +1,4 @@
-import { useRegisterSW } from "virtual:pwa-register/react";
 import { Button } from "@/components/ui/button";
-import { logDebug } from "@/lib/utils/logger";
 import {
   Card,
   CardContent,
@@ -8,7 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { logDebug } from "@/utils/logger";
 import { useTranslation } from "react-i18next";
+import { useRegisterSW } from "virtual:pwa-register/react";
 
 function ReloadPrompt() {
   const { t } = useTranslation();
@@ -36,11 +36,9 @@ function ReloadPrompt() {
         <Card className="fixed right-0 bottom-0 p-3 m-4 max-w-sm z-50">
           <CardHeader className="p-0 mb-2">
             <CardTitle className="text-lg">
-              {offlineReady ? (
-                <h2>{t("reloadPrompt.readyForOfflineUse")}</h2>
-              ) : (
-                <h2>{t("reloadPrompt.newUpdateAvailable")}</h2>
-              )}
+              {offlineReady
+                ? t("reloadPrompt.readyForOfflineUse")
+                : t("reloadPrompt.newUpdateAvailable")}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-0 mb-4 text-sm text-muted-foreground">

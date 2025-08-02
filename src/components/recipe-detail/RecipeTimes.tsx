@@ -1,4 +1,4 @@
-import { formatDuration } from "@/lib/utils/time";
+import { formatDuration } from "@/utils/time";
 import { useTranslation } from "react-i18next";
 
 interface RecipeTimesProps {

@@ -1,9 +1,9 @@
-import { getBaseUnitByValue } from "@/lib/measurements";
+import RecipeServings from "@/components/recipe-detail/RecipeServings";
+import { Badge } from "@/components/ui/badge";
 import { Ingredient } from "@/types/recipe";
-import { useState, useCallback } from "react";
+import { getBaseUnitByValue } from "@/utils/measurements";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RecipeServings from "../recipe-detail/RecipeServings";
-import { Badge } from "../ui/badge";
 // import { Plus } from "lucide-react";
 // import { Button } from "../ui/button";
 
