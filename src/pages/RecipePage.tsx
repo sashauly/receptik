@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { useObjectUrl } from "@/hooks/useObjectUrl";
 
 export default function RecipePage() {
   const { t } = useTranslation();
@@ -19,17 +20,15 @@ export default function RecipePage() {
 
   const navigate = useNavigate();
 
-  const {
-    recipe,
-    loading: recipeLoading,
-    error: recipeError,
-  } = useRecipe({
+  const { recipe } = useRecipe({
     slug: recipeSlug,
   });
 
+  const imageUrl = useObjectUrl(recipe?.images?.[0]?.data);
+
   const {
     deleteRecipe,
-    loading: deleteLoading,
+    isLoading: deleteLoading,
     error: deleteError,
   } = useDeleteRecipe();
 
@@ -67,15 +66,7 @@ export default function RecipePage() {
     navigate("/");
   };
 
-  if (recipeLoading) {
-    return (
-      <div className="container mx-auto py-6 px-4 md:px-6">
-        {t("common.loading")}
-      </div>
-    );
-  }
-
-  if (!recipe) {
+  if (recipe === null) {
     return (
       <div className="container mx-auto py-6 px-4 md:px-6">
         <Button
@@ -102,6 +93,7 @@ export default function RecipePage() {
         <ErrorBoundary componentName="RecipeDetail">
           <RecipeDetail
             recipe={recipe}
+            imageUrl={imageUrl}
             onEdit={handleEditRecipe}
             onDelete={handleDeleteRecipe}
             onShare={handleShareRecipe}
@@ -112,21 +104,21 @@ export default function RecipePage() {
       <ErrorBoundary componentName="DeleteRecipeDialog">
         <DeleteRecipeDialog
           recipeToDelete={recipe}
-          isLoading={deleteLoading || recipeLoading}
-          error={recipeError || deleteError}
+          isLoading={deleteLoading}
+          error={deleteError}
           isOpen={showDelete}
           onClose={handleCloseModals}
           onConfirm={confirmDeleteRecipe}
         />
       </ErrorBoundary>
 
-      <ErrorBoundary componentName="ShareRecipeDialog">
+      {recipe &&<ErrorBoundary componentName="ShareRecipeDialog">
         <ShareRecipeDialog
           recipe={recipe}
           open={showShare}
           onOpenChange={handleCloseModals}
         />
-      </ErrorBoundary>
+      </ErrorBoundary>}
     </>
   );
 }

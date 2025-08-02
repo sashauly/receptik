@@ -1,13 +1,13 @@
+import ErrorBoundary from "@/components/ErrorBoundary";
 import Layout from "@/components/Layout";
+import ReloadPrompt from "@/components/ReloadPrompt";
+import { SidebarProvider } from "@/components/ui/sidebar.tsx";
 import { Toaster } from "@/components/ui/sonner";
-import { Route, BrowserRouter as Router, Routes } from "react-router";
-import ErrorBoundary from "./components/ErrorBoundary";
-import ReloadPrompt from "./components/ReloadPrompt";
+import { ensureLatestDbSchema } from "@/data/db";
+import lazyLoad from "@/utils/loader.tsx";
+import { logDebug, logError } from "@/utils/logger.ts";
 import { useEffect } from "react";
-import { ensureLatestDbSchema } from "./data/db";
-import { logDebug, logError } from "./lib/utils/logger.ts";
-import { SidebarProvider } from "./components/ui/sidebar.tsx";
-import lazyLoad from "./utils/loader/loader.tsx";
+import { Route, BrowserRouter as Router, Routes } from "react-router";
 
 const HomePage = lazyLoad(() => import('@/pages/Home/index'));
 const CreateRecipePage = lazyLoad(() => import('@/pages/CreateRecipePage'));

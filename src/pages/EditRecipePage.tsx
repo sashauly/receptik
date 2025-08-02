@@ -2,11 +2,11 @@ import { ContentLayout } from "@/components/layout/ContentLayout";
 import RecipeForm from "@/components/RecipeForm";
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useUpdateRecipe } from "@/hooks/recipes/useUpdateRecipe";
-import { logError } from "@/lib/utils/logger";
-import { Recipe } from "@/types/recipe";
+import { logError } from "@/utils/logger";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
+import { UpdateArgs } from "@/data/recipeService";
 
 function EditRecipePage() {
   const { t } = useTranslation();
@@ -14,27 +14,26 @@ function EditRecipePage() {
   const { slug } = useParams();
   const recipeSlug = slug === "create" ? undefined : slug;
 
-  const {
-    recipe,
-    loading: recipeLoading,
-    error: recipeError,
-  } = useRecipe({ slug: recipeSlug });
+  const { recipe } = useRecipe({ slug: recipeSlug });
 
   const {
     updateRecipe,
-    loading: updateLoading,
+    isLoading: updateLoading,
     error: updateError,
   } = useUpdateRecipe();
 
   const handleUpdateRecipe = async (
-    updatedRecipeData: Omit<Recipe, "createdAt" | "updatedAt">
+    updatedRecipeData: UpdateArgs["updates"]
   ) => {
     try {
       if (!recipe) {
         toast.error("Failed to edit recipe");
         return;
       }
-      const updatedRecipe = await updateRecipe(recipe?.id, updatedRecipeData);
+      const updatedRecipe = await updateRecipe({
+        id: recipe?.id,
+        updates: updatedRecipeData,
+      });
       if (!updatedRecipe) {
         toast.error("Failed to update recipe");
         return;
@@ -56,10 +55,6 @@ function EditRecipePage() {
 
   return (
     <ContentLayout title={t("forms.editRecipe")}>
-      {recipeError && <p className="text-destructive">{recipeError.message}</p>}
-
-      {recipeLoading && <p>{t("common.loading")}</p>}
-
       {recipe && (
         <RecipeForm
           initialRecipe={recipe}

@@ -1,43 +1,26 @@
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import { useExportAllRecipes } from "@/hooks/recipes/useExportAllRecipes";
+import { useExportAllRecipes } from "@/hooks/useExportAllRecipes";
 import { useTranslation } from "react-i18next";
 import type { Recipe } from "@/types/recipe";
-
-function SpinnerIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      className={"animate-spin h-4 w-4 mr-2 " + (props.className || "")}
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-      />
-    </svg>
-  );
-}
+import { Spinner } from "../ui/spinner";
 
 interface ExportAllRecipesProps {
-  recipes: Recipe[];
+  recipes: Recipe[] | null | undefined;
 }
 
 export default function ExportAllRecipes({ recipes }: ExportAllRecipesProps) {
   const { t } = useTranslation();
   const { exportAll, loading, error } = useExportAllRecipes();
   const labelId = "export-all-recipes-label";
+
+  if (recipes === null) {
+    return <p className="text-destructive">{t("settings.exportError")}</p>;
+  }
+
+  if (recipes === undefined) {
+    return <p className="text-muted-foreground">{t("common.loading")}</p>;
+  }
 
   return (
     <div
@@ -66,7 +49,7 @@ export default function ExportAllRecipes({ recipes }: ExportAllRecipesProps) {
         disabled={loading}
       >
         {loading ? (
-          <SpinnerIcon aria-hidden="true" />
+          <Spinner>{t("common.loading")}</Spinner>
         ) : (
           <Download className="h-4 w-4" aria-hidden="true" />
         )}

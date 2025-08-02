@@ -17,7 +17,7 @@ export function ContentLayout({
       <Header title={title} />
       <div
         className={cn(
-          "py-2 sm:py-4 px-4 sm:px-6 ",
+          "flex justify-center flex-1 py-2 sm:py-4 px-4 sm:px-6 ",
           className
         )}
       >

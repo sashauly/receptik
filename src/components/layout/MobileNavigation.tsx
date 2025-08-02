@@ -12,7 +12,7 @@ export default function MobileNavigation() {
   const isLeftHanded = false;
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 w-full">
+    <div className="md:hidden fixed bottom-0 left-0 w-full z-50">
       {/* Create Recipe Button */}
       {showCreateButton && (
         <div
@@ -40,7 +40,7 @@ export default function MobileNavigation() {
       )}
 
       {/* Navigation */}
-      <footer className="bg-background border-t border-border z-50 shadow-lg pb-safe">
+      <footer className="bg-background border-t border-border shadow-lg pb-safe">
         <nav aria-label="Main mobile navigation">
           <ul className="flex items-center justify-around py-3 px-4">
             <li>

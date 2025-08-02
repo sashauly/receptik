@@ -10,11 +10,11 @@ import { useDeleteRecipe } from "@/hooks/recipes/useDeleteRecipe";
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useRecipes } from "@/hooks/recipes/useRecipes";
 import { ViewModeControls } from "@/components/ViewModeControls";
-
-import { logError } from "@/lib/utils/logger";
+import { logError } from "@/utils/logger";
 import { useDebounce } from "@/hooks/useDebounce";
 import { cn } from "@/lib/utils";
 import { ContentLayout } from "@/components/layout/ContentLayout";
+import { RecipeListLoading } from "@/components/RecipeListLoading"; // Import the new component
 
 export default function Home() {
   const navigate = useNavigate();
@@ -23,23 +23,18 @@ export default function Home() {
   const [currentSearchTerm, setCurrentSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(currentSearchTerm, 300);
 
-  const {
-    recipes,
-    loading: recipesLoading,
-    error: recipesError,
-  } = useRecipes({ searchTerm: debouncedSearchTerm });
+  const { recipes } = useRecipes({ searchTerm: debouncedSearchTerm });
 
   const {
     deleteRecipe,
-    loading: deleteLoading,
+    isLoading: deleteLoading,
     error: deleteError,
   } = useDeleteRecipe();
   const deleteRecipeId = getParam("delete");
-  const {
-    recipe: recipeToDelete,
-    loading: recipeToDeleteLoading,
-    error: recipeToDeleteError,
-  } = useRecipe({ id: deleteRecipeId || undefined });
+
+  const { recipe: recipeToDelete } = useRecipe({
+    id: deleteRecipeId || undefined,
+  });
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -72,6 +67,51 @@ export default function Home() {
     }
   };
 
+  const recipesError = new Error(
+    "An error occurred while fetching your recipes. Please try again later."
+  );
+
+  if (recipes === null) {
+    return (
+      <ContentLayout title="Receptik">
+        <p className="text-destructive">{recipesError.message}</p>
+      </ContentLayout>
+    );
+  }
+
+  const isRecipesLoading = recipes === undefined;
+
+  const mainContent = (
+    <ErrorBoundary componentName="RecipeList">
+      {isRecipesLoading ? (
+        <RecipeListLoading />
+      ) : (
+        <RecipeList
+          recipes={recipes}
+          onEditRecipe={handleEditRecipe}
+          onDeleteRecipe={handleDeleteRecipe}
+          searchTerm={currentSearchTerm}
+          onClearSearch={() => setCurrentSearchTerm("")}
+        />
+      )}
+    </ErrorBoundary>
+  );
+
+  const dialogs = (
+    <>
+      <ErrorBoundary componentName="DeleteRecipeDialog">
+        <DeleteRecipeDialog
+          recipeToDelete={recipeToDelete}
+          isLoading={deleteLoading}
+          error={deleteError}
+          isOpen={!!deleteRecipeId}
+          onClose={handleCloseModals}
+          onConfirm={confirmDeleteRecipe}
+        />
+      </ErrorBoundary>
+    </>
+  );
+
   if (isMobile) {
     return (
       <>
@@ -91,74 +131,22 @@ export default function Home() {
             />
             <ViewModeControls />
           </div>
-          {/* {currentSearchTerm && (
-              <p className="text-sm text-muted-foreground">
-                {t("recipe.searchResults", { count: recipes.length })}
-              </p>
-            )} */}
         </div>
 
         {/* Mobile Main Content */}
         <main className="w-full flex-1 overflow-y-auto p-4 space-y-4 mt-[72px]">
-          <ErrorBoundary componentName="RecipeList">
-            <RecipeList
-              recipes={recipes}
-              isLoading={recipesLoading}
-              error={recipesError}
-              onEditRecipe={handleEditRecipe}
-              onDeleteRecipe={handleDeleteRecipe}
-              searchTerm={currentSearchTerm}
-              onClearSearch={() => setCurrentSearchTerm("")}
-            />
-          </ErrorBoundary>
+          {mainContent}
         </main>
-
-        <ErrorBoundary componentName="DeleteRecipeDialog">
-          <DeleteRecipeDialog
-            recipeToDelete={recipeToDelete}
-            isLoading={deleteLoading || recipeToDeleteLoading}
-            error={deleteError}
-            isOpen={!!deleteRecipeId}
-            onClose={handleCloseModals}
-            onConfirm={confirmDeleteRecipe}
-          />
-        </ErrorBoundary>
-      </>
-    );
-  } else {
-    // Desktop Layout
-    return (
-      <>
-        <ContentLayout title="Receptik">
-          {recipesError && recipes.length === 0 && (
-            <p className="text-destructive">
-              {(recipesError as Error).message}
-            </p>
-          )}
-
-          <ErrorBoundary componentName="RecipeList">
-            <RecipeList
-              recipes={recipes}
-              isLoading={recipesLoading}
-              error={recipesError}
-              onEditRecipe={handleEditRecipe}
-              onDeleteRecipe={handleDeleteRecipe}
-              searchTerm={currentSearchTerm}
-              onClearSearch={() => setCurrentSearchTerm("")}
-            />
-          </ErrorBoundary>
-        </ContentLayout>
-        <ErrorBoundary componentName="DeleteRecipeDialog">
-          <DeleteRecipeDialog
-            recipeToDelete={recipeToDelete}
-            isLoading={deleteLoading || recipeToDeleteLoading}
-            error={recipeToDeleteError || deleteError}
-            isOpen={!!recipeToDelete}
-            onClose={handleCloseModals}
-            onConfirm={confirmDeleteRecipe}
-          />
-        </ErrorBoundary>
+        {dialogs}
       </>
     );
   }
+
+  // Desktop Layout
+  return (
+    <>
+      <ContentLayout title="Receptik">{mainContent}</ContentLayout>
+      {dialogs}
+    </>
+  );
 }

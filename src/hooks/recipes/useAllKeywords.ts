@@ -1,5 +1,5 @@
 import { getAllKeywords } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
+import { logError } from "@/utils/logger";
 import { useEffect, useState } from "react";
 
 export const useAllKeywords = () => {

@@ -5,6 +5,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { SettingsProvider } from "./context/SettingsContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import i18n from "./i18n/config.ts";
+import { Spinner } from "./components/ui/spinner.tsx";
 
 const container = document.getElementById("root") as HTMLElement;
 const root = createRoot(container);
@@ -12,7 +13,7 @@ const root = createRoot(container);
 function render(App: ComponentType) {
   root.render(
     <StrictMode>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner>Loading...</Spinner>}>
         <ErrorBoundary componentName="App">
           <SettingsProvider>
             <ThemeProvider>

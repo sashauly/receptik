@@ -2,8 +2,8 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { ContentLayout } from "@/components/layout/ContentLayout";
 import RecipeForm from "@/components/RecipeForm";
 import { useAddRecipe } from "@/hooks/recipes/useAddRecipe";
-import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
+import { logError } from "@/utils/logger";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -11,7 +11,7 @@ import { toast } from "sonner";
 function CreateRecipePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { addRecipe, loading: addLoading, error: addError } = useAddRecipe();
+  const { addRecipe, isLoading: addLoading, error: addError } = useAddRecipe();
 
   const handleAddRecipe = async (
     newRecipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">

@@ -1,51 +1,31 @@
-import { getRecipeById, getRecipeBySlug } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from "@/data/db";
 import { Recipe } from "@/types/recipe";
-import { useEffect, useState } from "react";
+import { logError } from "@/utils/logger";
 
 export const useRecipe = ({ id, slug }: { id?: string; slug?: string }) => {
-  const [recipe, setRecipe] = useState<Recipe | null | undefined>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    // Only proceed if either ID or slug is provided
+  const recipe = useLiveQuery(async () => {
     if (!id && !slug) {
-      setRecipe(null);
-      setLoading(false);
-      setError(null);
-      return;
+      return null;
     }
 
-    const fetchRecipe = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        let fetchedRecipe: Recipe | undefined;
-
-        if (id) {
-          fetchedRecipe = await getRecipeById(id);
-        } else if (slug) {
-          fetchedRecipe = await getRecipeBySlug(slug);
-        }
-
-        setRecipe(fetchedRecipe);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err : new Error("Unknown error occurred")
-        );
-        logError(
-          `Error fetching recipe with ${id ? "ID " + id : "slug " + slug}:`,
-          err
-        );
-      } finally {
-        setLoading(false);
+    try {
+      let fetchedRecipe: Recipe | undefined;
+      if (id) {
+        fetchedRecipe = await db.recipes.get(id);
+      } else if (slug) {
+        fetchedRecipe = await db.recipes.get({ slug });
       }
-    };
 
-    fetchRecipe();
+      return fetchedRecipe;
+    } catch (err) {
+      logError(
+        `Error fetching recipe with ${id ? "ID " + id : "slug " + slug}:`,
+        err
+      );
+      return null;
+    }
   }, [id, slug]);
 
-  return { recipe, loading, error, setRecipe };
+  return { recipe };
 };

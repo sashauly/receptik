@@ -5,8 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 
-export default 
-function ImagePreviewCard({
+export default function ImagePreviewCard({
   image,
   onClick,
   onRemove,

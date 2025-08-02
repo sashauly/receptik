@@ -1,29 +1,22 @@
-import { addRecipe } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
+import { addRecipe as addRecipeService } from "@/data/recipeService";
+import { useMutation } from "@/hooks/useMutation";
 import { Recipe } from "@/types/recipe";
-import { useState } from "react";
 
-export const useAddRecipe = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+export const useAddRecipe = (): {
+  addRecipe: (recipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">) => Promise<Recipe>;
+  addedRecipe: Recipe | undefined;
+  isLoading: boolean;
+  error: Error | null;
+} => {
+  const { mutate, isLoading, error, data } = useMutation<
+    Recipe,
+    Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">
+  >(addRecipeService);
 
-  const addRecipeMutation = async (
-    recipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">
-  ) => {
-    try {
-      setLoading(true);
-      const addedRecipe = await addRecipe(recipeData);
-      return addedRecipe;
-    } catch (err) {
-      setError(
-        err instanceof Error ? err : new Error("Unknown error occurred")
-      );
-      logError("Error adding recipe:", err);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
+  return {
+    addRecipe: mutate,
+    addedRecipe: data,
+    isLoading,
+    error,
   };
-
-  return { addRecipe: addRecipeMutation, loading, error };
 };

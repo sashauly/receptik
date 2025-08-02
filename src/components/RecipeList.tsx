@@ -1,19 +1,16 @@
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NoResults from "@/components/NoResults";
 import { RecipeCard } from "@/components/RecipeCard";
-import RecipeCardSkeleton from "@/components/RecipeCardSkeleton";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/context/SettingsContext";
-import type { Recipe } from "@/types/recipe";
-import { AlertCircle, BookPlus } from "lucide-react";
+import { useRecipeCardImages } from "@/hooks/useRecipeCardImages";
+import { Recipe } from "@/types/recipe";
+import { BookPlus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router";
 
 interface RecipeListProps {
   recipes: Recipe[];
-  isLoading: boolean;
-  error: Error | null;
   onEditRecipe: (recipeId: string) => void;
   onDeleteRecipe: (id: string) => void;
   searchTerm: string;
@@ -22,8 +19,6 @@ interface RecipeListProps {
 
 export default function RecipeList({
   recipes,
-  isLoading,
-  error,
   onEditRecipe,
   onDeleteRecipe,
   searchTerm,
@@ -31,36 +26,12 @@ export default function RecipeList({
 }: RecipeListProps) {
   const { t } = useTranslation();
   const { settings } = useSettings();
+
+  // Call the hook unconditionally at the top level
+  const imageUrls = useRecipeCardImages(recipes);
+
   const viewMode = settings.viewMode;
 
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <ul
-          className={
-            viewMode === "grid"
-              ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
-              : "space-y-4"
-          }
-        >
-          {Array.from({ length: 6 }).map((_, index) => (
-            <ErrorBoundary componentName="RecipeCardSkeleton" key={index}>
-              <RecipeCardSkeleton viewMode={viewMode} />
-            </ErrorBoundary>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <Alert variant="destructive">
-        <AlertCircle className="h-4 w-4" />
-        <AlertDescription>{error.message}</AlertDescription>
-      </Alert>
-    );
-  }
 
   if (recipes.length === 0) {
     if (searchTerm.trim() !== "") {
@@ -97,6 +68,7 @@ export default function RecipeList({
               onEditRecipe={onEditRecipe}
               onDeleteRecipe={onDeleteRecipe}
               viewMode={viewMode}
+              imageUrl={imageUrls.get(recipe.id)}
             />
           </ErrorBoundary>
         ))}
@@ -104,4 +76,3 @@ export default function RecipeList({
     </div>
   );
 }
-

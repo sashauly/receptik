@@ -12,11 +12,7 @@ import { useTranslation } from "react-i18next";
 export default function SettingsPage() {
   const { t } = useTranslation();
 
-  const {
-    recipes,
-    loading: recipesLoading,
-    error: recipesError,
-  } = useRecipes();
+  const { recipes } = useRecipes();
 
   return (
     <ContentLayout title={t("settings.title")}>
@@ -45,10 +41,7 @@ export default function SettingsPage() {
 
             <ExportAllRecipes recipes={recipes} />
 
-            <ResetAllData
-              recipesLoading={recipesLoading}
-              recipesError={recipesError}
-            />
+            <ResetAllData />
           </div>
         </section>
 

@@ -15,7 +15,7 @@ interface IngredientPreviewProps {
   className?: string;
 }
 
-function IngredientPreview({
+export default function IngredientPreview({
   ingredient,
   index,
   onEdit,
@@ -70,7 +70,7 @@ function IngredientPreview({
     <div
       ref={itemRef}
       className={cn(
-        "group flex items-center justify-between p-4 hover:bg-accent transition-colors rounded-lg cursor-pointer",
+        "flex items-center justify-between p-4 rounded-lg cursor-pointer",
         className
       )}
       onClick={handleEdit}
@@ -79,14 +79,12 @@ function IngredientPreview({
       aria-label={`Edit ingredient: ${ingredient.name || "New Ingredient"}`}
     >
       <div className="flex-1 min-w-0">
-        <div className="font-medium truncate group-hover:text-primary transition-colors">
+        <div className="font-medium truncate">
           {ingredient.name || "New Ingredient"}
         </div>
-        <div className="text-sm text-muted-foreground truncate">
-          {displayText}
-        </div>
+        <div className="text-sm truncate">{displayText}</div>
       </div>
-      <div className="flex gap-2 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="flex gap-2 ml-4">
         <Button
           type="button"
           variant="ghost"
@@ -113,5 +111,3 @@ function IngredientPreview({
     </div>
   );
 }
-
-export default IngredientPreview;

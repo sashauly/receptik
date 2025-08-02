@@ -170,7 +170,7 @@ function IngredientItem({
   return (
     <div
       ref={itemContainerRef}
-      className="space-y-2 bg-primary-foreground border rounded-lg"
+      className="space-y-2 border rounded-lg"
       data-ingredient-index={index}
     >
       {isEditing ? (

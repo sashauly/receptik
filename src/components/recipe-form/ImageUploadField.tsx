@@ -11,6 +11,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
+import { Spinner } from "../ui/spinner";
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -197,7 +198,7 @@ function ImageUploadField() {
           <div className="flex flex-col gap-1">
             <p className="text-sm font-medium">
               {isUploading
-                ? t("forms.uploading")
+                ? <Spinner>{t("forms.uploading")}</Spinner>
                 : t("forms.imageUploadButton")}
             </p>
             <p className="text-xs text-muted-foreground">
@@ -215,10 +216,7 @@ function ImageUploadField() {
             disabled={isUploading || images.length >= MAX_IMAGES}
           >
             {isUploading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {t("forms.uploading")}
-              </>
+              <Spinner>{t("forms.uploading")}</Spinner>
             ) : (
               t("forms.uploadImages")
             )}

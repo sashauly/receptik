@@ -68,11 +68,7 @@ const FEATURE_APIS = [
 export default function DebugInfo() {
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
 
-  const {
-    recipes,
-    loading: recipesLoading,
-    error: recipesError,
-  } = useRecipes();
+  const { recipes } = useRecipes();
 
   useEffect(() => {
     const updateViewport = () => {
@@ -168,15 +164,12 @@ export default function DebugInfo() {
         <div className="flex flex-col gap-2">
           <h4 className="text-sm font-mono">App Info: </h4>
 
-          {recipesLoading ? (
-            <p>Loading recipes...</p>
-          ) : (
-            <p>Number of Recipes: {recipes.length}</p>
-          )}
-          {recipesError && (
+          {recipes === null ? (
             <p className="text-destructive">
-              Error loading recipes: {(recipesError as Error).message}
+              {new Error("Error loading recipes.").message}
             </p>
+          ) : (
+            <p>Number of Recipes: {recipes && recipes.length}</p>
           )}
         </div>
       </details>

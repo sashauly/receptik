@@ -1,6 +1,6 @@
 import { importRecipes as performImport } from "@/data/recipeService";
-import { logDebug, logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
+import { logDebug, logError } from "@/utils/logger";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 

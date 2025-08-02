@@ -2,10 +2,11 @@ import RecipeImages from "@/components/recipe-detail/RecipeImages";
 import RecipeIngredients from "@/components/recipe-detail/RecipeIngredients";
 import RecipeInstructions from "@/components/recipe-detail/RecipeInstructions";
 // import RecipeKeywords from "@/components/recipe-detail/RecipeKeywords";
-import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
+import { ContentLayout } from "@/components/layout/ContentLayout";
 import RecipeDescription from "@/components/recipe-detail/RecipeDescription";
-import type { Recipe } from "@/types/recipe";
-import { Separator } from "./ui/separator";
+import RecipeTimes from "@/components/recipe-detail/RecipeTimes";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useSettings } from "@/context/SettingsContext";
 import {
   Clock,
@@ -16,13 +17,13 @@ import {
   Trash2,
   User,
 } from "lucide-react";
-import { Link } from "react-router";
 import { useTranslation } from "react-i18next";
-import { Button } from "./ui/button";
-import { ContentLayout } from "./layout/ContentLayout";
+import { Link } from "react-router";
+import { Recipe } from "@/types/recipe";
 
 interface RecipeDetailProps {
   recipe: Recipe;
+  imageUrl?: string;
   onEdit: () => void;
   onDelete: () => void;
   onShare: () => void;
@@ -30,6 +31,7 @@ interface RecipeDetailProps {
 
 export default function RecipeDetailRefined({
   recipe,
+  imageUrl,
   onEdit,
   onDelete,
   onShare,
@@ -45,7 +47,7 @@ export default function RecipeDetailRefined({
           {/* Image */}
           <div className="relative w-full aspect-[3/4] overflow-hidden rounded-b-3xl sm:aspect-[4/3] md:max-h-[420px] md:mx-0 md:rounded-2xl">
             {recipe.images && recipe.images.length > 0 ? (
-              <RecipeImages images={recipe.images} />
+              <RecipeImages images={recipe.images} imageUrl={imageUrl} />
             ) : (
               <div
                 className="flex items-center justify-center h-full bg-muted"

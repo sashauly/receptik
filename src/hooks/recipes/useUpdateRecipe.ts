@@ -1,30 +1,22 @@
-import { updateRecipe } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
+import { UpdateArgs, updateRecipe as updateRecipeService } from "@/data/recipeService";
 import { Recipe } from "@/types/recipe";
-import { useState } from "react";
+import { useMutation } from "@/hooks/useMutation";
 
-export const useUpdateRecipe = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+export const useUpdateRecipe = ():{
+  updateRecipe: (args: UpdateArgs) => Promise<Recipe | undefined>;
+  updatedRecipe: Recipe | undefined;
+  isLoading: boolean;
+  error: Error | null;
+} => {
+  const { mutate, isLoading, error, data } = useMutation<
+    Recipe | undefined,
+    UpdateArgs
+  >(({ id, updates }) => updateRecipeService({id, updates}));
 
-  const updateRecipeMutation = async (
-    id: string,
-    updates: Omit<Recipe, "createdAt" | "updatedAt">
-  ) => {
-    try {
-      setLoading(true);
-      const updatedRecipe = await updateRecipe(id, updates);
-      return updatedRecipe;
-    } catch (err) {
-      setError(
-        err instanceof Error ? err : new Error("Unknown error occurred")
-      );
-      logError(`Error updating recipe with ID ${id}:`, err);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
+  return {
+    updateRecipe: mutate,
+    updatedRecipe: data,
+    isLoading,
+    error,
   };
-
-  return { updateRecipe: updateRecipeMutation, loading, error };
 };

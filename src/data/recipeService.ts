@@ -46,9 +46,14 @@ export const addRecipe = async (
   return newRecipe;
 };
 
+export interface UpdateArgs {
+  id: string;
+  updates: Omit<Recipe, "createdAt" | "updatedAt">;
+}
+
 export const updateRecipe = async (
-  id: string,
-  updates: Omit<Recipe, "createdAt" | "updatedAt">
+  {id,
+  updates}: UpdateArgs
 ): Promise<Recipe | undefined> => {
   const existingRecipe = await getRecipeById(id);
 

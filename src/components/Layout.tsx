@@ -29,7 +29,7 @@ export default function Layout({ children }: LayoutProps) {
         recipes={[]}
       />
       <div className="relative flex flex-col min-h-full w-full">
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 flex flex-col">{children}</main>
         <footer>
           <Footer />
         </footer>

@@ -1,6 +1,4 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { RecipeImage } from "@/types/recipe";
+import PreviewImageDialog from "@/components/PreviewImageDialog";
 import {
   Dialog,
   DialogContent,
@@ -8,22 +6,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import { RecipeImage } from "@/types/recipe";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useObjectUrl } from "@/hooks/useObjectUrl";
-import PreviewImageDialog from "../PreviewImageDialog";
 
 interface RecipeImagesProps {
   images: RecipeImage[];
   className?: string;
+  imageUrl?: string;
 }
 
-export default function RecipeImages({ images, className }: RecipeImagesProps) {
+export default function RecipeImages({
+  images,
+  className,
+  imageUrl,
+}: RecipeImagesProps) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
-  const thumbUrl = useObjectUrl(
-    images && images.length > 0 ? images[0].data : undefined
-  );
 
   if (!images || images.length === 0) {
     return null;
@@ -37,7 +38,7 @@ export default function RecipeImages({ images, className }: RecipeImagesProps) {
           onClick={() => setOpen(false)}
         >
           <img
-            src={thumbUrl}
+            src={imageUrl}
             alt={images[0].name}
             className="w-full h-full object-cover object-center"
             loading="lazy"

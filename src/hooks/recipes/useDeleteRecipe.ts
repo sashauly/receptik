@@ -1,26 +1,19 @@
 import { deleteRecipe as deleteRecipeService } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
-import { useState } from "react";
+import { useMutation } from "@/hooks/useMutation";
+import { Recipe } from "@/types/recipe";
 
-export const useDeleteRecipe = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+export const useDeleteRecipe = (): {
+  deleteRecipe: (id: string) => Promise<void>;
+  isLoading: boolean;
+  error: Error | null;
+} => {
+  const { mutate, isLoading, error } = useMutation<void, Recipe["id"]>(
+    deleteRecipeService
+  );
 
-  const deleteRecipe = async (id: string) => {
-    setLoading(true);
-    setError(null);
-    try {
-      await deleteRecipeService(id);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err : new Error("Failed to delete recipe")
-      );
-      logError(`Error deleting recipe ${id}:`, err);
-      throw err;
-    } finally {
-      setLoading(false);
-    }
+  return {
+    deleteRecipe: mutate,
+    isLoading,
+    error,
   };
-
-  return { deleteRecipe, loading, error };
 };

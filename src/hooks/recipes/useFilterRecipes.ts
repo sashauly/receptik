@@ -2,7 +2,7 @@ import {
   FilterOptions,
   filterRecipes as performFilter,
 } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
+import { logError } from "@/utils/logger";
 import { Recipe } from "@/types/recipe";
 import { useEffect, useState } from "react";
 

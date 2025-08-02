@@ -10,13 +10,14 @@ import {
   ResponsiveDialogTitle,
 } from "@/components/ui/responsive-dialog";
 import { useImportRecipes } from "@/hooks/recipes/useImportRecipe";
-import { logError } from "@/lib/utils/logger";
 import type { Recipe } from "@/types/recipe";
+import { logError } from "@/utils/logger";
+import { Loader2 } from "lucide-react";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
-import { Loader2 } from "lucide-react";
+import { Spinner } from "../ui/spinner";
 
 const isRecipe = (obj: unknown): obj is Recipe => {
   return (
@@ -280,10 +281,7 @@ export default function ImportRecipes() {
                 })}
               >
                 {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("settings.importing")}
-                  </>
+                  <Spinner>{t("settings.importing")}</Spinner>
                 ) : (
                   t("importRecipes.confirmImport", {
                     count: recipesToPreview.length,

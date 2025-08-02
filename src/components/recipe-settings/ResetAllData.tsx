@@ -12,49 +12,12 @@ import { Trash2 } from "lucide-react";
 import { useResetAllData } from "@/hooks/recipes/useResetAllData";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
+import { Spinner } from "../ui/spinner";
 
-function SpinnerIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      {...props}
-      className={"animate-spin h-4 w-4 mr-2 " + (props.className || "")}
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-      />
-    </svg>
-  );
-}
-
-interface ResetAllDataProps {
-  recipesLoading: boolean;
-  recipesError: Error | null;
-}
-
-export default function ResetAllData({
-  recipesLoading,
-  recipesError,
-}: ResetAllDataProps) {
+export default function ResetAllData() {
   const { t } = useTranslation();
   const { resetAll, loading, error } = useResetAllData();
   const labelId = "reset-all-data-label";
-
-  if (recipesLoading) {
-    return <p>{t("common.loading")}</p>;
-  }
 
   return (
     <div
@@ -70,11 +33,7 @@ export default function ResetAllData({
           {t("settings.resetAllDataDesc")}
         </p>
       </div>
-      {recipesError && (
-        <p className="text-destructive" role="alert" aria-live="assertive">
-          {recipesError.message}
-        </p>
-      )}
+
       <ResponsiveDialog>
         <ResponsiveDialogTrigger
           className={cn(
@@ -116,7 +75,7 @@ export default function ResetAllData({
               aria-label={t("common.confirm")}
             >
               {loading ? (
-                <SpinnerIcon aria-hidden="true" />
+                <Spinner>{t("common.loading")}</Spinner>
               ) : (
                 t("common.confirm")
               )}

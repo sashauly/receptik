@@ -1,3 +1,4 @@
+import { Spinner } from "@/components/ui/spinner";
 import {
   ComponentType,
   ReactNode,
@@ -59,7 +60,7 @@ export function lazyLoad<T extends ComponentType<any>>(
     delay = 300,
     minimumLoading = 700,
     fallback = (
-      <div className="flex items-center justify-center p-4">Loading...</div>
+      <Spinner>{"Loading..."}</Spinner>
     ),
   } = options || {};
 

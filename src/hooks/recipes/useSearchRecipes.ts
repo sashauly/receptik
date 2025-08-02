@@ -1,6 +1,6 @@
 import { searchRecipes as performSearch } from "@/data/recipeService";
-import { logError } from "@/lib/utils/logger";
 import { Recipe } from "@/types/recipe";
+import { logError } from "@/utils/logger";
 import { useEffect, useState } from "react";
 
 export const useSearchRecipes = (searchTerm: string) => {
