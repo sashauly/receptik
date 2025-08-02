@@ -92,7 +92,7 @@ class ErrorBoundary extends Component<Props, State> {
           <div
             className={cn(
               "rounded-lg border bg-destructive/10 p-4 max-w-full",
-              this.props.className
+              this.props.className,
             )}
           >
             <div className="flex items-start gap-3">
@@ -135,7 +135,7 @@ class ErrorBoundary extends Component<Props, State> {
                           {t("errorBoundary.stackTrace")}:
                         </p>
                         {this.renderStackContent(
-                          this.formatError(this.state.error)
+                          this.formatError(this.state.error),
                         )}
                       </div>
                     )}
@@ -146,8 +146,8 @@ class ErrorBoundary extends Component<Props, State> {
                         </p>
                         {this.renderStackContent(
                           this.formatComponentStack(
-                            this.state.errorInfo.componentStack
-                          )
+                            this.state.errorInfo.componentStack,
+                          ),
                         )}
                       </div>
                     )}

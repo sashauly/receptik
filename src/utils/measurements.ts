@@ -320,14 +320,14 @@ export function getBaseUnitByValue(value: UnitValue): BaseUnit | undefined {
 export function getUnitTranslatedLabel(
   unitValue: UnitValue,
   unitType: MeasurementType,
-  t: TFunction<"translation", undefined>
+  t: TFunction<"translation", undefined>,
 ): string {
   // @ts-expect-error Incompatible types with locale resources
   return t(`units.${unitType}.${unitValue}`);
 }
 
 export function getAllUnitsWithTranslatedLabels(
-  t: TFunction<"translation", undefined>
+  t: TFunction<"translation", undefined>,
 ): Unit[] {
   return allBaseUnits.map((baseUnit) => ({
     ...baseUnit,
@@ -338,7 +338,7 @@ export function getAllUnitsWithTranslatedLabels(
 export function convertUnits(
   value: number,
   fromUnitValue: UnitValue,
-  toUnitValue: UnitValue
+  toUnitValue: UnitValue,
 ): number {
   const fromUnit = getBaseUnitByValue(fromUnitValue);
   const toUnit = getBaseUnitByValue(toUnitValue);
@@ -351,7 +351,7 @@ export function convertUnits(
   }
   if (fromUnit.type !== toUnit.type) {
     throw new Error(
-      `Cannot convert between different unit types: ${fromUnit.type} to ${toUnit.type}`
+      `Cannot convert between different unit types: ${fromUnit.type} to ${toUnit.type}`,
     );
   }
   // Cannot convert 'other' type units
@@ -360,7 +360,7 @@ export function convertUnits(
       return value; // Same 'other' unit, return the value
     }
     throw new Error(
-      `Cannot convert 'other' unit type: ${fromUnit.value} to ${toUnit.value}`
+      `Cannot convert 'other' unit type: ${fromUnit.value} to ${toUnit.value}`,
     );
   }
 
@@ -371,16 +371,16 @@ export function convertUnits(
 
 export function getUnitsBySystem(
   allUnitsWithLabels: Unit[],
-  system: MeasurementSystem
+  system: MeasurementSystem,
 ): Unit[] {
   return allUnitsWithLabels.filter(
-    (unit) => unit.systems.includes(system) && unit.type !== "other"
+    (unit) => unit.systems.includes(system) && unit.type !== "other",
   );
 }
 
 export function getUnitsByType(
   allUnitsWithLabels: Unit[],
-  type: MeasurementType
+  type: MeasurementType,
 ): Unit[] {
   return allUnitsWithLabels.filter((unit) => unit.type === type);
 }

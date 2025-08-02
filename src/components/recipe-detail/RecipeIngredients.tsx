@@ -35,7 +35,7 @@ export default function RecipeIngredients({
       }
       return amount * servingsRatio;
     },
-    [servingsRatio]
+    [servingsRatio],
   );
 
   const ingredientAmountToString = useCallback((amount: number | null) => {
@@ -64,7 +64,7 @@ export default function RecipeIngredients({
       // @ts-expect-error Incompatible types with locale resources
       return t(`units.${getBaseUnitByValue(unit)?.type}.${unit}_short`);
     },
-    [t]
+    [t],
   );
 
   if (!ingredients || ingredients.length === 0) {
@@ -98,7 +98,7 @@ export default function RecipeIngredients({
       <ul className="divide-y divide-border">
         {ingredients.map((ingredient) => {
           const adjustedAmount = ingredientsAmountOnServingsRatio(
-            ingredient.amount
+            ingredient.amount,
           );
           return (
             <li

@@ -38,7 +38,7 @@ export default function ResetAllData() {
         <ResponsiveDialogTrigger
           className={cn(
             buttonVariants({ variant: "destructive" }),
-            "cursor-pointer"
+            "cursor-pointer",
           )}
           aria-label={t("settings.resetAllData")}
           aria-describedby="reset-all-data-desc"

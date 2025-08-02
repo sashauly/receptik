@@ -9,14 +9,13 @@ import { logDebug, logError } from "@/utils/logger.ts";
 import { useEffect } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router";
 
-const HomePage = lazyLoad(() => import('@/pages/Home/index'));
-const CreateRecipePage = lazyLoad(() => import('@/pages/CreateRecipePage'));
-const RecipePage = lazyLoad(() => import('@/pages/RecipePage'));
-const EditRecipePage = lazyLoad(() => import('@/pages/EditRecipePage'));
-const SettingsPage = lazyLoad(() => import('@/pages/SettingsPage'));
-const CookingModePage = lazyLoad(() => import('@/pages/CookingModePage'));
-const NotFoundPage = lazyLoad(() => import('@/pages/NotFoundPage'));
-
+const HomePage = lazyLoad(() => import("@/pages/Home/index"));
+const CreateRecipePage = lazyLoad(() => import("@/pages/CreateRecipePage"));
+const RecipePage = lazyLoad(() => import("@/pages/RecipePage"));
+const EditRecipePage = lazyLoad(() => import("@/pages/EditRecipePage"));
+const SettingsPage = lazyLoad(() => import("@/pages/SettingsPage"));
+const CookingModePage = lazyLoad(() => import("@/pages/CookingModePage"));
+const NotFoundPage = lazyLoad(() => import("@/pages/NotFoundPage"));
 
 const basename = (import.meta.env.VITE_BASE_URL || "/") as string;
 

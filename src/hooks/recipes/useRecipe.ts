@@ -21,7 +21,7 @@ export const useRecipe = ({ id, slug }: { id?: string; slug?: string }) => {
     } catch (err) {
       logError(
         `Error fetching recipe with ${id ? "ID " + id : "slug " + slug}:`,
-        err
+        err,
       );
       return null;
     }

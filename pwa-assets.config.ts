@@ -19,7 +19,7 @@ function createCustomAppleSplashScreens(
     darkResizeOptions?: ResizeOptions;
     linkMediaOptions?: AppleTouchStartupImageOptions;
     name?: AppleSplashScreenName;
-  } = {}
+  } = {},
 ) {
   const { padding, resizeOptions, darkResizeOptions, linkMediaOptions, name } =
     options;

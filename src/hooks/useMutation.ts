@@ -8,7 +8,7 @@ import { logError } from "@/utils/logger";
  * @returns An object with the mutation function and its current state.
  */
 export const useMutation = <TData, TVariables>(
-  mutationFn: (variables: TVariables) => Promise<TData>
+  mutationFn: (variables: TVariables) => Promise<TData>,
 ) => {
   const [data, setData] = useState<TData | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(false);

@@ -20,7 +20,7 @@ export function useUrlParams() {
 
       setSearchParams(newSearchParams, { replace: true });
     },
-    [searchParams, setSearchParams]
+    [searchParams, setSearchParams],
   );
 
   const clearParams = useCallback(() => {

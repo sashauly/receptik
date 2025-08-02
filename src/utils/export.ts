@@ -71,10 +71,10 @@ export const exportAllRecipesAsJson = async (recipes: Recipe[]) => {
               ...img,
               data: base64, // base64 string for export
             };
-          })
+          }),
         );
         return { ...recipe, images };
-      })
+      }),
     );
 
     const data = JSON.stringify(recipesWithBase64Images);

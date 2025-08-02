@@ -18,7 +18,7 @@ export default function MobileNavigation() {
         <div
           className={cn(
             "absolute -top-14 left-1/2 -translate-x-1/2",
-            isLeftHanded ? "md:left-4" : "md:right-4"
+            isLeftHanded ? "md:left-4" : "md:right-4",
           )}
         >
           <Button
@@ -52,8 +52,8 @@ export default function MobileNavigation() {
                     "flex flex-col items-center gap-1 h-auto min-w-[44px] min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                     isActive
                       ? "text-primary-foreground bg-primary"
-                      : "text-foreground", 
-                    "active:bg-accent active:scale-95 transition-transform"
+                      : "text-foreground",
+                    "active:bg-accent active:scale-95 transition-transform",
                   )
                 }
                 aria-label={t("navigation.myRecipes")}
@@ -72,7 +72,7 @@ export default function MobileNavigation() {
                     isActive
                       ? "text-primary-foreground bg-primary"
                       : "text-foreground",
-                    "active:bg-accent active:scale-95 transition-transform"
+                    "active:bg-accent active:scale-95 transition-transform",
                   )
                 }
                 aria-label={t("navigation.settings")}

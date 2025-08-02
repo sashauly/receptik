@@ -20,7 +20,7 @@ export const useRecipes = ({ searchTerm = "" }: UseRecipesOptions = {}) => {
               .includes(lowerCaseSearchTerm);
             const keywordsMatch =
               recipe.keywords?.some((keyword) =>
-                keyword.toLowerCase().includes(lowerCaseSearchTerm)
+                keyword.toLowerCase().includes(lowerCaseSearchTerm),
               ) || false;
             return nameMatches || keywordsMatch;
           })

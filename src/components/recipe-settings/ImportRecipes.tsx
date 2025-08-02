@@ -119,7 +119,7 @@ export default function ImportRecipes() {
 
       reader.readAsText(file);
     },
-    [t]
+    [t],
   );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,7 +141,7 @@ export default function ImportRecipes() {
     try {
       await importRecipes(recipesToPreview);
       toast.success(
-        t("importRecipes.success", { count: recipesToPreview.length })
+        t("importRecipes.success", { count: recipesToPreview.length }),
       );
       setShowPreviewDialog(false);
       setRecipesToPreview([]);

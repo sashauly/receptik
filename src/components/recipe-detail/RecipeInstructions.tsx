@@ -18,7 +18,7 @@ export default function RecipeInstructions({
       <ol
         className={cn(
           "list-decimal pl-6 space-y-1 text-sm",
-          "marker:text-primary marker:font-medium"
+          "marker:text-primary marker:font-medium",
         )}
       >
         {instructions.map((step, index) => (

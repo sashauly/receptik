@@ -24,7 +24,7 @@ function render(App: ComponentType) {
           </SettingsProvider>
         </ErrorBoundary>
       </Suspense>
-    </StrictMode>
+    </StrictMode>,
   );
 }
 

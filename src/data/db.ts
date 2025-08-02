@@ -28,7 +28,7 @@ export const ensureLatestDbSchema = async (): Promise<void> => {
 
   if (currentVersion < DB_VERSION) {
     logInfo(
-      `Migrating database schema from v${currentVersion} to v${DB_VERSION}`
+      `Migrating database schema from v${currentVersion} to v${DB_VERSION}`,
     );
     const recipes = await db.recipes.toArray();
     let migrated = false;
@@ -53,7 +53,7 @@ export const ensureLatestDbSchema = async (): Promise<void> => {
               };
             } else {
               logInfo(
-                `Failed to convert base64 to Blob for image in recipe ${recipe.id}`
+                `Failed to convert base64 to Blob for image in recipe ${recipe.id}`,
               );
               return img;
             }

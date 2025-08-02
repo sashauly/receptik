@@ -89,7 +89,7 @@ export function DurationInput({ name, label }: DurationInputProps) {
 
         const handleInputChange = (
           e: React.ChangeEvent<HTMLInputElement>,
-          unit: "hours" | "minutes"
+          unit: "hours" | "minutes",
         ) => {
           const value = Number.parseInt(e.target.value, 10);
           const numericValue = isNaN(value) ? 0 : value;

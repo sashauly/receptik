@@ -30,7 +30,7 @@ function UnitSelectionPage({
 
     const query = searchQuery.toLowerCase();
     return unitOptions.filter((unit) =>
-      unit.label.toLowerCase().includes(query)
+      unit.label.toLowerCase().includes(query),
     );
   }, [unitOptions, searchQuery]);
 

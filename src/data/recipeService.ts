@@ -12,19 +12,19 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
 };
 
 export const getRecipeById = async (
-  id: string
+  id: string,
 ): Promise<Recipe | undefined> => {
   return await recipesTable.get(id);
 };
 
 export const getRecipeBySlug = async (
-  slug: string
+  slug: string,
 ): Promise<Recipe | undefined> => {
   return await recipesTable.get({ slug });
 };
 
 export const addRecipe = async (
-  recipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">
+  recipeData: Omit<Recipe, "id" | "slug" | "createdAt" | "updatedAt">,
 ): Promise<Recipe> => {
   const allRecipes = await recipesTable.toArray();
   const existingSlugs = allRecipes
@@ -51,10 +51,10 @@ export interface UpdateArgs {
   updates: Omit<Recipe, "createdAt" | "updatedAt">;
 }
 
-export const updateRecipe = async (
-  {id,
-  updates}: UpdateArgs
-): Promise<Recipe | undefined> => {
+export const updateRecipe = async ({
+  id,
+  updates,
+}: UpdateArgs): Promise<Recipe | undefined> => {
   const existingRecipe = await getRecipeById(id);
 
   if (!existingRecipe) {
@@ -101,7 +101,7 @@ export const deleteAllRecipes = async (): Promise<void> => {
 };
 
 export const importRecipes = async (
-  recipesToImport: Recipe[]
+  recipesToImport: Recipe[],
 ): Promise<void> => {
   if (!recipesToImport || recipesToImport.length === 0) {
     throw new Error("No recipes provided for import.");
@@ -112,7 +112,7 @@ export const importRecipes = async (
       if (!recipeData.id || !recipeData.name) {
         logWarn(
           `Skipping invalid recipe data: missing ID or name. Data:`,
-          recipeData
+          recipeData,
         );
         continue;
       }
@@ -138,7 +138,7 @@ export const importRecipes = async (
               };
             } else {
               logWarn(
-                `Failed to convert base64 to Blob for image in recipe ${parsedRecipeData.id}`
+                `Failed to convert base64 to Blob for image in recipe ${parsedRecipeData.id}`,
               );
               return img;
             }
@@ -166,7 +166,7 @@ export const importRecipes = async (
           await recipesTable.put(parsedRecipeData);
         } else {
           logWarn(
-            `Skipping import of recipe with id ${recipeData.id} as existing recipe is newer or same.`
+            `Skipping import of recipe with id ${recipeData.id} as existing recipe is newer or same.`,
           );
         }
       } else {
@@ -219,7 +219,7 @@ export const searchRecipes = async (searchTerm: string): Promise<Recipe[]> => {
 
       const keywordsMatch =
         recipe.keywords?.some((keyword) =>
-          keyword.toLowerCase().includes(lowerCaseSearchTerm)
+          keyword.toLowerCase().includes(lowerCaseSearchTerm),
         ) || false;
 
       return nameMatches || keywordsMatch;
@@ -250,7 +250,7 @@ export const filterRecipes = async ({
 
   if (keywords && keywords.length > 0) {
     collection = collection.and((recipe) =>
-      keywords.some((keyword) => recipe.keywords?.includes(keyword))
+      keywords.some((keyword) => recipe.keywords?.includes(keyword)),
     );
   }
 

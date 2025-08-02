@@ -32,7 +32,6 @@ export default function RecipeList({
 
   const viewMode = settings.viewMode;
 
-
   if (recipes.length === 0) {
     if (searchTerm.trim() !== "") {
       return <NoResults searchQuery={searchTerm} onClear={onClearSearch} />;

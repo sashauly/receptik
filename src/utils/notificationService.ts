@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { logDebug, logError, logWarn } from "./utils/logger";
+import { logDebug, logError, logWarn } from "@/utils/logger";
 
 export const requestNotificationPermission = async (): Promise<
   "granted" | "denied" | "default"
@@ -33,7 +33,7 @@ export const requestNotificationPermission = async (): Promise<
 
 export const sendNotification = async (
   title: string,
-  options?: NotificationOptions
+  options?: NotificationOptions,
 ) => {
   const permission = await requestNotificationPermission();
 
@@ -46,7 +46,7 @@ export const sendNotification = async (
         .catch((error) => {
           logError(
             "Service Worker registration failed for notification:",
-            error
+            error,
           );
           toast.error("Service Worker registration failed for notification");
 

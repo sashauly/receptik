@@ -18,7 +18,7 @@ export function ContentLayout({
       <div
         className={cn(
           "flex justify-center flex-1 py-2 sm:py-4 px-4 sm:px-6 ",
-          className
+          className,
         )}
       >
         {children}

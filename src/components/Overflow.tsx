@@ -52,7 +52,7 @@ interface OverflowContextValue {
 // =============================================================================
 
 const Context = React.createContext<OverflowContextValue | undefined>(
-  undefined
+  undefined,
 );
 
 export function useOverflow(): OverflowContextValue {
@@ -199,7 +199,7 @@ function Overflow({
           ? "none"
           : containerBaseStyle.display,
     }),
-    [hidden, styleProp]
+    [hidden, styleProp],
   );
 
   const refs: OverflowRefs = useMemo(() => ({ viewport: viewportRef }), []);
@@ -211,7 +211,7 @@ function Overflow({
       tolerance,
       refs,
     }),
-    [refs, state, tolerance, dispatch]
+    [refs, state, tolerance, dispatch],
   );
 
   // Call the onStateChange callback when the state changes
@@ -302,7 +302,7 @@ function OverflowContent({
 
     const createObserver = (
       direction: keyof CanScroll,
-      rootMargin: string
+      rootMargin: string,
     ): IntersectionObserver => {
       return new IntersectionObserver(
         ([entry]) => {
@@ -311,7 +311,7 @@ function OverflowContent({
           }
 
           const hasSize = Boolean(
-            entry.boundingClientRect.width || entry.boundingClientRect.height
+            entry.boundingClientRect.width || entry.boundingClientRect.height,
           );
           // Determine if the edge is intersecting (meaning scrolling is possible)
           // Check intersectionRatio and isIntersecting for robustness, especially in Firefox.
@@ -324,7 +324,7 @@ function OverflowContent({
           root, // The scrollable ancestor
           rootMargin, // Defines the margin box of the root element
           threshold, // Intersection ratio thresholds
-        }
+        },
       );
     };
 
@@ -402,7 +402,7 @@ function OverflowContent({
           }}
         />
       ) : null,
-    [tolerance]
+    [tolerance],
   );
 
   return (

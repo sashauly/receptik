@@ -17,7 +17,7 @@ function TimerDisplay({
   const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState(initialTimeInSeconds);
   const [progressValue, setProgressValue] = useState(
-    Math.floor((timeLeft / initialTimeInSeconds) * 100)
+    Math.floor((timeLeft / initialTimeInSeconds) * 100),
   );
   const [isRunning, setIsRunning] = useState(false);
   const [isPaused, setIsPaused] = useState(false);

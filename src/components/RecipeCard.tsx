@@ -49,7 +49,7 @@ export const RecipeCard = memo(function RecipeCard({
       e.stopPropagation();
       onEditRecipe(recipe.slug);
     },
-    [onEditRecipe, recipe.slug]
+    [onEditRecipe, recipe.slug],
   );
 
   const handleDeleteClick = useCallback(
@@ -58,7 +58,7 @@ export const RecipeCard = memo(function RecipeCard({
       e.stopPropagation();
       onDeleteRecipe(recipe.id);
     },
-    [onDeleteRecipe, recipe.id]
+    [onDeleteRecipe, recipe.id],
   );
 
   const actionMenu = (
@@ -95,7 +95,7 @@ export const RecipeCard = memo(function RecipeCard({
         "relative overflow-hidden",
         viewMode === "grid"
           ? "w-full h-[160px]"
-          : "w-[80px] h-[80px] flex-shrink-0"
+          : "w-[80px] h-[80px] flex-shrink-0",
       )}
     >
       {imageUrl ? (

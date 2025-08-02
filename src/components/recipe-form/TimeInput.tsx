@@ -34,7 +34,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
 
         onChange(currentHours * 60 + currentMinutes);
       },
-      [minuteInput, onChange]
+      [minuteInput, onChange],
     );
 
     const handleMinuteInputChange = useCallback(
@@ -50,7 +50,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
           const remainingMinutes = currentMinutes % 60;
 
           setHourInput(
-            (parseInt(hourInput, 10) || 0 + additionalHours).toString()
+            (parseInt(hourInput, 10) || 0 + additionalHours).toString(),
           );
           setMinuteInput(remainingMinutes.toString());
 
@@ -59,7 +59,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
           onChange(currentHours * 60 + currentMinutes);
         }
       },
-      [hourInput, onChange]
+      [hourInput, onChange],
     );
 
     const handleBlur = useCallback(() => {
@@ -109,7 +109,7 @@ const TimeInput = React.forwardRef<HTMLInputElement, TimeInputProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 TimeInput.displayName = "TimeInput";

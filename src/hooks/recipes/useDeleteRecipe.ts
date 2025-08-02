@@ -8,7 +8,7 @@ export const useDeleteRecipe = (): {
   error: Error | null;
 } => {
   const { mutate, isLoading, error } = useMutation<void, Recipe["id"]>(
-    deleteRecipeService
+    deleteRecipeService,
   );
 
   return {

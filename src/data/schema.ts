@@ -24,7 +24,7 @@ const isTimeEmpty = (val: string) => {
 };
 
 export const createRecipeFormSchema = (
-  t: TFunction<"translation", undefined>
+  t: TFunction<"translation", undefined>,
 ) =>
   z.object({
     name: z
@@ -68,7 +68,7 @@ export const createRecipeFormSchema = (
           data: z.instanceof(Blob),
           type: z.string(),
           name: z.string(),
-        })
+        }),
       )
       .default([])
       .optional(),
@@ -108,8 +108,8 @@ export const createRecipeFormSchema = (
             {
               message: t("validation.ingredientAmountRequired"),
               path: ["amount"],
-            }
-          )
+            },
+          ),
       )
       .refine((ingredients) => ingredients.length > 0, {
         message: t("validation.ingredientRequired"),

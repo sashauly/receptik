@@ -1,4 +1,5 @@
 import { ContentLayout } from "@/components/layout/ContentLayout";
+import { Spinner } from "@/components/ui/spinner";
 import { useRecipe } from "@/hooks/recipes/useRecipe";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,15 +8,15 @@ import { useParams } from "react-router";
 export default function CookingModePage() {
   const { slug } = useParams();
 
-  const { recipe, loading, error } = useRecipe({ slug });
+  const { recipe } = useRecipe({ slug });
   const { t } = useTranslation();
   const [activeStep, setActiveStep] = useState(0);
 
-  if (loading) {
-    return <div className="p-8 text-center">{t("common.loading")}</div>;
+  if (recipe === undefined) {
+    return <Spinner>{t("common.loading")}</Spinner>;
   }
 
-  if (error || !recipe)
+  if (!recipe)
     return (
       <div className="p-8 text-center text-destructive">
         {t("recipe.recipeNotFound")}

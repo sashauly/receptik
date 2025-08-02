@@ -53,15 +53,13 @@ export function lazyLoad<T extends ComponentType<any>>(
   importFn: () => Promise<{ default: T }>,
   options?: LoaderOptions & {
     fallback?: ReactNode;
-  }
+  },
 ) {
   // Default options
   const {
     delay = 300,
     minimumLoading = 700,
-    fallback = (
-      <Spinner>{"Loading..."}</Spinner>
-    ),
+    fallback = <Spinner>{"Loading..."}</Spinner>,
   } = options || {};
 
   // Create a lazy component with anti-flicker protection

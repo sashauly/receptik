@@ -1,8 +1,11 @@
-import { UpdateArgs, updateRecipe as updateRecipeService } from "@/data/recipeService";
+import {
+  UpdateArgs,
+  updateRecipe as updateRecipeService,
+} from "@/data/recipeService";
 import { Recipe } from "@/types/recipe";
 import { useMutation } from "@/hooks/useMutation";
 
-export const useUpdateRecipe = ():{
+export const useUpdateRecipe = (): {
   updateRecipe: (args: UpdateArgs) => Promise<Recipe | undefined>;
   updatedRecipe: Recipe | undefined;
   isLoading: boolean;
@@ -11,7 +14,7 @@ export const useUpdateRecipe = ():{
   const { mutate, isLoading, error, data } = useMutation<
     Recipe | undefined,
     UpdateArgs
-  >(({ id, updates }) => updateRecipeService({id, updates}));
+  >(({ id, updates }) => updateRecipeService({ id, updates }));
 
   return {
     updateRecipe: mutate,

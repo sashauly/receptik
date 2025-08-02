@@ -70,7 +70,7 @@ function IngredientItem({
 
     requestAnimationFrame(() => {
       const firstInput = itemContainerRef.current?.querySelector(
-        `#ingredient-name-${fieldId}`
+        `#ingredient-name-${fieldId}`,
       ) as HTMLInputElement;
       firstInput?.focus();
     });
@@ -89,7 +89,7 @@ function IngredientItem({
 
       requestAnimationFrame(() => {
         const previewElement = itemContainerRef.current?.querySelector(
-          `.ingredient-preview-${fieldId}`
+          `.ingredient-preview-${fieldId}`,
         ) as HTMLDivElement;
         previewElement?.focus();
       });

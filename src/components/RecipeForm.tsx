@@ -58,7 +58,7 @@ export default function RecipeForm({
         (formValues) => ({
           ...formValues,
         }),
-        { keepDefaultValues: true }
+        { keepDefaultValues: true },
       );
     }
   }, [initialRecipe, form]);
@@ -67,7 +67,7 @@ export default function RecipeForm({
     try {
       const calculatedTotalTime = calculateTotalTime(
         values.prepTime || "PT0S",
-        values.cookTime
+        values.cookTime,
       );
 
       const newRecipe: Recipe = {

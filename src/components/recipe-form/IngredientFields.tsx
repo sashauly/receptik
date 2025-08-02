@@ -32,7 +32,7 @@ function IngredientFields() {
     const allUnitsWithLabels = getAllUnitsWithTranslatedLabels(t);
     const metricSystem = getUnitsBySystem(
       allUnitsWithLabels as unknown as Unit[],
-      "metric"
+      "metric",
     );
     const otherUnits = getUnitsByType(allUnitsWithLabels, "other");
 

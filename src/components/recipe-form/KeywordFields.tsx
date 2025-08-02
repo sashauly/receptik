@@ -34,7 +34,7 @@ function KeywordFields() {
     const currentKeywords = form.getValues("keywords");
     form.setValue(
       "keywords",
-      currentKeywords && currentKeywords.filter((k) => k !== keyword)
+      currentKeywords && currentKeywords.filter((k) => k !== keyword),
     );
   };
 

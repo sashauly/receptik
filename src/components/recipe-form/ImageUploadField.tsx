@@ -47,7 +47,7 @@ function ImageUploadField() {
         for (let i = 0; i < files.length; i++) {
           const file = files[i];
           logDebug(
-            `Processing file: ${file.name}, type: ${file.type}, size: ${file.size}`
+            `Processing file: ${file.name}, type: ${file.type}, size: ${file.size}`,
           );
 
           if (!ALLOWED_FILE_TYPES.includes(file.type)) {
@@ -92,11 +92,11 @@ function ImageUploadField() {
         setIsUploading(false);
       }
     },
-    [images, setValue, t]
+    [images, setValue, t],
   );
 
   const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const files = event.target.files;
     if (files) {
@@ -113,7 +113,7 @@ function ImageUploadField() {
       const files = event.dataTransfer.files;
       await processFiles(files);
     },
-    [processFiles]
+    [processFiles],
   );
 
   const handleDragOver = useCallback(
@@ -122,7 +122,7 @@ function ImageUploadField() {
       event.stopPropagation();
       setIsDragging(true);
     },
-    []
+    [],
   );
 
   const handleDragLeave = useCallback(
@@ -131,7 +131,7 @@ function ImageUploadField() {
       event.stopPropagation();
       setIsDragging(false);
     },
-    []
+    [],
   );
 
   const removeImage = (id: string) => {
@@ -140,7 +140,7 @@ function ImageUploadField() {
       logInfo(`Removing image: ${imageToRemove.name}`);
       setValue(
         "images",
-        images.filter((img: RecipeImage) => img.id !== id)
+        images.filter((img: RecipeImage) => img.id !== id),
       );
     }
   };
@@ -162,7 +162,7 @@ function ImageUploadField() {
           isDragging
             ? "border-primary bg-primary/5"
             : "border-muted-foreground/25",
-          isUploading && "pointer-events-none opacity-50"
+          isUploading && "pointer-events-none opacity-50",
         )}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -192,14 +192,16 @@ function ImageUploadField() {
           <Upload
             className={cn(
               "h-8 w-8 text-muted-foreground",
-              isDragging && "text-primary"
+              isDragging && "text-primary",
             )}
           />
           <div className="flex flex-col gap-1">
             <p className="text-sm font-medium">
-              {isUploading
-                ? <Spinner>{t("forms.uploading")}</Spinner>
-                : t("forms.imageUploadButton")}
+              {isUploading ? (
+                <Spinner>{t("forms.uploading")}</Spinner>
+              ) : (
+                t("forms.imageUploadButton")
+              )}
             </p>
             <p className="text-xs text-muted-foreground">
               {t("forms.imageUploadDescription")}

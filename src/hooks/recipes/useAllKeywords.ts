@@ -17,7 +17,7 @@ export const useAllKeywords = () => {
         setAllKeywords(allKeywords);
       } catch (err) {
         setError(
-          err instanceof Error ? err : new Error("Unknown error occurred")
+          err instanceof Error ? err : new Error("Unknown error occurred"),
         );
         logError("Error fetching all keywords:", err);
       } finally {

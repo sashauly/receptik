@@ -71,7 +71,7 @@ export default function IngredientPreview({
       ref={itemRef}
       className={cn(
         "flex items-center justify-between p-4 rounded-lg cursor-pointer",
-        className
+        className,
       )}
       onClick={handleEdit}
       tabIndex={0}

@@ -23,7 +23,7 @@ function EditRecipePage() {
   } = useUpdateRecipe();
 
   const handleUpdateRecipe = async (
-    updatedRecipeData: UpdateArgs["updates"]
+    updatedRecipeData: UpdateArgs["updates"],
   ) => {
     try {
       if (!recipe) {

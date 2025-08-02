@@ -51,7 +51,7 @@ export function formatDuration(isoString: string, t: TFunction): string {
 
 export function formatHumanReadable(
   duration: Temporal.Duration,
-  t: TFunction
+  t: TFunction,
 ): string {
   const parts: string[] = [];
 

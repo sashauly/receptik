@@ -112,13 +112,15 @@ export default function RecipePage() {
         />
       </ErrorBoundary>
 
-      {recipe &&<ErrorBoundary componentName="ShareRecipeDialog">
-        <ShareRecipeDialog
-          recipe={recipe}
-          open={showShare}
-          onOpenChange={handleCloseModals}
-        />
-      </ErrorBoundary>}
+      {recipe && (
+        <ErrorBoundary componentName="ShareRecipeDialog">
+          <ShareRecipeDialog
+            recipe={recipe}
+            open={showShare}
+            onOpenChange={handleCloseModals}
+          />
+        </ErrorBoundary>
+      )}
     </>
   );
 }
