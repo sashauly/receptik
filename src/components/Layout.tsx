@@ -1,7 +1,7 @@
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import MobileNavigation from "./layout/MobileNavigation";
 import Sidebar from "@/components/layout/Sidebar";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import Footer from "./layout/Footer";
+import MobileNavigation from "./layout/MobileNavigation";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,9 +30,8 @@ export default function Layout({ children }: LayoutProps) {
       />
       <div className="relative flex flex-col min-h-full w-full">
         <main className="flex-1 flex flex-col">{children}</main>
-        <footer>
-          <Footer />
-        </footer>
+
+        <Footer />
       </div>
     </>
   );

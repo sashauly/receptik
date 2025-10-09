@@ -1,5 +1,3 @@
-// New component: RecipeListLoading.tsx
-
 import ErrorBoundary from "@/components/ErrorBoundary";
 import RecipeCardSkeleton from "@/components/RecipeCardSkeleton";
 import { useSettings } from "@/context/SettingsContext";
