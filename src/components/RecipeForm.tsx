@@ -14,10 +14,12 @@ import TimeFields from "@/components/recipe-form/TimeFields";
 import { FormSchemaProvider } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, Resolver, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
+
+type EmptyIngredient = RecipeFormValues["ingredients"][number];
 
 const emptyRecipe = (): RecipeFormValues => ({
   name: "",
@@ -26,7 +28,9 @@ const emptyRecipe = (): RecipeFormValues => ({
   cookTime: "PT0S",
   keywords: [],
   images: [],
-  ingredients: [{ id: uuidv4(), name: "", amount: null, unit: "piece" }],
+  ingredients: [
+    { id: uuidv4(), name: "", amount: null, unit: "piece" } as EmptyIngredient,
+  ],
   instructions: [""],
   author: "",
 });
@@ -44,30 +48,27 @@ export default function RecipeForm({
 }: RecipeFormModalProps) {
   const { t } = useTranslation();
 
-  const recipe = initialRecipe || emptyRecipe();
+  const recipe = (initialRecipe || emptyRecipe()) as RecipeFormValues;
   const recipeFormSchema = createRecipeFormSchema(t);
 
   const form = useForm<RecipeFormValues>({
-    resolver: zodResolver(recipeFormSchema),
+    resolver: zodResolver(recipeFormSchema) as Resolver<RecipeFormValues>,
     defaultValues: recipe,
   });
 
   useEffect(() => {
     if (initialRecipe) {
-      form.reset(
-        (formValues) => ({
-          ...formValues,
-        }),
-        { keepDefaultValues: true },
-      );
+      form.reset(recipe as RecipeFormValues);
+    } else {
+      form.reset(emptyRecipe());
     }
-  }, [initialRecipe, form]);
+  }, [initialRecipe, form]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSubmit = (values: RecipeFormValues) => {
     try {
       const calculatedTotalTime = calculateTotalTime(
         values.prepTime || "PT0S",
-        values.cookTime,
+        values.cookTime
       );
 
       const newRecipe: Recipe = {
