@@ -52,7 +52,7 @@ export default function RecipeList({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="flex-1 space-y-4">
       <ul
         className={
           viewMode === "grid"
