@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       i18nextLoader({
         paths: ["public/locales"],
+        namespaceResolution: "basename",
       }),
       VitePWA({
         registerType: "autoUpdate",
