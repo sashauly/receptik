@@ -222,16 +222,23 @@
     },
     "share": {
       "link": "Ссылка",
-      "social": "Соцсети",
+      "social": "Поделиться рецептом",
       "export": "Экспорт",
       "text": "Текст",
+      "copyToClipboard": "Копировать в буфер",
       "email": "Email",
       "image": "Изображение",
       "twitter": "Twitter",
       "facebook": "Facebook",
       "exportThisRecipe": "Экспортировать этот рецепт",
-      "exportAllRecipes": "Экспортировать все рецепты как JSON",
-      "exportAllAsJson": "Экспорт всех"
+      "exportAllRecipes": "Экспортировать всё в JSON",
+      "exportAllAsJson": "Экспортировать всё",
+      "copyDescription": "Копирует полный текст рецепта, чтобы вы могли вставить его куда угодно.",
+      "nativeDescription": "Отправить через WhatsApp, Telegram или почту.",
+      "copiedToClipboard": "Рецепт скопирован в буфер обмена!",
+      "successTxt": "Рецепт сохранен в текстовый файл",
+      "successImage": "Рецепт сохранен как изображение",
+      "error": "Не удалось поделиться рецептом"
     },
     "theme": {
       "label": "Тема",

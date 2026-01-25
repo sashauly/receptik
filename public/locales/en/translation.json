@@ -226,16 +226,23 @@
     },
     "share": {
       "link": "Link",
-      "social": "Social",
+      "social": "Share Recipe",
       "export": "Export",
       "text": "Text",
+      "copyToClipboard": "Copy to Clipboard",
       "email": "Email",
       "image": "Image",
       "twitter": "Twitter",
       "facebook": "Facebook",
       "exportThisRecipe": "Export this recipe",
       "exportAllRecipes": "Export all recipes as JSON",
-      "exportAllAsJson": "Export All"
+      "exportAllAsJson": "Export All",
+      "copyDescription": "Copies the full recipe text so you can paste it anywhere.",
+      "nativeDescription": "Send to apps like WhatsApp, Telegram, or Mail.",
+      "copiedToClipboard": "Recipe copied to clipboard!",
+      "successTxt": "Recipe exported as text file",
+      "successImage": "Recipe exported as image",
+      "error": "Could not share recipe"
     },
     "theme": {
       "label": "Theme",
