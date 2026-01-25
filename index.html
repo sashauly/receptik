@@ -1,6 +1,24 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <script>
+      (function () {
+        var theme = "light";
+        try {
+          var s = localStorage.getItem("receptik-settings");
+          var t = s ? (JSON.parse(s) || {}).theme : "system";
+          if (t === "dark" || t === "light") theme = t;
+          else
+            theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        } catch (e) {}
+        var doc = document.documentElement;
+        doc.classList.remove("light", "dark");
+        doc.classList.add(theme);
+        doc.setAttribute("data-theme", theme);
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta
       name="viewport"

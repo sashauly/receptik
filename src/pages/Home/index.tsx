@@ -13,8 +13,10 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useUrlParams } from "@/hooks/useUrlParams";
 import { cn } from "@/lib/utils";
 import { logError } from "@/utils/logger";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+
+const SKELETON_DELAY_MS = 200;
 
 export default function Home() {
   const navigate = useNavigate();
@@ -37,6 +39,31 @@ export default function Home() {
   });
 
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const isRecipesLoading = recipes === undefined;
+  const [showSkeletons, setShowSkeletons] = useState(false);
+  const skeletonDelayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  if (!isRecipesLoading && showSkeletons) {
+    setShowSkeletons(false);
+  }
+
+  useEffect(() => {
+    if (isRecipesLoading && !showSkeletons) {
+      skeletonDelayRef.current = setTimeout(() => {
+        setShowSkeletons(true);
+      }, SKELETON_DELAY_MS);
+    }
+
+    return () => {
+      if (skeletonDelayRef.current) {
+        clearTimeout(skeletonDelayRef.current);
+        skeletonDelayRef.current = null;
+      }
+    };
+  }, [isRecipesLoading, showSkeletons]);
+
+  const shouldDisplaySkeletons = isRecipesLoading && showSkeletons;
 
   const handleCloseModals = useCallback(() => {
     updateParams({ delete: null, share: null });
@@ -79,13 +106,11 @@ export default function Home() {
     );
   }
 
-  const isRecipesLoading = recipes === undefined;
-
   const mainContent = (
     <ErrorBoundary componentName="RecipeList">
-      {isRecipesLoading ? (
+      {shouldDisplaySkeletons ? (
         <RecipeListLoading />
-      ) : (
+      ) : !isRecipesLoading ? (
         <RecipeList
           recipes={recipes}
           onEditRecipe={handleEditRecipe}
@@ -93,29 +118,26 @@ export default function Home() {
           searchTerm={currentSearchTerm}
           onClearSearch={() => setCurrentSearchTerm("")}
         />
-      )}
+      ) : null}
     </ErrorBoundary>
   );
 
   const dialogs = (
-    <>
-      <ErrorBoundary componentName="DeleteRecipeDialog">
-        <DeleteRecipeDialog
-          recipeToDelete={recipeToDelete}
-          isLoading={deleteLoading}
-          error={deleteError}
-          isOpen={!!deleteRecipeId}
-          onClose={handleCloseModals}
-          onConfirm={confirmDeleteRecipe}
-        />
-      </ErrorBoundary>
-    </>
+    <ErrorBoundary componentName="DeleteRecipeDialog">
+      <DeleteRecipeDialog
+        recipeToDelete={recipeToDelete}
+        isLoading={deleteLoading}
+        error={deleteError}
+        isOpen={!!deleteRecipeId}
+        onClose={handleCloseModals}
+        onConfirm={confirmDeleteRecipe}
+      />
+    </ErrorBoundary>
   );
 
   if (isMobile) {
     return (
       <>
-        {/* Mobile Fixed Top Bar */}
         <div
           className={cn(
             "fixed top-0 left-0 right-0 z-50",
@@ -133,7 +155,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mobile Main Content */}
         <main className="w-full flex-1 overflow-y-auto p-4 space-y-4 mt-[72px]">
           {mainContent}
         </main>
@@ -142,7 +163,6 @@ export default function Home() {
     );
   }
 
-  // Desktop Layout
   return (
     <>
       <ContentLayout title="Receptik">{mainContent}</ContentLayout>
