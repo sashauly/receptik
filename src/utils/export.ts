@@ -1,7 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { Recipe } from "@/types/recipe";
-import html2canvas from "html2canvas-pro";
-import DOMPurify from "dompurify";
+import type { Ingredient, Recipe } from "@/types/recipe";
+import { getBaseUnitByValue } from "@/utils/measurements";
+import { formatDuration } from "@/utils/time";
+import type { TFunction } from "i18next";
+
+export const formatIngredient = (i: Ingredient, t: TFunction): string => {
+  const baseUnit = getBaseUnitByValue(i.unit);
+  const unitType = baseUnit?.type || "other";
+
+  const translationKey = `units.${unitType}.${i.unit}` as any;
+  const unitLabel = t(translationKey);
+  if (i.amount === null || i.amount === undefined)
+    return `${i.name} (${unitLabel})`;
+  return `${i.name}: ${i.amount} ${unitLabel}`;
+};
 
 export const exportAsJson = async (recipe: Recipe) => {
   try {
@@ -53,14 +65,12 @@ export async function blobToBase64(blob: Blob): Promise<string> {
   });
 }
 
-// Export all recipes, converting image Blobs to base64 strings
 export const exportAllRecipesAsJson = async (recipes: Recipe[]) => {
   try {
     if (!recipes || recipes.length === 0) {
       throw new Error("No saved recipes found.");
     }
 
-    // Convert all image Blobs to base64 strings for export
     const recipesWithBase64Images = await Promise.all(
       recipes.map(async (recipe) => {
         if (!recipe.images || recipe.images.length === 0) return recipe;
@@ -69,7 +79,7 @@ export const exportAllRecipesAsJson = async (recipes: Recipe[]) => {
             const base64 = await blobToBase64(img.data);
             return {
               ...img,
-              data: base64, // base64 string for export
+              data: base64,
             };
           }),
         );
@@ -93,21 +103,22 @@ export const exportAllRecipesAsJson = async (recipes: Recipe[]) => {
   }
 };
 
-export const exportAsTxt = async (recipe: Recipe) => {
+export const exportAsTxt = async (recipe: Recipe, t: TFunction) => {
   try {
     const text = `
-${recipe.name}
+${recipe.name.toUpperCase()}
+${recipe.description || ""}
 
-Prep Time: ${recipe.prepTime}
-Cook Time: ${recipe.cookTime}
-Servings: ${recipe.servings}
-Tags: ${recipe.keywords?.join(", ")}
-
-INGREDIENTS:
-${recipe.ingredients.map((i) => `- ${i}`).join("\n")}
-
-INSTRUCTIONS:
-${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
+${t("recipe.prepTime")}: ${formatDuration(recipe.prepTime ?? "PT0S", t)}
+${t("recipe.cookTime")}: ${formatDuration(recipe.cookTime, t)}
+${t("recipe.servings")}: ${recipe.servings}
+${recipe.keywords?.length ? `${t("recipe.keywords")}: ${recipe.keywords.join(", ")}` : ""}
+------------------------------------------
+${t("recipe.ingredients").toUpperCase()}:
+${recipe.ingredients.map((i) => `- ${formatIngredient(i, t)}`).join("\n")}
+------------------------------------------
+${t("recipe.instructions").toUpperCase()}:
+${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n\n")}
 `.trim();
 
     const blob = new Blob([text], { type: "text/plain" });
@@ -121,68 +132,6 @@ ${recipe.instructions.map((step, i) => `${i + 1}. ${step}`).join("\n")}
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   } catch (error: any) {
-    throw new Error(`Failed to export as TXT. ${error} Please try again.`);
-  }
-};
-
-export const exportAsImage = async (recipe: Recipe) => {
-  const tempDiv = document.createElement("div");
-  tempDiv.style.width = "800px";
-  tempDiv.style.padding = "20px";
-  tempDiv.style.backgroundColor = "white";
-  tempDiv.style.position = "absolute";
-  tempDiv.style.left = "-9999px";
-  const htmlContent = `
-      <div style="font-family: Arial, sans-serif;">
-        <h1 style="color: #ea580c; margin-bottom: 10px;">${recipe.name}</h1>
-        <div style="display: flex; margin-bottom: 10px;">
-          <div style="margin-right: 20px;"><strong>Prep:</strong> ${
-            recipe.prepTime
-          }</div>
-          <div style="margin-right: 20px;"><strong>Cook:</strong> ${
-            recipe.cookTime
-          }</div>
-          <div><strong>Servings:</strong> ${recipe.servings}</div>
-        </div>
-        <div style="margin-bottom: 10px;">
-          <strong>Tags:</strong> ${recipe.keywords?.join(", ")}
-        </div>
-        <div style="margin-bottom: 20px;">
-          <h2 style="color: #ea580c; margin-bottom: 10px;">Ingredients</h2>
-          <ul style="padding-left: 20px;">
-            ${recipe.ingredients.map((i) => `<li>${i}</li>`).join("")}
-          </ul>
-        </div>
-        <div>
-          <h2 style="color: #ea580c; margin-bottom: 10px;">Instructions</h2>
-          <ol style="padding-left: 20px;">
-            ${recipe.instructions.map((step) => `<li>${step}</li>`).join("")}
-          </ol>
-        </div>
-      </div>
-    `;
-  tempDiv.innerHTML = DOMPurify.sanitize(htmlContent);
-
-  document.body.appendChild(tempDiv);
-
-  try {
-    const canvas = await html2canvas(tempDiv);
-
-    canvas.toBlob((blob) => {
-      if (!blob) return;
-
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${recipe.slug}.png`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    });
-  } catch (error: any) {
-    throw new Error(`Failed to generate image. ${error} Please try again.`);
-  } finally {
-    document.body.removeChild(tempDiv);
+    throw new Error(`Failed to export as TXT: ${error.message}`);
   }
 };

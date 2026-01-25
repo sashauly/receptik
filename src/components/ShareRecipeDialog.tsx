@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { exportAsImage, exportAsJson, exportAsTxt } from "@/utils/export";
+import { exportAsJson, exportAsTxt } from "@/utils/export";
 import type { Recipe } from "@/types/recipe";
 import { FileJson, FileText, Image } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ import {
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
 } from "@/components/ui/responsive-dialog";
+import { exportAsImage } from "@/utils/exportAsImage";
 
 interface ShareRecipeDialogProps {
   recipe: Recipe;
@@ -78,7 +79,7 @@ function ShareTabs({ recipe, setErrorMessage }: ShareTabsProps) {
 
   const onExportAsTxt = () => {
     try {
-      exportAsTxt(recipe);
+      exportAsTxt(recipe, t);
       // TODO add russian translations
       toast.success("Recipe exported as text");
     } catch (err: any) {
@@ -88,7 +89,7 @@ function ShareTabs({ recipe, setErrorMessage }: ShareTabsProps) {
 
   const onExportAsImage = () => {
     try {
-      exportAsImage(recipe);
+      exportAsImage(recipe, t);
       // TODO add russian translations
       toast.success("Recipe exported as image");
     } catch (err: any) {
