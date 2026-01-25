@@ -7,10 +7,10 @@
 ## TODO
 
 - [ ] Add ability to add recipes from a URL( requires parsing?)
-- [ ] Add ability to share recipes
-  - [ ] Email
-  - [ ] Telegram
-  - [ ] Whatsapp
+- [x] Add ability to share recipes
+  - [x] Email
+  - [x] Telegram
+  - [x] Whatsapp
 - [ ] Add custom button to install PWA(i think it's now works only in chrome?)
 - [ ] Adjust Recipe schema according to schema.org(https://schema.org/Recipe)
   - [ ] add itemProp to all specific elements
