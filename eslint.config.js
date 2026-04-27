@@ -1,38 +1,31 @@
 import js from "@eslint/js";
-import react from "eslint-plugin-react";
+import reactDom from "eslint-plugin-react-dom";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
-import { defineConfig } from "eslint/config";
+import reactX from "eslint-plugin-react-x";
+import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default defineConfig(
-  { ignores: ["dist", "dev-dist"] },
+export default defineConfig([
+  globalIgnores(["dist", "dev-dist"]),
   {
+    files: ["**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
-      ...tseslint.configs.recommended,
-      react.configs.flat.recommended,
+      tseslint.configs.recommended,
+      reactX.configs["recommended-typescript"],
+      reactDom.configs.recommended,
+      reactHooks.configs.flat.recommended,
+      reactRefresh.configs.vite,
     ],
-    files: ["**/*.{ts,tsx}"],
-    languageOptions: { ecmaVersion: 2020, globals: globals.browser },
-    plugins: { "react-hooks": reactHooks, "react-refresh": reactRefresh },
-    settings: { react: { version: "detect" } },
-    rules: {
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": ["off"],
-      "react/function-component-definition": [
-        "error",
-        {
-          namedComponents: ["function-declaration", "function-expression"],
-          unnamedComponents: "function-expression",
-        },
-      ],
-      ...reactHooks.configs.recommended.rules,
-      "react-refresh/only-export-components": [
-        "warn",
-        { allowConstantExport: true },
-      ],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
-  }
-);
+    settings: { react: { version: "detect" } },
+  },
+]);

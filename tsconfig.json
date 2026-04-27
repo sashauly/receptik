@@ -9,14 +9,9 @@
     }
   ],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     },
-    "types": [
-      "vite-plugin-pwa/react"
-    ]
+    "types": ["vite-plugin-pwa/react"]
   }
 }

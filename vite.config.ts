@@ -1,9 +1,10 @@
-import path from "path";
-import react from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
+import path from "path";
 import { defineConfig, loadEnv } from "vite";
-import { VitePWA } from "vite-plugin-pwa";
 import i18nextLoader from "vite-plugin-i18next-loader";
+import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
@@ -14,6 +15,7 @@ export default defineConfig(({ mode }) => {
     base: BASE_URL,
     plugins: [
       react(),
+      babel({ presets: [reactCompilerPreset()] }),
       tailwindcss(),
       i18nextLoader({
         paths: ["public/locales"],
