@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-enum LogLevel {
-  DEBUG,
-  INFO,
-  WARN,
-  ERROR,
-  FATAL,
-}
+const LogLevel = {
+  DEBUG: 0,
+  INFO: 1,
+  WARN: 2,
+  ERROR: 3,
+  FATAL: 4,
+} as const;
+
+type LogLevel = (typeof LogLevel)[keyof typeof LogLevel];
 
 // Ensure debug logs are visible in development
 const currentLogLevel = import.meta.env.DEV ? LogLevel.DEBUG : LogLevel.ERROR;

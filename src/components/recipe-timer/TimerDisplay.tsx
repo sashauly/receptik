@@ -59,6 +59,7 @@ function TimerDisplay({
   ]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTimeLeft(initialTimeInSeconds);
   }, [initialTimeInSeconds]);
 

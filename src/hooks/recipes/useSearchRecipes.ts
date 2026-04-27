@@ -1,5 +1,5 @@
 import { searchRecipes as performSearch } from "@/data/recipeService";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { logError } from "@/utils/logger";
 import { useEffect, useState } from "react";
 

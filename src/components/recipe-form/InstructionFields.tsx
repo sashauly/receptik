@@ -1,4 +1,4 @@
-import { RecipeFormValues } from "@/data/schema";
+import type { RecipeFormValues } from "@/data/schema";
 import { Plus, X } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -58,14 +58,16 @@ export default function InstructionFields() {
                           htmlFor={`instruction-${index}`}
                           className="sr-only"
                         >
-                          {t("forms.stepPlaceholder", { index: index + 1 })}
+                          {t("forms.stepPlaceholder", {
+                            index: String(index + 1),
+                          })}
                         </Label>
                         <FormControl>
                           <Textarea
                             id={`instruction-${index}`}
-                            placeholder={`${t("forms.stepPlaceholder", {
-                              index: index + 1,
-                            })}`}
+                            placeholder={t("forms.stepPlaceholder", {
+                              index: String(index + 1),
+                            })}
                             rows={2}
                             {...field}
                           />

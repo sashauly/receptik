@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import { ViewModeControls } from "@/components/ViewModeControls";
 import { cn } from "@/lib/utils";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import {
   Book,
   Filter,

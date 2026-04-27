@@ -1,5 +1,5 @@
 import { useObjectUrl } from "@/hooks/useObjectUrl";
-import { RecipeImage } from "@/types/recipe";
+import type { RecipeImage } from "@/types/recipe";
 import { useTranslation } from "react-i18next";
 
 export default function PreviewImageDialog({ image }: { image: RecipeImage }) {

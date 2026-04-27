@@ -1,5 +1,5 @@
 import { useObjectUrl } from "@/hooks/useObjectUrl";
-import { RecipeImage } from "@/types/recipe";
+import { type RecipeImage } from "@/types/recipe";
 import { X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";

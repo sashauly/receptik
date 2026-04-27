@@ -7,7 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RecipeFormValues } from "@/data/schema";
+import { type RecipeFormValues } from "@/data/schema";
 import { Plus, X } from "lucide-react";
 import React, { useState } from "react";
 import { useFormContext } from "react-hook-form";

@@ -16,8 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Ingredient } from "@/types/recipe";
-import { UnitValue } from "@/utils/measurements";
+import { type Ingredient } from "@/types/recipe";
+import { type UnitValue } from "@/utils/measurements";
 import { Check, Trash2, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";

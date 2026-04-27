@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -5,11 +6,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { useSettings } from "@/hooks/useSettings";
+import type { Theme } from "@/utils/settings/types";
+import { Brush, Monitor, Moon, Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useSettings } from "@/context/SettingsContext";
-import { Theme } from "@/utils/settings/types";
-import { Moon, Sun, Monitor, Brush } from "lucide-react";
 
 export default function ThemeSelect() {
   const { settings, updateSettings } = useSettings();

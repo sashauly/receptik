@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect } from "react";
-import { useSettings } from "@/context/SettingsContext";
+import { useSettings } from "@/hooks/useSettings";
 import { Globe } from "lucide-react";
 
 export default function LocaleSwitcher() {

@@ -1,6 +1,6 @@
 import { getUniqueSlug } from "@/utils/slug";
 import { logWarn } from "@/utils/logger";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { v4 as uuidv4 } from "uuid";
 import { db } from "./db";
 import { base64ToBlob } from "@/utils/export";

@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { RecipeImage } from "@/types/recipe";
+import type { RecipeImage } from "@/types/recipe";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 

@@ -1,6 +1,6 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/data/db";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { logError } from "@/utils/logger";
 
 export const useRecipe = ({ id, slug }: { id?: string; slug?: string }) => {

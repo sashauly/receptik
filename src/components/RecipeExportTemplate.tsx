@@ -1,7 +1,7 @@
 import type { Recipe } from "@/types/recipe";
 import { formatIngredient } from "@/utils/export";
 import { formatDuration } from "@/utils/time";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 
 interface Props {
   recipe: Recipe;

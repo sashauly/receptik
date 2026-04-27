@@ -1,4 +1,4 @@
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { base64ToBlob } from "@/utils/export";
 import { logInfo } from "@/utils/logger";
 import Dexie, { type EntityTable } from "dexie";

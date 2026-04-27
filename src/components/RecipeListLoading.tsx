@@ -1,6 +1,6 @@
 import ErrorBoundary from "@/components/ErrorBoundary";
 import RecipeCardSkeleton from "@/components/RecipeCardSkeleton";
-import { useSettings } from "@/context/SettingsContext";
+import { useSettings } from "@/hooks/useSettings";
 
 export function RecipeListLoading() {
   const { viewMode } = useSettings().settings;

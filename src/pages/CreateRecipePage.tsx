@@ -2,7 +2,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { ContentLayout } from "@/components/layout/ContentLayout";
 import RecipeForm from "@/components/RecipeForm";
 import { useAddRecipe } from "@/hooks/recipes/useAddRecipe";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { logError } from "@/utils/logger";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";

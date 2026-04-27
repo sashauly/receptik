@@ -4,7 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import intervalPlural from "i18next-intervalplural-postprocessor";
 import resources from "virtual:i18next-loader";
 import { localStorageSettings } from "@/utils/settings/storage";
-import { AppSettings } from "@/utils/settings/types";
+import type { AppSettings } from "@/utils/settings/types";
 
 export const defaultNS = "translation";
 

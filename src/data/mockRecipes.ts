@@ -1,5 +1,4 @@
-// src/data/mockRecipes.ts
-import { Recipe } from "@/types/recipe"; // Assuming your Recipe type
+import type { Recipe } from "@/types/recipe";
 
 export const mockRecipes: Recipe[] = [
   {

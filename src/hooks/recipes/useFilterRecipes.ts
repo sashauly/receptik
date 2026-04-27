@@ -1,9 +1,10 @@
+import type {
+  FilterOptions} from "@/data/recipeService";
 import {
-  FilterOptions,
   filterRecipes as performFilter,
 } from "@/data/recipeService";
 import { logError } from "@/utils/logger";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { useEffect, useState } from "react";
 
 export const useFilterRecipes = (filterOptions: FilterOptions) => {

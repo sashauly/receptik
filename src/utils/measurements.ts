@@ -1,4 +1,4 @@
-import { TFunction } from "i18next";
+import { type TFunction } from "i18next";
 
 export type MeasurementSystem = "metric" | "us" | "imperial";
 export type MeasurementType = "volume" | "weight" | "length" | "other"; // Added "other" type for non-standard units

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Ingredient } from "@/types/recipe";
-import { UnitValue } from "@/utils/measurements";
+import { type Ingredient } from "@/types/recipe";
+import { type UnitValue } from "@/utils/measurements";
 import { Edit2, Trash2 } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";

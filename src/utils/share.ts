@@ -1,7 +1,7 @@
-import type { Recipe, Ingredient } from "@/types/recipe";
-import { TFunction } from "i18next";
-import { formatDuration } from "./time";
+import type { Ingredient, Recipe } from "@/types/recipe";
+import { type TFunction } from "i18next";
 import { getBaseUnitByValue } from "./measurements";
+import { formatDuration } from "./time";
 
 const formatIngredientText = (i: Ingredient, t: TFunction) => {
   const baseUnit = getBaseUnitByValue(i.unit);

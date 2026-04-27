@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useSettings } from "@/context/SettingsContext";
+import { useSettings } from "@/hooks/useSettings";
 import { cn } from "@/lib/utils";
 import { LayoutGrid, List } from "lucide-react";
 import { useTranslation } from "react-i18next";

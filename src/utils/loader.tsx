@@ -1,12 +1,6 @@
 import { Spinner } from "@/components/ui/spinner";
-import {
-  ComponentType,
-  ReactNode,
-  Suspense,
-  lazy,
-  useEffect,
-  useState,
-} from "react";
+import { type ComponentType, type ReactNode, Suspense, lazy } from "react";
+import { DelayedFallback } from "./DelayedFallback";
 
 /**
  * Anti-flicker loading options
@@ -82,26 +76,12 @@ export function lazyLoad<T extends ComponentType<any>>(
     });
   });
 
-  // Create a delayed fallback component if needed
-  function DelayedFallback() {
-    const [showFallback, setShowFallback] = useState(false);
-
-    useEffect(() => {
-      const timer = setTimeout(() => setShowFallback(true), delay);
-      return () => clearTimeout(timer);
-    }, []);
-
-    return showFallback ? <>{fallback}</> : null;
-  }
-
   // Return the wrapped component
-  return function AsyncComponent(props: React.ComponentProps<T>) {
-    return (
-      <Suspense fallback={<DelayedFallback />}>
-        <LazyComponent {...props} />
-      </Suspense>
-    );
-  };
+  return (props: React.ComponentProps<T>) => (
+    <Suspense fallback={<DelayedFallback delay={delay} fallback={fallback} />}>
+      <LazyComponent {...props} />
+    </Suspense>
+  );
 }
 
 // Default export for convenience

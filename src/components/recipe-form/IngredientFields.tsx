@@ -6,13 +6,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { RecipeFormValues } from "@/data/schema";
+import { type RecipeFormValues } from "@/data/schema";
 import {
   getAllUnitsWithTranslatedLabels,
   getUnitsBySystem,
   getUnitsByType,
-  Unit,
-  UnitValue,
+  type Unit,
+  type UnitValue,
 } from "@/utils/measurements";
 import { Plus } from "lucide-react";
 import { useFieldArray, useFormContext } from "react-hook-form";

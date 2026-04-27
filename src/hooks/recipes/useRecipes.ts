@@ -1,7 +1,7 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "@/data/db";
 import { logError } from "@/utils/logger";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 
 interface UseRecipesOptions {
   searchTerm?: string;

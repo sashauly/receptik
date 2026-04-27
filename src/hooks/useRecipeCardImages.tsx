@@ -1,4 +1,4 @@
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { useEffect, useState } from "react";
 
 export const useRecipeCardImages = (recipes: Recipe[] | null | undefined) => {
@@ -6,6 +6,7 @@ export const useRecipeCardImages = (recipes: Recipe[] | null | undefined) => {
 
   useEffect(() => {
     if (!recipes) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setImageUrls(new Map());
       return;
     }

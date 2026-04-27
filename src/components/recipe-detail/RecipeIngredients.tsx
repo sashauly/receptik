@@ -1,6 +1,6 @@
 import RecipeServings from "@/components/recipe-detail/RecipeServings";
 import { Badge } from "@/components/ui/badge";
-import { Ingredient } from "@/types/recipe";
+import type { Ingredient } from "@/types/recipe";
 import { getBaseUnitByValue } from "@/utils/measurements";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";

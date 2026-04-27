@@ -6,10 +6,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RecipeFormValues } from "@/data/schema";
+import { Textarea } from "@/components/ui/textarea";
+import { type RecipeFormValues } from "@/data/schema";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Textarea } from "@/components/ui/textarea";
 
 function BasicInfoFields() {
   const { t } = useTranslation();

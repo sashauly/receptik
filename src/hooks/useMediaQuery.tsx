@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type UseMediaQueryOptions = {
   defaultValue?: boolean;
@@ -35,6 +35,7 @@ export function useMediaQuery(
   useEffect(() => {
     const matchMedia = window.matchMedia(query);
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     handleChange();
 
     if (matchMedia.addListener) {

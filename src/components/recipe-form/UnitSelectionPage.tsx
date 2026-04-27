@@ -1,7 +1,7 @@
 import SearchInput from "@/components/SearchInput";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { UnitValue } from "@/utils/measurements";
+import { type UnitValue } from "@/utils/measurements";
 import { ArrowLeft } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

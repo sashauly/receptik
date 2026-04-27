@@ -15,6 +15,7 @@ export default function TimeFields() {
   const cookTime = watch("cookTime");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTotalTime(calculateTotalTime(prepTime, cookTime));
   }, [prepTime, cookTime]);
 

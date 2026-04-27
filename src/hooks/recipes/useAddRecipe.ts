@@ -1,6 +1,6 @@
 import { addRecipe as addRecipeService } from "@/data/recipeService";
 import { useMutation } from "@/hooks/useMutation";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 
 export const useAddRecipe = (): {
   addRecipe: (

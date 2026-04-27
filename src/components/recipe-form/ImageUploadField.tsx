@@ -3,7 +3,7 @@ import ImagePreviewCard from "@/components/recipe-form/ImagePreviewCard";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { RecipeImage } from "@/types/recipe";
+import { type RecipeImage } from "@/types/recipe";
 import { logDebug, logError, logInfo, logWarn } from "@/utils/logger";
 import { Loader2, Upload } from "lucide-react";
 import { useCallback, useState } from "react";
@@ -152,7 +152,10 @@ function ImageUploadField() {
           {t("forms.images")}
         </label>
         <span className="text-sm text-muted-foreground">
-          {t("forms.imagesCount", { current: images.length, max: MAX_IMAGES })}
+          {t("forms.imagesCount", {
+            current: String(images.length),
+            max: String(MAX_IMAGES),
+          })}
         </span>
       </div>
 

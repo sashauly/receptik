@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { createRecipeFormSchema, RecipeFormValues } from "@/data/schema";
+import type { RecipeFormValues } from "@/data/schema";
+import { createRecipeFormSchema } from "@/data/schema";
 import type { Recipe } from "@/types/recipe";
 import { logError } from "@/utils/logger";
 import { calculateTotalTime } from "@/utils/time";
@@ -14,7 +15,8 @@ import TimeFields from "@/components/recipe-form/TimeFields";
 import { FormSchemaProvider } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { FormProvider, Resolver, useForm } from "react-hook-form";
+import type { Resolver } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
@@ -68,7 +70,7 @@ export default function RecipeForm({
     try {
       const calculatedTotalTime = calculateTotalTime(
         values.prepTime || "PT0S",
-        values.cookTime
+        values.cookTime,
       );
 
       const newRecipe: Recipe = {

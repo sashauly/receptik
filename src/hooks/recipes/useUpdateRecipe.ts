@@ -1,8 +1,9 @@
+import type {
+  UpdateArgs} from "@/data/recipeService";
 import {
-  UpdateArgs,
   updateRecipe as updateRecipeService,
 } from "@/data/recipeService";
-import { Recipe } from "@/types/recipe";
+import type { Recipe } from "@/types/recipe";
 import { useMutation } from "@/hooks/useMutation";
 
 export const useUpdateRecipe = (): {

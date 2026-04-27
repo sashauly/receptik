@@ -1,5 +1,5 @@
 import { logError } from "../logger";
-import { SettingsStorage } from "./types";
+import { type SettingsStorage } from "./types";
 
 export class LocalStorageSettings implements SettingsStorage {
   private prefix = "receptik-";

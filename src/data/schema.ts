@@ -1,5 +1,5 @@
 import { logError } from "@/utils/logger";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { Temporal } from "temporal-polyfill";
 import { z } from "zod";
 

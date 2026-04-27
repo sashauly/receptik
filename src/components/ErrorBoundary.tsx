@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { logError } from "@/utils/logger";
 import type { TFunction } from "i18next";
 import { AlertCircle } from "lucide-react";
-import { Component, ErrorInfo, ReactNode } from "react";
+import { Component, type ErrorInfo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
